@@ -19,14 +19,29 @@ repositories {
 }
 
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    //Spring web
     implementation 'org.springframework.boot:spring-boot-starter-web'
-    compileOnly 'org.projectlombok:lombok'
-    runtimeOnly 'com.h2database:h2'
-    runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
-    annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+    //Spring JPA
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+    //Transaction, Validation
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+    //Annotation Lombok
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+
+    //Test DB h2
+    runtimeOnly 'com.h2database:h2'
+
+    //Real DB mariaDB
+    runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
+
+    //File upload - react
+    implementation 'commons-io:commons-io:2.11.0'
+    implementation 'commons-fileupload:commons-fileupload:1.4'
 }
 
 tasks.named('test') {
