@@ -1,4 +1,4 @@
-package run.ward.mmz.domain.image;
+package run.ward.mmz.domain.image.entity;
 
 
 import lombok.Builder;

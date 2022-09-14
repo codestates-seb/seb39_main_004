@@ -6,8 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
-import run.ward.mmz.service.FileService;
-import run.ward.mmz.service.ImageService;
+import run.ward.mmz.service.image.ImageService;
 
 @RestController
 @RequiredArgsConstructor
