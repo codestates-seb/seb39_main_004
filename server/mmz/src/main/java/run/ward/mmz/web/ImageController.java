@@ -15,10 +15,9 @@ import java.util.List;
 public class ImageController {
 
     @PostMapping("/upload")
-    public ResponseEntity<?> upload(ImageDto.Upload imageDto){
+    public ResponseEntity<?> upload(ImageDto.Request imageDto){
 
         List<MultipartFile> fileList = imageDto.getRequest().getFiles("file");
-
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
