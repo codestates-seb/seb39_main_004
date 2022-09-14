@@ -18,4 +18,8 @@ public class Image {
     private Long id;
     private String postImageUrl;
 
+    @Builder
+    public Image(String postImageUrl) {
+        this.postImageUrl = postImageUrl;
+    }
 }

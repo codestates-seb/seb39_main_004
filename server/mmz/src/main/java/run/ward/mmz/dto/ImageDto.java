@@ -1,15 +1,16 @@
 package run.ward.mmz.dto;
 
-import lombok.Data;
+import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+import run.ward.mmz.domain.image.Image;
 
 
+@Builder
+@Getter
 public class ImageDto {
 
-    @Data
-    public static class Request {
-        private MultipartHttpServletRequest request;
-    }
+
+    private String postImageUrl;
 
 }
