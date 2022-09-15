@@ -1,0 +1,49 @@
+plugins {
+    id 'org.springframework.boot' version '2.7.3'
+    id 'io.spring.dependency-management' version '1.0.13.RELEASE'
+    id 'java'
+}
+
+group = 'run.ward'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    //Spring web
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+    //Spring JPA
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+    //Transaction, Validation
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+    //Annotation Lombok
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+
+    //Test DB h2
+    runtimeOnly 'com.h2database:h2'
+
+    //Real DB mariaDB
+    runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
+
+    //File upload - react
+    implementation 'commons-io:commons-io:2.11.0'
+    implementation 'commons-fileupload:commons-fileupload:1.4'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
