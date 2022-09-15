@@ -42,6 +42,9 @@ dependencies {
     //File upload - react
     implementation 'commons-io:commons-io:2.11.0'
     implementation 'commons-fileupload:commons-fileupload:1.4'
+
+    //OAuth2
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
 }
 
 tasks.named('test') {
