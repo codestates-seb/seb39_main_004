@@ -3,6 +3,7 @@ package run.ward.mmz;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.web.servlet.MultipartAutoConfiguration;
+import org.springframework.boot.context.ApplicationPidFileWriter;
 
 @SpringBootApplication(
         exclude = {
@@ -12,7 +13,9 @@ import org.springframework.boot.autoconfigure.web.servlet.MultipartAutoConfigura
 public class MmzApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(MmzApplication.class, args);
+        SpringApplication application = new SpringApplication(MmzApplication.class);
+        application.addListeners(new ApplicationPidFileWriter());
+        application.run(args);
     }
 
 }

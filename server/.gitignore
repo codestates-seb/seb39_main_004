@@ -38,3 +38,7 @@ out/
 
 ### OAuth2 ###
 application-outh.properties
+
+application.properties
+application-image.properties
+application-db.properties
