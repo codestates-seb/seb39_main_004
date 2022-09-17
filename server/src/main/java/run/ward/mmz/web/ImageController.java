@@ -10,6 +10,7 @@ import run.ward.mmz.service.image.ImageService;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/api")
 public class ImageController {
 
     private final ImageService imageService;
