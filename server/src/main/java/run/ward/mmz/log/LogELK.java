@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class logELK {
+public class LogELK {
 
     String timestamp;
     String hostname;
