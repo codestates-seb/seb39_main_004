@@ -76,4 +76,7 @@ jobs:
         username: ${{ secrets.SERVER_USER_NAME }}
         key: ${{ secrets.SERVER_SSH_KEY }}
         port: ${{ secrets.SERVER_PORT }}
-        script: sh mmz-deploy.sh                          #실행시킬 쉘 스크립트 파일 (서버 내부에 구현되어 있음)
+        script: |                                           #실행시킬 쉘 스크립트 파일 (서버 내부에 구현되어 있음)
+          sh deploy-init.sh
+          sh deploy-zip.sh
+          sh deploy-excute.sh
