@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import run.ward.mmz.domain.post.recipe.Recipe;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 
 @Getter
 @Entity
@@ -16,8 +17,10 @@ public class Ingredient {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank
     private String name;
 
+    @NotBlank
     private String amount;
 
     @ManyToOne

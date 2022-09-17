@@ -1,8 +1,9 @@
-package run.ward.mmz.domain.image.entity;
+package run.ward.mmz.domain.image;
 
 
 import lombok.Builder;
 import lombok.NoArgsConstructor;
+import run.ward.mmz.domain.auditable.Auditable;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,7 +13,7 @@ import javax.validation.constraints.NotNull;
 
 @NoArgsConstructor
 @Entity
-public class Image {
+public class Image extends Auditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -1,4 +1,4 @@
-package run.ward.mmz.domain.account.subscribe;
+package run.ward.mmz.domain.subscribe;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

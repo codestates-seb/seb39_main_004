@@ -3,6 +3,7 @@ package run.ward.mmz.domain.post.bookmark;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import run.ward.mmz.domain.account.Account;
+import run.ward.mmz.domain.auditable.Auditable;
 import run.ward.mmz.domain.post.recipe.Recipe;
 
 import javax.persistence.*;
@@ -11,7 +12,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "bookmark")
 @NoArgsConstructor
-public class Bookmark {
+public class Bookmark extends Auditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

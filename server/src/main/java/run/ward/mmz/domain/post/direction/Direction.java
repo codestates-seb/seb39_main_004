@@ -5,6 +5,8 @@ import lombok.NoArgsConstructor;
 import run.ward.mmz.domain.post.recipe.Recipe;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+
 @Getter
 @Entity
 @Table(name = "direction")
@@ -16,6 +18,7 @@ public class Direction {
     private Long id;
 
     @Lob
+    @NotBlank
     private String body;
 
     private String directionImageUrl;

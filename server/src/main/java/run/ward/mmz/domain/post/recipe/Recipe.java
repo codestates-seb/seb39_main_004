@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import run.ward.mmz.domain.account.Account;
+import run.ward.mmz.domain.auditable.Auditable;
 import run.ward.mmz.domain.post.bookmark.Bookmark;
 import run.ward.mmz.domain.post.direction.Direction;
 import run.ward.mmz.domain.post.ingredient.Ingredient;
@@ -13,6 +14,7 @@ import run.ward.mmz.domain.post.review.Review;
 import run.ward.mmz.domain.post.tag.Tag;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -22,23 +24,29 @@ import java.util.Set;
 @DynamicInsert
 @DynamicUpdate
 @Table(name = "recipe")
-public class Recipe {
+public class Recipe extends Auditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
+    @NotBlank
     private String title;
 
     private String youtubeUrl;
 
     private String thumbNailImage;
 
+    @Column(nullable = false)
+    @NotBlank
     private String perTime;
 
+    @Column(columnDefinition = "integer default 0", nullable = false)
     private int views;
 
-    private Integer stars;
+    @Column(columnDefinition = "integer default 0", nullable = false)
+    private int stars;
 
     @ManyToOne
     @JoinColumn(name = "ownerId")

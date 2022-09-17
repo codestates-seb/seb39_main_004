@@ -5,8 +5,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
-import run.ward.mmz.domain.image.ImageExtension;
-import run.ward.mmz.domain.image.repository.ImageRepository;
+import run.ward.mmz.domain.image.ImageType;
+import run.ward.mmz.domain.image.ImageRepository;
 import run.ward.mmz.dto.FileDto;
 import run.ward.mmz.handler.file.FileHandler;
 import run.ward.mmz.mapper.ImageMapper;
@@ -27,7 +27,7 @@ public class ImageServiceImpl implements ImageService {
 
         String key = "file";
         List<MultipartFile> files = request.getFiles(key);
-        List<String> extensions = ImageExtension.EXTENSIONS;
+        List<String> extensions = ImageType.EXTENSIONS;
 
         List<FileDto> fileDtoList =  fileHandler.parseFileInfo(files, extensions);
         imageRepository.saveAll(imageMapper.fileDtoListToImageList(fileDtoList));

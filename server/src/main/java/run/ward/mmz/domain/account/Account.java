@@ -4,6 +4,7 @@ package run.ward.mmz.domain.account;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import run.ward.mmz.domain.auditable.Auditable;
 import run.ward.mmz.domain.post.bookmark.Bookmark;
 import run.ward.mmz.domain.post.ingredient.Ingredient;
 import run.ward.mmz.domain.post.recipe.Recipe;
@@ -17,7 +18,7 @@ import java.util.Set;
 @Entity
 @Getter
 @NoArgsConstructor
-public class Account {
+public class Account extends Auditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,6 +26,11 @@ public class Account {
 
     @Column(nullable = false)
     private String name;
+
+    @Lob
+    private Long bio;
+
+    private String password;
 
     @Column(nullable = false)
     private String email;

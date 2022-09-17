@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public enum ImageExtension {
+public enum ImageType {
 
 
     PNG("png"),
@@ -17,13 +17,13 @@ public enum ImageExtension {
     TIFF("tiff"),
     HEIC("heic");
 
-    public static final List<String> EXTENSIONS = Stream.of(ImageExtension.values())
+    public static final List<String> EXTENSIONS = Stream.of(ImageType.values())
             .map(Enum::name)
             .collect(Collectors.toList());
 
     private final String extension;
 
-    ImageExtension(String extension) {
+    ImageType(String extension) {
         this.extension = extension;
     }
 }
