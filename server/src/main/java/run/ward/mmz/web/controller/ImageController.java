@@ -1,4 +1,4 @@
-package run.ward.mmz.web;
+package run.ward.mmz.web.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
