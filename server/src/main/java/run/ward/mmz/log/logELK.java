@@ -1,0 +1,24 @@
+package run.ward.mmz.log;
+
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
+public class logELK {
+
+    String timestamp;
+    String hostname;
+    String hostIp;
+    String clientIp;
+    String clientUrl;
+    String callFunction;
+    String type;
+    String parameter;
+
+}

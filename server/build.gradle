@@ -49,6 +49,12 @@ dependencies {
 
 //    //OAuth2
 //    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+
+    //Aop-aspect
+    implementation 'org.springframework.boot:spring-boot-starter-aop'
+
+    //logstash
+    implementation 'net.logstash.logback:logstash-logback-encoder:7.2'
 }
 
 tasks.named('test') {
