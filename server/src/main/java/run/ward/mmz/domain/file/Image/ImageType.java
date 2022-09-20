@@ -1,4 +1,4 @@
-package run.ward.mmz.domain.image;
+package run.ward.mmz.domain.file.Image;
 
 import java.util.List;
 import java.util.stream.Collectors;

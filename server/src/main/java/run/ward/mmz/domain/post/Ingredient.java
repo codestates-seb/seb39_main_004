@@ -28,5 +28,10 @@ public class Ingredient {
     @JoinColumn(name = "recipeId")
     private Recipe recipe;
 
+    public void setRecipe(Recipe recipe){
+        this.recipe = recipe;
+        recipe.getIngredients().add(this);
+    }
+
 
 }
