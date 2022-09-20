@@ -1,14 +1,11 @@
 package run.ward.mmz.domain.account;
 
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import run.ward.mmz.domain.auditable.Auditable;
-import run.ward.mmz.domain.post.bookmark.Bookmark;
-import run.ward.mmz.domain.post.ingredient.Ingredient;
-import run.ward.mmz.domain.post.recipe.Recipe;
-import run.ward.mmz.domain.post.review.Review;
+import run.ward.mmz.domain.post.Bookmark;
+import run.ward.mmz.domain.post.Recipe;
+import run.ward.mmz.domain.post.Review;
 
 import javax.persistence.*;
 import java.util.LinkedHashSet;
@@ -17,7 +14,8 @@ import java.util.Set;
 
 @Entity
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Setter
 public class Account extends Auditable {
 
     @Id
@@ -42,10 +40,8 @@ public class Account extends Auditable {
     @Column(nullable = false)
     private Role role;
 
-
     @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private Set<Recipe> recipes = new LinkedHashSet<>();
-
     @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private Set<Bookmark> bookmarks = new LinkedHashSet<>();
 
@@ -69,4 +65,21 @@ public class Account extends Auditable {
     public String getRoleKey(){
         return this.role.getKey();
     }
+
+
+    public void addBookmarks(Bookmark bookmark){
+        bookmarks.add(bookmark);
+        bookmark.setOwner(this);
+    }
+
+    public void addReview(Review review){
+        reviews.add(review);
+        review.setOwner(this);
+    }
+
+    public void addRecipe(Recipe recipe){
+        recipes.add(recipe);
+        recipe.setOwner(this);
+    }
+
 }

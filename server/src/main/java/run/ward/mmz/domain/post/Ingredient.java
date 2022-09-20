@@ -1,16 +1,17 @@
-package run.ward.mmz.domain.post.ingredient;
+package run.ward.mmz.domain.post;
 
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import run.ward.mmz.domain.post.recipe.Recipe;
+import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 
 @Getter
 @Entity
-@Table(name = "ingredient")
-@NoArgsConstructor
+@Setter(AccessLevel.PROTECTED)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Ingredient {
 
     @Id
@@ -26,6 +27,11 @@ public class Ingredient {
     @ManyToOne
     @JoinColumn(name = "recipeId")
     private Recipe recipe;
+
+    public void setRecipe(Recipe recipe){
+        this.recipe = recipe;
+        recipe.getIngredients().add(this);
+    }
 
 
 }

@@ -1,16 +1,17 @@
-package run.ward.mmz.domain.post.review;
+package run.ward.mmz.domain.post;
 
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import run.ward.mmz.domain.account.Account;
 import run.ward.mmz.domain.auditable.Auditable;
-import run.ward.mmz.domain.post.recipe.Recipe;
 
 import javax.persistence.*;
 
 @Getter
 @Entity
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "review")
 public class Review extends Auditable {
 
@@ -30,5 +31,17 @@ public class Review extends Auditable {
     @ManyToOne
     @JoinColumn(name = "recipeId")
     private Recipe recipe;
+
+    // 연관관계 메서드
+    public void setOwner(Account owner) {
+        this.owner = owner;
+        owner.getReviews().add(this);
+    }
+
+    protected void setRecipe(Recipe recipe){
+        this.recipe = recipe;
+        recipe.getReviews().add(this);
+    }
+
 
 }

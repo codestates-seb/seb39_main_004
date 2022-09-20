@@ -1,8 +1,10 @@
-package run.ward.mmz.domain.post.tag;
+package run.ward.mmz.domain.post;
 
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import run.ward.mmz.domain.post.recipe.Recipe;
+import lombok.Setter;
+import run.ward.mmz.domain.post.Recipe;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -10,7 +12,7 @@ import javax.validation.constraints.NotBlank;
 @Getter
 @Entity
 @Table(name = "tag")
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Tag {
 
     @Id
@@ -23,5 +25,11 @@ public class Tag {
     @ManyToOne
     @JoinColumn(name = "recipeId")
     private Recipe recipe;
+
+    //연관관계 매핑
+    protected void setRecipe(Recipe recipe){
+        this.recipe = recipe;
+        recipe.getTags().add(this);
+    }
 
 }

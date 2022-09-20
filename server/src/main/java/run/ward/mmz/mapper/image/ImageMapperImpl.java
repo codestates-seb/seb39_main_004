@@ -1,7 +1,7 @@
 package run.ward.mmz.mapper.image;
 
 import org.springframework.stereotype.Component;
-import run.ward.mmz.domain.image.Image;
+import run.ward.mmz.domain.file.File;
 import run.ward.mmz.dto.FileDto;
 
 import java.util.ArrayList;
@@ -12,22 +12,22 @@ import java.util.List;
 public class ImageMapperImpl implements ImageMapper {
 
     @Override
-    public List<Image> fileDtoListToImageList(List<FileDto> fileDtoList) {
+    public List<File> fileDtoListToImageList(List<FileDto> fileDtoList) {
         if (fileDtoList == null)
             return Collections.emptyList();
 
-        List<Image> imageList = new ArrayList<>();
+        List<File> imageList = new ArrayList<>();
         for(FileDto fileDto : fileDtoList )
             imageList.add(fileDtoToImage(fileDto));
 
         return imageList;
     }
 
-    protected Image fileDtoToImage(FileDto fileDto) {
+    protected File fileDtoToImage(FileDto fileDto) {
         if (fileDto == null)
             return null;
 
-        return Image.builder()
+        return File.builder()
                 .filePath(fileDto.getFilePath())
                 .build();
 
