@@ -30,7 +30,7 @@ public class ImageServiceImpl implements ImageService {
         List<String> extensions = ImageType.EXTENSIONS;
 
         List<FileDto> fileDtoList =  fileHandler.parseFileInfo(files, extensions);
-        fileRepository.saveAll(imageMapper.fileDtoListToImageList(fileDtoList));
+//        fileRepository.saveAll(imageMapper.fileDtoListToImageList(fileDtoList));
 
     }
 
