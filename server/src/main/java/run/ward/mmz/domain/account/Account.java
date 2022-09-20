@@ -1,14 +1,14 @@
 package run.ward.mmz.domain.account;
 
 
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import run.ward.mmz.domain.auditable.Auditable;
-import run.ward.mmz.domain.post.bookmark.Bookmark;
-import run.ward.mmz.domain.post.ingredient.Ingredient;
-import run.ward.mmz.domain.post.recipe.Recipe;
-import run.ward.mmz.domain.post.review.Review;
+import run.ward.mmz.domain.post.Bookmark;
+import run.ward.mmz.domain.post.Recipe;
+import run.ward.mmz.domain.post.Review;
 
 import javax.persistence.*;
 import java.util.LinkedHashSet;
@@ -17,7 +17,7 @@ import java.util.Set;
 
 @Entity
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Account extends Auditable {
 
     @Id
@@ -41,7 +41,6 @@ public class Account extends Auditable {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Role role;
-
 
     @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private Set<Recipe> recipes = new LinkedHashSet<>();
@@ -69,4 +68,7 @@ public class Account extends Auditable {
     public String getRoleKey(){
         return this.role.getKey();
     }
+
+
+
 }

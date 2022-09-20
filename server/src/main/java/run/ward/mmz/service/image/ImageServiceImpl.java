@@ -6,7 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import run.ward.mmz.domain.image.ImageType;
-import run.ward.mmz.domain.image.ImageRepository;
+import run.ward.mmz.repository.ImageRepository;
 import run.ward.mmz.dto.FileDto;
 import run.ward.mmz.handler.file.FileHandler;
 import run.ward.mmz.mapper.image.ImageMapper;

@@ -1,4 +1,4 @@
-package run.ward.mmz.domain.post.recipe;
+package run.ward.mmz.domain.post;
 
 
 import lombok.Getter;

@@ -8,6 +8,8 @@ import java.io.Serializable;
 
 public class BookmarkDto {
 
+    @Builder
+    @Data
     public static class Request{
         private String recipeId;
         private String ownerId;

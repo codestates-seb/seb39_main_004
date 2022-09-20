@@ -1,17 +1,10 @@
-package run.ward.mmz.domain.post.recipe;
+package run.ward.mmz.domain.post;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import run.ward.mmz.domain.account.Account;
 import run.ward.mmz.domain.auditable.Auditable;
-import run.ward.mmz.domain.post.bookmark.Bookmark;
-import run.ward.mmz.domain.post.direction.Direction;
-import run.ward.mmz.domain.post.ingredient.Ingredient;
-import run.ward.mmz.domain.post.review.Review;
-import run.ward.mmz.domain.post.tag.Tag;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -20,9 +13,10 @@ import java.util.Set;
 
 @Getter
 @Entity
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @DynamicInsert
 @DynamicUpdate
+@Setter(AccessLevel.PROTECTED)
 @Table(name = "recipe")
 public class Recipe extends Auditable {
 
@@ -64,26 +58,45 @@ public class Recipe extends Auditable {
 
     @OneToMany(mappedBy = "recipe", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private Set<Review> reviews = new LinkedHashSet<>();
+
     @OneToMany(mappedBy = "recipe", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private Set<Tag> tags = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "recipe", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private Set<Bookmark> bookmarks = new LinkedHashSet<>();
 
-    @Builder
-    public Recipe(String title, String youtubeUrl, String thumbNailImage, String perTime, int views, Integer stars, Account owner, LevelType level, Set<Ingredient> ingredients, Set<Direction> directions, Set<Review> reviews, Set<Tag> tags, Set<Bookmark> bookmarks) {
-        this.title = title;
-        this.youtubeUrl = youtubeUrl;
-        this.thumbNailImage = thumbNailImage;
-        this.perTime = perTime;
-        this.views = views;
-        this.stars = stars;
+    // 연관관계 메서드
+    public void setOwner(Account owner) {
         this.owner = owner;
-        this.level = level;
-        this.ingredients = ingredients;
-        this.directions = directions;
-        this.reviews = reviews;
-        this.tags = tags;
-        this.bookmarks = bookmarks;
+        owner.getRecipes().add(this);
     }
+
+    public void addIngredients(Ingredient ingredient) {
+        ingredients.add(ingredient);
+        ingredient.setRecipe(this);
+    }
+
+    public void addDirections(Direction direction) {
+        directions.add(direction);
+        direction.setRecipe(this);
+    }
+
+    public void addReviews(Review review) {
+        reviews.add(review);
+        review.setRecipe(this);
+    }
+
+    public void addTags(Tag tag) {
+        tags.add(tag);
+        tag.setRecipe(this);
+    }
+
+    public void addBookmarks(Bookmark bookmark){
+        bookmarks.add(bookmark);
+        bookmark.setRecipe(this);
+    }
+
+
+
+
 }

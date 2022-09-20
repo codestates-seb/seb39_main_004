@@ -1,17 +1,8 @@
 package run.ward.mmz.dto.post;
 
-import run.ward.mmz.domain.account.Account;
-import run.ward.mmz.domain.post.bookmark.Bookmark;
-import run.ward.mmz.domain.post.direction.Direction;
-import run.ward.mmz.domain.post.ingredient.Ingredient;
-import run.ward.mmz.domain.post.recipe.LevelType;
-import run.ward.mmz.domain.post.review.Review;
-import run.ward.mmz.domain.post.tag.Tag;
+import run.ward.mmz.domain.post.LevelType;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
-import java.util.LinkedHashSet;
 import java.util.Set;
 
 public class RecipeDto {

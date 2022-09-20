@@ -1,6 +1,6 @@
 package run.ward.mmz.mapper.post;
 
-import run.ward.mmz.domain.post.bookmark.Bookmark;
+import run.ward.mmz.domain.post.Bookmark;
 import run.ward.mmz.dto.post.BookmarkDto;
 import run.ward.mmz.mapper.BaseMapper;
 

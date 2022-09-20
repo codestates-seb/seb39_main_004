@@ -1,30 +1,32 @@
-package run.ward.mmz.domain.post.direction;
+package run.ward.mmz.domain.post;
 
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import run.ward.mmz.domain.post.recipe.Recipe;
+import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 
 @Getter
 @Entity
-@Table(name = "direction")
-@NoArgsConstructor
-public class Direction {
+@Setter(AccessLevel.PROTECTED)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class Ingredient {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Lob
     @NotBlank
-    private String body;
+    private String name;
 
-    private String directionImageUrl;
+    @NotBlank
+    private String amount;
 
     @ManyToOne
     @JoinColumn(name = "recipeId")
     private Recipe recipe;
+
 
 }

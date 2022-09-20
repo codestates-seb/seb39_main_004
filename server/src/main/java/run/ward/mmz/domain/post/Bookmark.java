@@ -1,18 +1,16 @@
-package run.ward.mmz.domain.post.bookmark;
+package run.ward.mmz.domain.post;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import run.ward.mmz.domain.account.Account;
 import run.ward.mmz.domain.auditable.Auditable;
-import run.ward.mmz.domain.post.recipe.Recipe;
 
 import javax.persistence.*;
 
 @Getter
 @Entity
 @Table(name = "bookmark")
-@NoArgsConstructor
+@Setter(AccessLevel.PROTECTED)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Bookmark extends Auditable {
 
     @Id
@@ -32,4 +30,5 @@ public class Bookmark extends Auditable {
         this.owner = owner;
         this.recipe = recipe;
     }
+
 }
