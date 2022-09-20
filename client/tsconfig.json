@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
    "target": "es5", // ECMAScript 버전 설정
+   "downlevelIteration": true, // 'ES5' 혹은 'ES3' 타겟 설정 시 Iterables 'for-of', 'spread', 'destructuring' 완벽 지원 설정
    "lib": ["dom", "dom.iterable", "esnext"], // 컴파일 과정에 사용될 라이브러리 파일 설정
    "allowJs": true, // js 파일들 ts에서 import해서 쓸 수 있는지 설정
    "skipLibCheck": true, // 모든 엄격한 유형 검사 옵션 활성화

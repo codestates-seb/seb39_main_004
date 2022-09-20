@@ -20,6 +20,7 @@ const ImgUploader = () => {
   const onImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
       setFile(event.target.files);
+
       const newFileURL = URL.createObjectURL(event.target.files[0]);
       setFileURL(newFileURL);
       // console.log("event.target.files", event.target.files);
@@ -31,31 +32,28 @@ const ImgUploader = () => {
     setFileURL(""); // 렌더링 이미지 초기화
     setFile(null);
   };
-  const submitHandler = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const submitHandler = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
 
     /** 서버통신 */
     const formData = new FormData();
-    if (file) {
-      console.log("file", file);
-      formData.append("file", file[0]);
-    }
-    // for (const key of formData.keys()) {
-    // Type 'IterableIterator<string>' can only be iterated through when using the '--downlevelIteration' flag or with a '--target' of 'es2015' or higher.
-    // console.log("반복", key, ":", formData.get(key));
-    // }
 
-    // healty check
-    // axios
-    //   .get("/api/test")
-    //   .then((res) => {
-    //     console.log(res);
-    //   })
-    //   .catch((error) => {
-    //     throw new Error(error);
-    //   });
-    // console.log("submit handler");
-    // console.log("file", file);
+    if (file) {
+      formData.append("file", file[0]);
+      // console.log([...formData]); // 데이터 확인용
+
+      try {
+        const response = await axios.post("/api/upload", formData, {
+          headers: { "content-type": "multipart/form-data" },
+        });
+        // console.log(response);
+        // 상위 컴포넌트 마크업 작업 후 처리하겠습니다.(이미지 )
+      } catch (error) {
+        console.log("이미지업로드 에러 발생");
+      }
+    } else {
+      alert("업로드할 이미지가 없습니다");
+    }
   };
   return (
     <>
