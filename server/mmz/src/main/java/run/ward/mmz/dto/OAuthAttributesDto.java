@@ -57,13 +57,14 @@ public class OAuthAttributesDto {
     }
 
     public static OAuthAttributesDto ofKakao(String accountNameAttributeName, Map<String, Object> attributes){
-        Map<String, Object> id = (Map<String, Object>) attributes.get("id");
+        Map<String, Object> kakaoAccount = (Map<String, Object>) attributes.get("kakao_account");
+        Map<String, Object> kakaoProfile = (Map<String, Object>) kakaoAccount.get("profile");
 
         return OAuthAttributesDto.builder()
-                .name((String) id.get("profile_nickname"))
-                .email((String) id.get("account_email"))
-                .picture((String) id.get("profile_image"))
-                .attributes(id)
+                .name((String) kakaoProfile.get("nickname"))
+                .email((String) kakaoAccount.get("email"))
+                .picture((String) kakaoProfile.get("profile_image_url"))
+                .attributes(attributes)
                 .nameAttributeKey(accountNameAttributeName)
                 .build();
     }
