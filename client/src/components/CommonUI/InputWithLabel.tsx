@@ -22,7 +22,15 @@ const SInput = styled.input`
   }
 `;
 
-const InputWithLabel = ({ label, ...rest }) => {
+interface InputProps {
+  label: string;
+  name: string;
+  placeholder: string;
+  type: string;
+  required: true;
+}
+
+const InputWithLabel = ({ label, ...rest }: InputProps) => {
   return (
     <SInputContainer>
       <SLabel>{label}</SLabel>

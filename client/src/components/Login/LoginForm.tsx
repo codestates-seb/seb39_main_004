@@ -1,15 +1,8 @@
-import React from "react";
 import styled from "styled-components";
+import React, { FormEvent } from "react";
 import { InputWithLabel, Button } from "../../components/CommonUI";
 
-const SFormContainer = styled.div`
-  width: 300px;
-  // 중앙 정렬
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-`;
+const SForm = styled.form``;
 
 const SH1 = styled.h1`
   text-align: center;
@@ -17,9 +10,13 @@ const SH1 = styled.h1`
   font-size: 30px;
 `;
 
-const Login = () => {
+const onSubmitHandler = (e: FormEvent) => {
+  e.preventDefault();
+};
+
+const LoginForm = () => {
   return (
-    <SFormContainer>
+    <SForm onSubmit={onSubmitHandler}>
       <SH1>Login</SH1>
       <InputWithLabel
         label="ID"
@@ -36,8 +33,8 @@ const Login = () => {
         required
       />
       <Button>Login</Button>
-    </SFormContainer>
+    </SForm>
   );
 };
 
-export default Login;
+export default LoginForm;

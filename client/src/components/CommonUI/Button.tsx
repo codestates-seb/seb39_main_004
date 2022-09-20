@@ -19,7 +19,12 @@ const SButton = styled.button`
   }
 `;
 
-const Button = ({ children, onClick }) => {
+interface ButtonProps {
+  children: string;
+  onClick?: () => void;
+}
+
+const Button = ({ children, onClick }: ButtonProps) => {
   return <SButton onClick={onClick}>{children}</SButton>;
 };
 
