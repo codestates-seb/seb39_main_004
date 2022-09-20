@@ -13,7 +13,6 @@ import javax.persistence.*;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "review")
-@Setter(AccessLevel.PROTECTED)
 public class Review extends Auditable {
 
     @Id
@@ -38,5 +37,11 @@ public class Review extends Auditable {
         this.owner = owner;
         owner.getReviews().add(this);
     }
+
+    protected void setRecipe(Recipe recipe){
+        this.recipe = recipe;
+        recipe.getReviews().add(this);
+    }
+
 
 }

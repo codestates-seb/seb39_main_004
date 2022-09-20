@@ -13,7 +13,6 @@ import javax.validation.constraints.NotBlank;
 @Entity
 @Table(name = "tag")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Setter(AccessLevel.PROTECTED)
 public class Tag {
 
     @Id
@@ -26,5 +25,11 @@ public class Tag {
     @ManyToOne
     @JoinColumn(name = "recipeId")
     private Recipe recipe;
+
+    //연관관계 매핑
+    protected void setRecipe(Recipe recipe){
+        this.recipe = recipe;
+        recipe.getTags().add(this);
+    }
 
 }

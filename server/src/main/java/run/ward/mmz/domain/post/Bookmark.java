@@ -9,7 +9,6 @@ import javax.persistence.*;
 @Getter
 @Entity
 @Table(name = "bookmark")
-@Setter(AccessLevel.PROTECTED)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Bookmark extends Auditable {
 
@@ -30,5 +29,17 @@ public class Bookmark extends Auditable {
         this.owner = owner;
         this.recipe = recipe;
     }
+
+    public void setRecipe(Recipe recipe){
+        this.recipe = recipe;
+        recipe.getBookmarks().add(this);
+    }
+
+    public void setOwner(Account owner){
+        this.owner = owner;
+        owner.getBookmarks().add(this);
+    }
+
+
 
 }
