@@ -40,7 +40,7 @@ jobs:
       
     
     - name: Cleint Build
-      continue-on-error: true          # client 폴더 미생성으로 임시 에러 발생 
+#       continue-on-error: true          # client 폴더 미생성으로 임시 에러 발생 
       run : |                          # 개별 실행 옵션
         mkdir -p app/client            # 압축할 임시 폴더 생성 (app/client)
         cd client/                     # 리포지토리에서 client 폴더로 이동
