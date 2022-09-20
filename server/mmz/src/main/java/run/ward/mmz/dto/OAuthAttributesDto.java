@@ -1,5 +1,12 @@
 package run.ward.mmz.dto;
 
+
+
+
+
+
+
+/*
 import lombok.Builder;
 import lombok.Getter;
 import run.ward.mmz.domain.account.Account;
@@ -77,7 +84,10 @@ public class OAuthAttributesDto {
                 .name(name)
                 .email(email)
                 .picture(picture)
-                .role(Role.GUEST)
+                .role(Role.ADMIN)
                 .build();
     }
 }
+
+
+ */

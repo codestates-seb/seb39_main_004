@@ -23,12 +23,20 @@ public class Account {
     @Column(nullable = false)
     private String email;
 
+
     @Column
     private String picture;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Role role;
+
+    @Enumerated(EnumType.STRING)
+    @Column
+    private AuthProvider authProvider;
+
+    private String refreshToken;
+
 
     @Builder
     public Account(String name, String email, String picture, Role role){
