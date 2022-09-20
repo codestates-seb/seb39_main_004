@@ -75,9 +75,6 @@ public class AspectELK {
     }
 
 
-
-
-
     public String getIp(HttpServletRequest request){
         String ip = request.getHeader("x-real-ip");
         return ip != null ? ip : request.getRemoteAddr();

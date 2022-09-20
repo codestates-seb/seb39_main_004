@@ -9,7 +9,7 @@ import run.ward.mmz.domain.image.ImageType;
 import run.ward.mmz.domain.image.ImageRepository;
 import run.ward.mmz.dto.FileDto;
 import run.ward.mmz.handler.file.FileHandler;
-import run.ward.mmz.mapper.ImageMapper;
+import run.ward.mmz.mapper.image.ImageMapper;
 
 import java.util.List;
 

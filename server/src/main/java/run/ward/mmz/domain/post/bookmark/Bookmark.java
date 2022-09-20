@@ -1,5 +1,6 @@
 package run.ward.mmz.domain.post.bookmark;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import run.ward.mmz.domain.account.Account;
@@ -26,4 +27,9 @@ public class Bookmark extends Auditable {
     @JoinColumn(name = "recipeId")
     private Recipe recipe;
 
+    @Builder
+    public Bookmark(Account owner, Recipe recipe) {
+        this.owner = owner;
+        this.recipe = recipe;
+    }
 }

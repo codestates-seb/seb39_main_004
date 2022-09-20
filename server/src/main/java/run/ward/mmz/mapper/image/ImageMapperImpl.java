@@ -1,4 +1,4 @@
-package run.ward.mmz.mapper;
+package run.ward.mmz.mapper.image;
 
 import org.springframework.stereotype.Component;
 import run.ward.mmz.domain.image.Image;

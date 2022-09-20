@@ -1,4 +1,4 @@
-package run.ward.mmz.controller;
+package run.ward.mmz.web.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
