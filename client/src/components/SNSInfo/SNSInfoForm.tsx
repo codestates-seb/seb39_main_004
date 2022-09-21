@@ -14,27 +14,33 @@ const onSubmitHandler = (e: FormEvent) => {
   e.preventDefault();
 };
 
-const LoginForm = () => {
+const SNSInfoForm = () => {
   return (
     <SForm onSubmit={onSubmitHandler}>
-      <SH1>로그인</SH1>
+      <SH1>SNS 회원 가입</SH1>
       <InputWithLabel
-        label="아이디"
-        name="id"
-        placeholder="ID"
+        label="이메일"
+        name="email"
+        placeholder="Email"
+        type="email"
+        required
+      />
+      <InputWithLabel
+        label="닉네임"
+        name="nickName"
+        placeholder="Nickname"
         type="text"
         required
       />
       <InputWithLabel
-        label="비밀번호"
-        name="password"
-        placeholder="Password"
-        type="password"
-        required
+        label="자기소개"
+        name="bio"
+        placeholder="간단한 소개를 적어주세요"
+        type="text"
       />
-      <Button>로그인</Button>
+      <Button>회원가입</Button>
     </SForm>
   );
 };
 
-export default LoginForm;
+export default SNSInfoForm;

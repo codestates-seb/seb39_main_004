@@ -1,7 +1,9 @@
 package run.ward.mmz.domain.subscribe;
 
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import run.ward.mmz.domain.account.Account;
 
 import javax.persistence.*;
@@ -9,7 +11,8 @@ import javax.persistence.*;
 @Getter
 @Entity
 @Table(name = "subscribe")
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Setter(AccessLevel.PROTECTED)
 public class Subscribe {
 
     @Id
@@ -23,4 +26,6 @@ public class Subscribe {
     @JoinColumn(name = "fromUserId")
     @ManyToOne
     private Account forUser;
+
+
 }

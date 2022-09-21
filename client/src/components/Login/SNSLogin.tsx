@@ -56,15 +56,15 @@ const SLogoContainer = styled.div`
 const SNSLogin = () => {
   return (
     <SSNSLoginContainer>
-      <SH3>SNS 계정으로 로그인</SH3>
+      <SH3>SNS로 간편 시작</SH3>
       <SLogoContainer>
         <NaverImg />
         <KakaoImg />
         <GoogleImg />
       </SLogoContainer>
       <JoinContainer>
-        <StyledLink to="findpw">비밀번호 찾기</StyledLink>
-        <StyledLink to="signup">회원가입</StyledLink>
+        <StyledLink to="/findpw">비밀번호 찾기</StyledLink>
+        <StyledLink to="/signup">회원가입</StyledLink>
       </JoinContainer>
     </SSNSLoginContainer>
   );

@@ -27,7 +27,7 @@ interface InputProps {
   name: string;
   placeholder: string;
   type: string;
-  required: true;
+  required?: true;
 }
 
 const InputWithLabel = ({ label, ...rest }: InputProps) => {
