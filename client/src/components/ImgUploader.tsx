@@ -46,7 +46,7 @@ const ImgUploader = () => {
         const response = await axios.post("/api/upload", formData, {
           headers: { "content-type": "multipart/form-data" },
         });
-        // console.log(response);
+        console.log(response);
         // 상위 컴포넌트 마크업 작업 후 처리하겠습니다.(이미지 )
       } catch (error) {
         console.log("이미지업로드 에러 발생");
