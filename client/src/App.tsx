@@ -10,7 +10,7 @@ const App = () => {
       <GlobalStyle />
       <Routes>
         <Route path="/" element={<Main />}></Route>
-        <Route path="/new-recipe" element={<AddPost />}></Route>
+        <Route path="/write" element={<AddPost />}></Route>
       </Routes>
       {/* <AddPost></AddPost> */}
     </BrowserRouter>
