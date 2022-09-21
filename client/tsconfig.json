@@ -1,23 +1,23 @@
 {
   "compilerOptions": {
-   "target": "es5", // ECMAScript 버전 설정
-   "downlevelIteration": true, // 'ES5' 혹은 'ES3' 타겟 설정 시 Iterables 'for-of', 'spread', 'destructuring' 완벽 지원 설정
-   "lib": ["dom", "dom.iterable", "esnext"], // 컴파일 과정에 사용될 라이브러리 파일 설정
-   "allowJs": true, // js 파일들 ts에서 import해서 쓸 수 있는지 설정
-   "skipLibCheck": true, // 모든 엄격한 유형 검사 옵션 활성화
-   "esModuleInterop": true, // ES6 모듈 사양을 준수하여 CommonJS 모듈을 가져올 수 있게 설정
-   "allowSyntheticDefaultImports": true, // 기본 출력(default export)이 없는 모듈로부터 기본 호출을 허용 (이 코드는 단지 유형 검사만 수행)
-   "strict": true, //모든 엄격한 유형 검사 옵션 활성화
-   "forceConsistentCasingInFileNames": true, // 동일한 파일에 대한 일관되지 않은 케이스 참조를 허용하지 않음
-   "noFallthroughCasesInSwitch": true, //switch문 오류 유형에 대한 오류 보고
-   "module": "esnext", // 생성될 모듈 코드 설정
-   "moduleResolution": "node", // 모듈 분석 방법 설정
-   "resolveJsonModule": true, // json 파일을 import
-   "isolatedModules": true, // 각 파일을 별도 모듈로 변환
-   "noEmit": true, // 출력 방출(emit) 유무 설정
-   "jsx": "react-jsx" // 생성될 JSX 코드 설정
-  //  "noUnusedLocals": true, // 사용되지 않은 로컬이 있을 경우, 오류로 보고
-  //  "noUnusedParameters": true, // 사용되지 않은 매개변수가 있을 경우, 오류로 보고
+    "target": "es5", // ECMAScript 버전 설정
+    "downlevelIteration": true, // 'ES5' 혹은 'ES3' 타겟 설정 시 Iterables 'for-of', 'spread', 'destructuring' 완벽 지원 설정
+    "lib": ["dom", "dom.iterable", "esnext"], // 컴파일 과정에 사용될 라이브러리 파일 설정
+    "allowJs": true, // js 파일들 ts에서 import해서 쓸 수 있는지 설정
+    "skipLibCheck": true, // 모든 엄격한 유형 검사 옵션 활성화
+    "esModuleInterop": true, // ES6 모듈 사양을 준수하여 CommonJS 모듈을 가져올 수 있게 설정
+    "allowSyntheticDefaultImports": true, // 기본 출력(default export)이 없는 모듈로부터 기본 호출을 허용 (이 코드는 단지 유형 검사만 수행)
+    "strict": true, //모든 엄격한 유형 검사 옵션 활성화
+    "forceConsistentCasingInFileNames": true, // 동일한 파일에 대한 일관되지 않은 케이스 참조를 허용하지 않음
+    "noFallthroughCasesInSwitch": true, //switch문 오류 유형에 대한 오류 보고
+    "module": "esnext", // 생성될 모듈 코드 설정
+    "moduleResolution": "node", // 모듈 분석 방법 설정
+    "resolveJsonModule": true, // json 파일을 import
+    "isolatedModules": true, // 각 파일을 별도 모듈로 변환
+    "noEmit": true, // 출력 방출(emit) 유무 설정
+    "jsx": "react-jsx" // 생성될 JSX 코드 설정
+    //  "noUnusedLocals": true, // 사용되지 않은 로컬이 있을 경우, 오류로 보고
+    //  "noUnusedParameters": true, // 사용되지 않은 매개변수가 있을 경우, 오류로 보고
   },
   "include": ["src"] // 컴파일 포함
- }
+}
