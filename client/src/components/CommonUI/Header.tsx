@@ -1,6 +1,6 @@
 import { StyledLink } from "../CommonUI";
 import styled from "styled-components";
-import { useState } from "react";
+// import { useState } from "react";
 
 const SHeader = styled.header`
   background-color: aliceblue;
@@ -17,7 +17,8 @@ const SHeader = styled.header`
 `;
 
 const Header = () => {
-  const [isLogin, setIsLogin] = useState(false);
+  const isLogin = true; // build에러로 잠시 변수화 작업했습니다.
+  // const [isLogin, setIsLogin] = useState(false);
 
   return (
     <SHeader>
