@@ -44,6 +44,11 @@ const GlobalStyle = createGlobalStyle`
   img, picture, video { 
     max-width:100%; 
   }
+  
+  textarea {
+    resize: none;
+  }
+
 `;
 
 export default GlobalStyle;
