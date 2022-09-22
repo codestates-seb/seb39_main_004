@@ -1,7 +1,7 @@
 import styled from "styled-components";
 const SFooter = styled.footer`
   background-color: lightblue;
-  height: 150px;
+  min-height: 150px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -10,6 +10,7 @@ const SFooter = styled.footer`
 `;
 const SUl = styled.ul`
   display: flex;
+  flex-wrap: wrap;
   gap: 1.5rem;
   & li {
     display: flex;
