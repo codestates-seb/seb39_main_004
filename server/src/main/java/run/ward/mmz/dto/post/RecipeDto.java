@@ -1,12 +1,18 @@
 package run.ward.mmz.dto.post;
 
-import run.ward.mmz.domain.post.LevelType;
+
+import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import run.ward.mmz.domain.post.Recipe;
 
 import java.io.Serializable;
 import java.util.Set;
 
 public class RecipeDto {
 
+    @Data
+    @NoArgsConstructor
     public static class Request{
 
         private String title;
@@ -14,7 +20,7 @@ public class RecipeDto {
         private String thumbNailImage;
         private String perTime;
         private int stars;
-        private LevelType level;
+        private Recipe.LevelType level;
 
         private Set<IngredientDto.Request> ingredients;
         private Set<DirectionDto.Request> directions;
