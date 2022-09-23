@@ -14,9 +14,18 @@ const SImg = styled.img`
   object-fit: cover; // 비율 조정
   border: 1px solid black;
 `;
+interface ResponseImgProps {
+  contentType: string;
+  createData: string;
+  fileName: string;
+  fileSize: number;
+  id: number;
+  modDate: string;
+  originFileName: string;
+}
 
 const AddPost = () => {
-  const [responsedImg, setResponsedImg] = useState<any[]>([]);
+  const [responsedImg, setResponsedImg] = useState<ResponseImgProps[]>([]);
   // const responsedImg = ["[썸네일]TIL.png", "qwe123.png", "Dark-Purple.jpeg"];
 
   const filterHandler = async (orderValue: string) => {
@@ -24,6 +33,7 @@ const AddPost = () => {
     const response = await axios.get("http://ward.run:8080/api/images");
     try {
       // console.log("axois resaponse data", response);
+      // console.log("axois resaponse data", response.data);
       setResponsedImg(response.data);
     } catch (error) {
       console.log("정렬 에러");

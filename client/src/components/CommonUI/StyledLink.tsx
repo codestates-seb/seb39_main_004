@@ -14,6 +14,7 @@ const SLink = styled(Link)`
 interface LinkProps {
   to: string;
   children: string;
+  onClick?: () => void;
 }
 
 const StyledLink = ({ to, children }: LinkProps) => {
