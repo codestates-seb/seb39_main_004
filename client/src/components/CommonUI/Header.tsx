@@ -41,7 +41,7 @@ const Header = () => {
             <StyledLink to="/write">등록</StyledLink>
           </>
         )}
-        <StyledLink to="">검색</StyledLink>
+        <StyledLink to="/search">검색</StyledLink>
       </section>
     </SHeader>
   );

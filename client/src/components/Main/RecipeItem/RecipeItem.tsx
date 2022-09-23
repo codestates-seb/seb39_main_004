@@ -6,6 +6,7 @@ const SRecipeLayout = styled.div`
   flex-direction: column;
   margin: 0 1rem;
   padding-bottom: 100px;
+  border: 1px solid; // 구분을 위한 border 추후 제거할 예정
 
   &:first-child {
     padding-bottom: 30px;
