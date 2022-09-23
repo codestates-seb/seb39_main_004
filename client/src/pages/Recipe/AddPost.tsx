@@ -33,7 +33,7 @@ const AddPost = () => {
     const response = await axios.get("/api/images");
     try {
       // console.log("axois resaponse data", response);
-      // console.log("axois resaponse data", response.data);
+      console.log("axois resaponse data", response.data);
       setResponsedImg(response.data);
     } catch (error) {
       console.log("정렬 에러");
