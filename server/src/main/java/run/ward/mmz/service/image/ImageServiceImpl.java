@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+import run.ward.mmz.domain.file.File;
 import run.ward.mmz.domain.file.Image.ImageType;
 import run.ward.mmz.repository.FileRepository;
 import run.ward.mmz.dto.FileDto;
@@ -30,9 +31,23 @@ public class ImageServiceImpl implements ImageService {
         List<String> extensions = ImageType.EXTENSIONS;
 
         List<FileDto> fileDtoList =  fileHandler.parseFileInfo(files, extensions);
-//        fileRepository.saveAll(imageMapper.fileDtoListToImageList(fileDtoList));
+        fileRepository.saveAll(imageMapper.fileDtoListToImageList(fileDtoList));
 
     }
+
+    public File getFileUrl(Long fileId){
+
+        return fileRepository.findById(fileId).orElseThrow();
+    }
+
+    public List<File> getAllFileUrl(){
+
+        return fileRepository.findAll();
+    }
+
+
+
+
 
 
 
