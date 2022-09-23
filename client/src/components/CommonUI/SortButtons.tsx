@@ -1,34 +1,28 @@
 import styled from "styled-components";
 
-const SSortContainer = styled.ul`
+const SSortContainer = styled.section`
   display: flex;
   gap: 1rem;
 `;
 
 interface Sort {
   sortValues: string[];
+  clickEvent?: (orderValue: string) => Promise<void> | void;
 }
 
-const filterHandler = (orderValue: string) => {
-  console.log(orderValue); // 정렬 관련 서버 기능 구현 후 동작 처리하겠습니다.
-};
-
-const SortButtons = ({ sortValues }: Sort) => {
+const SortButtons = ({ sortValues, clickEvent }: Sort) => {
   return (
     <SSortContainer>
       {sortValues.map((value, idx) => (
-        <li
+        <button
           key={idx}
-          role="presentation"
-          onClick={() => {
-            filterHandler(value);
-          }}
-          onKeyDown={() => {
-            filterHandler(value);
+          onClick={(e) => {
+            e.preventDefault();
+            clickEvent?.(value);
           }}
         >
           {value}
-        </li>
+        </button>
       ))}
     </SSortContainer>
   );
