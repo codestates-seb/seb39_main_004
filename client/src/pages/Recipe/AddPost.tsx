@@ -30,7 +30,7 @@ const AddPost = () => {
 
   const filterHandler = async (orderValue: string) => {
     console.log(orderValue); // 정렬 관련 서버 기능 구현 후 동작 처리하겠습니다.
-    const response = await axios.get("http://ward.run:8080/api/images");
+    const response = await axios.get("/api/images");
     try {
       // console.log("axois resaponse data", response);
       // console.log("axois resaponse data", response.data);
