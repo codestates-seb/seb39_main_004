@@ -35,11 +35,13 @@ public class ImageServiceImpl implements ImageService {
 
     }
 
+    @Transactional(readOnly = true)
     public File getFileUrl(Long fileId){
 
         return fileRepository.findById(fileId).orElseThrow();
     }
 
+    @Transactional(readOnly = true)
     public List<File> getAllFileUrl(){
 
         return fileRepository.findAll();

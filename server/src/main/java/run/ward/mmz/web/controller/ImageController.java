@@ -24,10 +24,10 @@ public class ImageController {
     }
 
     @GetMapping("/image/{imageId}")
-    public ResponseEntity<?> getImageUrl(@RequestParam Long id) {
+    public ResponseEntity<?> getImageUrl(@RequestParam Long imageId) {
 
 
-        return new ResponseEntity<>(imageService.getFileUrl(id), HttpStatus.OK);
+        return new ResponseEntity<>(imageService.getFileUrl(imageId), HttpStatus.OK);
     }
 
     @GetMapping("/images")
