@@ -21,8 +21,24 @@ public class File extends Auditable {
     @NotNull
     private String filePath;
 
+    @NotNull
+    private String fileName;
+
+    @NotNull
+    private String originFileName;
+
+    @NotNull
+    private String contentType;
+
+    @NotNull
+    private Long fileSize;
+
     @Builder
-    public File(String filePath) {
+    public File(String filePath, String fileName, String originFileName, String contentType, Long fileSize) {
         this.filePath = filePath;
+        this.fileName = fileName;
+        this.originFileName = originFileName;
+        this.contentType = contentType;
+        this.fileSize = fileSize;
     }
 }

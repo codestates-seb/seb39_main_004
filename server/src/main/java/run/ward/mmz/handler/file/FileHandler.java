@@ -47,7 +47,8 @@ public class FileHandler{
                     Files.write(filePath, file.getBytes());
 
                     FileDto fileDto = FileDto.builder()
-                            .fileName(originalFilename)
+                            .originFileName(originalFilename)
+                            .fileName(fileName)
                             .filePath(filePath.toString())
                             .fileSize(file.getSize())
                             .contentType(contentType)
