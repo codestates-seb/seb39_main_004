@@ -1,21 +1,23 @@
 import styled from "styled-components";
-import main from "../../../assets/icons/main-dish.png";
-import rice from "../../../assets/icons/rice.png";
-import pan from "../../../assets/icons/pan.png";
-import noodle from "../../../assets/icons/noodles.png";
-import bread from "../../../assets/icons/bread.png";
+import mainDish from "../../../assets/icons/main_dish.svg";
+import rice from "../../../assets/icons/rice.svg";
+import pan from "../../../assets/icons/pot.svg";
+import noodle from "../../../assets/icons/noodles.svg";
+import bread from "../../../assets/icons/bread.svg";
 import CategoryIcon from "./CategoryIcon";
 
 const SCategoryLayout = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-bottom: 5rem;
 `;
 
 const SH1 = styled.h1`
   width: 100%;
   padding: 20px;
   font-size: 2rem;
+  font-weight: bold;
 `;
 
 const SCategoryList = styled.ul`
@@ -26,7 +28,7 @@ const SCategoryList = styled.ul`
 `;
 
 const categories = [
-  { id: 1, img: main, alt: "메인", text: "메인", link: "/" },
+  { id: 1, img: mainDish, alt: "메인", text: "메인", link: "/" },
   { id: 2, img: rice, alt: "밥", text: "밥", link: "/" },
   { id: 3, img: pan, alt: "국/탕", text: "국/탕", link: "/" },
   { id: 4, img: noodle, alt: "면", text: "면", link: "/" },

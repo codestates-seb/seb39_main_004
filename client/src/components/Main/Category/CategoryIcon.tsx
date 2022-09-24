@@ -9,10 +9,11 @@ const SIconLayout = styled.li`
   width: 100px;
   height: 100%;
 
-  transition: 0.5s;
-  color: #a4a4a4;
+  color: var(--dark-gray);
+
   &:hover {
-    color: #db5f4c;
+    transition: 0.3s;
+    color: var(--red);
   }
 `;
 

@@ -1,47 +1,73 @@
-import { StyledLink } from "../CommonUI";
 import styled from "styled-components";
-// import { useState } from "react";
+import { useState } from "react";
+import { NavLink, Link } from "react-router-dom";
+import { MdOutlineLogout, MdOutlineLogin } from "react-icons/md";
+import { BiSearchAlt2 } from "react-icons/bi";
+
+const SLogo = styled.img`
+  width: 100px;
+`;
 
 const SHeader = styled.header`
-  background-color: aliceblue;
   height: 60px;
   padding: 0 2rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
 
-  & section {
-    display: flex;
-    gap: 0.8rem;
+  span {
+    font-size: 0.8rem;
+    font-weight: lighter;
+    color: var(--gray);
+  }
+`;
+
+const SNavLink = styled(NavLink)`
+  color: var(--gray);
+  padding: 0 1.3rem;
+  &.active {
+    color: var(--red);
   }
 `;
 
 const Header = () => {
-  const isLogin = true; // build에러로 잠시 변수화 작업했습니다.
-  // const [isLogin, setIsLogin] = useState(false);
+  const [isLogin, setIsLogin] = useState(true); // redux 사용시 변경
 
   return (
     <SHeader>
-      <section className="left-section">
-        <div>MMZ</div>
-        <StyledLink to="/">Recipe</StyledLink>
-        <StyledLink to="">Ranking</StyledLink>
+      <Link to="/">
+        <SLogo src={`${process.env.PUBLIC_URL}/logo.png`} alt="MMZ logo" />
+      </Link>
+      <section>
+        <SNavLink to="/" end>
+          HOME
+        </SNavLink>
+        <span>|</span>
+        <SNavLink to="/rank">RANKING</SNavLink>
+        <span>|</span>
+        <SNavLink to="/write">RECIPE</SNavLink>
+        <span>|</span>
+        <SNavLink to="/mypage">MYPAGE</SNavLink>
       </section>
-      <section className="right-section">
+      <section className="right">
         {!isLogin ? (
-          <>
-            <StyledLink to="/login">Login</StyledLink>
-            <StyledLink to="/signup">Sign up</StyledLink>
-            <StyledLink to="/login">등록</StyledLink>
-          </>
+          <SNavLink to="/login">
+            <MdOutlineLogin size={25} />
+          </SNavLink>
         ) : (
-          <>
-            <StyledLink to="/">Logout</StyledLink>
-            <StyledLink to="/mypage">Mypage</StyledLink>
-            <StyledLink to="/write">등록</StyledLink>
-          </>
+          <SNavLink
+            to="/"
+            onClick={() => {
+              setIsLogin(!isLogin);
+            }}
+          >
+            <MdOutlineLogout size={25} />
+          </SNavLink>
         )}
-        <StyledLink to="/search">검색</StyledLink>
+
+        <SNavLink to="/search">
+          <BiSearchAlt2 size={25} />
+        </SNavLink>
       </section>
     </SHeader>
   );

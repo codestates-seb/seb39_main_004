@@ -3,7 +3,8 @@ import styled from "styled-components";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import MainImg from "../../../assets/images/main/food.jpg";
+import banner1 from "../../../assets/images/main/banner1.png";
+import banner2 from "../../../assets/images/main/banner2.png";
 //import { MdArrowForwardIos, MdArrowBackIos } from "react-icons/md";
 
 const SSlider = styled(Slider)`
@@ -48,6 +49,7 @@ const SSlider = styled(Slider)`
   } */
 `;
 
+// 캐러셀 화살표 커스텀을 위한 코드로 추후 수정을 위해 남겨두었습니다.
 // const NextArrowLayout = styled.div`
 //   width: 30px;
 //   height: 30px;
@@ -68,12 +70,21 @@ const SSlider = styled(Slider)`
 //   line-height: 30px;
 // `;
 
-const CarouselImg = styled.img.attrs({
-  src: MainImg,
+const CarouselImg1 = styled.img.attrs({
+  src: banner1,
 })`
   width: 100%;
-  height: 400px;
-  object-fit: cover;
+  height: auto;
+  object-fit: contain;
+  cursor: pointer;
+`;
+
+const CarouselImg2 = styled.img.attrs({
+  src: banner2,
+})`
+  width: 100%;
+  height: auto;
+  object-fit: contain;
   cursor: pointer;
 `;
 
@@ -100,16 +111,10 @@ const Carousel = () => {
     <section>
       <SSlider {...settings}>
         <div>
-          <CarouselImg />
+          <CarouselImg1 />
         </div>
         <div>
-          <CarouselImg />
-        </div>
-        <div>
-          <CarouselImg />
-        </div>
-        <div>
-          <CarouselImg />
+          <CarouselImg2 />
         </div>
       </SSlider>
     </section>

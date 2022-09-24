@@ -19,6 +19,16 @@ const GlobalStyle = createGlobalStyle`
     box-sizing: border-box; 
   }
 
+  :root{
+    --red: #ff5936;
+    --yellow: #ffe053;
+    --deep-green: #396941;
+    --sky-blue: #AFD2F2;
+    --deep-gray: #707070;
+    --pale-gray: #DFDFDF;
+    --gray: #949494;
+  }
+
   html,
   body {
     height: 100%;
@@ -44,6 +54,11 @@ const GlobalStyle = createGlobalStyle`
   img, picture, video { 
     max-width:100%; 
   }
+  
+  textarea {
+    resize: none;
+  }
+
 `;
 
 export default GlobalStyle;

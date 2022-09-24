@@ -13,8 +13,8 @@ const App = () => {
     <BrowserRouter>
       <GlobalStyle />
       <Routes>
-        <Route element={<Layout />}>
-          <Route path="/" element={<Main />}></Route>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<Main />}></Route>
           <Route path="/login" element={<Login />}></Route>
           <Route path="/write" element={<AddPost />}></Route>
           <Route path="/signup" element={<SignUp />}></Route>
@@ -22,6 +22,8 @@ const App = () => {
           <Route path="/mypage" element={<Main />}></Route>
           {/** 마이페이지 완성 후 컴포넌트 변경해주세요 */}
           <Route path="/search" element={<Search />}></Route>
+          <Route path="/rank" element={<Main />}></Route>
+          {/** 랭킹페이지 완성 후 컴포넌트 변경해주세요 */}
         </Route>
       </Routes>
     </BrowserRouter>

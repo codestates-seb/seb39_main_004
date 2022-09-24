@@ -24,7 +24,7 @@
     "typescript": "^4.8.3",
     "web-vitals": "^2.1.4"
   },
-  "proxy": "http://ward.run:8080",
+  "proxy": "http://www.mmz.today",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
