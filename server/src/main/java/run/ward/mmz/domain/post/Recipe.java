@@ -98,10 +98,34 @@ public class Recipe extends Auditable {
         tag.setRecipe(this);
     }
 
+    protected void removeBookmarks(Bookmark bookmark) {
+        bookmarks.remove(bookmark);
+    }
+    protected void removeIngredients(Ingredient ingredient) {
+        ingredients.add(ingredient);
+        ingredient.setRecipe(this);
+    }
+
+    protected void removeDirections(Direction direction) {
+        directions.add(direction);
+        direction.setRecipe(this);
+    }
+
+    protected void removeReviews(Review review) {
+        reviews.add(review);
+        review.setRecipe(this);
+    }
+
+    protected void removeTags(Tag tag) {
+        tags.add(tag);
+        tag.setRecipe(this);
+    }
+
     protected void addBookmarks(Bookmark bookmark) {
         bookmarks.add(bookmark);
         bookmark.setRecipe(this);
     }
+
 
     @Builder
     public Recipe(String title, String youtubeUrl, String perTime, int views, int stars, LevelType level) {
@@ -113,8 +137,23 @@ public class Recipe extends Auditable {
         this.level = level;
     }
 
+
+    @Getter
+    @RequiredArgsConstructor
+    public enum LevelType {
+
+        BASIC("BASIC"),
+        INTERMEDIATE("INTERMEDIATE"),
+        ADVANCED("ADVANCED");
+
+        private final String level;
+
+    }
+
     // 레시피 생성 메서드
     public static Recipe createRecipe(String title, String youtubeUrl, ThumbNailImage thumbNail, String perTime, int views, int stars, Account owner, LevelType level, Set<Ingredient> ingredients, Set<Direction> directions, Set<Review> reviews, Set<Tag> tags, Set<Bookmark> bookmarks) {
+
+        //Todo : 잘못된 값 혹은 null값이 들어올 경우 처리할 수 있는 Exception이 있어야한다.
 
         Recipe recipe = Recipe.builder()
                 .title(title)
@@ -151,11 +190,43 @@ public class Recipe extends Auditable {
         return recipe;
     }
 
-    // 비즈니스 로직
+
+
+    /**
+     * 비즈니스 로직
+     *
+     */
+
+    public void updateStars(int num){
+
+        if(num < 0 ){
+            //ToDo : setStars 는 0보다 작은 값이 들어 갈 수 없음. -> Exception
+        }
+        else if( num > 5){
+            //ToDo : setStars 는 5보다 큰 값이 들어 갈 수 없음. -> Exception
+        }
+        else{
+            this.stars = num;
+        }
+
+    }
+
+    public void updateViews(int views){
+        if(views < 0){
+            //ToDo : views 는 0 보다 작은 값이 들어 갈 수 없음. -> Exception
+        }
+        this.views = views;
+    }
+
+    public void updateThumbNail(ThumbNailImage image){
+
+    }
+
 
     /**
      * 레시피 삭제
      */
+
 
 
 }

@@ -1,6 +1,7 @@
 package run.ward.mmz.domain.post;
 
 import lombok.*;
+import org.jetbrains.annotations.NotNull;
 import run.ward.mmz.domain.account.Account;
 import run.ward.mmz.domain.auditable.Auditable;
 
@@ -18,26 +19,33 @@ public class Bookmark extends Auditable {
 
     @ManyToOne
     @JoinColumn(name = "ownerId")
+    @NotNull
     private Account owner;
 
     @ManyToOne
     @JoinColumn(name = "recipeId")
+    @NotNull
     private Recipe recipe;
 
     @Builder
-    public Bookmark(Account owner, Recipe recipe) {
+    public Bookmark(@NotNull Account owner, @NotNull Recipe recipe) {
         this.owner = owner;
         this.recipe = recipe;
     }
 
-    public void setRecipe(Recipe recipe){
+    public void setRecipe(@NotNull Recipe recipe){
         this.recipe = recipe;
         recipe.getBookmarks().add(this);
     }
 
-    public void setOwner(Account owner){
+    public void setOwner(@NotNull Account owner){
         this.owner = owner;
         owner.getBookmarks().add(this);
+    }
+
+    public void mappingBookmark(Recipe recipe, Account owner) {
+        this.recipe = recipe;
+        this.owner = owner;
     }
 
 
