@@ -7,7 +7,7 @@ const SContainer = styled.div`
 `;
 
 const SMain = styled.main`
-  min-height: calc(100vh - 210px); // header 60 + footer 150
+  min-height: calc(100vh - 235px); // header 60 + footer 175
 `;
 
 const Layout = () => {

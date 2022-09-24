@@ -6,7 +6,6 @@ const SFooter = styled.footer`
   color: var(--pale-gray);
   padding-top: 2.7rem;
   padding-bottom: 2rem;
-  min-height: 150px;
   display: flex;
   flex-direction: column;
   justify-content: center;
