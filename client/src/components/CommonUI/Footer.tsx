@@ -1,6 +1,10 @@
 import styled from "styled-components";
+
 const SFooter = styled.footer`
-  background-color: lightblue;
+  background-color: var(--deep-green);
+  color: var(--pale-gray);
+  padding-top: 2.7rem;
+  padding-bottom: 2rem;
   min-height: 150px;
   display: flex;
   flex-direction: column;
@@ -8,42 +12,81 @@ const SFooter = styled.footer`
   align-items: center;
   gap: 0.4rem;
 `;
+
+const STitleContainer = styled.a`
+  color: var(--pale-gray);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  div {
+    display: flex;
+  }
+  & > img:first-child {
+    width: 280px;
+    margin-bottom: 0.6rem;
+  }
+`;
+
+const SCopyRight = styled.div`
+  font-size: 0.6rem;
+  align-items: baseline;
+  gap: 0.5rem;
+`;
+
+const SGithubLogo = styled.img`
+  width: 12px;
+`;
+
 const SUl = styled.ul`
+  margin-top: 1.2rem;
   display: flex;
   flex-wrap: wrap;
   gap: 1.5rem;
-  & li {
-    display: flex;
-    gap: 1rem;
+`;
+
+const STeamContainer = styled.li`
+  display: flex;
+  & :first-child {
+    font-size: 0.6rem;
+    margin-right: 0.5rem;
+  }
+  & :nth-child(2) {
+    font-size: 1rem;
+    margin-right: 1rem;
   }
 `;
 
 const Footer = () => {
   return (
     <SFooter>
-      <h3>MMZ 뭐먹지</h3>
-      <SUl>
-        <li>
-          <div>FRONTEND</div>
-          <div>유현주 | 윤다현 | 조은진</div>
-        </li>
-        <li>
-          <div>BACKEND</div>
-          <div>왕효준 | 이원용</div>
-        </li>
-        <li>
-          <div>DESIGN</div>
-          <div>탁나현</div>
-        </li>
-      </SUl>
-      <p>팀원의 이름을 누르면 Github 혹은 Blog로 연결됩니다</p>
-      <a
+      <STitleContainer
         href="https://github.com/codestates-seb/seb39_main_004"
         target="_black"
       >
-        Go to Github Repository
-      </a>
-      <div>Copyrights &copy;2022 seb39_004 Team. All Rights Reserved. </div>
+        <img src={`${process.env.PUBLIC_URL}/logoKorean.png`} alt="MMZ logo" />
+        <SCopyRight>
+          <span>COPYRIGHT &copy;TeamMMZ ALL RIGHT RESERVED.</span>
+          <SGithubLogo
+            src={`${process.env.PUBLIC_URL}/github.png`}
+            alt="go to github repository"
+          />
+        </SCopyRight>
+      </STitleContainer>
+      <SUl>
+        <STeamContainer>
+          <div>FRONTEND |</div>
+          <div>유현주 윤다현 조은진</div>
+        </STeamContainer>
+        <STeamContainer>
+          <div>BACKEND |</div>
+          <div>왕효준 이원용</div>
+        </STeamContainer>
+        <STeamContainer>
+          <div>DESIGN |</div>
+          <div>탁나현</div>
+        </STeamContainer>
+      </SUl>
     </SFooter>
   );
 };

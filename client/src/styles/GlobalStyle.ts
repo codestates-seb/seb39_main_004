@@ -19,6 +19,14 @@ const GlobalStyle = createGlobalStyle`
     box-sizing: border-box; 
   }
 
+  :root{
+    --red: #ff5936;
+    --yellow: #ffe053;
+    --deep-green: #396941;
+    --deep-gray: #707070;
+    --pale-gray: #DFDFDF;
+  }
+
   html,
   body {
     height: 100%;
