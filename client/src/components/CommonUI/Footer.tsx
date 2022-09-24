@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { BsGithub } from "react-icons/bs";
 
 const SFooter = styled.footer`
   background-color: var(--deep-green);
@@ -34,10 +35,6 @@ const SCopyRight = styled.div`
   gap: 0.5rem;
 `;
 
-const SGithubLogo = styled.img`
-  width: 12px;
-`;
-
 const SUl = styled.ul`
   margin-top: 1.2rem;
   display: flex;
@@ -67,10 +64,7 @@ const Footer = () => {
         <img src={`${process.env.PUBLIC_URL}/logoKorean.png`} alt="MMZ logo" />
         <SCopyRight>
           <span>COPYRIGHT &copy;TeamMMZ ALL RIGHT RESERVED.</span>
-          <SGithubLogo
-            src={`${process.env.PUBLIC_URL}/github.png`}
-            alt="go to github repository"
-          />
+          <BsGithub size={13} />
         </SCopyRight>
       </STitleContainer>
       <SUl>

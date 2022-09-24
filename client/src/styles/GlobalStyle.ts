@@ -25,6 +25,7 @@ const GlobalStyle = createGlobalStyle`
     --deep-green: #396941;
     --deep-gray: #707070;
     --pale-gray: #DFDFDF;
+    --gray: #949494;
   }
 
   html,

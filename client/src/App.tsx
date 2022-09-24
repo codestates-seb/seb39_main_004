@@ -22,6 +22,8 @@ const App = () => {
           {/** 마이페이지 완성 후 컴포넌트 변경해주세요 */}
           <Route path="/search" element={<Main />}></Route>
           {/** 검색페이지 완성 후 컴포넌트 변경해주세요 */}
+          <Route path="/rank" element={<Main />}></Route>
+          {/** 랭킹페이지 완성 후 컴포넌트 변경해주세요 */}
         </Route>
       </Routes>
     </BrowserRouter>
