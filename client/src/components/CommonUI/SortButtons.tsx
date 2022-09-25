@@ -7,14 +7,17 @@ const SSortContainer = styled.section`
   justify-content: right;
   align-items: center;
   font-size: 0.8rem;
-  color: var(--gray);
+  color: var(--deep-gray);
 
   button:hover {
     transition: 0.1s;
     color: var(--red);
   }
+  div:after {
+    content: "|";
+  }
 
-  div:last-child {
+  div:last-child:after {
     display: none;
   }
 `;
@@ -28,7 +31,7 @@ const SortButtons = ({ sortValues, clickEvent }: Sort) => {
   return (
     <SSortContainer>
       {sortValues.map((value, idx) => (
-        <>
+        <div key={idx}>
           <button
             key={idx}
             onClick={(e) => {
@@ -38,8 +41,7 @@ const SortButtons = ({ sortValues, clickEvent }: Sort) => {
           >
             {value}
           </button>
-          <div>|</div>
-        </>
+        </div>
       ))}
     </SSortContainer>
   );

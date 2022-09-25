@@ -6,20 +6,20 @@ import { AiFillStar } from "react-icons/ai";
 const SRecipeLayout = styled.div`
   display: flex;
   flex-direction: column;
-  width: 400px;
+  width: 350px;
   height: 338px;
-  margin: 0 1rem;
+  margin: 1rem 1rem;
   border: 1px solid var(--pale-gray);
   border-radius: 5px;
 
   &:hover {
-    color: var(--red);
+    padding: 10px;
     transition: 0.4s;
   }
 
-  &:first-child {
+  /* &:first-child {
     padding-bottom: 30px;
-  }
+  } */
 `;
 
 const SItemImage = styled.img`
@@ -30,16 +30,28 @@ const SItemImage = styled.img`
   object-position: center;
 `;
 
-const SItemDetail = styled.div`
-  margin: 0 1rem;
+const SItemWrapper = styled.div`
   display: flex;
   justify-content: space-between;
 `;
 
-const SItemTitle = styled.div`
+const SItemDetail = styled.div`
   margin: 0 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+`;
+
+const SItemTitle = styled.div`
+  /* margin: 0 1rem; */
   font-size: 1.5rem;
-  margin-bottom: 0.5rem;
+  margin-bottom: 1rem;
+`;
+
+const SItemStart = styled.div`
+  display: flex;
+  align-items: flex-end;
+  margin: 0 20px;
 `;
 
 const SLink = styled(Link)`
@@ -59,17 +71,20 @@ const RecipeItem = ({ id, recipeTitle, recipeImg, tag, rating }: ItemProps) => {
     <SRecipeLayout>
       <SLink to={`/item/${id}`}>
         <SItemImage src={recipeImg} alt={recipeTitle} />
-        <SItemTitle>{recipeTitle}</SItemTitle>
-        <SItemDetail>
-          <div>
-            {tag.map((i) => (
-              <Tag key={i} tagItem={i} />
-            ))}
-          </div>
-          <div>
+        <SItemWrapper>
+          <SItemDetail>
+            <SItemTitle>{recipeTitle}</SItemTitle>
+            <div>
+              {tag.map((i) => (
+                <Tag key={i} tagItem={i} />
+              ))}
+            </div>
+          </SItemDetail>
+          <SItemStart>
+            {/* 평점 4 이상 레시피 별표시 */}
             {rating > 4 ? <AiFillStar size="40px" color="#ff5936" /> : null}
-          </div>
-        </SItemDetail>
+          </SItemStart>
+        </SItemWrapper>
       </SLink>
     </SRecipeLayout>
   );

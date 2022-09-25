@@ -10,7 +10,7 @@ import banner2 from "../../../assets/images/main/banner2.png";
 const SSlider = styled(Slider)`
   width: 100%;
   height: 100%;
-  position: relative;
+  position: absolute;
 
   .slick-list {
     //슬라이드 스크린

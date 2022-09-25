@@ -6,6 +6,15 @@ const SItemListLayout = styled.div`
   grid-template-columns: repeat(4, 1fr);
   grid-gap: 1rem;
   place-items: center;
+
+  // 임시 반응형 작업 (추후 중단점 수정 필요)
+  @media screen and (max-width: 1700px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  @media screen and (max-width: 1300px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
 `;
 
 const dummyData = [
