@@ -55,6 +55,7 @@ const Header = () => {
         ) : (
           <SNavLink
             to="/"
+            end
             onClick={() => {
               setIsLogin(!isLogin);
             }}
