@@ -1,9 +1,10 @@
 import ImgUploader from "../../components/NewRecipe/ImgUploader";
 import TagsMaker from "../../components/NewRecipe/TagsMaker";
+import Guide from "../../components/NewRecipe/Guide";
 import AddingIngredients from "../../components/NewRecipe/AddingIngredients";
+import StepsMaker from "../../components/NewRecipe/StepsMaker";
 import { TextareaWithLabel, SelectButton } from "../../components/CommonUI";
 import styled from "styled-components";
-import { FaRegLightbulb } from "react-icons/fa";
 // import axios from "axios";
 
 const SVideoThumbnail = styled.img`
@@ -88,14 +89,13 @@ const AddPost = () => {
       </SFieldset>
       <SFieldset>
         <legend>요리재료</legend>
-        <div>
-          <FaRegLightbulb />
-          필수 재료는 체크표시를 해주세요
-        </div>
-        <AddingIngredients></AddingIngredients>
+        <Guide text="필수 재료는 체크표시를 해주세요." />
+        <AddingIngredients />
       </SFieldset>
       <SFieldset>
         <legend>요리순서</legend>
+        <Guide text="중요한 부분은 빠짐없이 적어주세요." />
+        <StepsMaker />
       </SFieldset>
       <SFieldset>
         <legend>태그</legend>
