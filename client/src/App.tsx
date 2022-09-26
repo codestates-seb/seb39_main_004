@@ -6,6 +6,7 @@ import AddPost from "./pages/Recipe/AddPost";
 import SignUp from "./pages/Auth/SignUp";
 import SNSInfo from "./pages/Auth/SNSInfo";
 import Layout from "./components/Layout";
+import ImgServerTest from "./components/NewRecipe/ImgServerTest";
 
 const App = () => {
   return (
@@ -24,6 +25,9 @@ const App = () => {
           {/** 검색페이지 완성 후 컴포넌트 변경해주세요 */}
           <Route path="/rank" element={<Main />}></Route>
           {/** 랭킹페이지 완성 후 컴포넌트 변경해주세요 */}
+
+          <Route path="/test" element={<ImgServerTest />}></Route>
+          {/** 이미 관련 테스트용 path입니다. 레시피 조회 페이지 작성 후에 제거하겠습니다*/}
         </Route>
       </Routes>
     </BrowserRouter>
