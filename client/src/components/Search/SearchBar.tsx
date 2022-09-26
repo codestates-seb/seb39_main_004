@@ -26,7 +26,6 @@ const SSearchBar = styled.div`
   }
 
   button {
-    cursor: pointer;
     color: white;
     font-size: 1.5rem;
   }
