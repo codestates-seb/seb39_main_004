@@ -6,30 +6,16 @@ const SCheckInput = styled.input`
   border: none;
 `;
 
-interface IngredientProp {
-  ingredientName: string;
-  isEssential: boolean;
-  ingredientAmount: string;
-}
-
-const emptyValues = {
-  ingredientName: "",
-  isEssential: false,
-  ingredientAmount: "",
-};
-
 const AddIngredients = () => {
-  const [ingredients, sentIngredients] = useState<IngredientProp[]>([
-    emptyValues,
-    emptyValues,
-  ]);
+  const initialArray = new Array<number>(2).fill(0);
+  const [ingredients, sentIngredients] = useState<number[]>(initialArray);
 
   const insertHandler = () => {
-    sentIngredients([...ingredients, emptyValues]);
+    sentIngredients([...ingredients, 0]);
   };
 
   useEffect(() => {
-    console.log("들어옴");
+    // console.log(ingredients);
   }, [ingredients]);
 
   return (
