@@ -6,13 +6,16 @@ const STagsContainer = styled.ul`
 `;
 
 const TagsMaker = () => {
-  const [tags, setTags] = useState<string[]>(["tag1", "tag2"]);
+  const [tags, setTags] = useState<string[]>([]);
 
-  const InputValueChange = (
+  const inputValueChange = (
     event: React.KeyboardEvent<HTMLInputElement>
   ): void => {
-    console.log(event);
-    console.log(event.key);
+    const target = event.target as HTMLInputElement;
+    if (event.key === "Enter") {
+      setTags([...tags, target.value]);
+      target.value = "";
+    }
   };
 
   return (
@@ -28,7 +31,7 @@ const TagsMaker = () => {
         })}
       <input
         type="text"
-        onKeyUp={InputValueChange}
+        onKeyUp={inputValueChange}
         placeholder="태그를 추가해주세요."
       />
     </STagsContainer>
