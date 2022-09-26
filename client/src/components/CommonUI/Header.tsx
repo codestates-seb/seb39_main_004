@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 import { MdOutlineLogout, MdOutlineLogin } from "react-icons/md";
 import { BiSearchAlt2 } from "react-icons/bi";
 
@@ -35,7 +35,9 @@ const Header = () => {
 
   return (
     <SHeader>
-      <SLogo src={`${process.env.PUBLIC_URL}/logo.png`} alt="MMZ logo" />
+      <Link to="/">
+        <SLogo src={`${process.env.PUBLIC_URL}/logo.png`} alt="MMZ logo" />
+      </Link>
       <section>
         <SNavLink to="/" end>
           HOME
@@ -62,6 +64,7 @@ const Header = () => {
             <MdOutlineLogout size={25} />
           </SNavLink>
         )}
+
         <SNavLink to="/search">
           <BiSearchAlt2 size={25} />
         </SNavLink>

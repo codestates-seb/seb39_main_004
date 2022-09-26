@@ -23,6 +23,7 @@ const GlobalStyle = createGlobalStyle`
     --red: #ff5936;
     --yellow: #ffe053;
     --deep-green: #396941;
+    --sky-blue: #AFD2F2;
     --deep-gray: #707070;
     --pale-gray: #DFDFDF;
     --gray: #949494;
