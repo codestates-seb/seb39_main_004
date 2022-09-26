@@ -12,7 +12,6 @@ const STag = styled.span`
 
 interface TagProps {
   tagItem: string;
-  onClick?: (i: string) => void;
 }
 
 const Tag = ({ tagItem }: TagProps) => {
