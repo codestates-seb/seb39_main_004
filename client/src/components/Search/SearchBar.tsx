@@ -1,40 +1,54 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { BiSearch } from "react-icons/bi";
-import { Button } from "../CommonUI";
-import SearchResultList from "./SearchResultList";
+import { Tag } from "../CommonUI";
 
-const SSearchLayout = styled.section``;
+const SSearchLayout = styled.section`
+  width: 100vw;
+  background-color: var(--deep-green);
+  z-index: 1;
+`;
 
 const SSearchBar = styled.div`
   margin: 20px;
-  width: 360px;
-  height: 32px;
   border-radius: 3px;
-  background-color: var(--white);
-  border: solid 1px rgba(0, 0, 0, 0.3);
+  background-color: var(--deep-green);
   display: flex;
   justify-content: center;
   align-items: center;
 
   input {
-    width: 300px;
+    width: 500px;
+    font-size: 1rem;
+    color: white;
     border: none;
+    border-bottom: solid 1px white;
+    background-color: var(--deep-green);
     outline: none;
   }
 
-  &:last-child {
+  button {
     cursor: pointer;
+    color: white;
+    font-size: 1.5rem;
   }
 `;
 
-const SButtonLayout = styled.div`
+const SSearchTagLayout = styled.div`
   display: flex;
-  padding: 10px 0;
+  justify-content: center;
+  align-items: center;
+  height: 70px;
+  background-color: var(--ivory);
+`;
 
-  & > Button {
-    margin: 0 10px;
-  }
+const SSearchWord = styled.div`
+  color: var(--deep-green);
+`;
+
+const STagArea = styled.div`
+  margin: 0 20px;
+  border-bottom: 1px solid var(--deep-green);
 `;
 
 const SearchBar = () => {
@@ -42,6 +56,7 @@ const SearchBar = () => {
 
   const onChangeSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
+    console.log(e.target.value);
   };
 
   const onSubmitHandler = (e: React.FormEvent<HTMLFormElement>) => {
@@ -55,24 +70,28 @@ const SearchBar = () => {
     }
   };
 
+  const onTagClickHandler = (i: string) => {
+    console.log(i);
+  };
+
   return (
     <SSearchLayout>
       <form onSubmit={onSubmitHandler}>
         <SSearchBar>
-          <input
-            type="search"
-            placeholder="검색어를 입력해주세요."
-            onChange={onChangeSearch}
-          />
-          <BiSearch type="submit" />
+          <input type="text" onChange={onChangeSearch} />
+          <button type="submit">
+            <BiSearch />
+          </button>
         </SSearchBar>
-        <SButtonLayout>
-          <Button>이름순</Button>
-          <Button>최신순</Button>
-        </SButtonLayout>
       </form>
-      {/* axios call에서 받은 data를 props로 내려주기 */}
-      <SearchResultList />
+      <SSearchTagLayout>
+        <SSearchWord>인기 검색어</SSearchWord>
+        <STagArea>
+          {["계란", "돼지고기", "파스타"].map((i) => (
+            <Tag key={i} tagItem={i} />
+          ))}
+        </STagArea>
+      </SSearchTagLayout>
     </SSearchLayout>
   );
 };

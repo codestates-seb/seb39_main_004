@@ -1,26 +1,31 @@
 import styled from "styled-components";
+import { SortButtons } from "../CommonUI";
+import { RecipeItemList } from "../Main";
 
-const SListLayout = styled.div``;
+const SSearchResultLayout = styled.div``;
 
-const SUl = styled.ul`
+const SSortArea = styled.div`
   display: flex;
-  li {
-    margin: 10px;
-  }
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const SResultTitle = styled.div`
+  font-size: 1.3rem;
 `;
 
 const SearchResultList = () => {
   return (
-    <SListLayout>
-      <SUl>
-        <li>제목</li>
-        <li>시간</li>
-      </SUl>
-      {/* props로 받아온 데이터 map 돌리기 */}
-    </SListLayout>
+    <SSearchResultLayout>
+      <SSortArea>
+        <SResultTitle>검색 결과 25개</SResultTitle>
+        <SortButtons sortValues={["최신순", "조회순", "평점순"]} />
+      </SSortArea>
+
+      {/* axios call에서 받은 data를 props로 내려주고 map 돌리기 */}
+      <RecipeItemList />
+    </SSearchResultLayout>
   );
 };
-
-// 제목, 시간
 
 export default SearchResultList;
