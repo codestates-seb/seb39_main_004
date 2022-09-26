@@ -29,11 +29,11 @@ public class ImageMapperImpl implements ImageMapper {
 
 
         return File.builder()
-                .contentType(fileDto.getContentType())
                 .filePath(fileDto.getFilePath())
                 .fileName(fileDto.getFileName())
                 .originFileName(fileDto.getOriginFileName())
                 .fileSize(fileDto.getFileSize())
+                .contentType(fileDto.getContentType())
                 .build();
 
         File file = new File();

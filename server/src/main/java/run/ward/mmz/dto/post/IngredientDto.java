@@ -16,7 +16,7 @@ public class IngredientDto {
         private int index;
         private String name;
         private String amount;
-        private boolean isEssentialed;
+        private boolean isEssential;
     }
 
     @Data

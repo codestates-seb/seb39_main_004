@@ -151,7 +151,7 @@ public class Recipe extends Auditable {
     }
 
     // 레시피 생성 메서드
-    public static Recipe createRecipe(String title, String youtubeUrl, ThumbNailImage thumbNail, String perTime, int views, int stars, Account owner, LevelType level, Set<Ingredient> ingredients, Set<Direction> directions, Set<Review> reviews, Set<Tag> tags, Set<Bookmark> bookmarks) {
+    public static Recipe createRecipe(String title, String youtubeUrl, ThumbNailImage thumbNail, String perTime, int stars, Account owner, LevelType level, Set<Ingredient> ingredients, Set<Direction> directions, Set<Tag> tags) {
 
         //Todo : 잘못된 값 혹은 null값이 들어올 경우 처리할 수 있는 Exception이 있어야한다.
 
@@ -159,7 +159,6 @@ public class Recipe extends Auditable {
                 .title(title)
                 .youtubeUrl(youtubeUrl)
                 .perTime(perTime)
-                .views(views)
                 .stars(stars)
                 .level(level)
                 .build();
@@ -175,17 +174,10 @@ public class Recipe extends Auditable {
             recipe.addDirections(direction);
         }
 
-        for (Review review : reviews) {
-            recipe.addReviews(review);
-        }
-
         for (Tag tag : tags) {
             recipe.addTags(tag);
         }
 
-        for (Bookmark bookmark : bookmarks) {
-            recipe.addBookmarks(bookmark);
-        }
 
         return recipe;
     }

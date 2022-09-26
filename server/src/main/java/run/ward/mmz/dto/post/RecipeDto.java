@@ -4,7 +4,9 @@ package run.ward.mmz.dto.post;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import run.ward.mmz.domain.account.Account;
 import run.ward.mmz.domain.post.Recipe;
+import run.ward.mmz.dto.account.AccountDto;
 
 import java.io.Serializable;
 import java.util.Set;
@@ -15,6 +17,7 @@ public class RecipeDto {
     @NoArgsConstructor
     public static class Request{
 
+        private Account owner;
         private String title;
         private String youtubeUrl;
         private String thumbNailImage;
