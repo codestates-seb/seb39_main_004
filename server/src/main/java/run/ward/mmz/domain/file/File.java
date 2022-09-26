@@ -11,7 +11,8 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Getter
 @Table(name = "file")
-@NoArgsConstructor()
+@Setter
+@NoArgsConstructor
 public class File extends Auditable {
 
     @Id
@@ -20,6 +21,7 @@ public class File extends Auditable {
 
     @NotNull
     private String filePath;
+
 
     @NotNull
     private String fileName;
@@ -41,4 +43,5 @@ public class File extends Auditable {
         this.contentType = contentType;
         this.fileSize = fileSize;
     }
+
 }

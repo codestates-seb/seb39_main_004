@@ -15,7 +15,19 @@ const GlobalStyle = createGlobalStyle`
 
   *,
   *::before,
-  *::after { box-sizing:border-box; }
+  *::after { 
+    box-sizing: border-box; 
+  }
+
+  :root{
+    --red: #ff5936;
+    --yellow: #ffe053;
+    --deep-green: #396941;
+    --sky-blue: #AFD2F2;
+    --deep-gray: #707070;
+    --pale-gray: #DFDFDF;
+    --gray: #949494;
+  }
 
   html,
   body {
@@ -25,18 +37,28 @@ const GlobalStyle = createGlobalStyle`
   }
   
   ol, ul, li {
-    list-style:none;
+    list-style: none;
   }
 
-  a { text-decoration:none; cursor:pointer; }
-
-  button {background:none;border:0;cursor:pointer;}
-
-  img, picture, video {max-width:100%;}
+  a { 
+    text-decoration: none; 
+    cursor: pointer; 
+  }
 
   button {
+    background: none;
+    border: 0;
     cursor: pointer;
   }
+
+  img, picture, video { 
+    max-width:100%; 
+  }
+  
+  textarea {
+    resize: none;
+  }
+
 `;
 
 export default GlobalStyle;

@@ -40,11 +40,11 @@ jobs:
       
     
     - name: Cleint Build
-      continue-on-error: true          # client 폴더 미생성으로 임시 에러 발생 
+#       continue-on-error: true          # client 폴더 미생성으로 임시 에러 발생 
       run : |                          # 개별 실행 옵션
         mkdir -p app/client            # 압축할 임시 폴더 생성 (app/client)
         cd client/                     # 리포지토리에서 client 폴더로 이동
-        npm install                    # 클라이언트 빌드를 위해 install 실행 , 테스트를 진행하려면 아랫줄에 npm test 추가
+        npm install                  # 클라이언트 빌드를 위해 install 실행 , 테스트를 진행하려면 아랫줄에 npm test 추가
         npm run build                  # 클라이언트 빌드
         cd ..                          # 리포지토리 기본 위치로 이동
         cp -r client/build/ app/client # build 폴더 전체 임시 폴더로 복사
