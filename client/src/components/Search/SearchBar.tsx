@@ -70,9 +70,10 @@ const SearchBar = () => {
     }
   };
 
-  const onTagClickHandler = (i: string) => {
-    console.log(i);
-  };
+  // TODO: 태그 클릭 시 검색창 자동 검색 추후 구현
+  // const onTagClickHandler = (i: string) => {
+  //   console.log(i);
+  // };
 
   return (
     <SSearchLayout>
