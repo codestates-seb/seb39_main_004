@@ -7,8 +7,8 @@ const SRecipeLayout = styled.div`
   display: flex;
   flex-direction: column;
   width: 350px;
-  height: 338px;
-  margin: 1rem 1rem;
+  height: 330px;
+  margin: 1rem;
   border: 1px solid var(--pale-gray);
   border-radius: 5px;
 
@@ -16,10 +16,6 @@ const SRecipeLayout = styled.div`
     padding: 10px;
     transition: 0.4s;
   }
-
-  /* &:first-child {
-    padding-bottom: 30px;
-  } */
 `;
 
 const SItemImage = styled.img`
@@ -48,7 +44,7 @@ const SItemTitle = styled.div`
   margin-bottom: 1rem;
 `;
 
-const SItemStart = styled.div`
+const SItemStar = styled.div`
   display: flex;
   align-items: flex-end;
   margin: 0 20px;
@@ -80,10 +76,10 @@ const RecipeItem = ({ id, recipeTitle, recipeImg, tag, rating }: ItemProps) => {
               ))}
             </div>
           </SItemDetail>
-          <SItemStart>
+          <SItemStar>
             {/* 평점 4 이상 레시피 별표시 */}
             {rating > 4 ? <AiFillStar size="40px" color="#ff5936" /> : null}
-          </SItemStart>
+          </SItemStar>
         </SItemWrapper>
       </SLink>
     </SRecipeLayout>

@@ -26,7 +26,7 @@ const SIconLink = styled(Link)`
 `;
 
 const SIconText = styled.span`
-  font-size: 1rem;
+  font-size: 1.3rem;
   margin: 1rem 0;
 `;
 

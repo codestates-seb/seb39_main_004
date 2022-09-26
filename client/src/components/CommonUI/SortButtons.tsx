@@ -6,13 +6,17 @@ const SSortContainer = styled.section`
   margin: 1rem;
   justify-content: right;
   align-items: center;
-  font-size: 0.8rem;
   color: var(--deep-gray);
+
+  button {
+    font-size: 1.2rem;
+  }
 
   button:hover {
     transition: 0.1s;
     color: var(--red);
   }
+
   div:after {
     content: "|";
   }
