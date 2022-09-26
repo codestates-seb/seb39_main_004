@@ -1,12 +1,11 @@
 package run.ward.mmz.domain.post;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Getter
 @Entity
@@ -24,6 +23,10 @@ public class Ingredient {
     @NotBlank
     private String amount;
 
+    @NotNull
+    @ColumnDefault("false")
+    private boolean isEssential = false;
+
     @ManyToOne
     @JoinColumn(name = "recipeId")
     private Recipe recipe;
@@ -33,5 +36,11 @@ public class Ingredient {
         recipe.getIngredients().add(this);
     }
 
-
+    @Builder
+    public Ingredient(String name, String amount, boolean isEssential, Recipe recipe) {
+        this.name = name;
+        this.amount = amount;
+        this.isEssential = isEssential;
+        this.recipe = recipe;
+    }
 }
