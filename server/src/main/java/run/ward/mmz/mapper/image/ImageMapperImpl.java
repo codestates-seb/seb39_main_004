@@ -36,11 +36,6 @@ public class ImageMapperImpl implements ImageMapper {
                 .contentType(fileDto.getContentType())
                 .build();
 
-        File file = new File();
-        file.setFilePath(fileDto.getFilePath());
-
-        return file;
-
 
     }
 }
