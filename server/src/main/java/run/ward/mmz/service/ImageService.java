@@ -1,7 +1,6 @@
-package run.ward.mmz.service.image;
+package run.ward.mmz.service;
 
 import run.ward.mmz.domain.file.File;
-import run.ward.mmz.service.FileService;
 
 import java.util.List;
 

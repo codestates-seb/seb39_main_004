@@ -14,10 +14,6 @@ public class RecipeController {
     @GetMapping("/recipe/{recipeId}")
     public ResponseEntity<?> readRecipe(@PathVariable Long recipeId, AccountDto user){
 
-
-
-
-
         return null;
     }
 
@@ -38,10 +34,6 @@ public class RecipeController {
 
         return null;
     }
-
-
-
-
 
 
 }

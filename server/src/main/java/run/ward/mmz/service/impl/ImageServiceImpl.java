@@ -1,4 +1,4 @@
-package run.ward.mmz.service.image;
+package run.ward.mmz.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -11,6 +11,7 @@ import run.ward.mmz.repository.FileRepository;
 import run.ward.mmz.dto.FileDto;
 import run.ward.mmz.handler.file.FileHandler;
 import run.ward.mmz.mapper.image.ImageMapper;
+import run.ward.mmz.service.ImageService;
 
 import java.util.List;
 
