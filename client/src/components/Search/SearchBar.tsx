@@ -6,13 +6,11 @@ import { Tag } from "../CommonUI";
 const SSearchLayout = styled.section`
   width: 100vw;
   background-color: var(--deep-green);
-  z-index: 1;
 `;
 
 const SSearchBar = styled.div`
   margin: 20px;
   border-radius: 3px;
-  background-color: var(--deep-green);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -38,6 +36,7 @@ const SSearchTagLayout = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  font-size: 1.2rem;
   height: 70px;
   background-color: var(--ivory);
 `;
