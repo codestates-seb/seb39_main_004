@@ -21,6 +21,7 @@ const SOptionContainer = styled.ul`
   width: 100%;
   transform: translate(-0.8rem, 0.8rem);
   position: absolute;
+  z-index: 1;
   li {
     height: 1.8rem;
     text-align: left;
