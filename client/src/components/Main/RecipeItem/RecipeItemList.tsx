@@ -3,15 +3,12 @@ import RecipeItem from "./RecipeItem";
 
 const SItemListLayout = styled.div`
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  grid-gap: 1rem;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 64px 40px;
   place-items: center;
+  margin-top: 3rem;
 
   // 임시 반응형 작업 (추후 중단점 수정 필요)
-  @media screen and (max-width: 1700px) {
-    grid-template-columns: repeat(3, 1fr);
-  }
-
   @media screen and (max-width: 1300px) {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -89,6 +86,42 @@ const dummyData = [
       "https://ottogi.okitchen.co.kr/pds/upfile/2020-08-25_427863666[2].jpg",
     link: "/",
     rating: 3,
+  },
+  {
+    id: 9,
+    recipeTitle: "햄마요 덮밥",
+    tag: ["햄", "마요네즈", "밥"],
+    recipeImg:
+      "https://ottogi.okitchen.co.kr/pds/upfile/2020-08-25_427865954[12].jpg",
+    link: "/",
+    rating: 5,
+  },
+  {
+    id: 10,
+    recipeTitle: "콘치즈",
+    tag: ["치즈", "안주"],
+    recipeImg:
+      "https://ottogi.okitchen.co.kr/pds/upfile/2020-08-25_427863666[8].jpg",
+    link: "/",
+    rating: 2,
+  },
+  {
+    id: 11,
+    recipeTitle: "토마토 냉파스타",
+    tag: ["면", "토마토"],
+    recipeImg:
+      "https://ottogi.okitchen.co.kr/pds/upfile/2020-08-25_427865954[2].jpg",
+    link: "/",
+    rating: 4.5,
+  },
+  {
+    id: 12,
+    recipeTitle: "카레 비프 스튜",
+    tag: ["카레", "소고기", "메인"],
+    recipeImg:
+      "https://ottogi.okitchen.co.kr/pds/upfile/2020-08-25_427863666[2].jpg",
+    link: "/",
+    rating: 2,
   },
 ];
 

@@ -6,9 +6,8 @@ import { AiFillStar } from "react-icons/ai";
 const SRecipeLayout = styled.div`
   display: flex;
   flex-direction: column;
-  width: 350px;
-  height: 330px;
-  margin: 1rem;
+  width: 400px;
+  height: 338px;
   border: 1px solid var(--pale-gray);
   border-radius: 5px;
 
