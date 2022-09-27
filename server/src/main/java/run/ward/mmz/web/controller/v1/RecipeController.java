@@ -2,6 +2,7 @@ package run.ward.mmz.web.controller.v1;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,6 +27,9 @@ import run.ward.mmz.service.RecipeTagService;
 import run.ward.mmz.service.TagService;
 import run.ward.mmz.service.impl.TestAccountService;
 
+import javax.validation.constraints.Positive;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -83,6 +87,8 @@ public class RecipeController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    private static final int PAGE_SIZE = 12;
+
     @GetMapping("/recipe/{recipeId}")
     public ResponseEntity<?> readRecipe(
             @PathVariable Long recipeId) {
@@ -99,6 +105,42 @@ public class RecipeController {
 
         return new ResponseEntity<>(response, HttpStatus.OK);
 
+    }
+
+    @GetMapping("/recipe/search/{pageNo}")
+    public ResponseEntity<?> readSearchPage(
+            @Positive @PathVariable int pageNo,
+            @RequestParam(required = false, value = "pageNo") String orderBy,
+            @RequestParam(required = true, value = "search")  String search) {
+
+
+
+
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping("/recipe/category/{pageNo}")
+    public ResponseEntity<?> readCategoryPage(
+            @Positive @PathVariable(required = false, value = "pageNo") int pageNo,
+            @RequestParam(required = false, defaultValue = "id", value = "orderBy") String orderBy,
+            @RequestParam("category") String category) {
+
+
+        Page<Recipe> recipePage = recipeService.findAllByCategory(pageNo, PAGE_SIZE, category, orderBy);
+        List<Recipe> recipeList = recipePage.getContent();
+        List<RecipeResponseDto> responseDtoList = new ArrayList<>();
+
+        for(Recipe recipe : recipeList){
+            responseDtoList.add(recipeMapper.toResponseDto(recipe, recipeTagService.findAllByRecipeId(recipe.getId())));
+        }
+
+        ResponseDto.Multi<?> response = ResponseDto.Multi.builder()
+                .page(recipePage)
+                .data(Collections.singletonList(responseDtoList))
+                .build();
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
 

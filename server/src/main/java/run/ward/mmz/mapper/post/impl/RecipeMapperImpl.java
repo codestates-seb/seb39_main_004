@@ -52,7 +52,7 @@ public class RecipeMapperImpl implements RecipeMapper {
                 .imgThumbNailUrl(recipe.getImgThumbNail().getFileName())
                 .level(recipe.getLevel())
                 .isBookmarked(recipe.isBookmarked())
-                .star(String.format("%.2f", recipe.getStars()))
+                .stars(String.format("%.2f", recipe.getStars()))
                 .views(recipe.getViews())
                 .createDate(recipe.getCreateDate())
                 .modifyDate(recipe.getModDate())

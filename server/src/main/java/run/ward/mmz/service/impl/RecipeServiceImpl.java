@@ -1,6 +1,9 @@
 package run.ward.mmz.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import run.ward.mmz.domain.post.Recipe;
@@ -19,9 +22,8 @@ import java.util.List;
 public class RecipeServiceImpl implements RecipeService {
 
     private final RecipeRepository recipeRepository;
-    private final DirectionService  directionService;
+    private final DirectionService directionService;
     private final IngredientService ingredientService;
-
 
 
     @Override
@@ -82,5 +84,19 @@ public class RecipeServiceImpl implements RecipeService {
     @Transactional
     public void addViews(Long id) {
         findVerifiedEntity(id).addViews();
+    }
+
+    @Override
+    public Page<Recipe> findAllByCategory(int page, int size, String category, String orderBy) {
+
+        return recipeRepository.findAllByCategory(
+                category,
+                PageRequest.of(page - 1 , size, Sort.by(orderBy).descending())
+        );
+    }
+
+    @Override
+    public Page<Recipe> findAllBySearch(int page, int size, String search, String orderBy) {
+        return null;
     }
 }
