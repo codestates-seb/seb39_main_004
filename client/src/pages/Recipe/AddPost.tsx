@@ -26,6 +26,7 @@ const SRecipeTexts = styled.div`
 const AddPost = () => {
   const formData = new FormData();
   const [formValues, setFormValues] = useState(formData);
+  const [thumbNail, setThumbNail] = useState<TypeOfFileList>();
   const [stepImgFiles, setStepImgFiles] = useState<TypeOfFileList[]>([]);
 
   // const onImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -42,6 +43,7 @@ const AddPost = () => {
   const submitHandler = async (event: React.MouseEvent) => {
     event.preventDefault();
 
+    console.log(thumbNail);
     console.log("파일", stepImgFiles);
 
     /** 서버통신 */
@@ -85,10 +87,7 @@ const AddPost = () => {
               rows={7}
             ></textarea>
           </SRecipeTexts>
-          <ImgUploader
-            stepImgFiles={stepImgFiles}
-            setStepImgFiles={setStepImgFiles}
-          ></ImgUploader>
+          <ImgUploader setThumbNail={setThumbNail}></ImgUploader>
         </SRecipeInfo>
         <label htmlFor="category">카테고리</label>
         {/* 카테고리 영역 */}

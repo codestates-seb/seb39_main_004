@@ -3,8 +3,9 @@ import { TypeOfFileList } from "./type";
 
 interface StepMakerProps {
   idx?: number;
-  setStepImgFiles: Dispatch<SetStateAction<TypeOfFileList[]>>;
-  stepImgFiles: TypeOfFileList[];
+  setThumbNail?: Dispatch<SetStateAction<TypeOfFileList>>;
+  stepImgFiles?: TypeOfFileList[];
+  setStepImgFiles?: Dispatch<SetStateAction<TypeOfFileList[]>>;
   clickEvent?: (orderValue: string) => Promise<void> | void;
 }
 

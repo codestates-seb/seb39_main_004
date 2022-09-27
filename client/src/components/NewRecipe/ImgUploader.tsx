@@ -20,6 +20,7 @@ const SImgInput = styled.input`
 
 const ImgUploader = ({
   idx,
+  setThumbNail,
   setStepImgFiles,
   stepImgFiles,
 }: StepMakerProps) => {
@@ -28,12 +29,14 @@ const ImgUploader = ({
 
   const onImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
-      if (idx !== undefined) {
+      if (idx !== undefined && stepImgFiles && setStepImgFiles) {
         const newImgFile = stepImgFiles;
         newImgFile[idx] = event.target.files[0];
-        // console.log("요소하나", newImgFile[idx]);
-        // console.log("값 전체", newImgFile);
+        console.log("값 전체", newImgFile);
         setStepImgFiles(newImgFile);
+      }
+      if (setThumbNail) {
+        setThumbNail(event.target.files[0]);
       }
 
       const newFileURL = URL.createObjectURL(event.target.files[0]);
