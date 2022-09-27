@@ -2,6 +2,7 @@ package run.ward.mmz.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import run.ward.mmz.domain.post.Ingredient;
 import run.ward.mmz.repository.IngredientRepository;
 import run.ward.mmz.service.IngredientService;

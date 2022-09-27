@@ -4,6 +4,7 @@ import org.springframework.stereotype.Component;
 import run.ward.mmz.domain.file.Files;
 import run.ward.mmz.domain.post.Direction;
 import run.ward.mmz.dto.DirectionPostDto;
+import run.ward.mmz.dto.DirectionResponseDto;
 import run.ward.mmz.mapper.post.DirectionMapper;
 
 import java.util.ArrayList;
@@ -47,5 +48,36 @@ public class DirectionMapperImpl implements DirectionMapper {
         }
 
         return directions;
+    }
+
+    @Override
+    public DirectionResponseDto toResponseDto(Direction direction) {
+
+        if (direction == null) {
+            return null;
+        }
+
+        return DirectionResponseDto.builder()
+                .body(direction.getBody())
+                .imgDirectionUrl(direction.getFiles().getFileName())
+                .index(direction.getIndex())
+                .build();
+
+    }
+
+    @Override
+    public List<DirectionResponseDto> toResponseDto(List<Direction> directionList) {
+
+        if(directionList.isEmpty()){
+            return new ArrayList<>();
+        }
+
+        List<DirectionResponseDto> directionResponseDtoList = new ArrayList<>();
+
+        for(Direction direction : directionList){
+            directionResponseDtoList.add(toResponseDto(direction));
+        }
+
+        return directionResponseDtoList;
     }
 }

@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import run.ward.mmz.domain.post.Direction;
 import run.ward.mmz.repository.DirectionRepository;
 import run.ward.mmz.service.DirectionService;
+import run.ward.mmz.service.ImageService;
 
 import java.util.List;
 
@@ -14,17 +15,21 @@ import java.util.List;
 public class DirectionServiceImpl implements DirectionService {
 
     private final DirectionRepository directionRepository;
+    private final ImageService imageService;
 
     //Crud Service
 
     @Override
-    @Transactional
     public List<Direction> saveAll(List<Direction> directionList) {
+
+        for(Direction direction : directionList){
+            imageService.save(direction.getFiles());
+        }
+
         return directionRepository.saveAll(directionList);
     }
 
     @Override
-    @Transactional
     public Direction save(Direction direction) {
         return directionRepository.save(direction);
     }
