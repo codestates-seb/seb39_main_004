@@ -3,8 +3,8 @@ package run.ward.mmz.mapper.post;
 
 import run.ward.mmz.domain.file.Files;
 import run.ward.mmz.domain.post.Direction;
-import run.ward.mmz.dto.DirectionPostDto;
-import run.ward.mmz.dto.DirectionResponseDto;
+import run.ward.mmz.dto.request.DirectionPostDto;
+import run.ward.mmz.dto.respones.DirectionResponseDto;
 
 import java.util.List;
 

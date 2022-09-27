@@ -2,7 +2,7 @@ package run.ward.mmz.mapper.file;
 
 import org.springframework.stereotype.Component;
 import run.ward.mmz.domain.file.Files;
-import run.ward.mmz.dto.FilesDto;
+import run.ward.mmz.dto.common.FilesDto;
 
 import java.util.ArrayList;
 import java.util.Collections;

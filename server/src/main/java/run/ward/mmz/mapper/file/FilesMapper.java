@@ -1,7 +1,7 @@
 package run.ward.mmz.mapper.file;
 
 import run.ward.mmz.domain.file.Files;
-import run.ward.mmz.dto.FilesDto;
+import run.ward.mmz.dto.common.FilesDto;
 
 import java.util.List;
 
