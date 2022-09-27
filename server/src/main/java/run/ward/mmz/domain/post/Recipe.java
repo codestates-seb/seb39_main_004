@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter
-@ToString
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @DynamicInsert
@@ -76,12 +75,14 @@ public class Recipe extends Auditable {
     }
 
     protected void addIngredients(Ingredient ingredient) {
-        ingredients.add(ingredient);
+        if(!ingredients.contains(ingredient))  // ingredients가 list이므로 중복 허용, DB에는 중복되어있지 않지만, entity 객체에는 중복으로 들어가있음.
+            ingredients.add(ingredient);
         ingredient.setRecipe(this);
     }
 
     protected void addDirections(Direction direction) {
-        directions.add(direction);
+        if(!directions.contains(direction)) // directions가 list이므로 중복 허용, DB에는 중복되어있지 않지만, entity 객체에는 중복으로 들어가있음.
+            directions.add(direction);
         direction.setRecipe(this);
     }
 

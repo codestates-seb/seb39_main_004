@@ -27,8 +27,8 @@ public class Ingredient {
     private String amount;
 
     @NotNull
-    @ColumnDefault("false")
-    private boolean isEssential = false;
+    @Column(columnDefinition = "boolean default false", nullable = false)
+    private boolean isEssential;
 
     @ManyToOne
     @JoinColumn(name = "recipeId")
@@ -36,7 +36,8 @@ public class Ingredient {
 
     public void setRecipe(Recipe recipe){
         this.recipe = recipe;
-        recipe.getIngredients().add(this);
+        if(!recipe.getIngredients().contains(this))
+            recipe.getIngredients().add(this);
     }
 
     @Builder

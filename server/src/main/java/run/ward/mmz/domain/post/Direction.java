@@ -42,7 +42,8 @@ public class Direction {
 
     public void setRecipe(Recipe recipe){
         this.recipe = recipe;
-        recipe.getDirections().add(this);
+        if(!recipe.getDirections().contains(this))
+            recipe.getDirections().add(this);
     }
 
     @Builder
