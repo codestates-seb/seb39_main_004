@@ -57,6 +57,9 @@ public class Recipe extends Auditable {
     private List<Direction> directions = new ArrayList<>();
 
     @OneToMany(mappedBy = "recipe", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private List<RecipeTag> recipeTags = new ArrayList<>();
+
+    @OneToMany(mappedBy = "recipe", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<Review> reviews = new ArrayList<>();
 
     @OneToMany(mappedBy = "recipe", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
@@ -85,6 +88,11 @@ public class Recipe extends Auditable {
     protected void addReviews(Review review) {
         reviews.add(review);
         review.setRecipe(this);
+    }
+
+    protected void addRecipeTags(RecipeTag recipeTag) {
+        recipeTags.add(recipeTag);
+        recipeTag.setRecipe(this);
     }
 
 
