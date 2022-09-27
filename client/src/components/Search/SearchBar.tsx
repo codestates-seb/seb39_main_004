@@ -46,7 +46,6 @@ const SSearchWord = styled.div`
 
 const STagArea = styled.div`
   margin: 0 20px;
-  border-bottom: 1px solid var(--deep-green);
 `;
 
 const SearchBar = () => {
