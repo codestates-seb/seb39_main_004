@@ -56,8 +56,19 @@ public class RecipeTagServiceImpl implements RecipeTagService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Recipe> findAllByTagName(String tagName) {
-        return null;
+
+        List<RecipeTag> recipeTagList = recipeTagRepository.findAllByTagName(tagName);
+
+        return recipeTagList.stream()
+                .map(
+                        recipeTag -> {
+                            Optional<Recipe> recipe = recipeRepository.findById(recipeTag.getRecipe().getId());
+                            return recipe.orElse(null);
+                        })
+                .collect(Collectors.toList());
+
     }
 
 

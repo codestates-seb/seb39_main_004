@@ -23,6 +23,7 @@ public class RecipeResponseDto {
     private List<DirectionResponseDto> directions;
     private List<IngredientResponseDto> ingredients;
     private List<TagResponseDto> tags;
+    private List<ReviewResponseDto> reviews;
 
 
 

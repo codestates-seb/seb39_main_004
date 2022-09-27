@@ -38,8 +38,10 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Recipe findById(Long id) {
-        return null;
+        //proxy 조회(영속성 컨텍스트에서 조회된다.)
+        return recipeRepository.getReferenceById(id);
     }
 
     @Override
@@ -59,6 +61,14 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     public Recipe findVerifiedEntity(Long id) {
-        return null;
+
+        return recipeRepository.findById(id).orElseThrow(
+                //ToDo : exception
+        );
+    }
+
+    @Override
+    public List<Recipe> findAll() {
+        return recipeRepository.findAll();
     }
 }

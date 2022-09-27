@@ -49,8 +49,8 @@ public class RecipeController {
 
     private final TestAccountService testAccountService;
 
-    @PostMapping("/recipe/new")
-    public ResponseEntity<ResponseDto.Single<?>> postRecipe(
+    @PostMapping("/recipe/add")
+    public ResponseEntity<?> postRecipe(
             Account owner,
             @RequestPart(value = "imgThumbNail", required = false) MultipartFile imgThumbNail,
             @RequestPart(value = "imgDirection", required = false) List<MultipartFile> imgDirectionList,
@@ -63,7 +63,7 @@ public class RecipeController {
         owner.setBio("와드입니다.");
         owner.setEmail("ward@ward.run");
         owner.setRole(Role.USER);
-        Account testOwner= testAccountService.save(owner);
+        Account testOwner = testAccountService.save(owner);
 
         //Controller Code
 
@@ -80,17 +80,24 @@ public class RecipeController {
         tagService.saveAll(tags);
         recipeTagService.save(tags, recipe);
 
-        RecipeResponseDto responseDto = recipeMapper.toResponseDto(recipe);
-        responseDto.setTags(tagMapper.toResponseDto(tags));
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 
-        ResponseDto.Single<Object> response = ResponseDto.Single.builder()
+    @GetMapping("/recipe/{recipeId}")
+    public ResponseEntity<?> readRecipe(
+            @PathVariable Long recipeId) {
+
+        recipeService.verifyExistsId(recipeId); //레시피가 있는 지 예외 처리
+
+        Recipe recipe = recipeService.findById(recipeId);
+        RecipeResponseDto responseDto = recipeMapper.toResponseDto(recipe, recipeTagService.findAllByRecipeId(recipeId));
+        ResponseDto.Single<?> response = ResponseDto.Single.builder()
                 .data(responseDto)
                 .build();
 
         return new ResponseEntity<>(response, HttpStatus.OK);
+
     }
-
-
 
 
 }

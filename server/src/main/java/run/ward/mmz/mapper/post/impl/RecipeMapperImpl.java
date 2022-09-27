@@ -4,16 +4,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import run.ward.mmz.domain.account.Account;
 import run.ward.mmz.domain.file.Files;
-import run.ward.mmz.domain.post.Direction;
-import run.ward.mmz.domain.post.Ingredient;
-import run.ward.mmz.domain.post.Recipe;
-import run.ward.mmz.domain.post.RecipeTag;
+import run.ward.mmz.domain.post.*;
 import run.ward.mmz.dto.request.RecipePostDto;
 import run.ward.mmz.dto.respones.RecipeResponseDto;
-import run.ward.mmz.mapper.post.DirectionMapper;
-import run.ward.mmz.mapper.post.IngredientMapper;
-import run.ward.mmz.mapper.post.RecipeMapper;
-import run.ward.mmz.mapper.post.TagMapper;
+import run.ward.mmz.mapper.post.*;
 
 import java.util.List;
 
@@ -23,7 +17,8 @@ public class RecipeMapperImpl implements RecipeMapper {
 
     private final DirectionMapper directionMapper;
     private final IngredientMapper ingredientMapper;
-    private final TagMapper recipeTagMapper;
+    private final TagMapper tagMapper;
+    private final ReviewMapper reviewMapper;
 
     @Override
     public Recipe toEntity(Account owner, RecipePostDto recipePostDto, Files imgThumbNail, List<Ingredient> ingredients, List<Direction> directionList) {
@@ -44,7 +39,7 @@ public class RecipeMapperImpl implements RecipeMapper {
     }
 
     @Override
-    public RecipeResponseDto toResponseDto(Recipe recipe) {
+    public RecipeResponseDto toResponseDto(Recipe recipe, List<Tag> tagList) {
 
         if (recipe == null) {
             return null;
@@ -63,6 +58,8 @@ public class RecipeMapperImpl implements RecipeMapper {
                 .modifyDate(recipe.getModDate())
                 .directions(directionMapper.toResponseDto(recipe.getDirections()))
                 .ingredients(ingredientMapper.toResponseDto(recipe.getIngredients()))
+                .tags(tagMapper.toResponseDto(tagList))
+                .reviews(reviewMapper.toResponseDto(recipe.getReviews()))
                 .build();
     }
 }
