@@ -21,6 +21,8 @@ const SButton = styled.button`
 
 interface ButtonProps {
   children: string;
+  type?: string;
+  disabled?: boolean;
   onClick?: () => void;
 }
 

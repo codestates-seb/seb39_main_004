@@ -23,28 +23,24 @@ const SignUpForm = () => {
         name="nickName"
         placeholder="Nickname"
         type="text"
-        required
       />
       <InputWithLabel
         label="이메일"
         name="email"
         placeholder="Email"
         type="email"
-        required
       />
       <InputWithLabel
         label="비밀번호"
         name="password"
         placeholder="숫자, 영문 포함 최소 6자 이상"
         type="password"
-        required
       />
       <InputWithLabel
         label="비밀번호 확인"
         name="password-confirm"
         placeholder="숫자, 영문 포함 최소 6자 이상"
         type="password"
-        required
       />
       <Button>회원가입</Button>
     </SForm>

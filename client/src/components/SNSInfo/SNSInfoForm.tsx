@@ -23,14 +23,12 @@ const SNSInfoForm = () => {
         name="email"
         placeholder="Email"
         type="email"
-        required
       />
       <InputWithLabel
         label="닉네임"
         name="nickName"
         placeholder="Nickname"
         type="text"
-        required
       />
       <InputWithLabel
         label="자기소개"
