@@ -28,7 +28,7 @@ public class Account extends Auditable {
     private String name;
 
     @Lob
-    private Long bio;
+    private String bio;
 
     private String password;
 

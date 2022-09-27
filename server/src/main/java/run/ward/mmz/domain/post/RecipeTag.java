@@ -2,6 +2,7 @@ package run.ward.mmz.domain.post;
 
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -29,6 +30,8 @@ public class RecipeTag {
         recipe.getRecipeTags().add(this);
     }
 
-
-
+    @Builder
+    public RecipeTag(String name) {
+        this.name = name;
+    }
 }

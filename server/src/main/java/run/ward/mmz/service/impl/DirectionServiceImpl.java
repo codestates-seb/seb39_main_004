@@ -6,7 +6,6 @@ import org.springframework.transaction.annotation.Transactional;
 import run.ward.mmz.domain.post.Direction;
 import run.ward.mmz.repository.DirectionRepository;
 import run.ward.mmz.service.DirectionService;
-import run.ward.mmz.service.RecipeElementService;
 
 import java.util.List;
 
@@ -25,6 +24,7 @@ public class DirectionServiceImpl implements DirectionService {
     }
 
     @Override
+    @Transactional
     public Direction save(Direction direction) {
         return directionRepository.save(direction);
     }

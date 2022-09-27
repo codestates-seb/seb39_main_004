@@ -1,9 +1,8 @@
 package run.ward.mmz.service;
 
 import run.ward.mmz.domain.post.Direction;
+import run.ward.mmz.service.common.RecipeElementService;
 
-import java.util.List;
-
-public interface DirectionService extends RecipeElementService<Direction>{
+public interface DirectionService extends RecipeElementService<Direction> {
 
 }

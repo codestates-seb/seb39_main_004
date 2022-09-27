@@ -1,4 +1,4 @@
-package run.ward.mmz.service;
+package run.ward.mmz.service.common;
 
 import java.util.List;
 

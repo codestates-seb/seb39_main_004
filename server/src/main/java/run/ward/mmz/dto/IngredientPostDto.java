@@ -1,11 +1,16 @@
 package run.ward.mmz.dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 
 
 @Getter
-public class IngredientPostDto {
+@NoArgsConstructor
+public class IngredientPostDto implements Serializable {
 
     private int index;
     private String name;

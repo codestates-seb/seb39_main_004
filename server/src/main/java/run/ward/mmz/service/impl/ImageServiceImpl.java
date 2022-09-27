@@ -35,6 +35,10 @@ public class ImageServiceImpl implements ImageService {
 
     @Override
     public Files save(MultipartFile multipartFile) {
-        return null;
+
+        List<String> imgExtension = ImageType.EXTENSIONS;
+        Files file = filesMapper.fileDtoToImage(fileHandler.parseFileInfo(multipartFile, imgExtension));
+
+        return fileRepository.save(file);
     }
 }

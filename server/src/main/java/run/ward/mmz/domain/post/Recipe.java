@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter
+@ToString
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @DynamicInsert
@@ -46,9 +47,8 @@ public class Recipe extends Auditable {
     @JoinColumn(name = "ownerId")
     private Account owner;
 
-    @Column
-    @Enumerated(value = EnumType.STRING)
-    private LevelType level = LevelType.BASIC;
+    @Column(nullable = false)
+    private String level;
 
     @OneToMany(mappedBy = "recipe", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<Ingredient> ingredients = new ArrayList<>();
@@ -107,7 +107,7 @@ public class Recipe extends Auditable {
 
 
     @Builder
-    public Recipe(String title, String category, int views, int stars, LevelType level) {
+    public Recipe(String title, String category, int views, int stars, String level) {
         this.title = title;
         this.category = category;
         this.views = views;
@@ -129,14 +129,14 @@ public class Recipe extends Auditable {
     }
 
     // 레시피 생성 메서드
-    public static Recipe createRecipe(String title, String category, Files imgThumbNail, int stars, Account owner, LevelType level, List<Ingredient> ingredients, List<Direction> directions ) {
+    @Builder
+    public static Recipe createRecipe(String title, String category, Files imgThumbNail, Account owner, String level, List<Ingredient> ingredients, List<Direction> directions, List<RecipeTag> recipeTags ) {
 
         //Todo : 잘못된 값 혹은 null값이 들어올 경우 처리할 수 있는 Exception이 있어야한다.
 
         Recipe recipe = Recipe.builder()
                 .title(title)
                 .category(category)
-                .stars(stars)
                 .level(level)
                 .build();
 
@@ -151,7 +151,9 @@ public class Recipe extends Auditable {
             recipe.addDirections(direction);
         }
 
-
+        for(RecipeTag recipeTag : recipeTags){
+            recipe.addRecipeTags(recipeTag);
+        }
 
         return recipe;
     }
