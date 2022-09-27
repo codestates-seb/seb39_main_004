@@ -10,11 +10,11 @@ import java.util.Optional;
 
 public class CookieUtil {
 
-    public static Optional<Cookie> getCookie(HttpServletRequest request, String name){
+    public static Optional<Cookie> getCookie(HttpServletRequest request, String name) {
         Cookie[] cookies = request.getCookies();
-        if(cookies != null && cookies.length > 0) {
-            for(Cookie cookie : cookies){
-                if(cookie.getName().equals(name)){
+        if (cookies != null && cookies.length > 0) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals(name)) {
                     return Optional.of(cookie);
                 }
             }
@@ -22,7 +22,7 @@ public class CookieUtil {
         return Optional.empty();
     }
 
-    public static void addCookie(HttpServletResponse response, String name, String value, int maxAge){
+    public static void addCookie(HttpServletResponse response, String name, String value, int maxAge) {
         Cookie cookie = new Cookie(name, value);
         cookie.setPath("/");
         cookie.setHttpOnly(true);
@@ -43,6 +43,7 @@ public class CookieUtil {
             }
         }
     }
+
     public static String serialize(Object object) {
         return Base64.getUrlEncoder()
                 .encodeToString(SerializationUtils.serialize(object));

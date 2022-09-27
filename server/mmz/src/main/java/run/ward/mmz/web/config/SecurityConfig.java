@@ -2,18 +2,20 @@ package run.ward.mmz.web.config;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import run.ward.mmz.handler.jwt.JwtAccessDeniedHandler;
+import run.ward.mmz.handler.jwt.JwtAuthenticationEntryPoint;
 import run.ward.mmz.handler.oauth2.OAuth2AuthenticationFailureHandler;
 import run.ward.mmz.handler.oauth2.OAuth2AuthenticationSuccessHandler;
 import run.ward.mmz.repository.CookieAuthorizationRequestRepository;
-import run.ward.mmz.service.CustomOAuth2AccountService;
+import run.ward.mmz.service.CustomOAuth2UserService;
 import run.ward.mmz.web.filter.JwtAuthenticationFilter;
 
 @Configuration
@@ -21,9 +23,9 @@ import run.ward.mmz.web.filter.JwtAuthenticationFilter;
 @Log4j2
 @RequiredArgsConstructor
 @EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
-public class SecurityConfig {
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private final CustomOAuth2AccountService customOAuth2AccountService;
+    private final CustomOAuth2UserService customOAuth2UserService;
     private final CookieAuthorizationRequestRepository cookieAuthorizationRequestRepository;
     private final OAuth2AuthenticationSuccessHandler authenticationSuccessHandler;
     private final OAuth2AuthenticationFailureHandler authenticationFailureHandler;
@@ -32,8 +34,13 @@ public class SecurityConfig {
     private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
 
 
-    @Bean
-    public SecurityFilterChain filterChain (HttpSecurity http) throws Exception {
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        web.ignoring().antMatchers("/h2-console/**", "/favicon.ico");
+    }
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers("/h2-console/**").permitAll()
                 .antMatchers("/oauth2/**", "/auth/**").permitAll()
@@ -56,7 +63,7 @@ public class SecurityConfig {
                 .baseUri("/oauth2/callback/*")
                 .and()
                 .userInfoEndpoint()
-                .userService(customOAuth2AccountService)
+                .userService(customOAuth2UserService)
                 .and()
                 .successHandler(authenticationSuccessHandler)
                 .failureHandler(authenticationFailureHandler);
