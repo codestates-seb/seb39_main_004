@@ -173,11 +173,11 @@ public class Recipe extends Auditable {
      *
      */
 
-    public void updateViews(int views){
+    public void addViews(){
         if(views < 0){
             //ToDo : views 는 0 보다 작은 값이 들어 갈 수 없음. -> Exception
         }
-        this.views = views;
+        this.views += 1;
     }
 
     public void updateStars(){

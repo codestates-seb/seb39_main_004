@@ -90,6 +90,8 @@ public class RecipeController {
         recipeService.verifyExistsId(recipeId); //레시피가 있는 지 예외 처리
 
         Recipe recipe = recipeService.findById(recipeId);
+        recipeService.addViews(recipeId);
+
         RecipeResponseDto responseDto = recipeMapper.toResponseDto(recipe, recipeTagService.findAllByRecipeId(recipeId));
         ResponseDto.Single<?> response = ResponseDto.Single.builder()
                 .data(responseDto)
@@ -98,6 +100,8 @@ public class RecipeController {
         return new ResponseEntity<>(response, HttpStatus.OK);
 
     }
+
+
 
 
 }
