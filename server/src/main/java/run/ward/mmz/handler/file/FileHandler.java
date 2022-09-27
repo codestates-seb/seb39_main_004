@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.multipart.MultipartFile;
-import run.ward.mmz.dto.FilesDto;
+import run.ward.mmz.dto.common.FilesDto;
 
 import java.nio.file.Files;
 import java.nio.file.Path;

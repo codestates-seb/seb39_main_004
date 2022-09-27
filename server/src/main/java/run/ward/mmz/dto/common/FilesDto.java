@@ -1,4 +1,4 @@
-package run.ward.mmz.dto;
+package run.ward.mmz.dto.common;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

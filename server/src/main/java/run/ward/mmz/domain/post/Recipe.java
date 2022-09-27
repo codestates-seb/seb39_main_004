@@ -28,6 +28,11 @@ public class Recipe extends Auditable {
     @NotBlank
     private String title;
 
+    @Lob
+    @Column(nullable = false)
+    @NotBlank
+    private String body;
+
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "thumbnailId")
     private Files imgThumbNail;
@@ -37,6 +42,9 @@ public class Recipe extends Auditable {
 
     @Column(columnDefinition = "integer default 0", nullable = false)
     private int stars;
+
+    @Column(columnDefinition = "boolean default false", nullable = false)
+    private boolean isBookmarked;
 
     @NotBlank
     @Column(nullable = false)
@@ -91,25 +99,27 @@ public class Recipe extends Auditable {
         review.setRecipe(this);
     }
 
-    protected void addRecipeTags(RecipeTag recipeTag) {
-        recipeTags.add(recipeTag);
-        recipeTag.setRecipe(this);
+    protected void mappingRecipeTag(RecipeTag recipeTag){
+        if(!recipeTags.contains(recipeTag))
+            this.recipeTags.add(recipeTag);
     }
-
 
     protected void removeBookmarks(Bookmark bookmark) {
         bookmarks.remove(bookmark);
+        isBookmarked = false;
     }
 
     protected void addBookmarks(Bookmark bookmark) {
         bookmarks.add(bookmark);
         bookmark.setRecipe(this);
+        isBookmarked = true;
     }
 
 
     @Builder
-    public Recipe(String title, String category, int views, int stars, String level) {
+    public Recipe(String title, String body, String category, int views, int stars, String level) {
         this.title = title;
+        this.body = body;
         this.category = category;
         this.views = views;
         this.stars = stars;
@@ -131,13 +141,14 @@ public class Recipe extends Auditable {
 
     // 레시피 생성 메서드
     @Builder
-    public static Recipe createRecipe(String title, String category, Files imgThumbNail, Account owner, String level, List<Ingredient> ingredients, List<Direction> directions, List<RecipeTag> recipeTags ) {
+    public static Recipe createRecipe(String title, String body, String category, Files imgThumbNail, Account owner, String level, List<Ingredient> ingredients, List<Direction> directions) {
 
         //Todo : 잘못된 값 혹은 null값이 들어올 경우 처리할 수 있는 Exception이 있어야한다.
 
         Recipe recipe = Recipe.builder()
                 .title(title)
                 .category(category)
+                .body(body)
                 .level(level)
                 .build();
 
@@ -152,9 +163,6 @@ public class Recipe extends Auditable {
             recipe.addDirections(direction);
         }
 
-        for(RecipeTag recipeTag : recipeTags){
-            recipe.addRecipeTags(recipeTag);
-        }
 
         return recipe;
     }
@@ -186,6 +194,7 @@ public class Recipe extends Auditable {
         }
         this.views = views;
     }
+
 
 
 

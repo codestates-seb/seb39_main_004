@@ -1,4 +1,4 @@
-package run.ward.mmz.dto;
+package run.ward.mmz.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;

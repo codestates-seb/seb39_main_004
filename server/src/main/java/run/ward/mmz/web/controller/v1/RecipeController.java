@@ -10,19 +10,20 @@ import run.ward.mmz.domain.account.Account;
 import run.ward.mmz.domain.account.Role;
 import run.ward.mmz.domain.file.Files;
 import run.ward.mmz.domain.file.Image.ImageType;
-import run.ward.mmz.domain.post.Direction;
-import run.ward.mmz.domain.post.Ingredient;
-import run.ward.mmz.domain.post.Recipe;
-import run.ward.mmz.domain.post.RecipeTag;
-import run.ward.mmz.dto.RecipePostDto;
+import run.ward.mmz.domain.post.*;
+import run.ward.mmz.dto.request.RecipePostDto;
 import run.ward.mmz.dto.common.ResponseDto;
+import run.ward.mmz.dto.respones.RecipeResponseDto;
 import run.ward.mmz.handler.file.FileHandler;
 import run.ward.mmz.mapper.file.FilesMapper;
 import run.ward.mmz.mapper.post.DirectionMapper;
 import run.ward.mmz.mapper.post.IngredientMapper;
 import run.ward.mmz.mapper.post.RecipeMapper;
-import run.ward.mmz.mapper.post.RecipeTagMapper;
+import run.ward.mmz.mapper.post.TagMapper;
+import run.ward.mmz.repository.RecipeTagRepository;
 import run.ward.mmz.service.RecipeService;
+import run.ward.mmz.service.RecipeTagService;
+import run.ward.mmz.service.TagService;
 import run.ward.mmz.service.impl.TestAccountService;
 
 import java.util.List;
@@ -36,13 +37,15 @@ public class RecipeController {
 
     private final DirectionMapper directionMapper;
     private final IngredientMapper ingredientMapper;
-    private final RecipeTagMapper recipeTagMapper;
+    private final TagMapper tagMapper;
     private final RecipeMapper recipeMapper;
 
 
     private final FileHandler fileHandler;
     private final FilesMapper filesMapper;
     private final RecipeService recipeService;
+    private final TagService tagService;
+    private final RecipeTagService recipeTagService;
 
     private final TestAccountService testAccountService;
 
@@ -69,17 +72,25 @@ public class RecipeController {
 
         List<Direction> directions = directionMapper.toEntity(recipePostDto.getDirections(), imgDirections);
         List<Ingredient> ingredients = ingredientMapper.toEntity(recipePostDto.getIngredients());
-        List<RecipeTag> recipeTags = recipeTagMapper.toEntity(recipePostDto.getRecipeTags());
+        List<Tag> tags = tagMapper.toEntity(recipePostDto.getTags());
 
 
-        Recipe recipe = recipeMapper.toEntity(testOwner, recipePostDto, imgThumbNailFile, ingredients, directions, recipeTags);
+        Recipe recipe = recipeMapper.toEntity(testOwner, recipePostDto, imgThumbNailFile, ingredients, directions);
         recipe = recipeService.save(recipe);
+        tagService.saveAll(tags);
+        recipeTagService.save(tags, recipe);
+
+        RecipeResponseDto responseDto = recipeMapper.toResponseDto(recipe);
+        responseDto.setTags(tagMapper.toResponseDto(tags));
 
         ResponseDto.Single<Object> response = ResponseDto.Single.builder()
-                .data(ingredientMapper.toResponseDto(recipe.getIngredients()))
+                .data(responseDto)
                 .build();
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
+
+
 
 }

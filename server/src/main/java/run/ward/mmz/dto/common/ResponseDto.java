@@ -11,7 +11,6 @@ import java.util.List;
 public class ResponseDto {
 
 
-
     @Data
     public static class Single<T> {
         private T data;

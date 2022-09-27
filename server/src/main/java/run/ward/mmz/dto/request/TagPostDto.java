@@ -1,4 +1,4 @@
-package run.ward.mmz.dto;
+package run.ward.mmz.dto.request;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class RecipeTagPostDto {
+public class TagPostDto {
 
     private String name;
 }

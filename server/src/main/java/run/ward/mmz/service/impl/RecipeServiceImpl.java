@@ -4,11 +4,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import run.ward.mmz.domain.post.Recipe;
+import run.ward.mmz.domain.post.Tag;
 import run.ward.mmz.repository.RecipeRepository;
 import run.ward.mmz.service.DirectionService;
 import run.ward.mmz.service.IngredientService;
 import run.ward.mmz.service.RecipeService;
-import run.ward.mmz.service.RecipeTagService;
+import run.ward.mmz.service.TagService;
 
 import java.util.List;
 
@@ -18,10 +19,10 @@ import java.util.List;
 public class RecipeServiceImpl implements RecipeService {
 
     private final RecipeRepository recipeRepository;
-
     private final DirectionService  directionService;
     private final IngredientService ingredientService;
-    private final RecipeTagService recipeTagService;
+
+
 
     @Override
     public List<Recipe> saveAll(List<Recipe> list) {
@@ -31,8 +32,6 @@ public class RecipeServiceImpl implements RecipeService {
     @Override
     @Transactional
     public Recipe save(Recipe recipe) {
-
-        recipeTagService.saveAll(recipe.getRecipeTags());
         ingredientService.saveAll(recipe.getIngredients());
         directionService.saveAll(recipe.getDirections());
         return recipeRepository.save(recipe);
