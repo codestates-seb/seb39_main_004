@@ -9,7 +9,7 @@ import java.util.Collections;
 import java.util.List;
 
 @Component
-public class fileMapperImpl implements fileMapper {
+public class FilesMapperImpl implements FilesMapper {
 
     @Override
     public List<Files> fileDtoListToImageList(List<FilesDto> filesDtoList) {
