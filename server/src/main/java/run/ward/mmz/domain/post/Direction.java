@@ -1,9 +1,6 @@
 package run.ward.mmz.domain.post;
 
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import run.ward.mmz.domain.file.Files;
 
@@ -30,11 +27,16 @@ public class Direction {
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "fileId")
+    @ToString.Exclude
     private Files files;
 
     @ManyToOne
     @JoinColumn(name = "recipeId")
     private Recipe recipe;
+
+    public void setFiles(Files files) {
+        this.files = files;
+    }
 
     // 연관관계 메서드
 
@@ -44,10 +46,10 @@ public class Direction {
     }
 
     @Builder
-    public Direction(int index, String body, Files file, Recipe recipe) {
+    public Direction(int index, String body, Files files, Recipe recipe) {
         this.index = index;
         this.body = body;
-        this.files = file;
+        this.files = files;
         this.recipe = recipe;
     }
 }
