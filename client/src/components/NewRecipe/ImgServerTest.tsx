@@ -1,5 +1,6 @@
 import ImgUploader from "./ImgUploader";
 import { SortButtons } from "../../components/CommonUI";
+import { TypeOfFileList } from "../../ts/type";
 import styled from "styled-components";
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -22,6 +23,8 @@ interface ResponseImgProps {
 }
 
 const ImgServerTest = () => {
+  // const formData = new FormData();
+  const [stepImgFiles, setStepImgFiles] = useState<TypeOfFileList[]>([]);
   const [responsedImg, setResponsedImg] = useState<ResponseImgProps[]>([]);
 
   const filterHandler = async (orderValue: string) => {
@@ -45,7 +48,10 @@ const ImgServerTest = () => {
         sortValues={["최신순", "평점순"]}
         clickEvent={filterHandler}
       ></SortButtons>
-      <ImgUploader></ImgUploader>
+      <ImgUploader
+        stepImgFiles={stepImgFiles}
+        setStepImgFiles={setStepImgFiles}
+      ></ImgUploader>
 
       {responsedImg.length > 0 &&
         /** 이미지 렌더링 */
