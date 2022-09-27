@@ -50,6 +50,7 @@ public class ReviewController {
 
         Review review = reviewMapper.toEntity(reviewDto, testOwner, recipeService.findById(recipeId));
         reviewService.save(review);
+        recipeService.updateStars(recipeId);
 
         List<ReviewResponseDto> responseDtoList = reviewMapper.toResponseDto(reviewService.findAllByRecipeId(recipeId));
 

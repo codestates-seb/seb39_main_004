@@ -40,8 +40,8 @@ public class Recipe extends Auditable {
     @Column(columnDefinition = "integer default 0", nullable = false)
     private int views;
 
-    @Column(columnDefinition = "integer default 0", nullable = false)
-    private int stars;
+    @Column(columnDefinition = "double default 0", nullable = false)
+    private double stars;
 
     @Column(columnDefinition = "boolean default false", nullable = false)
     private boolean isBookmarked;
@@ -168,31 +168,28 @@ public class Recipe extends Auditable {
     }
 
 
-
     /**
      * 비즈니스 로직
      *
      */
-
-    public void updateStars(int num){
-
-        if(num < 0 ){
-            //ToDo : setStars 는 0보다 작은 값이 들어 갈 수 없음. -> Exception
-        }
-        else if( num > 5){
-            //ToDo : setStars 는 5보다 큰 값이 들어 갈 수 없음. -> Exception
-        }
-        else{
-            this.stars = num;
-        }
-
-    }
 
     public void updateViews(int views){
         if(views < 0){
             //ToDo : views 는 0 보다 작은 값이 들어 갈 수 없음. -> Exception
         }
         this.views = views;
+    }
+
+    public void updateStars(){
+
+        double stars = 0;
+
+        for(Review review : reviews){
+            stars += review.getStars();
+        }
+
+        this.stars = stars / reviews.size();
+
     }
 
 

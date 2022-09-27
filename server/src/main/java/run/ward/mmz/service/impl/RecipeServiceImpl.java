@@ -71,4 +71,10 @@ public class RecipeServiceImpl implements RecipeService {
     public List<Recipe> findAll() {
         return recipeRepository.findAll();
     }
+
+    @Override
+    @Transactional
+    public void updateStars(Long recipeId) {
+        findVerifiedEntity(recipeId).updateStars();
+    }
 }

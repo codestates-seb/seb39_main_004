@@ -15,7 +15,7 @@ public class RecipeResponseDto {
     private String imgThumbNailUrl;
     private String level;
     private boolean isBookmarked;
-    private int star;
+    private String star;
     private int views;
     private String createDate;
     private String modifyDate;
