@@ -13,5 +13,6 @@ import java.util.List;
 public interface RecipeRepository extends JpaRepository<Recipe, Long> {
 
     Page<Recipe> findAllByCategory(String name, Pageable pageable);
+    Page<Recipe> findAllByTitleContaining(String title, Pageable pageable);
 
 }

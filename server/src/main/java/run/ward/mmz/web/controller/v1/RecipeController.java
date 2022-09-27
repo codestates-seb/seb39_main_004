@@ -21,7 +21,6 @@ import run.ward.mmz.mapper.post.DirectionMapper;
 import run.ward.mmz.mapper.post.IngredientMapper;
 import run.ward.mmz.mapper.post.RecipeMapper;
 import run.ward.mmz.mapper.post.TagMapper;
-import run.ward.mmz.repository.RecipeTagRepository;
 import run.ward.mmz.service.RecipeService;
 import run.ward.mmz.service.RecipeTagService;
 import run.ward.mmz.service.TagService;
@@ -109,15 +108,24 @@ public class RecipeController {
 
     @GetMapping("/recipe/search/{pageNo}")
     public ResponseEntity<?> readSearchPage(
-            @Positive @PathVariable int pageNo,
-            @RequestParam(required = false, value = "pageNo") String orderBy,
-            @RequestParam(required = true, value = "search")  String search) {
+            @Positive @PathVariable(required = false, value = "pageNo") int pageNo,
+            @RequestParam(required = false, defaultValue = "id", value = "orderBy") String orderBy,
+            @RequestParam("search") String search) {
 
+        Page<Recipe> recipePage = recipeService.findAllBySearch(pageNo, PAGE_SIZE, search, orderBy);
+        List<Recipe> recipeList = recipePage.getContent();
+        List<RecipeResponseDto> responseDtoList = new ArrayList<>();
 
+        for(Recipe recipe : recipeList){
+            responseDtoList.add(recipeMapper.toResponseDto(recipe, recipeTagService.findAllByRecipeId(recipe.getId())));
+        }
 
+        ResponseDto.Multi<?> response = ResponseDto.Multi.builder()
+                .page(recipePage)
+                .data(Collections.singletonList(responseDtoList))
+                .build();
 
-
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @GetMapping("/recipe/category/{pageNo}")

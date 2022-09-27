@@ -97,6 +97,10 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     public Page<Recipe> findAllBySearch(int page, int size, String search, String orderBy) {
-        return null;
+
+        return recipeRepository.findAllByTitleContaining(
+                search,
+                PageRequest.of(page - 1 , size, Sort.by(orderBy).descending())
+        );
     }
 }
