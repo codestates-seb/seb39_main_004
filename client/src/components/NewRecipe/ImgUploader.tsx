@@ -28,11 +28,11 @@ const ImgUploader = ({
 
   const onImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
-      if (idx) {
+      if (idx !== undefined) {
         const newImgFile = stepImgFiles;
         newImgFile[idx] = event.target.files[0];
         // console.log("요소하나", newImgFile[idx]);
-        console.log("값 전체", newImgFile);
+        // console.log("값 전체", newImgFile);
         setStepImgFiles(newImgFile);
       }
 
