@@ -18,7 +18,6 @@ interface TextAreaProps {
   name: string;
   placeholder: string;
   required?: boolean;
-  ref?: React.MutableRefObject<null>;
 }
 
 const TextareaWithLabel = ({ label, ...rest }: TextAreaProps) => {
