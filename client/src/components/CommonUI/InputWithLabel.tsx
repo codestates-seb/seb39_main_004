@@ -14,8 +14,8 @@ const SLabel = styled.div`
 
 const SInput = styled.input`
   width: 100%;
-  border: 1px solid gray;
-  border-radius: 3px;
+  border: none;
+  border-bottom: 1px solid gray;
   padding: 0.4rem;
   ::placeholder {
     color: #bbb;
@@ -25,9 +25,8 @@ const SInput = styled.input`
 interface InputProps {
   label: string;
   name: string;
-  placeholder: string;
+  placeholder?: string;
   type: string;
-  required?: true;
 }
 
 const InputWithLabel = ({ label, ...rest }: InputProps) => {
