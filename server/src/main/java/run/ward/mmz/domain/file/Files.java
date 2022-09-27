@@ -13,7 +13,7 @@ import javax.validation.constraints.NotNull;
 @Table(name = "file")
 @Setter
 @NoArgsConstructor
-public class File extends Auditable {
+public class Files extends Auditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,7 +21,6 @@ public class File extends Auditable {
 
     @NotNull
     private String filePath;
-
 
     @NotNull
     private String fileName;
@@ -36,7 +35,7 @@ public class File extends Auditable {
     private Long fileSize;
 
     @Builder
-    public File(String filePath, String fileName, String originFileName, String contentType, Long fileSize) {
+    public Files(String filePath, String fileName, String originFileName, String contentType, Long fileSize) {
         this.filePath = filePath;
         this.fileName = fileName;
         this.originFileName = originFileName;
