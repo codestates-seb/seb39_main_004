@@ -4,7 +4,7 @@ import RecipeItem from "./RecipeItem";
 const SItemListLayout = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  grid-gap: 1rem;
+  grid-gap: 64px 40px;
   place-items: center;
   margin-top: 3rem;
 
