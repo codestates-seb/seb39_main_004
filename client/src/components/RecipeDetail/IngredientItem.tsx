@@ -8,12 +8,6 @@ const SIngredientItem = styled.div`
     display: inline-block;
     width: 50%;
   }
-  dt,
-  dd {
-    display: inline-block;
-    padding: 10px 5px;
-    min-height: 30px;
-  }
   .title {
     padding: 10px;
     font-size: 1.2rem;
