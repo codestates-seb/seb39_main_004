@@ -18,7 +18,6 @@ const SHeaderContainer = styled.div`
   margin: 30px auto 0;
   padding-bottom: 20px;
   text-align: center;
-
   h1 {
     font-size: 2rem;
   }
@@ -30,9 +29,9 @@ const SFollowBtn = styled.div`
   text-align: center;
   padding: 7px 0;
   background-color: #000;
-  font-size: 13px;
-  color: #fff;
   margin-top: 15px;
+  color: #fff;
+  font-size: 1rem;
 `;
 
 const SDesc = styled.div`
@@ -57,15 +56,15 @@ const STabMenu = styled.ul`
   align-items: center;
   list-style: none;
   margin-bottom: 50px;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid var(--pale-gray);
   .submenu {
     padding: 10px 30px;
     cursor: pointer;
   }
   .focused {
-    border-top: 2px solid #333;
-    border-right: 1px solid #eee;
-    border-left: 1px solid #eee;
+    border-top: 3px solid var(--deep-gray);
+    border-right: 1px solid var(--pale-gray);
+    border-left: 1px solid var(--pale-gray);
   }
 `;
 
@@ -118,14 +117,14 @@ const RecipeDetail = () => {
       <STabMenu>
         {menuArr.map((item) => {
           return (
-            <li
+            <div
               role="presentation"
               key={item.id}
               className={currentTab === item.id ? "submenu focused" : "submenu"}
               onClick={() => setCurrentTab(item.id)}
             >
               {item.name}
-            </li>
+            </div>
           );
         })}
       </STabMenu>

@@ -4,14 +4,11 @@ import styled from "styled-components";
 const SIngredientItem = styled.div`
   width: 50%;
   display: inline-block;
-  dl {
+  dt,
+  dd {
     display: inline-block;
-    width: 50%;
-  }
-  .title {
-    padding: 10px;
-    font-size: 1.2rem;
-    border: 1px solid var(--pale-gray);
+    padding: 10px 5px;
+    min-height: 30px;
   }
 `;
 

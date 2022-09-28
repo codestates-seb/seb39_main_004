@@ -6,7 +6,7 @@ const SRating = styled.div`
   padding: 15px 0;
 `;
 
-function Rating() {
+const Rating = () => {
   return (
     <>
       <SRating>
@@ -16,6 +16,6 @@ function Rating() {
       </SRating>
     </>
   );
-}
+};
 
 export default Rating;

@@ -39,19 +39,11 @@ const SUserInfo = styled.div`
   }
 `;
 
-const SButtonContaienr = styled.div`
+const SDeleteButton = styled.div`
   display: grid;
   align-items: flex-start;
-  span {
-    display: flex;
-    flex-direction: column;
-    -webkit-box-align: center;
-    align-items: center;
-    -webkit-box-pack: center;
-    justify-content: center;
-    cursor: pointer;
-    font-size: 13px;
-  }
+  font-size: 0.8rem;
+  cursor: pointer;
 `;
 
 const SReplyContainer = styled.div`
@@ -79,9 +71,7 @@ const RepleContent = ({ replyBody, createdAt, user }: Prop) => {
           <span className="time">{createdAt}</span>
           <Rating />
         </SUserInfo>
-        <SButtonContaienr>
-          <span>Delete</span>
-        </SButtonContaienr>
+        <SDeleteButton>Delete</SDeleteButton>
       </SUserBody>
       <SReplyContainer>{replyBody}</SReplyContainer>
     </SContainer>

@@ -6,18 +6,13 @@ const SStepContainer = styled.div`
   grid-template-columns: 300px auto;
   column-gap: 20px;
   margin-bottom: 30px;
-
   h2 {
     font-size: 1.5rem;
-    display: flex;
-    -webkit-box-pack: justify;
-    justify-content: space-between;
   }
 `;
 
 const SStepImg = styled.div`
   display: inline-block;
-  max-width: 100%;
   overflow: hidden;
   position: relative;
   box-sizing: border-box;

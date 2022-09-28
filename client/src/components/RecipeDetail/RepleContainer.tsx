@@ -5,8 +5,8 @@ import RepleList from "./RepleList";
 import { detailData } from "../../pages/Recipe/data";
 
 const SRepleHeader = styled.div`
-  font-size: 1.2rem;
   margin-top: 30px;
+  font-size: 1.2rem;
 `;
 
 const RepleContainer = () => {

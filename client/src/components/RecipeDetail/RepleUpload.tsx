@@ -3,8 +3,6 @@ import styled from "styled-components";
 import Rating from "./Rating";
 
 const SContainer = styled.div`
-  margin: 0 auto;
-  margin-bottom: 20px;
   h2 {
     font-size: 1.5rem;
     margin-top: 40px;
@@ -36,8 +34,7 @@ const SReplyContainer = styled.div`
       font-weight: bold;
       color: #fff;
       font-size: 1rem;
-      background: #333;
-      transition: all 0.5s;
+      background: var(--red);
     }
   }
 `;

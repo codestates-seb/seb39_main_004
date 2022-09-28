@@ -16,10 +16,6 @@ const SMainContainer = styled.div`
   grid-template-columns: 300px auto;
   column-gap: 20px;
   flex-grow: 1;
-  .title {
-    padding-bottom: 10px;
-    font-size: 1.2rem;
-  }
 `;
 
 const SIconContainer = styled.div`
@@ -46,17 +42,7 @@ const SCtagoryContainer = styled.div`
 const IngredientContainer = styled.div`
   width: 100%;
   padding: 10px;
-  dl {
-    display: inline-block;
-    width: 50%;
-  }
-  dt,
-  dd {
-    display: inline-block;
-    padding: 10px 5px;
-    min-height: 30px;
-  }
-  .title {
+  h4 {
     padding: 10px;
     font-size: 1.2rem;
     border: 1px solid var(--pale-gray);
@@ -91,7 +77,7 @@ const PostInfo = () => {
             <p>{data.postDate}</p>
           </SCtagoryContainer>
           <IngredientContainer>
-            <h4 className="title">꼭 필요한 재료!</h4>
+            <h4>꼭 필요한 재료!</h4>
             {data.ingredients.map((i) => (
               <IngredientItem
                 key={i.id}

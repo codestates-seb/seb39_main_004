@@ -3,7 +3,6 @@ import styled from "styled-components";
 
 const SContainer = styled.div`
   position: relative;
-  width: 100%;
   padding: 0 0 45px;
   .thumbNail {
     width: 100%;
@@ -33,15 +32,15 @@ const SUserId = styled.div`
   justify-content: center;
   align-content: center;
   color: #333;
-  font-size: 1.3rem;
   margin-top: 15px;
+  font-size: 1.3rem;
 `;
 
 const SButtonContaienr = styled.div`
   display: flex;
   justify-content: flex-end;
   gap: 10px;
-  padding-top: 15px;
+  margin-top: 15px;
   font-size: 0.8rem;
 `;
 
