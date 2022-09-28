@@ -1,29 +1,85 @@
-import ImgUploader from "../../components/NewRecipe/ImgUploader";
-import TagsMaker from "../../components/NewRecipe/TagsMaker";
-import { TextareaWithLabel, SelectButton } from "../../components/CommonUI";
+import {
+  ImgUploader,
+  TagsMaker,
+  Guide,
+  AddingIngredients,
+  StepsMaker,
+} from "../../components/NewRecipe/indexNewRecipe";
+// import ImgRadio from "../../components/NewRecipe/ImgRadio";
+import { TypeOfFileList } from "../../ts/type";
+import React, { useState } from "react";
 import styled from "styled-components";
 // import axios from "axios";
-
-const SVideoThumbnail = styled.img`
-  width: 100px;
-  height: 100px;
-  object-fit: cover; // 비율 조정
-  border: 1px solid black;
-`;
 
 const SFieldset = styled.fieldset`
   border: 1px solid blue;
   padding: 20px;
 `;
 
+const SRecipeInfo = styled.div`
+  display: flex;
+`;
+
+const SRecipeTexts = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
 const AddPost = () => {
+  // const formData = new FormData();
+  // const [formValues, setFormValues] = useState(formData);
+  const [thumbNail, setThumbNail] = useState<TypeOfFileList>();
+  const [stepImgFiles, setStepImgFiles] = useState<TypeOfFileList[]>([]);
+
+  const submitHandler = async (event: React.FormEvent) => {
+    event.preventDefault();
+    console.log("event", event);
+
+    // if (event.key === "Enter") {
+    //   return;
+    // }
+
+    console.log("제출");
+    // console.log(thumbNail);
+    // console.log(stepImgFiles.length);
+    // console.log("파일", stepImgFiles);
+
+    const emptyIndex = stepImgFiles.findIndex((el) => el === undefined);
+    if (emptyIndex >= 0) {
+      alert(`요리 순서의 ${emptyIndex + 1} 번째 이미지를 추가해주세요`);
+      return;
+    }
+    if (!thumbNail || stepImgFiles.length === 0) {
+      alert("등록하려면 사진을 추가해주세요.");
+      return;
+    }
+
+    /** 서버통신 */
+    // const formData = new FormData();
+
+    // if (file) {
+    //   formData.append("file", file[0]);
+    //   console.log(...formData); // 데이터 확인용
+
+    //   try {
+    //     const response = await axios.post("/api/upload", formData, {
+    //       headers: { "content-type": "multipart/form-data" },
+    //     });
+    //     console.log(response);
+    //     // 상위 컴포넌트 마크업 작업 후 처리하겠습니다.(이미지 )
+    //   } catch (error) {
+    //     console.log("이미지업로드 에러 발생");
+    //   }
+    // } else {
+    //   alert("업로드할 이미지가 없습니다");
+    // }
+  };
+
   return (
     <>
-      {/* <form action="" method="post"> */}
-      <SFieldset>
-        <legend>레시피</legend>
-        <div className="title-and-thumbnail">
-          <div>
+      <form action="" method="post">
+        <SRecipeInfo>
+          <SRecipeTexts>
             <label htmlFor="title">레시피 제목</label>
             <input
               name="recipeTitle"
@@ -31,75 +87,42 @@ const AddPost = () => {
               placeholder="레시피 제목을 적어주세요."
               required
             />
-            <div style={{ background: "aliceblue" }}>
-              <label htmlFor="videoURL">동영상</label>
-              <input
-                name="videoLink"
-                id="videoURL"
-                placeholder="동영상 주소를 입력해주세요."
-              />
-              <SVideoThumbnail
-                src={"https://cdn-icons-png.flaticon.com/512/1555/1555492.png"}
-                alt="유투브 썸네일 영역"
-              ></SVideoThumbnail>
-              <div></div>
-            </div>
-          </div>
-          <ImgUploader></ImgUploader>
-        </div>
-        <TextareaWithLabel
-          label="요리 소개"
-          name="recipeInfo"
-          placeholder="레시피를 소개해주세요."
-          required={true}
-        />
+            <label htmlFor="recipeInfo">요리 소개</label>
+            <textarea
+              name="recipeInfo"
+              id="recipeInfo"
+              cols={50}
+              rows={7}
+            ></textarea>
+          </SRecipeTexts>
+          <ImgUploader setThumbNail={setThumbNail}></ImgUploader>
+        </SRecipeInfo>
+        <label htmlFor="category">카테고리</label>
+        {/* 카테고리 영역 */}
+        {/* <ImgRadio></ImgRadio> */}
         <SFieldset>
-          <legend>요리 정보</legend>
-          <div className="category">
-            <SelectButton
-              label="종류별"
-              values={["메인반찬", "국/탕", "면/만두", "빵", "디저트", "기타"]}
-            ></SelectButton>
-          </div>
-          <div className="recipe-info">
-            <SelectButton
-              label="인원"
-              values={[
-                "1인분",
-                "2인분",
-                "3인분",
-                "4인분",
-                "5인분",
-                "6인분 이상",
-              ]}
-            ></SelectButton>
-            <SelectButton
-              label="시간"
-              values={["10분 이내", "30분 이내", "60분 이내", "1시간 이상"]}
-            ></SelectButton>
-            <SelectButton
-              label="난이도"
-              values={["초급", "중급", "고급"]}
-            ></SelectButton>
-          </div>
+          <legend>요리재료</legend>
+          <Guide text="필수 재료는 체크표시를 해주세요." />
+          <AddingIngredients />
         </SFieldset>
-      </SFieldset>
-      <SFieldset>
-        <legend>요리재료</legend>
-      </SFieldset>
-      <SFieldset>
-        <legend>요리순서</legend>
-      </SFieldset>
-      <SFieldset>
-        <legend>태그</legend>
-        <TagsMaker></TagsMaker>
-      </SFieldset>
-      {/* </form> */}
-      <section className="btnContainer">
-        <button type="submit">submit</button>
-        {/* <button >임시저장</button> */}
-        <button type="reset">reset</button>
-      </section>
+        <SFieldset>
+          <legend>요리순서</legend>
+          <Guide text="중요한 부분은 빠짐없이 적어주세요." />
+          <StepsMaker
+            stepImgFiles={stepImgFiles}
+            setStepImgFiles={setStepImgFiles}
+          />
+        </SFieldset>
+        <SFieldset>
+          <legend>태그</legend>
+          <TagsMaker></TagsMaker>
+        </SFieldset>
+        <section className="btnContainer">
+          <input type="submit" onClick={submitHandler}></input>
+          <input type="reset"></input>
+          {/* <button >임시저장</button> */}
+        </section>
+      </form>
     </>
   );
 };
