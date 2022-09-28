@@ -18,7 +18,7 @@ public class Direction {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(columnDefinition = "integer default 1", nullable = false)
+    @Column(name = "\"index\"", columnDefinition = "integer default 1", nullable = false)
     private int index;
 
     @Lob
