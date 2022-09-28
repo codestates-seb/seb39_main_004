@@ -1,13 +1,13 @@
 package run.ward.mmz.service;
 
-import run.ward.mmz.domain.file.File;
+import org.springframework.web.multipart.MultipartFile;
+import run.ward.mmz.domain.file.Files;
 
 import java.util.List;
 
-public interface ImageService extends FileService {
+public interface ImageService {
 
-
-    File getFileUrl(Long fileId);
-    List<File> getAllFileUrl();
-
+    List<Files> saveAll(List<MultipartFile> multipartFiles);
+    Files save(MultipartFile multipartFile);
+    Files save(Files files);
 }

@@ -1,9 +1,6 @@
 package run.ward.mmz.domain.post;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import run.ward.mmz.domain.account.Account;
 import run.ward.mmz.domain.auditable.Auditable;
 
@@ -22,7 +19,8 @@ public class Review extends Auditable {
     @Lob
     private String body;
 
-    private Integer stars;
+    @Column(columnDefinition = "integer default 0", nullable = false)
+    private int stars;
 
     @ManyToOne
     @JoinColumn(name = "ownerId")
@@ -43,5 +41,22 @@ public class Review extends Auditable {
         recipe.getReviews().add(this);
     }
 
+    @Builder
+    public Review(String body, int stars) {
+        this.body = body;
+        this.stars = stars;
+    }
 
+    public static Review createReview(String body, int stars, Account owner, Recipe recipe) {
+
+        Review review = Review.builder()
+                .body(body)
+                .stars(stars)
+                .build();
+
+        review.setOwner(owner);
+        review.setRecipe(recipe);
+
+        return review;
+    }
 }

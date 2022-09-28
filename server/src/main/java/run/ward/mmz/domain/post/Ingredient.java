@@ -17,6 +17,9 @@ public class Ingredient {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(columnDefinition = "integer default 1", nullable = false)
+    private int index;
+
     @NotBlank
     private String name;
 
@@ -24,8 +27,8 @@ public class Ingredient {
     private String amount;
 
     @NotNull
-    @ColumnDefault("false")
-    private boolean isEssential = false;
+    @Column(columnDefinition = "boolean default false", nullable = false)
+    private boolean isEssential;
 
     @ManyToOne
     @JoinColumn(name = "recipeId")
@@ -33,11 +36,13 @@ public class Ingredient {
 
     public void setRecipe(Recipe recipe){
         this.recipe = recipe;
-        recipe.getIngredients().add(this);
+        if(!recipe.getIngredients().contains(this))
+            recipe.getIngredients().add(this);
     }
 
     @Builder
-    public Ingredient(String name, String amount, boolean isEssential, Recipe recipe) {
+    public Ingredient(int index, String name, String amount, boolean isEssential, Recipe recipe) {
+        this.index = index;
         this.name = name;
         this.amount = amount;
         this.isEssential = isEssential;

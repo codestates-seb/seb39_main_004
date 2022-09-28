@@ -5,12 +5,12 @@ import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import run.ward.mmz.domain.account.Account;
 import run.ward.mmz.domain.auditable.Auditable;
-import run.ward.mmz.domain.file.Image.ThumbNailImage;
+import run.ward.mmz.domain.file.Files;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import java.util.LinkedHashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Entity
@@ -28,44 +28,49 @@ public class Recipe extends Auditable {
     @NotBlank
     private String title;
 
-    private String youtubeUrl;
+    @Lob
+    @Column(nullable = false)
+    @NotBlank
+    private String body;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "thumbnailId")
-    private ThumbNailImage thumbNail;
-
-    @Column(nullable = false)
-    @NotBlank
-    private String perTime;
+    private Files imgThumbNail;
 
     @Column(columnDefinition = "integer default 0", nullable = false)
     private int views;
 
-    @Column(columnDefinition = "integer default 0", nullable = false)
-    private int stars;
+    @Column(columnDefinition = "double default 0", nullable = false)
+    private double stars;
+
+    @Column(columnDefinition = "boolean default false", nullable = false)
+    private boolean isBookmarked;
+
+    @NotBlank
+    @Column(nullable = false)
+    private String category;
 
     @ManyToOne
     @JoinColumn(name = "ownerId")
     private Account owner;
 
-    @Column
-    @Enumerated(value = EnumType.STRING)
-    private LevelType level = LevelType.BASIC;
+    @Column(nullable = false)
+    private String level;
 
     @OneToMany(mappedBy = "recipe", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    private Set<Ingredient> ingredients = new LinkedHashSet<>();
+    private List<Ingredient> ingredients = new ArrayList<>();
 
     @OneToMany(mappedBy = "recipe", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    private Set<Direction> directions = new LinkedHashSet<>();
+    private List<Direction> directions = new ArrayList<>();
 
     @OneToMany(mappedBy = "recipe", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    private Set<Review> reviews = new LinkedHashSet<>();
+    private List<RecipeTag> recipeTags = new ArrayList<>();
 
     @OneToMany(mappedBy = "recipe", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    private Set<Tag> tags = new LinkedHashSet<>();
+    private List<Review> reviews = new ArrayList<>();
 
     @OneToMany(mappedBy = "recipe", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    private Set<Bookmark> bookmarks = new LinkedHashSet<>();
+    private List<Bookmark> bookmarks = new ArrayList<>();
 
     // 연관관계 메서드
     public void setOwner(Account owner) {
@@ -73,18 +78,19 @@ public class Recipe extends Auditable {
         owner.getRecipes().add(this);
     }
 
-    protected void setThumbnail(ThumbNailImage thumbNail) {
-        this.thumbNail = thumbNail;
-        thumbNail.setRecipe(this);
+    protected void setThumbnail(Files imgThumbNail) {
+        this.imgThumbNail = imgThumbNail;
     }
 
     protected void addIngredients(Ingredient ingredient) {
-        ingredients.add(ingredient);
+        if(!ingredients.contains(ingredient))  // ingredients가 list이므로 중복 허용, DB에는 중복되어있지 않지만, entity 객체에는 중복으로 들어가있음.
+            ingredients.add(ingredient);
         ingredient.setRecipe(this);
     }
 
     protected void addDirections(Direction direction) {
-        directions.add(direction);
+        if(!directions.contains(direction)) // directions가 list이므로 중복 허용, DB에는 중복되어있지 않지만, entity 객체에는 중복으로 들어가있음.
+            directions.add(direction);
         direction.setRecipe(this);
     }
 
@@ -93,45 +99,28 @@ public class Recipe extends Auditable {
         review.setRecipe(this);
     }
 
-    protected void addTags(Tag tag) {
-        tags.add(tag);
-        tag.setRecipe(this);
+    protected void mappingRecipeTag(RecipeTag recipeTag){
+        if(!recipeTags.contains(recipeTag))
+            this.recipeTags.add(recipeTag);
     }
 
     protected void removeBookmarks(Bookmark bookmark) {
         bookmarks.remove(bookmark);
-    }
-    protected void removeIngredients(Ingredient ingredient) {
-        ingredients.add(ingredient);
-        ingredient.setRecipe(this);
-    }
-
-    protected void removeDirections(Direction direction) {
-        directions.add(direction);
-        direction.setRecipe(this);
-    }
-
-    protected void removeReviews(Review review) {
-        reviews.add(review);
-        review.setRecipe(this);
-    }
-
-    protected void removeTags(Tag tag) {
-        tags.add(tag);
-        tag.setRecipe(this);
+        isBookmarked = false;
     }
 
     protected void addBookmarks(Bookmark bookmark) {
         bookmarks.add(bookmark);
         bookmark.setRecipe(this);
+        isBookmarked = true;
     }
 
 
     @Builder
-    public Recipe(String title, String youtubeUrl, String perTime, int views, int stars, LevelType level) {
+    public Recipe(String title, String body, String category, int views, int stars, String level) {
         this.title = title;
-        this.youtubeUrl = youtubeUrl;
-        this.perTime = perTime;
+        this.body = body;
+        this.category = category;
         this.views = views;
         this.stars = stars;
         this.level = level;
@@ -151,20 +140,20 @@ public class Recipe extends Auditable {
     }
 
     // 레시피 생성 메서드
-    public static Recipe createRecipe(String title, String youtubeUrl, ThumbNailImage thumbNail, String perTime, int stars, Account owner, LevelType level, Set<Ingredient> ingredients, Set<Direction> directions, Set<Tag> tags) {
+    @Builder
+    public static Recipe createRecipe(String title, String body, String category, Files imgThumbNail, Account owner, String level, List<Ingredient> ingredients, List<Direction> directions) {
 
         //Todo : 잘못된 값 혹은 null값이 들어올 경우 처리할 수 있는 Exception이 있어야한다.
 
         Recipe recipe = Recipe.builder()
                 .title(title)
-                .youtubeUrl(youtubeUrl)
-                .perTime(perTime)
-                .stars(stars)
+                .category(category)
+                .body(body)
                 .level(level)
                 .build();
 
         recipe.setOwner(owner);
-        recipe.setThumbnail(thumbNail);
+        recipe.setThumbnail(imgThumbNail);
 
         for (Ingredient ingredient : ingredients) {
             recipe.addIngredients(ingredient);
@@ -174,14 +163,9 @@ public class Recipe extends Auditable {
             recipe.addDirections(direction);
         }
 
-        for (Tag tag : tags) {
-            recipe.addTags(tag);
-        }
-
 
         return recipe;
     }
-
 
 
     /**
@@ -189,30 +173,26 @@ public class Recipe extends Auditable {
      *
      */
 
-    public void updateStars(int num){
-
-        if(num < 0 ){
-            //ToDo : setStars 는 0보다 작은 값이 들어 갈 수 없음. -> Exception
-        }
-        else if( num > 5){
-            //ToDo : setStars 는 5보다 큰 값이 들어 갈 수 없음. -> Exception
-        }
-        else{
-            this.stars = num;
-        }
-
-    }
-
-    public void updateViews(int views){
+    public void addViews(){
         if(views < 0){
             //ToDo : views 는 0 보다 작은 값이 들어 갈 수 없음. -> Exception
         }
-        this.views = views;
+        this.views += 1;
     }
 
-    public void updateThumbNail(ThumbNailImage image){
+    public void updateStars(){
+
+        double stars = 0;
+
+        for(Review review : reviews){
+            stars += review.getStars();
+        }
+
+        this.stars = stars / reviews.size();
 
     }
+
+
 
 
     /**

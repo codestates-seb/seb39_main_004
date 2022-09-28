@@ -4,13 +4,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
-import run.ward.mmz.domain.file.File;
+import run.ward.mmz.domain.file.Files;
 import run.ward.mmz.domain.file.Image.ImageType;
-import run.ward.mmz.repository.FileRepository;
-import run.ward.mmz.dto.FileDto;
 import run.ward.mmz.handler.file.FileHandler;
-import run.ward.mmz.mapper.image.ImageMapper;
+import run.ward.mmz.mapper.file.FilesMapper;
+import run.ward.mmz.repository.FileRepository;
 import run.ward.mmz.service.ImageService;
 
 import java.util.List;
@@ -19,40 +17,32 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ImageServiceImpl implements ImageService {
 
-    private final FileRepository fileRepository;
-    private final ImageMapper imageMapper;
     private final FileHandler fileHandler;
+    private final FilesMapper filesMapper;
+    private final FileRepository fileRepository;
 
-    @Transactional
     @Override
-    public void upload(MultipartHttpServletRequest request) {
+    @Transactional
+    public List<Files> saveAll(List<MultipartFile> multipartFiles) {
 
-        String key = "file";
-        List<MultipartFile> files = request.getFiles(key);
-        List<String> extensions = ImageType.EXTENSIONS;
+        List<String> imgExtension = ImageType.EXTENSIONS;
+        List<Files> files = filesMapper.fileDtoListToImageList(fileHandler.parseFileInfo(multipartFiles, imgExtension));
 
-        List<FileDto> fileDtoList =  fileHandler.parseFileInfo(files, extensions);
-        fileRepository.saveAll(imageMapper.fileDtoListToImageList(fileDtoList));
-
+        return fileRepository.saveAll(files);
     }
 
-    @Transactional(readOnly = true)
-    public File getFileUrl(Long fileId){
+    @Override
+    public Files save(MultipartFile multipartFile) {
 
-        return fileRepository.findById(fileId).orElseThrow();
+        List<String> imgExtension = ImageType.EXTENSIONS;
+        Files file = filesMapper.fileDtoToImage(fileHandler.parseFileInfo(multipartFile, imgExtension));
+
+        return fileRepository.save(file);
     }
 
-    @Transactional(readOnly = true)
-    public List<File> getAllFileUrl(){
-
-        return fileRepository.findAll();
+    @Override
+    @Transactional
+    public Files save(Files files) {
+        return fileRepository.save(files);
     }
-
-
-
-
-
-
-
-
 }

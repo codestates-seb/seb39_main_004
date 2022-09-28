@@ -8,7 +8,9 @@ import run.ward.mmz.domain.post.Recipe;
 import run.ward.mmz.domain.post.Review;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 
@@ -26,7 +28,7 @@ public class Account extends Auditable {
     private String name;
 
     @Lob
-    private Long bio;
+    private String bio;
 
     private String password;
 
@@ -41,12 +43,12 @@ public class Account extends Auditable {
     private Role role;
 
     @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    private Set<Recipe> recipes = new LinkedHashSet<>();
+    private List<Recipe> recipes = new ArrayList<>();
     @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    private Set<Bookmark> bookmarks = new LinkedHashSet<>();
+    private List<Bookmark> bookmarks = new ArrayList<>();
 
     @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    private Set<Review> reviews = new LinkedHashSet<>();
+    private List<Review> reviews = new ArrayList<>();
 
     @Builder
     public Account(String name, String email, String picture, Role role){
