@@ -52,7 +52,7 @@ public class IngredientMapperImpl implements IngredientMapper {
         }
 
         return IngredientResponseDto.builder()
-                .index(ingredient.getIndex())
+                .index(ingredient.getIdx())
                 .isEssential(ingredient.isEssential())
                 .name(ingredient.getName())
                 .amount(ingredient.getAmount())

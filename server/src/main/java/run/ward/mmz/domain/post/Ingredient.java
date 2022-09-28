@@ -17,8 +17,8 @@ public class Ingredient {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "\"index\"", columnDefinition = "integer default 1", nullable = false)
-    private int index;
+    @Column(columnDefinition = "integer default 1", nullable = false)
+    private int idx;
 
     @NotBlank
     private String name;
@@ -42,7 +42,7 @@ public class Ingredient {
 
     @Builder
     public Ingredient(int index, String name, String amount, boolean isEssential, Recipe recipe) {
-        this.index = index;
+        this.idx = index;
         this.name = name;
         this.amount = amount;
         this.isEssential = isEssential;

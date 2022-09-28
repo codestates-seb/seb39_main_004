@@ -18,8 +18,8 @@ public class Direction {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "\"index\"", columnDefinition = "integer default 1", nullable = false)
-    private int index;
+    @Column(columnDefinition = "integer default 1", nullable = false)
+    private int idx;
 
     @Lob
     @NotBlank
@@ -48,7 +48,7 @@ public class Direction {
 
     @Builder
     public Direction(int index, String body, Files files, Recipe recipe) {
-        this.index = index;
+        this.idx = index;
         this.body = body;
         this.files = files;
         this.recipe = recipe;
