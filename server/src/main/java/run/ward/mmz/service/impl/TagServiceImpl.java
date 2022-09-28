@@ -26,7 +26,7 @@ public class TagServiceImpl implements TagService {
         List<Tag> tagSave = new ArrayList<>();
 
         for(Tag tag : tagList){
-            if(findByTagName(tag.getName()) == null)
+            if(!tagRepository.existsByName(tag.getName()))
                 tagSave.add(tagRepository.save(tag));
         }
 

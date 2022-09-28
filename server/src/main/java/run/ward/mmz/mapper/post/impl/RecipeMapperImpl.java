@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 import run.ward.mmz.domain.account.Account;
 import run.ward.mmz.domain.file.Files;
 import run.ward.mmz.domain.post.*;
+import run.ward.mmz.dto.request.patch.RecipePatchDto;
 import run.ward.mmz.dto.request.post.RecipePostDto;
 import run.ward.mmz.dto.respones.RecipeInfoDto;
 import run.ward.mmz.dto.respones.RecipeResponseDto;
@@ -78,6 +79,25 @@ public class RecipeMapperImpl implements RecipeMapper {
                 .imgThumbNailUrl(recipe.getImgThumbNail().getFileName())
                 .stars(String.format("%.2f", recipe.getStars()))
                 .tags(tagMapper.toResponseDto(recipe.getTagList()))
+                .build();
+    }
+
+    @Override
+    public RecipePatchDto toPatchDto(Recipe recipe) {
+
+        if (recipe == null) {
+            return null;
+        }
+
+        return RecipePatchDto.builder()
+                .title(recipe.getTitle())
+                .body(recipe.getBody())
+                .category(recipe.getCategory())
+                .imgThumbNailUrl(recipe.getImgThumbNail().getFileName())
+                .level(recipe.getLevel())
+                .directions(directionMapper.toPatchDto(recipe.getDirections()))
+                .ingredients(ingredientMapper.toPatchDto(recipe.getIngredients()))
+                .tags(tagMapper.toPatchDto(recipe.getTagList()))
                 .build();
     }
 }

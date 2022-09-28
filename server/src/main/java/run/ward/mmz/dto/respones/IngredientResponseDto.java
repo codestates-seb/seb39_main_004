@@ -1,9 +1,10 @@
 package run.ward.mmz.dto.respones;
 
 import lombok.Builder;
+import lombok.Data;
 import lombok.Getter;
 
-@Getter
+@Data
 @Builder
 public class IngredientResponseDto {
 

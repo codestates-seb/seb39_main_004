@@ -38,7 +38,7 @@ public class RecipeServiceImpl implements RecipeService {
     @Override
     @Transactional
     public Recipe save(Recipe recipe) {
-        verifyExistsId(recipe.getId());
+
         ingredientService.saveAll(recipe.getIngredients());
         directionService.saveAll(recipe.getDirections());
         return recipeRepository.save(recipe);
@@ -47,8 +47,7 @@ public class RecipeServiceImpl implements RecipeService {
     @Override
     @Transactional(readOnly = true)
     public Recipe findById(Long id) {
-        //proxy 조회(영속성 컨텍스트에서 조회된다.)
-        return recipeRepository.getReferenceById(id);
+        return findVerifiedEntity(id);
     }
 
     @Override

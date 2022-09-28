@@ -43,7 +43,6 @@ public class Account extends Auditable {
     @Column(nullable = false)
     private Role role;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<Recipe> recipes = new ArrayList<>();
     @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)

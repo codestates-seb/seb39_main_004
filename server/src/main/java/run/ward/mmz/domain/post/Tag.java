@@ -31,7 +31,6 @@ public class Tag {
             this.recipeTags.add(recipeTag);
     }
 
-
     @JsonIgnore
     public List<Recipe> getRecipeList(){
 

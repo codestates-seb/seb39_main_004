@@ -65,7 +65,6 @@ public class Recipe extends Auditable {
     @JsonIgnore
     @OneToMany(mappedBy = "recipe", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<Ingredient> ingredients = new ArrayList<>();
-
     @JsonIgnore
     @OneToMany(mappedBy = "recipe", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<Direction> directions = new ArrayList<>();
@@ -75,7 +74,6 @@ public class Recipe extends Auditable {
     @JsonIgnore
     @OneToMany(mappedBy = "recipe", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<Review> reviews = new ArrayList<>();
-
     @JsonIgnore
     @OneToMany(mappedBy = "recipe", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<Bookmark> bookmarks = new ArrayList<>();
@@ -174,6 +172,7 @@ public class Recipe extends Auditable {
 
     // 레시피 생성 메서드
     @Builder
+    @JsonIgnore
     public static Recipe createRecipe(String title, String body, String category, Files imgThumbNail, Account owner, String level, List<Ingredient> ingredients, List<Direction> directions) {
 
         //Todo : 잘못된 값 혹은 null값이 들어올 경우 처리할 수 있는 Exception이 있어야한다.
@@ -224,7 +223,6 @@ public class Recipe extends Auditable {
         this.stars = stars / reviews.size();
 
     }
-
     @JsonIgnore
     public List<Tag> getTagList(){
 

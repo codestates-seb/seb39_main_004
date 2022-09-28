@@ -1,11 +1,12 @@
 package run.ward.mmz.dto.respones;
 
 import lombok.Builder;
+import lombok.Data;
 import lombok.Getter;
 
 import java.util.List;
 
-@Getter
+@Data
 @Builder
 public class RecipeInfoDto {
 

@@ -112,12 +112,16 @@ public class RecipeController {
             Account owner,
             @PathVariable Long recipeId){
 
-        recipeService.verifyExistsId(recipeId);
         //ToDo : 해당 유저가 owner인지 확인하는 로직 필요
 
+        recipeService.verifyExistsId(recipeId);
         Recipe recipe = recipeService.findById(recipeId);
 
-        return new ResponseEntity<>(HttpStatus.OK);
+        ResponseDto.Single<?> response = ResponseDto.Single.builder()
+                .data(recipeMapper.toPatchDto(recipe))
+                .build();
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @PatchMapping("/recipe/{recipeId}/edit")

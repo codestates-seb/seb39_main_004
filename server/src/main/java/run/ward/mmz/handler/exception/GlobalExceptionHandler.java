@@ -16,60 +16,62 @@ import java.lang.reflect.UndeclaredThrowableException;
 @Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
-
-    @ExceptionHandler(CustomException.class)
-    public ResponseEntity<?> customException(CustomException e) {
-        final ErrorResponse response = ErrorResponse.of(e.getExceptionCode());
-
-        return new ResponseEntity<>(response, HttpStatus.valueOf(e.getExceptionCode().getStatus()));
-    }
-
-    @ExceptionHandler(UndeclaredThrowableException.class)
-    public ErrorResponse undeclaredThrowableException(UndeclaredThrowableException e) {
-
-        log.info(e.getCause().toString());
-
-        return ErrorResponse.of(HttpStatus.BAD_REQUEST, e.getMessage());
-    }
-
-
-    @ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
-    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
-    public ErrorResponse httpRequestMethodNotSupportedException(
-            HttpRequestMethodNotSupportedException e) {
-
-        log.info(e.getCause().toString());
-
-        return ErrorResponse.of(HttpStatus.METHOD_NOT_ALLOWED);
-    }
-
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(MissingServletRequestParameterException.class)
-    public ErrorResponse missingServletRequestParameterException(
-            MissingServletRequestParameterException e) {
-
-        log.info(e.getCause().toString());
-
-        return ErrorResponse.of(HttpStatus.BAD_REQUEST, e.getMessage());
-    }
-
-
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    @ExceptionHandler(Exception.class)
-    public ErrorResponse globalException(Exception e) {
-
-        log.error("Exception : ", e);
-
-        return ErrorResponse.of(HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-
-    @ExceptionHandler(MaxUploadSizeExceededException.class)
-    public ResponseEntity<ErrorResponse> handleMaxUploadSizeExceededException(MaxUploadSizeExceededException e) {
-
-        log.error("Exception : ", e);
-
-        return new ResponseEntity<>(ErrorResponse.of(ExceptionCode.FILE_SIZE_EXCEED), HttpStatus.BAD_REQUEST);
-    }
+//
+//    @ExceptionHandler(CustomException.class)
+//    public ResponseEntity<?> customException(CustomException e) {
+//        ErrorResponse response = ErrorResponse.of(e.getExceptionCode());
+//
+//        return new ResponseEntity<>(response, HttpStatus.valueOf(e.getExceptionCode().getStatus()));
+//    }
+//
+//    @ExceptionHandler(UndeclaredThrowableException.class)
+//    public ErrorResponse undeclaredThrowableException(UndeclaredThrowableException e) {
+//
+//        log.info(e.getCause().toString());
+//
+//        return ErrorResponse.of(HttpStatus.BAD_REQUEST, e.getMessage());
+//    }
+//
+//
+//    @ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
+//    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+//    public ErrorResponse httpRequestMethodNotSupportedException(
+//            HttpRequestMethodNotSupportedException e) {
+//
+//        log.info(e.getCause().toString());
+//
+//        return ErrorResponse.of(HttpStatus.METHOD_NOT_ALLOWED);
+//    }
+//
+//    @ResponseStatus(HttpStatus.BAD_REQUEST)
+//    @ExceptionHandler(MissingServletRequestParameterException.class)
+//    public ErrorResponse missingServletRequestParameterException(
+//            MissingServletRequestParameterException e) {
+//
+//        log.info(e.getCause().toString());
+//
+//        return ErrorResponse.of(HttpStatus.BAD_REQUEST, e.getMessage());
+//    }
+//
+//
+//    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+//    @ExceptionHandler(Exception.class)
+//    public ErrorResponse globalException(Exception e) {
+//
+//        log.error("Exception : ", e);
+//        e.printStackTrace();
+//        System.out.println("e.getCause() = " + e.getCause());
+//
+//        return ErrorResponse.of(HttpStatus.INTERNAL_SERVER_ERROR);
+//    }
+//
+//    @ExceptionHandler(MaxUploadSizeExceededException.class)
+//    public ResponseEntity<ErrorResponse> handleMaxUploadSizeExceededException(MaxUploadSizeExceededException e) {
+//
+//        log.error("Exception : ", e);
+//
+//        return new ResponseEntity<>(ErrorResponse.of(ExceptionCode.FILE_SIZE_EXCEED), HttpStatus.BAD_REQUEST);
+//    }
 
 
 }

@@ -53,7 +53,6 @@ public class IngredientMapperImpl implements IngredientMapper {
         }
 
         return IngredientPatchDto.builder()
-                .id(ingredient.getId())
                 .index(ingredient.getIdx())
                 .name(ingredient.getName())
                 .amount(ingredient.getAmount())
