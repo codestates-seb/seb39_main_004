@@ -1,4 +1,4 @@
-package run.ward.mmz.dto.request;
+package run.ward.mmz.dto.request.post;
 
 import lombok.Builder;
 import lombok.Data;

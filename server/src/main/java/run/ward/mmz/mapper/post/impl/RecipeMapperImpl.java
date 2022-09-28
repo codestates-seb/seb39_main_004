@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 import run.ward.mmz.domain.account.Account;
 import run.ward.mmz.domain.file.Files;
 import run.ward.mmz.domain.post.*;
-import run.ward.mmz.dto.request.RecipePostDto;
+import run.ward.mmz.dto.request.post.RecipePostDto;
 import run.ward.mmz.dto.respones.RecipeInfoDto;
 import run.ward.mmz.dto.respones.RecipeResponseDto;
 import run.ward.mmz.mapper.post.*;
@@ -39,8 +39,9 @@ public class RecipeMapperImpl implements RecipeMapper {
         );
     }
 
+
     @Override
-    public RecipeResponseDto toResponseDto(Recipe recipe, List<Tag> tagList) {
+    public RecipeResponseDto toResponseDto(Recipe recipe) {
 
         if (recipe == null) {
             return null;
@@ -49,6 +50,7 @@ public class RecipeMapperImpl implements RecipeMapper {
         return RecipeResponseDto.builder()
                 .id(recipe.getId())
                 .title(recipe.getTitle())
+                .body(recipe.getBody())
                 .category(recipe.getCategory())
                 .imgThumbNailUrl(recipe.getImgThumbNail().getFileName())
                 .level(recipe.getLevel())
@@ -59,13 +61,13 @@ public class RecipeMapperImpl implements RecipeMapper {
                 .modifyDate(recipe.getModDate())
                 .directions(directionMapper.toResponseDto(recipe.getDirections()))
                 .ingredients(ingredientMapper.toResponseDto(recipe.getIngredients()))
-                .tags(tagMapper.toResponseDto(tagList))
+                .tags(tagMapper.toResponseDto(recipe.getTagList()))
                 .reviews(reviewMapper.toResponseDto(recipe.getReviews()))
                 .build();
     }
 
     @Override
-    public RecipeInfoDto toInfoDto(Recipe recipe, List<Tag> tagList) {
+    public RecipeInfoDto toInfoDto(Recipe recipe) {
 
         if (recipe == null) {
             return null;
@@ -75,7 +77,7 @@ public class RecipeMapperImpl implements RecipeMapper {
                 .title(recipe.getTitle())
                 .imgThumbNailUrl(recipe.getImgThumbNail().getFileName())
                 .stars(String.format("%.2f", recipe.getStars()))
-                .tags(tagMapper.toResponseDto(tagList))
+                .tags(tagMapper.toResponseDto(recipe.getTagList()))
                 .build();
     }
 }

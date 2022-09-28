@@ -12,7 +12,7 @@ import run.ward.mmz.domain.account.Role;
 import run.ward.mmz.domain.file.Files;
 import run.ward.mmz.domain.file.Image.ImageType;
 import run.ward.mmz.domain.post.*;
-import run.ward.mmz.dto.request.RecipePostDto;
+import run.ward.mmz.dto.request.post.RecipePostDto;
 import run.ward.mmz.dto.common.ResponseDto;
 import run.ward.mmz.dto.respones.RecipeInfoDto;
 import run.ward.mmz.dto.respones.RecipeResponseDto;
@@ -50,11 +50,10 @@ public class RecipeController {
     private final RecipeService recipeService;
     private final TagService tagService;
     private final RecipeTagService recipeTagService;
-
     private final TestAccountService testAccountService;
 
     @PostMapping("/recipe/add")
-    public ResponseEntity<?> postRecipe(
+    public ResponseEntity<?> postRecipePage(
             Account owner,
             @RequestPart(value = "imgThumbNail", required = false) MultipartFile imgThumbNail,
             @RequestPart(value = "imgDirection", required = false) List<MultipartFile> imgDirectionList,
@@ -90,7 +89,7 @@ public class RecipeController {
     private static final int PAGE_SIZE = 12;
 
     @GetMapping("/recipe/{recipeId}")
-    public ResponseEntity<?> readRecipe(
+    public ResponseEntity<?> readRecipePage(
             @PathVariable Long recipeId) {
 
         recipeService.verifyExistsId(recipeId); //레시피가 있는 지 예외 처리
@@ -98,14 +97,40 @@ public class RecipeController {
         Recipe recipe = recipeService.findById(recipeId);
         recipeService.addViews(recipeId);
 
-        RecipeResponseDto responseDto = recipeMapper.toResponseDto(recipe, recipeTagService.findAllByRecipeId(recipeId));
+        RecipeResponseDto responseDto = recipeMapper.toResponseDto(recipe);
         ResponseDto.Single<?> response = ResponseDto.Single.builder()
                 .data(responseDto)
                 .build();
 
         return new ResponseEntity<>(response, HttpStatus.OK);
-
     }
+
+    @GetMapping("/recipe/{recipeId}/edit")
+    public ResponseEntity<?> readRecipeUpdatePage(
+            Account owner,
+            @PathVariable Long recipeId){
+
+        recipeService.verifyExistsId(recipeId);
+        //ToDo : 해당 유저가 owner인지 확인하는 로직 필요
+
+        Recipe recipe = recipeService.findById(recipeId);
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PatchMapping("/recipe/{recipeId}/edit")
+    public ResponseEntity<?> updateRecipePage(
+            Account owner,
+            @PathVariable Long recipeId){
+
+        recipeService.verifyExistsId(recipeId);
+        //ToDo : 해당 유저가 owner인지 확인하는 로직 필요
+
+
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 
     @GetMapping("/recipe/search/{pageNo}")
     public ResponseEntity<?> readSearchPage(
@@ -118,7 +143,7 @@ public class RecipeController {
         List<RecipeInfoDto> responseDtoList = new ArrayList<>();
 
         for(Recipe recipe : recipeList){
-            responseDtoList.add(recipeMapper.toInfoDto(recipe, recipeTagService.findAllByRecipeId(recipe.getId())));
+            responseDtoList.add(recipeMapper.toInfoDto(recipe));
         }
 
         ResponseDto.Multi<?> response = ResponseDto.Multi.builder()
@@ -141,7 +166,7 @@ public class RecipeController {
         List<RecipeInfoDto> responseDtoList = new ArrayList<>();
 
         for(Recipe recipe : recipeList){
-            responseDtoList.add(recipeMapper.toInfoDto(recipe, recipeTagService.findAllByRecipeId(recipe.getId())));
+            responseDtoList.add(recipeMapper.toInfoDto(recipe));
         }
 
         ResponseDto.Multi<?> response = ResponseDto.Multi.builder()

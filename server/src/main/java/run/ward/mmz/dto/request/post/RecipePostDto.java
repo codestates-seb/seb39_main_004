@@ -1,13 +1,13 @@
-package run.ward.mmz.dto.request;
+package run.ward.mmz.dto.request.post;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
 
 import java.util.List;
 
 
-@Getter
-@NoArgsConstructor
+@Data
+@Builder
 public class RecipePostDto{
 
 

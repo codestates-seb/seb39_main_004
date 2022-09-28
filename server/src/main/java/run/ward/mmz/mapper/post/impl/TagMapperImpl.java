@@ -1,9 +1,9 @@
 package run.ward.mmz.mapper.post.impl;
 
 import org.springframework.stereotype.Component;
-import run.ward.mmz.domain.post.RecipeTag;
 import run.ward.mmz.domain.post.Tag;
-import run.ward.mmz.dto.request.TagPostDto;
+import run.ward.mmz.dto.request.patch.TagPatchDto;
+import run.ward.mmz.dto.request.post.TagPostDto;
 import run.ward.mmz.dto.respones.TagResponseDto;
 import run.ward.mmz.mapper.post.TagMapper;
 
@@ -68,5 +68,33 @@ public class TagMapperImpl implements TagMapper {
         }
 
         return tagResponseDtoList;
+    }
+
+    @Override
+    public TagPatchDto toPatchDto(Tag tag) {
+
+        if (tag == null) {
+            return null;
+        }
+
+        return TagPatchDto.builder()
+                .name(tag.getName())
+                .build();
+    }
+
+    @Override
+    public List<TagPatchDto> toPatchDto(List<Tag> tagList) {
+
+        if (tagList.isEmpty()) {
+            return new ArrayList<>();
+        }
+
+        List<TagPatchDto> tagPatchDtoList = new ArrayList<>();
+
+        for (Tag tag : tagList) {
+            tagPatchDtoList.add(toPatchDto(tag));
+        }
+
+        return tagPatchDtoList;
     }
 }

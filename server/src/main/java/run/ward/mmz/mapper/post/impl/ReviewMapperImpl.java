@@ -4,7 +4,7 @@ import org.springframework.stereotype.Component;
 import run.ward.mmz.domain.account.Account;
 import run.ward.mmz.domain.post.Recipe;
 import run.ward.mmz.domain.post.Review;
-import run.ward.mmz.dto.request.ReviewPostDto;
+import run.ward.mmz.dto.request.post.ReviewPostDto;
 import run.ward.mmz.dto.respones.ReviewResponseDto;
 import run.ward.mmz.mapper.post.ReviewMapper;
 

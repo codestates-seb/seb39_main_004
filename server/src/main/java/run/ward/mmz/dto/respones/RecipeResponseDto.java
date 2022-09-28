@@ -11,6 +11,7 @@ public class RecipeResponseDto {
 
     private Long id;
     private String title;
+    private String body;
     private String category;
     private String imgThumbNailUrl;
     private String level;
