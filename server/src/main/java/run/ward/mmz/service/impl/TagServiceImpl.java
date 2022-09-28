@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import run.ward.mmz.domain.post.Tag;
+import run.ward.mmz.handler.exception.CustomException;
+import run.ward.mmz.handler.exception.ExceptionCode;
 import run.ward.mmz.repository.TagRepository;
 import run.ward.mmz.service.TagService;
 
@@ -34,6 +36,10 @@ public class TagServiceImpl implements TagService {
 
     @Transactional
     public Tag findByTagName(String tagName) {
+
+        if(!tagRepository.existsByName(tagName))
+            throw new CustomException(ExceptionCode.TAG_NOT_FOUND);
+
         return tagRepository.findByName(tagName);
     }
 

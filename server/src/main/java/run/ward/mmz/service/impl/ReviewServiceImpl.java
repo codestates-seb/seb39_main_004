@@ -4,7 +4,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import run.ward.mmz.domain.post.Review;
+import run.ward.mmz.handler.exception.CustomException;
+import run.ward.mmz.handler.exception.ExceptionCode;
 import run.ward.mmz.repository.ReviewRepository;
+import run.ward.mmz.service.RecipeService;
 import run.ward.mmz.service.ReviewService;
 
 import java.util.List;
@@ -12,7 +15,6 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class ReviewServiceImpl implements ReviewService {
-
     private final ReviewRepository reviewRepository;
 
     @Override
@@ -23,18 +25,17 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     @Transactional
     public Review save(Review review) {
-
         return reviewRepository.save(review);
     }
 
     @Override
     public Review findById(Long id) {
-        return null;
+        return findVerifiedEntity(id);
     }
 
     @Override
     public void deleteById(Long id) {
-
+        reviewRepository.deleteById(id);
     }
 
     @Override
@@ -44,12 +45,15 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     public void verifyExistsId(Long id) {
-
+        if (!reviewRepository.existsById(id))
+            throw new CustomException(ExceptionCode.REVIEW_NOT_FOUND);
     }
 
     @Override
     public Review findVerifiedEntity(Long id) {
-        return null;
+        return reviewRepository.findById(id).orElseThrow(
+                () -> new CustomException(ExceptionCode.REVIEW_NOT_FOUND)
+        );
     }
 
     @Override

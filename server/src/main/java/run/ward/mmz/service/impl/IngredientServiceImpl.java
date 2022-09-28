@@ -29,7 +29,7 @@ public class IngredientServiceImpl implements IngredientService {
 
     @Override
     public Ingredient findById(Long id) {
-        return ingredientRepository.getReferenceById(id);
+        return findVerifiedEntity(id);
     }
 
     @Override
@@ -51,6 +51,9 @@ public class IngredientServiceImpl implements IngredientService {
 
     @Override
     public Ingredient findVerifiedEntity(Long id) {
+        ingredientRepository.findById(id).orElseThrow(
+                () -> new CustomException(ExceptionCode.INGREDIENT_NOT_FOUND)
+        );
         return null;
     }
 

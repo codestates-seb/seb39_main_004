@@ -4,9 +4,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import run.ward.mmz.domain.post.Direction;
+import run.ward.mmz.handler.exception.CustomException;
+import run.ward.mmz.handler.exception.ExceptionCode;
 import run.ward.mmz.repository.DirectionRepository;
 import run.ward.mmz.service.DirectionService;
 import run.ward.mmz.service.ImageService;
+import run.ward.mmz.service.RecipeService;
 
 import java.util.List;
 
@@ -54,16 +57,18 @@ public class DirectionServiceImpl implements DirectionService {
 
     @Override
     public void verifyExistsId(Long id) {
-
+        if(!directionRepository.existsById(id))
+            throw new CustomException(ExceptionCode.DIRECTION_NOT_FOUND);
     }
 
     @Override
     public Direction findVerifiedEntity(Long id) {
-        return null;
+        return directionRepository.findById(id).orElseThrow(
+                () -> new CustomException(ExceptionCode.DIRECTION_NOT_FOUND)
+        );
     }
 
     //Recipe Element Service
-
 
     @Override
     @Transactional
@@ -73,7 +78,6 @@ public class DirectionServiceImpl implements DirectionService {
 
     @Override
     public List<Direction> findAllByRecipeId(Long recipeId) {
-
         return directionRepository.findAllByRecipeId(recipeId);
     }
 

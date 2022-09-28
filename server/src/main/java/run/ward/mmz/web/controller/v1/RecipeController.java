@@ -192,6 +192,7 @@ public class RecipeController {
     public ResponseEntity<?> deleteTags(
             @PathVariable Long recipeId) {
 
+        recipeService.verifyExistsId(recipeId);
         recipeTagService.deleteAllByRecipe(recipeService.findById(recipeId));
 
         return new ResponseEntity<>(HttpStatus.OK);
