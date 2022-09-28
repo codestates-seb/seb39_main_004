@@ -68,8 +68,6 @@ const STabMenu = styled.ul`
   }
 `;
 
-const STabDesc = styled.div``;
-
 const SRecipeStepContainer = styled.div``;
 
 const RecipeDetail = () => {
@@ -128,9 +126,7 @@ const RecipeDetail = () => {
           );
         })}
       </STabMenu>
-      <STabDesc>
-        <div>{menuArr[currentTab].content}</div>
-      </STabDesc>
+      <div>{menuArr[currentTab].content}</div>
     </SContainer>
   );
 };
