@@ -6,8 +6,9 @@ import {
   StepsMaker,
 } from "../../components/NewRecipe/indexNewRecipe";
 // import ImgRadio from "../../components/NewRecipe/ImgRadio";
-import { TypeOfFileList } from "../../ts/type";
+import { TypeOfFileList, TypeOfFormData } from "../../ts/type";
 import React, { useState } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
 import styled from "styled-components";
 // import axios from "axios";
 
@@ -28,21 +29,20 @@ const SRecipeTexts = styled.div`
 const AddPost = () => {
   // const formData = new FormData();
   // const [formValues, setFormValues] = useState(formData);
+  // const [recipeData, setRecipeData] = useState({});
   const [thumbNail, setThumbNail] = useState<TypeOfFileList>();
   const [stepImgFiles, setStepImgFiles] = useState<TypeOfFileList[]>([]);
+  const {
+    register,
+    watch,
+    handleSubmit,
+    // formState: { errors },
+  } = useForm<TypeOfFormData>();
 
-  const submitHandler = async (event: React.FormEvent) => {
-    event.preventDefault();
-    console.log("event", event);
+  console.log("watch", watch("title"));
 
-    // if (event.key === "Enter") {
-    //   return;
-    // }
-
-    console.log("제출");
-    // console.log(thumbNail);
-    // console.log(stepImgFiles.length);
-    // console.log("파일", stepImgFiles);
+  const submitHandler: SubmitHandler<TypeOfFormData> = async (data) => {
+    console.log("onSubmitData", typeof data);
 
     const emptyIndex = stepImgFiles.findIndex((el) => el === undefined);
     if (emptyIndex >= 0) {
@@ -77,20 +77,20 @@ const AddPost = () => {
 
   return (
     <>
-      <form action="" method="post">
+      <form action="" method="post" onSubmit={handleSubmit(submitHandler)}>
         <SRecipeInfo>
           <SRecipeTexts>
             <label htmlFor="title">레시피 제목</label>
             <input
-              name="recipeTitle"
+              {...register("title", { required: true })}
               id="title"
               placeholder="레시피 제목을 적어주세요."
-              required
             />
-            <label htmlFor="recipeInfo">요리 소개</label>
+            {/* {errors.recipeTitle && <p>{errors.recipeTitle.message}</p>} */}
+            <label htmlFor="body">요리 소개</label>
             <textarea
-              name="recipeInfo"
-              id="recipeInfo"
+              {...register("body", { required: true })}
+              id="body"
               cols={50}
               rows={7}
             ></textarea>
@@ -118,8 +118,10 @@ const AddPost = () => {
           <TagsMaker></TagsMaker>
         </SFieldset>
         <section className="btnContainer">
-          <input type="submit" onClick={submitHandler}></input>
-          <input type="reset"></input>
+          <button type="button" onClick={handleSubmit(submitHandler)}>
+            제출
+          </button>
+          <button type="reset">초기화</button>
           {/* <button >임시저장</button> */}
         </section>
       </form>

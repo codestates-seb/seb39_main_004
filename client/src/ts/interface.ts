@@ -1,5 +1,6 @@
 import { Dispatch, SetStateAction } from "react";
-import { TypeOfFileList } from "./type";
+import { TypeOfFileList, TypeOfFormData } from "./type";
+import { UseFormRegister } from "react-hook-form";
 
 interface StepMakerProps {
   idx?: number;
@@ -19,4 +20,8 @@ interface ResponseImgProps {
   originFileName?: string;
 }
 
-export type { StepMakerProps, ResponseImgProps };
+interface AddIngredientsProps {
+  register: UseFormRegister<TypeOfFormData>;
+}
+
+export type { StepMakerProps, ResponseImgProps, AddIngredientsProps };
