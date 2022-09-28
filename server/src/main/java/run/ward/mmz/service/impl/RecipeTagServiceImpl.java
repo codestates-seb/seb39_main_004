@@ -54,5 +54,10 @@ public class RecipeTagServiceImpl implements RecipeTagService {
         return tagRepository.getReferenceByName(tagName).getRecipeList();
     }
 
+    @Override
+    public void deleteAllByRecipe(Recipe recipe) {
+//        recipe.deleteAllRecipeTag();
+    }
+
 
 }

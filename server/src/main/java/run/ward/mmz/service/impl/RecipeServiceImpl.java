@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import run.ward.mmz.domain.post.Recipe;
 import run.ward.mmz.domain.post.Tag;
+import run.ward.mmz.handler.exception.CustomException;
+import run.ward.mmz.handler.exception.ExceptionCode;
 import run.ward.mmz.repository.RecipeRepository;
 import run.ward.mmz.service.*;
 
@@ -36,6 +38,7 @@ public class RecipeServiceImpl implements RecipeService {
     @Override
     @Transactional
     public Recipe save(Recipe recipe) {
+        verifyExistsId(recipe.getId());
         ingredientService.saveAll(recipe.getIngredients());
         directionService.saveAll(recipe.getDirections());
         return recipeRepository.save(recipe);
@@ -55,19 +58,25 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     public Recipe update(Long id, Recipe recipe) {
+
+        Recipe updateRecipe = recipeRepository.getReferenceById(id);
+
+
+
         return null;
     }
 
     @Override
     public void verifyExistsId(Long id) {
-
+        if(!recipeRepository.existsById(id))
+            throw new CustomException(ExceptionCode.RECIPE_NOT_FOUND);
     }
 
     @Override
     public Recipe findVerifiedEntity(Long id) {
 
         return recipeRepository.findById(id).orElseThrow(
-                //ToDo : exception
+            () -> new CustomException(ExceptionCode.RECIPE_NOT_FOUND)
         );
     }
 

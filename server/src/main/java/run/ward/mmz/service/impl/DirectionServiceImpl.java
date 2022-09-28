@@ -30,18 +30,21 @@ public class DirectionServiceImpl implements DirectionService {
     }
 
     @Override
+    @Transactional
     public Direction save(Direction direction) {
         return directionRepository.save(direction);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Direction findById(Long id) {
-        return null;
+        return directionRepository.getReferenceById(id);
     }
 
     @Override
+    @Transactional
     public void deleteById(Long id) {
-
+        directionRepository.deleteById(id);
     }
 
     @Override
@@ -61,18 +64,17 @@ public class DirectionServiceImpl implements DirectionService {
 
     //Recipe Element Service
 
+
     @Override
-    public Direction findByRecipeId(Long recipeId) {
-        return null;
+    @Transactional
+    public void deleteAll(List<Direction> directions) {
+        directionRepository.deleteAll(directions);
     }
 
     @Override
     public List<Direction> findAllByRecipeId(Long recipeId) {
-        return null;
+
+        return directionRepository.findAllByRecipeId(recipeId);
     }
 
-    @Override
-    public void verifyExistsRecipeId(Long recipeId) {
-
-    }
 }
