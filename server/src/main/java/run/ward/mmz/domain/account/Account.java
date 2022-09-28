@@ -1,6 +1,7 @@
 package run.ward.mmz.domain.account;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import run.ward.mmz.domain.auditable.Auditable;
 import run.ward.mmz.domain.post.Bookmark;
@@ -42,6 +43,7 @@ public class Account extends Auditable {
     @Column(nullable = false)
     private Role role;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<Recipe> recipes = new ArrayList<>();
     @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)

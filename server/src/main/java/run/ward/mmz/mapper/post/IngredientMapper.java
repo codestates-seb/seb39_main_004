@@ -9,6 +9,7 @@ import run.ward.mmz.mapper.post.common.RecipeElementMapper;
 import java.util.List;
 
 public interface IngredientMapper extends RecipeElementMapper<Ingredient, IngredientPostDto, IngredientResponseDto> {
+
     IngredientPatchDto toPatchDto(Ingredient ingredient);
     List<IngredientPatchDto> toPatchDto(List<Ingredient> ingredientList);
 }

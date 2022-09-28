@@ -1,11 +1,13 @@
 package run.ward.mmz.domain.post;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import run.ward.mmz.domain.account.Account;
 import run.ward.mmz.domain.auditable.Auditable;
 import run.ward.mmz.domain.file.Files;
+import run.ward.mmz.dto.request.patch.RecipePatchDto;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -33,6 +35,7 @@ public class Recipe extends Auditable {
     @NotBlank
     private String body;
 
+    @JsonIgnore
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "thumbnailId")
     private Files imgThumbNail;
@@ -51,26 +54,55 @@ public class Recipe extends Auditable {
     private String category;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "ownerId")
     private Account owner;
 
     @Column(nullable = false)
     private String level;
 
+    //orphanRemoval=true 영속성에서 관계가 끊어질 경우 commit 시점에서 삭제
+    @JsonIgnore
     @OneToMany(mappedBy = "recipe", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<Ingredient> ingredients = new ArrayList<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "recipe", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<Direction> directions = new ArrayList<>();
-
+    @JsonIgnore
     @OneToMany(mappedBy = "recipe", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<RecipeTag> recipeTags = new ArrayList<>();
-
+    @JsonIgnore
     @OneToMany(mappedBy = "recipe", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<Review> reviews = new ArrayList<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "recipe", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<Bookmark> bookmarks = new ArrayList<>();
+
+    public void setBookmarks(List<Bookmark> bookmarks) {
+        this.bookmarks = bookmarks;
+    }
+
+    public void setReviews(List<Review> reviews) {
+        this.reviews = reviews;
+    }
+
+    public void setRecipeTags(List<RecipeTag> recipeTags) {
+        this.recipeTags = recipeTags;
+    }
+
+    public void setDirections(List<Direction> directions) {
+        this.directions = directions;
+    }
+
+    public void setIngredients(List<Ingredient> ingredients) {
+        this.ingredients = ingredients;
+    }
+
+    public void setImgThumbNail(Files imgThumbNail) {
+        this.imgThumbNail = imgThumbNail;
+    }
 
     // 연관관계 메서드
     public void setOwner(Account owner) {
@@ -87,6 +119,7 @@ public class Recipe extends Auditable {
             ingredients.add(ingredient);
         ingredient.setRecipe(this);
     }
+
 
     protected void addDirections(Direction direction) {
         if(!directions.contains(direction)) // directions가 list이므로 중복 허용, DB에는 중복되어있지 않지만, entity 객체에는 중복으로 들어가있음.
@@ -192,6 +225,7 @@ public class Recipe extends Auditable {
 
     }
 
+    @JsonIgnore
     public List<Tag> getTagList(){
 
         List<Tag> tagList = new ArrayList<>();
@@ -202,6 +236,10 @@ public class Recipe extends Auditable {
 
         return tagList;
     }
+
+//    public void deleteAllRecipeTag(){
+//        this.recipeTags = new ArrayList<>();
+//    }
 
 
 

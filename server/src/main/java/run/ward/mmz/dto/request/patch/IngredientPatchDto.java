@@ -1,11 +1,12 @@
 package run.ward.mmz.dto.request.patch;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
-@Data
+@Getter
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class IngredientPatchDto {
 
     private Long id;

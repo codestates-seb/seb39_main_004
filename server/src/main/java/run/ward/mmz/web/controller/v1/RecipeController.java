@@ -12,6 +12,7 @@ import run.ward.mmz.domain.account.Role;
 import run.ward.mmz.domain.file.Files;
 import run.ward.mmz.domain.file.Image.ImageType;
 import run.ward.mmz.domain.post.*;
+import run.ward.mmz.dto.request.patch.RecipePatchDto;
 import run.ward.mmz.dto.request.post.RecipePostDto;
 import run.ward.mmz.dto.common.ResponseDto;
 import run.ward.mmz.dto.respones.RecipeInfoDto;
@@ -38,6 +39,8 @@ import java.util.List;
 @RequestMapping("/api/v1")
 @RequiredArgsConstructor
 public class RecipeController {
+
+    private static final int PAGE_SIZE = 12;
 
     private final DirectionMapper directionMapper;
     private final IngredientMapper ingredientMapper;
@@ -76,8 +79,7 @@ public class RecipeController {
         List<Direction> directions = directionMapper.toEntity(recipePostDto.getDirections(), imgDirections);
         List<Ingredient> ingredients = ingredientMapper.toEntity(recipePostDto.getIngredients());
         List<Tag> tags = tagMapper.toEntity(recipePostDto.getTags());
-
-
+        
         Recipe recipe = recipeMapper.toEntity(testOwner, recipePostDto, imgThumbNailFile, ingredients, directions);
         recipe = recipeService.save(recipe);
         tagService.saveAll(tags);
@@ -86,7 +88,7 @@ public class RecipeController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    private static final int PAGE_SIZE = 12;
+
 
     @GetMapping("/recipe/{recipeId}")
     public ResponseEntity<?> readRecipePage(
@@ -121,10 +123,19 @@ public class RecipeController {
     @PatchMapping("/recipe/{recipeId}/edit")
     public ResponseEntity<?> updateRecipePage(
             Account owner,
-            @PathVariable Long recipeId){
+            @PathVariable Long recipeId,
+            @RequestPart(value = "imgThumbNail", required = false) MultipartFile imgThumbNail,
+            @RequestPart(value = "imgDirection", required = false) List<MultipartFile> imgDirectionList,
+            @RequestPart(value = "recipe") RecipePatchDto recipePatchDto ){
 
         recipeService.verifyExistsId(recipeId);
         //ToDo : 해당 유저가 owner인지 확인하는 로직 필요
+
+        Files imgThumbNailFile = filesMapper.fileDtoToImage(fileHandler.parseFileInfo(imgThumbNail, ImageType.EXTENSIONS));
+        List<Files> imgDirections = filesMapper.fileDtoListToImageList(fileHandler.parseFileInfo(imgDirectionList, ImageType.EXTENSIONS));
+
+
+
 
 
 
@@ -175,6 +186,15 @@ public class RecipeController {
                 .build();
 
         return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @PostMapping("/recipe/{recipeId}/tags/delete")
+    public ResponseEntity<?> deleteTags(
+            @PathVariable Long recipeId) {
+
+        recipeTagService.deleteAllByRecipe(recipeService.findById(recipeId));
+
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 

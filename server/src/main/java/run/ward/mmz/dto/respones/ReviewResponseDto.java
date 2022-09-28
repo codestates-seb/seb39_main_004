@@ -1,9 +1,10 @@
 package run.ward.mmz.dto.respones;
 
 import lombok.Builder;
-import lombok.Data;
 
-@Data
+import lombok.Getter;
+
+@Getter
 @Builder
 public class ReviewResponseDto {
 

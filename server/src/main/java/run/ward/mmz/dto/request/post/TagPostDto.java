@@ -1,12 +1,12 @@
 package run.ward.mmz.dto.request.post;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 
-@Data
+@Getter
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor
 public class TagPostDto {
-
     private String name;
 }

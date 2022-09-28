@@ -1,16 +1,16 @@
 package run.ward.mmz.dto.request.patch;
 
 
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
 import java.util.List;
 
-@Data
+@Getter
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class RecipePatchDto {
 
-    private Long id;
     private String title;
     private String body;
     private String category;

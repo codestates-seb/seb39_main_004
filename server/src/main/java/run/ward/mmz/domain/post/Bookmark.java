@@ -1,5 +1,6 @@
 package run.ward.mmz.domain.post;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.jetbrains.annotations.NotNull;
 import run.ward.mmz.domain.account.Account;
@@ -18,11 +19,13 @@ public class Bookmark extends Auditable {
     private Long id;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "ownerId")
     @NotNull
     private Account owner;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "recipeId")
     @NotNull
     private Recipe recipe;

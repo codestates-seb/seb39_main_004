@@ -6,8 +6,10 @@ import lombok.*;
 import java.io.Serializable;
 
 
-@Data
+@Getter
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class IngredientPostDto{
 
     private int index;

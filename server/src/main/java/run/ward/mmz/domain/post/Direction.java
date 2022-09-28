@@ -1,8 +1,10 @@
 package run.ward.mmz.domain.post;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import run.ward.mmz.domain.file.Files;
+import run.ward.mmz.dto.request.patch.RecipePatchDto;
 
 
 import javax.persistence.*;
@@ -25,12 +27,13 @@ public class Direction {
     @NotBlank
     private String body;
 
+    @JsonIgnore
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "fileId")
-    @ToString.Exclude
     private Files files;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "recipeId")
     private Recipe recipe;
 
@@ -46,8 +49,10 @@ public class Direction {
             recipe.getDirections().add(this);
     }
 
+
+
     @Builder
-    public Direction(int index, String body, Files files, Recipe recipe) {
+    public Direction(Long id, int index, String body, Files files, Recipe recipe) {
         this.idx = index;
         this.body = body;
         this.files = files;

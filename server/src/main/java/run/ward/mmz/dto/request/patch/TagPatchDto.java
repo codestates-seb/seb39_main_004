@@ -1,10 +1,11 @@
 package run.ward.mmz.dto.request.patch;
 
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
-@Data
+@Getter
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class TagPatchDto {
     String name;
 }

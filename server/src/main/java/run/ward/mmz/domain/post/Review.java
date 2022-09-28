@@ -1,5 +1,6 @@
 package run.ward.mmz.domain.post;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import run.ward.mmz.domain.account.Account;
 import run.ward.mmz.domain.auditable.Auditable;
@@ -22,11 +23,13 @@ public class Review extends Auditable {
     @Column(columnDefinition = "integer default 0", nullable = false)
     private int stars;
 
-    @ManyToOne
+    @JsonIgnore
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "ownerId")
     private Account owner;
 
-    @ManyToOne
+    @JsonIgnore
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "recipeId")
     private Recipe recipe;
 

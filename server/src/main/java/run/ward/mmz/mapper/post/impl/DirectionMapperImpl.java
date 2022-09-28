@@ -51,6 +51,7 @@ public class DirectionMapperImpl implements DirectionMapper {
         return directions;
     }
 
+
     @Override
     public DirectionPatchDto toPatchDto(Direction direction) {
 

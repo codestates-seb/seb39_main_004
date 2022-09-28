@@ -11,8 +11,7 @@ import java.util.List;
 
 public interface DirectionMapper{
     Direction toEntity(DirectionPostDto dto, Files img);
-    List<Direction> toEntity(List<DirectionPostDto> dtos, List<Files> imgs);
-
+    List<Direction> toEntity(List<DirectionPostDto> dtoList, List<Files> imgList);
     DirectionPatchDto toPatchDto(Direction direction);
     List<DirectionPatchDto> toPatchDto(List<Direction> directionList);
 

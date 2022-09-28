@@ -2,9 +2,9 @@ package run.ward.mmz.dto.respones;
 
 
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 
-@Data
+@Getter
 @Builder
 public class DirectionResponseDto {
     private int index;
