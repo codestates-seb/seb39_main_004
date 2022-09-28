@@ -5,10 +5,8 @@ import lombok.*;
 
 import java.util.List;
 
-@Getter
+@Data
 @Builder
-@AllArgsConstructor
-@NoArgsConstructor
 public class RecipePatchDto {
 
     private String title;

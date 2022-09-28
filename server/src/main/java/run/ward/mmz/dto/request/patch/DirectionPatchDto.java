@@ -1,14 +1,13 @@
 package run.ward.mmz.dto.request.patch;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
-@Getter
+@Data
 @Builder
-@AllArgsConstructor
-@NoArgsConstructor
+
 public class DirectionPatchDto {
 
-    private Long id;
     private int index;
     private String imgDirectionUrl;
     private String body;
