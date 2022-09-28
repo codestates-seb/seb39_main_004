@@ -9,7 +9,7 @@ import {
 import { TypeOfFileList } from "../../ts/type";
 import React, { useState } from "react";
 import styled from "styled-components";
-import axios from "axios";
+// import axios from "axios";
 
 const SFieldset = styled.fieldset`
   border: 1px solid blue;
@@ -26,8 +26,8 @@ const SRecipeTexts = styled.div`
 `;
 
 const AddPost = () => {
-  const formData = new FormData();
-  const [formValues, setFormValues] = useState(formData);
+  // const formData = new FormData();
+  // const [formValues, setFormValues] = useState(formData);
   const [thumbNail, setThumbNail] = useState<TypeOfFileList>();
   const [stepImgFiles, setStepImgFiles] = useState<TypeOfFileList[]>([]);
 
