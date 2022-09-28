@@ -19,7 +19,7 @@ public class Direction {
     private Long id;
 
     @Column(columnDefinition = "integer default 1", nullable = false)
-    private int index;
+    private int idx;
 
     @Lob
     @NotBlank
@@ -48,7 +48,7 @@ public class Direction {
 
     @Builder
     public Direction(int index, String body, Files files, Recipe recipe) {
-        this.index = index;
+        this.idx = index;
         this.body = body;
         this.files = files;
         this.recipe = recipe;

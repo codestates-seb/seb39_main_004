@@ -60,7 +60,7 @@ public class DirectionMapperImpl implements DirectionMapper {
         return DirectionResponseDto.builder()
                 .body(direction.getBody())
                 .imgDirectionUrl(direction.getFiles().getFileName())
-                .index(direction.getIndex())
+                .index(direction.getIdx())
                 .build();
 
     }
