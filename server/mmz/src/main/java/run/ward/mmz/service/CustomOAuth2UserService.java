@@ -14,47 +14,45 @@ import run.ward.mmz.dto.OAuthAttributesDto;
 import run.ward.mmz.dto.SessionAccount;
 import run.ward.mmz.repository.AccountRepository;
 
-import javax.servlet.http.HttpSession;
-import java.util.Collections;
 
-@Service
+import javax.servlet.http.HttpSession;
+import javax.transaction.Transactional;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
+
 @RequiredArgsConstructor
+@Transactional
+@Service
 public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
-    public final AccountRepository accountRepository;
-    public final HttpSession httpSession;
+    private final AccountRepository accountRepository;
+    private final HttpSession httpSession;
 
     @Override
-    public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException{
-
-        OAuth2UserService delegate = new DefaultOAuth2UserService();
+    public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
+        OAuth2UserService<OAuth2UserRequest, OAuth2User> delegate = new DefaultOAuth2UserService();
         OAuth2User oAuth2User = delegate.loadUser(userRequest);
 
-        //로그인 진행 중 서비스 구분 코드
-        //구글, 네이버, 카카오 구분
+        // OAuth2 서비스 id (구글, 카카오, 네이버)
         String registrationId = userRequest.getClientRegistration().getRegistrationId();
+        // OAuth2 로그인 진행 시 키가 되는 필드 값(PK)
+        String userNameAttributeName = userRequest.getClientRegistration().getProviderDetails().getUserInfoEndpoint().getUserNameAttributeName();
 
-        //OAuth2 로그인 진행 시 키가 되는 필드 값
-        String accountNameAttributeName = userRequest.getClientRegistration().getProviderDetails()
-                .getUserInfoEndpoint().getUserNameAttributeName();
-
-        OAuthAttributesDto attributes = OAuthAttributesDto.of(registrationId, accountNameAttributeName, oAuth2User.getAttributes());
-
+        // OAuth2UserService
+        OAuthAttributesDto attributes = OAuthAttributesDto.of(registrationId, userNameAttributeName, oAuth2User.getAttributes());
         Account account = saveOrUpdate(attributes);
-        httpSession.setAttribute("account", new SessionAccount(account));
+        httpSession.setAttribute("user", new SessionAccount(account)); // SessionUser (직렬화된 dto 클래스 사용)
 
-        return new DefaultOAuth2User(
-                Collections.singleton(new SimpleGrantedAuthority(account.getRoleKey())),
+        return new DefaultOAuth2User(Collections.singleton(new SimpleGrantedAuthority(account.getRoleKey())),
                 attributes.getAttributes(),
                 attributes.getNameAttributeKey());
-
     }
 
+    // 유저 생성 및 수정 서비스 로직
     private Account saveOrUpdate(OAuthAttributesDto attributes){
         Account account = accountRepository.findByEmail(attributes.getEmail())
-                .map(entity -> entity.update(attributes.getName(), attributes.getPicture()))
+                .map(entity -> entity.update(attributes.getName(), attributes.getPicture(), attributes.getAuthProvider()))
                 .orElse(attributes.toEntity());
-
         return accountRepository.save(account);
     }
-
 }

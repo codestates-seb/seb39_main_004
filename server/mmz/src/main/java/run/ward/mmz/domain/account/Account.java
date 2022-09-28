@@ -30,17 +30,23 @@ public class Account {
     @Column(nullable = false)
     private Role role;
 
+    @Column
+    private String authProvider;
+
     @Builder
-    public Account(String name, String email, String picture, Role role){
+    public Account(String name, String email, String picture, Role role, String authProvider){
         this.name = name;
         this.email = email;
         this.picture = picture;
         this.role = role;
+        this.authProvider = authProvider;
     }
 
-    public Account update(String name, String picture){
+    public Account update(String name, String picture, String authProvider){
         this.name = name;
         this.picture = picture;
+        this.authProvider = authProvider;
+
 
         return this;
     }

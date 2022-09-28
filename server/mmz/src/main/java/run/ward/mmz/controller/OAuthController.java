@@ -16,17 +16,21 @@ public class OAuthController {
 
 
 
-    @GetMapping("/")
-    public String index(Model model)
-    {
-        SessionAccount sessionAccount =(SessionAccount) httpSession.getAttribute("account");
+    @GetMapping("/success")
+    public String index(Model model) {
+        SessionAccount sessionAccount = (SessionAccount) httpSession.getAttribute("account");
 
-        return null;
+        if (sessionAccount != null) {
+            model.addAttribute("name", sessionAccount.getName());
+            model.addAttribute("picture", sessionAccount.getPicture());
+        }
+
+        return "success";
     }
 
-    @GetMapping("/success")
+    @GetMapping("/logout2")
     public String success(){
-        return "success";
+        return "logout";
     }
 
 }

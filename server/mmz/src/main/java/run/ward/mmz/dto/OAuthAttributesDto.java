@@ -15,13 +15,18 @@ public class OAuthAttributesDto {
     private String email;
     private String picture;
 
+    private String authProvider;
+
+
+
     @Builder
-    public OAuthAttributesDto(Map<String, Object> attributes, String nameAttributeKey, String name, String email, String picture){
+    public OAuthAttributesDto(Map<String, Object> attributes, String nameAttributeKey, String name, String email, String picture, String authProvider ){
         this.attributes = attributes;
         this.nameAttributeKey = nameAttributeKey;
         this.name = name;
         this.email = email;
         this.picture = picture;
+        this.authProvider = authProvider;
     }
     //반환하는 사용자 정보는 Map이라 값 하나하나 변환 필요
     public static OAuthAttributesDto of(String registrationId, String accountNameAttributeName, Map<String, Object> attributes){
@@ -40,6 +45,7 @@ public class OAuthAttributesDto {
                 .email((String) attributes.get("email"))
                 .picture((String) attributes.get("picture"))
                 .attributes(attributes)
+                .authProvider(("GOOGLE"))
                 .nameAttributeKey(accountNameAttributeName)
                 .build();
     }
@@ -52,6 +58,7 @@ public class OAuthAttributesDto {
                 .email((String) response.get("email"))
                 .picture((String) response.get("profile_image"))
                 .attributes(response)
+                .authProvider("NAVER")
                 .nameAttributeKey(accountNameAttributeName)
                 .build();
     }
@@ -65,6 +72,7 @@ public class OAuthAttributesDto {
                 .email((String) kakaoAccount.get("email"))
                 .picture((String) kakaoProfile.get("profile_image_url"))
                 .attributes(attributes)
+                .authProvider("KAKAO")
                 .nameAttributeKey(accountNameAttributeName)
                 .build();
     }
@@ -79,6 +87,7 @@ public class OAuthAttributesDto {
                 .email(email)
                 .picture(picture)
                 .role(Role.GUEST)
+                .authProvider(authProvider)
                 .build();
     }
 }
