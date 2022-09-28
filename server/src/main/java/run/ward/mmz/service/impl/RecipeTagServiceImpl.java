@@ -44,31 +44,14 @@ public class RecipeTagServiceImpl implements RecipeTagService {
     @Transactional(readOnly = true)
     public List<Tag> findAllByRecipeId(Long recipeId) {
 
-        List<RecipeTag> recipeTagList = recipeTagRepository.findAllByRecipeId(recipeId);
-
-        return recipeTagList.stream()
-                .map(
-                        recipeTag -> {
-                            Optional<Tag> tag = tagRepository.findById(recipeTag.getTag().getId());
-                            return tag.orElse(null);
-                        })
-                .collect(Collectors.toList());
+        return recipeRepository.getReferenceById(recipeId).getTagList();
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<Recipe> findAllByTagName(String tagName) {
 
-        List<RecipeTag> recipeTagList = recipeTagRepository.findAllByTagName(tagName);
-
-        return recipeTagList.stream()
-                .map(
-                        recipeTag -> {
-                            Optional<Recipe> recipe = recipeRepository.findById(recipeTag.getRecipe().getId());
-                            return recipe.orElse(null);
-                        })
-                .collect(Collectors.toList());
-
+        return tagRepository.getReferenceByName(tagName).getRecipeList();
     }
 
 

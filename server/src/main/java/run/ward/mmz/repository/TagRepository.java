@@ -9,5 +9,6 @@ import java.util.Optional;
 
 public interface TagRepository extends JpaRepository<Tag, Long> {
 
+    Tag getReferenceByName(String name);
     Tag findByName(String name);
 }

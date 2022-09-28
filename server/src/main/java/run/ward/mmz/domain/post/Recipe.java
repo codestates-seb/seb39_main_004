@@ -192,6 +192,17 @@ public class Recipe extends Auditable {
 
     }
 
+    public List<Tag> getTagList(){
+
+        List<Tag> tagList = new ArrayList<>();
+
+        for(RecipeTag recipeTag : this.recipeTags) {
+            tagList.add(recipeTag.getTag());
+        }
+
+        return tagList;
+    }
+
 
 
 

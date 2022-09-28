@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -43,12 +44,6 @@ public class RecipeTag {
         this.recipe = recipe;
     }
 
-    public Tag getTagByRecipe(Recipe recipe){
-        if(recipe.getId().equals(this.recipe.getId()))
-            return this.tag;
-        else
-            return null;
-    }
 
     public Recipe getRecipeByTag(Tag tag){
         if(tag.getId().equals(this.tag.getId()))

@@ -33,6 +33,18 @@ public class Tag {
     }
 
 
+    public List<Recipe> getRecipeList(){
+
+        List<Recipe> recipeList = new ArrayList<>();
+
+        for(RecipeTag recipeTag : this.recipeTags) {
+            recipeList.add(recipeTag.getRecipe());
+        }
+
+        return recipeList;
+    }
+
+
     @Builder
     public Tag(String name) {
         this.name = name;
