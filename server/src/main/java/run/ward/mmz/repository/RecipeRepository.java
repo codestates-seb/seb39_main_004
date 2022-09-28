@@ -9,10 +9,12 @@ import run.ward.mmz.domain.post.Direction;
 import run.ward.mmz.domain.post.Recipe;
 
 import java.util.List;
+import java.util.Set;
 
 public interface RecipeRepository extends JpaRepository<Recipe, Long> {
 
     Page<Recipe> findAllByCategory(String name, Pageable pageable);
     Page<Recipe> findAllByTitleContaining(String title, Pageable pageable);
+    Set<Recipe> findAllByTitleContaining(String title);
 
 }

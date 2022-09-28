@@ -2,6 +2,7 @@ package run.ward.mmz.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -9,18 +10,19 @@ import org.springframework.transaction.annotation.Transactional;
 import run.ward.mmz.domain.post.Recipe;
 import run.ward.mmz.domain.post.Tag;
 import run.ward.mmz.repository.RecipeRepository;
-import run.ward.mmz.service.DirectionService;
-import run.ward.mmz.service.IngredientService;
-import run.ward.mmz.service.RecipeService;
-import run.ward.mmz.service.TagService;
+import run.ward.mmz.service.*;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
 
 public class RecipeServiceImpl implements RecipeService {
 
+    private final RecipeTagService recipeTagService;
     private final RecipeRepository recipeRepository;
     private final DirectionService directionService;
     private final IngredientService ingredientService;
@@ -98,9 +100,20 @@ public class RecipeServiceImpl implements RecipeService {
     @Override
     public Page<Recipe> findAllBySearch(int page, int size, String search, String orderBy) {
 
-        return recipeRepository.findAllByTitleContaining(
-                search,
-                PageRequest.of(page - 1 , size, Sort.by(orderBy).descending())
+        Set<Recipe> recipeSet = new HashSet<>();
+        recipeSet.addAll(recipeRepository.findAllByTitleContaining(search));
+        recipeSet.addAll(recipeTagService.findAllByTagName(search));
+
+        List<Recipe> recipeList = List.copyOf(recipeSet);
+
+        return new PageImpl<>(
+                recipeList,
+                PageRequest.of(page - 1, size, Sort.by(orderBy).descending()),
+                recipeSet.size()
         );
+//        return recipeRepository.findAllByTitleContaining(
+//                search,
+//                PageRequest.of(page - 1 , size, Sort.by(orderBy).descending())
+//        );
     }
 }
