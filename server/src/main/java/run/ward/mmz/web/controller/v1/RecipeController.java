@@ -14,6 +14,7 @@ import run.ward.mmz.domain.file.Image.ImageType;
 import run.ward.mmz.domain.post.*;
 import run.ward.mmz.dto.request.RecipePostDto;
 import run.ward.mmz.dto.common.ResponseDto;
+import run.ward.mmz.dto.respones.RecipeInfoDto;
 import run.ward.mmz.dto.respones.RecipeResponseDto;
 import run.ward.mmz.handler.file.FileHandler;
 import run.ward.mmz.mapper.file.FilesMapper;
@@ -114,10 +115,10 @@ public class RecipeController {
 
         Page<Recipe> recipePage = recipeService.findAllBySearch(pageNo, PAGE_SIZE, search, orderBy);
         List<Recipe> recipeList = recipePage.getContent();
-        List<RecipeResponseDto> responseDtoList = new ArrayList<>();
+        List<RecipeInfoDto> responseDtoList = new ArrayList<>();
 
         for(Recipe recipe : recipeList){
-            responseDtoList.add(recipeMapper.toResponseDto(recipe, recipeTagService.findAllByRecipeId(recipe.getId())));
+            responseDtoList.add(recipeMapper.toInfoDto(recipe, recipeTagService.findAllByRecipeId(recipe.getId())));
         }
 
         ResponseDto.Multi<?> response = ResponseDto.Multi.builder()
@@ -137,10 +138,10 @@ public class RecipeController {
 
         Page<Recipe> recipePage = recipeService.findAllByCategory(pageNo, PAGE_SIZE, category, orderBy);
         List<Recipe> recipeList = recipePage.getContent();
-        List<RecipeResponseDto> responseDtoList = new ArrayList<>();
+        List<RecipeInfoDto> responseDtoList = new ArrayList<>();
 
         for(Recipe recipe : recipeList){
-            responseDtoList.add(recipeMapper.toResponseDto(recipe, recipeTagService.findAllByRecipeId(recipe.getId())));
+            responseDtoList.add(recipeMapper.toInfoDto(recipe, recipeTagService.findAllByRecipeId(recipe.getId())));
         }
 
         ResponseDto.Multi<?> response = ResponseDto.Multi.builder()

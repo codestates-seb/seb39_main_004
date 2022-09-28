@@ -6,6 +6,7 @@ import run.ward.mmz.domain.account.Account;
 import run.ward.mmz.domain.file.Files;
 import run.ward.mmz.domain.post.*;
 import run.ward.mmz.dto.request.RecipePostDto;
+import run.ward.mmz.dto.respones.RecipeInfoDto;
 import run.ward.mmz.dto.respones.RecipeResponseDto;
 import run.ward.mmz.mapper.post.*;
 
@@ -60,6 +61,21 @@ public class RecipeMapperImpl implements RecipeMapper {
                 .ingredients(ingredientMapper.toResponseDto(recipe.getIngredients()))
                 .tags(tagMapper.toResponseDto(tagList))
                 .reviews(reviewMapper.toResponseDto(recipe.getReviews()))
+                .build();
+    }
+
+    @Override
+    public RecipeInfoDto toInfoDto(Recipe recipe, List<Tag> tagList) {
+
+        if (recipe == null) {
+            return null;
+        }
+        return RecipeInfoDto.builder()
+                .id(recipe.getId())
+                .title(recipe.getTitle())
+                .imgThumbNailUrl(recipe.getImgThumbNail().getFileName())
+                .stars(String.format("%.2f", recipe.getStars()))
+                .tags(tagMapper.toResponseDto(tagList))
                 .build();
     }
 }
