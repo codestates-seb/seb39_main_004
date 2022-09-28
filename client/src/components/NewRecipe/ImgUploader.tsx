@@ -48,7 +48,7 @@ const ImgUploader = ({
 
   return (
     <SImgInputContainer>
-      <label htmlFor="img">레시피 사진</label>
+      {idx === undefined && <label htmlFor="img">레시피 사진</label>}
       <SImg
         src={
           fileURL

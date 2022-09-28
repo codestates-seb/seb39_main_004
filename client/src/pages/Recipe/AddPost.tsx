@@ -44,7 +44,18 @@ const AddPost = () => {
     event.preventDefault();
 
     console.log(thumbNail);
+    console.log(stepImgFiles.length);
     console.log("파일", stepImgFiles);
+
+    const emptyIndex = stepImgFiles.findIndex((el) => el === undefined);
+    if (emptyIndex >= 0) {
+      alert(`요리 순서의 ${emptyIndex + 1} 번째 이미지를 추가해주세요`);
+      return;
+    }
+    if (!thumbNail || stepImgFiles.length === 0) {
+      alert("등록하려면 사진을 추가해주세요.");
+      return;
+    }
 
     /** 서버통신 */
     // const formData = new FormData();
