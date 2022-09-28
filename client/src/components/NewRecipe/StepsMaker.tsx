@@ -1,6 +1,6 @@
 import ImgUploader from "./ImgUploader";
 import { StepMakerProps } from "../../ts/interface";
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import styled from "styled-components";
 
 const SStepsContainer = styled.div`
@@ -11,8 +11,7 @@ const StepsMaker = ({ stepImgFiles, setStepImgFiles }: StepMakerProps) => {
   const ititialSteps = new Array<number>(1).fill(0);
   const [steps, setSteps] = useState(ititialSteps);
 
-  const addStepHandler = (event: React.MouseEvent) => {
-    event.preventDefault();
+  const addStepHandler = () => {
     setSteps([...steps, 0]);
   };
 
@@ -42,7 +41,9 @@ const StepsMaker = ({ stepImgFiles, setStepImgFiles }: StepMakerProps) => {
           );
         })}
       </div>
-      <button onClick={addStepHandler}>+</button>
+      <button type="button" onClick={addStepHandler}>
+        +
+      </button>
     </>
   );
 };

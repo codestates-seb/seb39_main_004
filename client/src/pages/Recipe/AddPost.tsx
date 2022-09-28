@@ -1,8 +1,10 @@
-import ImgUploader from "../../components/NewRecipe/ImgUploader";
-import TagsMaker from "../../components/NewRecipe/TagsMaker";
-import Guide from "../../components/NewRecipe/Guide";
-import AddingIngredients from "../../components/NewRecipe/AddingIngredients";
-import StepsMaker from "../../components/NewRecipe/StepsMaker";
+import {
+  ImgUploader,
+  TagsMaker,
+  Guide,
+  AddingIngredients,
+  StepsMaker,
+} from "../../components/NewRecipe/indexNewRecipe";
 // import ImgRadio from "../../components/NewRecipe/ImgRadio";
 import { TypeOfFileList } from "../../ts/type";
 import React, { useState } from "react";
@@ -29,23 +31,18 @@ const AddPost = () => {
   const [thumbNail, setThumbNail] = useState<TypeOfFileList>();
   const [stepImgFiles, setStepImgFiles] = useState<TypeOfFileList[]>([]);
 
-  // const onImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   if (event.target.files) {
-  //     setStepImgFiles(event.target.files);
-
-  //     const newFileURL = URL.createObjectURL(event.target.files[0]);
-  //     // setStepImgFilesURL(newFileURL);
-  //     // console.log("event.target.files", event.target.files);
-  //     // console.log("file", file);
-  //   }
-  // };
-
-  const submitHandler = async (event: React.MouseEvent) => {
+  const submitHandler = async (event: React.FormEvent) => {
     event.preventDefault();
+    console.log("event", event);
 
-    console.log(thumbNail);
-    console.log(stepImgFiles.length);
-    console.log("파일", stepImgFiles);
+    // if (event.key === "Enter") {
+    //   return;
+    // }
+
+    console.log("제출");
+    // console.log(thumbNail);
+    // console.log(stepImgFiles.length);
+    // console.log("파일", stepImgFiles);
 
     const emptyIndex = stepImgFiles.findIndex((el) => el === undefined);
     if (emptyIndex >= 0) {

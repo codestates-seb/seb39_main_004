@@ -40,7 +40,9 @@ const AddIngredients = () => {
         })}
       </div>
       <div>
-        <button onClick={insertHandler}>+</button>
+        <button type="button" onClick={insertHandler}>
+          +
+        </button>
       </div>
     </>
   );
