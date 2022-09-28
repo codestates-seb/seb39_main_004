@@ -43,14 +43,14 @@ public class RecipeTagServiceImpl implements RecipeTagService {
     @Override
     @Transactional(readOnly = true)
     public List<Tag> findAllByRecipeId(Long recipeId) {
-
+        //ToDo : recipeId 없을 경우 예외처리 필요
         return recipeRepository.getReferenceById(recipeId).getTagList();
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<Recipe> findAllByTagName(String tagName) {
-
+        //ToDo : tagName 없을 경우 예외처리 필요
         return tagRepository.getReferenceByName(tagName).getRecipeList();
     }
 
