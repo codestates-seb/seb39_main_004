@@ -33,13 +33,17 @@ public class Account {
     @Column
     private String authProvider;
 
+    @Column
+    private String refreshToken;
+
     @Builder
-    public Account(String name, String email, String picture, Role role, String authProvider){
+    public Account(String name, String email, String picture, Role role, String authProvider, String refreshToken){
         this.name = name;
         this.email = email;
         this.picture = picture;
         this.role = role;
         this.authProvider = authProvider;
+
     }
 
     public Account update(String name, String picture, String authProvider){

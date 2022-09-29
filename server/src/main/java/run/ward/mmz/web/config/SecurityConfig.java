@@ -2,6 +2,7 @@ package run.ward.mmz.web.config;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 
@@ -43,15 +44,16 @@ public class SecurityConfig {
                 .exceptionHandling()
                 .authenticationEntryPoint(new JwtAuthenticationEntryPoint())
                 .accessDeniedHandler(new JwtAccessDeniedHandler())
-
                 .and()
                 .authorizeRequests()
-                .antMatchers("/", "/guest", "/logout", "/login", "/h2-console/**").permitAll()
-                .antMatchers("/user").hasRole(Role.USER.name())
+                .antMatchers( "/", "/h2-console/**", "/hello3", "/login2").permitAll()
+                .antMatchers(HttpMethod.GET, "/hello").hasRole(Role.USER.name())
+                .antMatchers(HttpMethod.GET, "/hello2").hasAnyRole(Role.USER.name(), "ROLE_GUEST")
+                .antMatchers("/user", "/logo").hasRole(Role.USER.name())
                 .anyRequest().authenticated()
                 .and()
                 .logout()
-                .logoutSuccessUrl("/login")
+                .logoutSuccessUrl("/")
                 .and()
                 .oauth2Login(oauth2 -> oauth2
                         .successHandler(new AuthenticationSuccessHandler(jwtTokenizer, customOAuth2UserService)));

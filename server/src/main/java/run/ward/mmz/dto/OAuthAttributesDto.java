@@ -54,7 +54,7 @@ public class OAuthAttributesDto {
         Map<String, Object> response = (Map<String, Object>) attributes.get("response");
 
         return OAuthAttributesDto.builder()
-                .name((String) response.get("name"))
+                .name((String) response.get("nickname"))
                 .email((String) response.get("email"))
                 .picture((String) response.get("profile_image"))
                 .attributes(response)

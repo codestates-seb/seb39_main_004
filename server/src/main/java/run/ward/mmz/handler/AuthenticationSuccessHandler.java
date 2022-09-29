@@ -40,6 +40,7 @@ public class AuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccess
         redirect(request, response, email);
 
 
+
     }
 
 
@@ -83,12 +84,14 @@ public class AuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccess
         return UriComponentsBuilder
                 .newInstance()
                 .scheme("http")
-                .host("localhost")
+                .host("58.77.178.190")
                 .port(8080)
-                .path("/receive_token.html")
+                .path("/")
                 .queryParams(queryParmas)
                 .build()
                 .toUri();
+
+
 
     }
 }
