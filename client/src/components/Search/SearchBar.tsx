@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import React from "react";
 import styled from "styled-components";
 import { BiSearch } from "react-icons/bi";
 import { Tag } from "../CommonUI";
+import axios from "axios";
 
 const SSearchLayout = styled.section`
   width: 100vw;
@@ -48,23 +50,29 @@ const STagArea = styled.div`
   margin: 0 20px;
 `;
 
-const SearchBar = () => {
-  const [search, setSearch] = useState("");
+interface SearchProps {
+  searchWord: string;
+  setSearchWord: React.Dispatch<React.SetStateAction<string>>;
+  setSearchData: React.Dispatch<React.SetStateAction<any[]>>;
+}
 
+const SearchBar = ({
+  searchWord,
+  setSearchWord,
+  setSearchData,
+}: SearchProps) => {
   const onChangeSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearch(e.target.value);
-    console.log(e.target.value);
+    setSearchWord(e.target.value);
   };
 
-  const onSubmitHandler = (e: React.FormEvent<HTMLFormElement>) => {
+  const onSubmitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(search);
-    // 검색어 없을 경우 전체 리스트 반환
-    if (search === null || search === "") {
-      // 전체 데이터 axios call
-    } else {
-      // 검색어로 axios call
-    }
+
+    const { data } = await axios.get(
+      `api/v1/recipe/search/1?search=${searchWord}&orderBy=id`
+    );
+
+    setSearchData(data.data[0]);
   };
 
   // TODO: 태그 클릭 시 검색창 자동 검색 추후 구현
@@ -85,8 +93,9 @@ const SearchBar = () => {
       <SSearchTagLayout>
         <SSearchWord>인기 검색어</SSearchWord>
         <STagArea>
-          {["계란", "돼지고기", "파스타"].map((i) => (
-            <Tag key={i} tagItem={i} />
+          {/* TODO: 조회수 순으로 5개 정도 키워드 노출 */}
+          {["계란", "돼지고기", "파스타"].map((i, idx) => (
+            <Tag key={idx} name={i} />
           ))}
         </STagArea>
       </SSearchTagLayout>

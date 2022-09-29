@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { Tag } from "../../CommonUI";
 import { AiFillStar } from "react-icons/ai";
+import { ItemProps } from "../../../ts/interface";
 
 const SRecipeLayout = styled.div`
   display: flex;
@@ -38,7 +39,6 @@ const SItemDetail = styled.div`
 `;
 
 const SItemTitle = styled.div`
-  /* margin: 0 1rem; */
   font-size: 1.5rem;
   margin-bottom: 1rem;
 `;
@@ -53,31 +53,28 @@ const SLink = styled(Link)`
   color: black;
 `;
 
-interface ItemProps {
-  id: number;
-  recipeTitle: string;
-  tag: string[];
-  recipeImg: string;
-  rating: number;
-}
-
-const RecipeItem = ({ id, recipeTitle, recipeImg, tag, rating }: ItemProps) => {
+const RecipeItem = ({ id, title, imgThumbNailUrl, stars, tags }: ItemProps) => {
   return (
     <SRecipeLayout>
       <SLink to={`/item/${id}`}>
-        <SItemImage src={recipeImg} alt={recipeTitle} />
+        <SItemImage
+          src={`${process.env.PUBLIC_URL}/assets/${imgThumbNailUrl}`}
+          alt={title}
+        />
         <SItemWrapper>
           <SItemDetail>
-            <SItemTitle>{recipeTitle}</SItemTitle>
+            <SItemTitle>{title}</SItemTitle>
             <div>
-              {tag.map((i) => (
-                <Tag key={i} tagItem={i} />
+              {tags.map((i, idx) => (
+                <Tag key={idx} name={i.name} />
               ))}
             </div>
           </SItemDetail>
           <SItemStar>
             {/* 평점 4 이상 레시피 별표시 */}
-            {rating > 4 ? <AiFillStar size="40px" color="#ff5936" /> : null}
+            {Number(stars) >= 4 ? (
+              <AiFillStar size="40px" color="#ff5936" />
+            ) : null}
           </SItemStar>
         </SItemWrapper>
       </SLink>

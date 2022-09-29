@@ -19,4 +19,27 @@ interface ResponseImgProps {
   originFileName?: string;
 }
 
-export type { StepMakerProps, ResponseImgProps };
+interface ItemProps {
+  id: number;
+  title: string;
+  imgThumbNailUrl: string;
+  stars: string;
+  tags: TagProps[];
+}
+
+interface SearchDataProps {
+  searchData?: ItemProps[];
+}
+
+interface TagProps {
+  id?: number;
+  name: string;
+}
+
+export type {
+  StepMakerProps,
+  ResponseImgProps,
+  ItemProps,
+  TagProps,
+  SearchDataProps,
+};
