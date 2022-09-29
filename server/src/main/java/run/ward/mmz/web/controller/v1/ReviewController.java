@@ -2,20 +2,24 @@ package run.ward.mmz.web.controller.v1;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import run.ward.mmz.domain.account.Account;
 import run.ward.mmz.domain.account.Role;
+import run.ward.mmz.domain.post.Recipe;
 import run.ward.mmz.domain.post.Review;
 import run.ward.mmz.dto.common.ResponseDto;
 import run.ward.mmz.dto.request.post.ReviewPostDto;
+import run.ward.mmz.dto.respones.RecipeInfoDto;
 import run.ward.mmz.dto.respones.ReviewResponseDto;
 import run.ward.mmz.mapper.post.ReviewMapper;
 import run.ward.mmz.service.RecipeService;
 import run.ward.mmz.service.ReviewService;
 import run.ward.mmz.service.impl.TestAccountService;
 
+import javax.validation.constraints.Positive;
 import java.util.List;
 
 @Log4j2
@@ -24,6 +28,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ReviewController {
 
+    private static final int REIVEW_SIZE = 12;
     private final RecipeService recipeService;
     private final ReviewService reviewService;
 
@@ -53,13 +58,9 @@ public class ReviewController {
         reviewService.save(review);
         recipeService.updateStars(recipeId);
 
-        List<ReviewResponseDto> responseDtoList = reviewMapper.toResponseDto(reviewService.findAllByRecipeId(recipeId));
+        Page<Review> reviewPage = reviewService.findAllByRecipeId(1, REIVEW_SIZE, recipeId, "id", "dec");
 
-        ResponseDto.Single<?> responseDto = ResponseDto.Single.builder()
-                .data(responseDtoList)
-                .build();
-
-        return new ResponseEntity<>(responseDto, HttpStatus.OK);
+        return getResponseEntity(reviewPage);
     }
 
     @DeleteMapping("/recipe/{recipeId}/review/{reviewId}/delete")
@@ -83,13 +84,30 @@ public class ReviewController {
 
         reviewService.deleteById(reviewId);
 
-        List<ReviewResponseDto> responseDtoList = reviewMapper.toResponseDto(reviewService.findAllByRecipeId(recipeId));
+        Page<Review> reviewPage = reviewService.findAllByRecipeId(1, REIVEW_SIZE, recipeId, "id", "dec");
 
-        ResponseDto.Single<?> responseDto = ResponseDto.Single.builder()
-                .data(responseDtoList)
-                .build();
-
-        return new ResponseEntity<>(responseDto, HttpStatus.OK);
+        return getResponseEntity(reviewPage);
     }
+
+    @GetMapping("/recipe/{recipeId}/review")
+    public ResponseEntity<?> getReviewPage(
+            @PathVariable Long recipeId,
+            @RequestParam(required = false, defaultValue = "1", value = "page") int page,
+            @RequestParam(required = false, defaultValue = "id", value = "orderBy") String orderBy,
+            @RequestParam(required = false, defaultValue = "dec", value = "sort") String sort) {
+
+        Page<Review> reviewPage = reviewService.findAllByRecipeId(page, REIVEW_SIZE, recipeId, orderBy, sort);
+
+        return getResponseEntity(reviewPage);
+    }
+
+    private ResponseEntity<?> getResponseEntity(Page<Review> recipePage) {
+
+        List<ReviewResponseDto> responseDtoList = reviewMapper.toResponseDto(recipePage.getContent());
+        ResponseDto.Multi<?> response = new ResponseDto.Multi<>(responseDtoList, recipePage);
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
 
 }

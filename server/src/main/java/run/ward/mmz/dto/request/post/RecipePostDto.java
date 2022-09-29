@@ -14,7 +14,6 @@ public class RecipePostDto{
 
     private String title;
     private String category;
-    private String level;
     private String body;
     private List<IngredientPostDto> ingredients;
     private List<DirectionPostDto> directions;
