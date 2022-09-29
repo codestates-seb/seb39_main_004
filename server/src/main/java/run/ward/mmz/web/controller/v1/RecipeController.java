@@ -57,19 +57,19 @@ public class RecipeController {
 
     @PostMapping("/recipe/add")
     public ResponseEntity<?> postRecipePage(
-            Account owner,
+            Account user,
             @RequestPart(value = "imgThumbNail", required = false) MultipartFile imgThumbNail,
             @RequestPart(value = "imgDirection", required = false) List<MultipartFile> imgDirectionList,
             @RequestPart(value = "recipe") RecipePostDto recipePostDto) {
 
         //Test account
 
-        owner.setId(1L);
-        owner.setName("와드");
-        owner.setBio("와드입니다.");
-        owner.setEmail("ward@ward.run");
-        owner.setRole(Role.USER);
-        Account testOwner = testAccountService.save(owner);
+        user.setId(1L);
+        user.setName("와드");
+        user.setBio("와드입니다.");
+        user.setEmail("ward@ward.run");
+        user.setRole(Role.USER);
+        Account testOwner = testAccountService.save(user);
 
         //Controller Code
 
@@ -109,12 +109,11 @@ public class RecipeController {
 
     @GetMapping("/recipe/{recipeId}/edit")
     public ResponseEntity<?> readRecipeUpdatePage(
-            Account owner,
+            Account user,
             @PathVariable Long recipeId){
 
-        //ToDo : 해당 유저가 owner인지 확인하는 로직 필요
+        recipeService.verifyAccessOwner(recipeId, user.getId());
 
-        recipeService.verifyExistsId(recipeId);
         Recipe recipe = recipeService.findById(recipeId);
 
         ResponseDto.Single<?> response = ResponseDto.Single.builder()
@@ -126,14 +125,13 @@ public class RecipeController {
 
     @PatchMapping("/recipe/{recipeId}/edit")
     public ResponseEntity<?> updateRecipePage(
-            Account owner,
+            Account user,
             @PathVariable Long recipeId,
             @RequestPart(value = "imgThumbNail", required = false) MultipartFile imgThumbNail,
             @RequestPart(value = "imgDirection", required = false) List<MultipartFile> imgDirectionList,
             @RequestPart(value = "recipe") RecipePatchDto recipePatchDto ){
 
-        recipeService.verifyExistsId(recipeId);
-        //ToDo : 해당 유저가 owner인지 확인하는 로직 필요
+        recipeService.verifyAccessOwner(recipeId, user.getId());
 
         Files imgThumbNailFile = filesMapper.fileDtoToImage(fileHandler.parseFileInfo(imgThumbNail, ImageType.EXTENSIONS));
         List<Files> imgDirections = filesMapper.fileDtoListToImageList(fileHandler.parseFileInfo(imgDirectionList, ImageType.EXTENSIONS));
@@ -142,6 +140,18 @@ public class RecipeController {
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @DeleteMapping("/recipe/{recipeId}/delete")
+    public ResponseEntity<?> deleteRecipePage(
+            Account owner,
+            @PathVariable Long recipeId) {
+
+        recipeService.verifyAccessOwner(recipeId, 1L);
+        recipeService.deleteById(recipeId);
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 
 
     @GetMapping("/recipe/search/{pageNo}")

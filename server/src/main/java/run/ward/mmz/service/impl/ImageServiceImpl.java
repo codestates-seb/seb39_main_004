@@ -22,7 +22,6 @@ public class ImageServiceImpl implements ImageService {
     private final FileRepository fileRepository;
 
     @Override
-    @Transactional
     public List<Files> saveAll(List<MultipartFile> multipartFiles) {
 
         List<String> imgExtension = ImageType.EXTENSIONS;

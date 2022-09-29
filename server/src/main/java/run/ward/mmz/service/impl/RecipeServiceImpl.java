@@ -48,11 +48,13 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
+    @Transactional
     public void deleteById(Long id) {
         recipeRepository.deleteById(id);
     }
 
     @Override
+    @Transactional
     public Recipe update(Long id, Recipe recipe) {
 
         Recipe updateRecipe = recipeRepository.getReferenceById(id);
@@ -62,12 +64,14 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public void verifyExistsId(Long id) {
         if (!recipeRepository.existsById(id))
             throw new CustomException(ExceptionCode.RECIPE_NOT_FOUND);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Recipe findVerifiedEntity(Long id) {
 
         return recipeRepository.findById(id).orElseThrow(
@@ -76,6 +80,7 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public void verifyAccessOwner(Long recipeId, Long accountId) {
         Long ownerId = findVerifiedEntity(recipeId).getOwner().getId();
         if (!Objects.equals(ownerId, accountId))
@@ -83,6 +88,7 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Recipe> findAll() {
         return recipeRepository.findAll();
     }

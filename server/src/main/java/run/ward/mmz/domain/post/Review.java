@@ -24,12 +24,12 @@ public class Review extends Auditable {
     private int stars;
 
     @JsonIgnore
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "ownerId")
     private Account owner;
 
     @JsonIgnore
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "recipeId")
     private Recipe recipe;
 

@@ -56,12 +56,14 @@ public class DirectionServiceImpl implements DirectionService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public void verifyExistsId(Long id) {
         if(!directionRepository.existsById(id))
             throw new CustomException(ExceptionCode.DIRECTION_NOT_FOUND);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Direction findVerifiedEntity(Long id) {
         return directionRepository.findById(id).orElseThrow(
                 () -> new CustomException(ExceptionCode.DIRECTION_NOT_FOUND)

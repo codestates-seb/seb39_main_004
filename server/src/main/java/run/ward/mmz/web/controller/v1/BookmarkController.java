@@ -17,6 +17,7 @@ import run.ward.mmz.service.BookmarkService;
 public class BookmarkController {
 
     private final BookmarkService bookmarkService;
+
     @PostMapping("/recipe/{recipeId}/bookmark")
     public ResponseEntity<?> bookmarked(
             Account account,

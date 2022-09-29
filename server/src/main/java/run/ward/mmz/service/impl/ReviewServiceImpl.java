@@ -23,6 +23,7 @@ public class ReviewServiceImpl implements ReviewService {
     private final ReviewRepository reviewRepository;
 
     @Override
+    @Transactional
     public List<Review> saveAll(List<Review> list) {
         return null;
     }
@@ -34,27 +35,32 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Review findById(Long id) {
         return findVerifiedEntity(id);
     }
 
     @Override
+    @Transactional
     public void deleteById(Long id) {
         reviewRepository.deleteById(id);
     }
 
     @Override
+    @Transactional
     public Review update(Long id, Review review) {
         return null;
     }
 
     @Override
+    @Transactional(readOnly = true)
     public void verifyExistsId(Long id) {
         if (!reviewRepository.existsById(id))
             throw new CustomException(ExceptionCode.REVIEW_NOT_FOUND);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Review findVerifiedEntity(Long id) {
         return reviewRepository.findById(id).orElseThrow(
                 () -> new CustomException(ExceptionCode.REVIEW_NOT_FOUND)
@@ -62,11 +68,13 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Review> findAllByRecipeId(Long recipeId) {
         return reviewRepository.findAllByRecipeId(recipeId);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Page<Review> findAllByAccountId(int page, int size, Long accountId, String orderBy) {
 
         return reviewRepository.findAllByOwnerId(
@@ -76,6 +84,7 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public void verifyAccessOwner(Long reviewId, Long accountId) {
         Long ownerId = findVerifiedEntity(reviewId).getOwner().getId();
         if (!Objects.equals(ownerId, accountId))
