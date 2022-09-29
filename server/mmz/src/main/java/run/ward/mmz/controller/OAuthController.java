@@ -16,7 +16,7 @@ public class OAuthController {
 
 
 
-    @GetMapping("/success")
+    @GetMapping("/")
     public String index(Model model) {
         SessionAccount sessionAccount = (SessionAccount) httpSession.getAttribute("account");
 
@@ -25,7 +25,7 @@ public class OAuthController {
             model.addAttribute("picture", sessionAccount.getPicture());
         }
 
-        return "success";
+        return "index";
     }
 
     @GetMapping("/logout2")
