@@ -1,12 +1,11 @@
 package run.ward.mmz.domain.post;
 
 
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -19,11 +18,13 @@ public class RecipeTag {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "tagId")
     private Tag tag;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "recipeId")
     private Recipe recipe;
 
@@ -43,18 +44,5 @@ public class RecipeTag {
         this.recipe = recipe;
     }
 
-    public Tag getTagByRecipe(Recipe recipe){
-        if(recipe.getId().equals(this.recipe.getId()))
-            return this.tag;
-        else
-            return null;
-    }
-
-    public Recipe getRecipeByTag(Tag tag){
-        if(tag.getId().equals(this.tag.getId()))
-            return this.recipe;
-        else
-            return null;
-    }
 
 }

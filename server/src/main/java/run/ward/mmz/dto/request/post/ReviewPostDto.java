@@ -1,12 +1,13 @@
-package run.ward.mmz.dto.request;
+package run.ward.mmz.dto.request.post;
 
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
 import javax.persistence.Lob;
 
-@Data
+@Getter
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class ReviewPostDto {
 
     private String body;

@@ -7,6 +7,7 @@ public interface RecipeElementMapper<E, Q, R> {
     E toEntity(Q q);
     List<E> toEntity(List<Q> qs);
 
+
     R toResponseDto(E e);
     List<R> toResponseDto(List<E> es);
 

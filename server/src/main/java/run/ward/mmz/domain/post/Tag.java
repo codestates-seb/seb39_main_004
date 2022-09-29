@@ -1,9 +1,7 @@
 package run.ward.mmz.domain.post;
 
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -23,6 +21,7 @@ public class Tag {
     private String name;
 
 
+    @JsonIgnore
     @OneToMany(mappedBy = "tag", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<RecipeTag> recipeTags = new ArrayList<>();
 
@@ -30,6 +29,18 @@ public class Tag {
     protected void mappingRecipeTag(RecipeTag recipeTag) {
         if(!recipeTags.contains(recipeTag))
             this.recipeTags.add(recipeTag);
+    }
+
+    @JsonIgnore
+    public List<Recipe> getRecipeList(){
+
+        List<Recipe> recipeList = new ArrayList<>();
+
+        for(RecipeTag recipeTag : this.recipeTags) {
+            recipeList.add(recipeTag.getRecipe());
+        }
+
+        return recipeList;
     }
 
 

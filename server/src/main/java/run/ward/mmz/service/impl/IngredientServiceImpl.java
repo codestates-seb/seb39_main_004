@@ -4,6 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import run.ward.mmz.domain.post.Ingredient;
+import run.ward.mmz.handler.exception.CustomException;
+import run.ward.mmz.handler.exception.ExceptionCode;
 import run.ward.mmz.repository.IngredientRepository;
 import run.ward.mmz.service.IngredientService;
 
@@ -27,12 +29,13 @@ public class IngredientServiceImpl implements IngredientService {
 
     @Override
     public Ingredient findById(Long id) {
-        return null;
+        return findVerifiedEntity(id);
     }
 
     @Override
+    @Transactional
     public void deleteById(Long id) {
-
+        ingredientRepository.deleteById(id);
     }
 
     @Override
@@ -42,26 +45,28 @@ public class IngredientServiceImpl implements IngredientService {
 
     @Override
     public void verifyExistsId(Long id) {
-
+        if(!ingredientRepository.existsById(id))
+            throw new CustomException(ExceptionCode.INGREDIENT_NOT_FOUND);
     }
 
     @Override
     public Ingredient findVerifiedEntity(Long id) {
+        ingredientRepository.findById(id).orElseThrow(
+                () -> new CustomException(ExceptionCode.INGREDIENT_NOT_FOUND)
+        );
         return null;
     }
 
     @Override
-    public Ingredient findByRecipeId(Long recipeId) {
-        return null;
+    @Transactional
+    public void deleteAll(List<Ingredient> ingredients) {
+        ingredientRepository.deleteAll(ingredients);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Ingredient> findAllByRecipeId(Long recipeId) {
-        return null;
+        return ingredientRepository.findAllByRecipeId(recipeId);
     }
 
-    @Override
-    public void verifyExistsRecipeId(Long recipeId) {
-
-    }
 }

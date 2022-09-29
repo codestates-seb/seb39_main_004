@@ -1,9 +1,12 @@
 package run.ward.mmz.log;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -73,6 +76,44 @@ public class AspectELK {
         return result;
 
     }
+
+    @Before("bean(*ServiceImpl)")
+    public void serviceBeforeLogging(JoinPoint pjp) throws Throwable {
+        String timeStamp = new SimpleDateFormat(TIMESTAMP_FORMAT).format(new Timestamp(System.currentTimeMillis()));
+        String callFunction = pjp.getSignature().getDeclaringTypeName() + "." + pjp.getSignature().getName();
+
+        Object[] argNames = pjp.getArgs();
+
+        LogELK logelk = new LogELK();
+        logelk.setTimestamp(timeStamp);
+        logelk.setHostname(host);
+        logelk.setHostIp(ip);
+        logelk.setClientIp(clientIp);
+        logelk.setClientUrl(clientUrl);
+        logelk.setCallFunction(callFunction);
+        logelk.setType("SERVICE_REQ");
+        logelk.setParameter(mapper.writeValueAsString(argNames));
+        log.info("{}", mapper.writeValueAsString(logelk));
+    }
+
+    @AfterReturning(pointcut = "bean(*ServiceImpl)", returning = "retVal")
+    public void serviceAfterReturningLogging(JoinPoint pjp, Object retVal) throws Throwable {
+        String timeStamp = new SimpleDateFormat(TIMESTAMP_FORMAT).format(new Timestamp(System.currentTimeMillis()));
+        String callFunction = pjp.getSignature().getDeclaringTypeName() + "." + pjp.getSignature().getName();
+
+        LogELK logelk = new LogELK();
+        logelk.setTimestamp(timeStamp);
+        logelk.setHostname(host);
+        logelk.setHostIp(ip);
+        logelk.setClientIp(clientIp);
+        logelk.setClientUrl(clientUrl);
+        logelk.setCallFunction(callFunction);
+        logelk.setType("SERVICE_RES");
+        logelk.setParameter(mapper.writeValueAsString(retVal));
+        log.info("{}", mapper.writeValueAsString(logelk));
+    }
+
+
 
 
     public String getIp(HttpServletRequest request){

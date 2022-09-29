@@ -4,9 +4,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import run.ward.mmz.domain.post.Direction;
+import run.ward.mmz.handler.exception.CustomException;
+import run.ward.mmz.handler.exception.ExceptionCode;
 import run.ward.mmz.repository.DirectionRepository;
 import run.ward.mmz.service.DirectionService;
 import run.ward.mmz.service.ImageService;
+import run.ward.mmz.service.RecipeService;
 
 import java.util.List;
 
@@ -30,18 +33,21 @@ public class DirectionServiceImpl implements DirectionService {
     }
 
     @Override
+    @Transactional
     public Direction save(Direction direction) {
         return directionRepository.save(direction);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Direction findById(Long id) {
-        return null;
+        return directionRepository.getReferenceById(id);
     }
 
     @Override
+    @Transactional
     public void deleteById(Long id) {
-
+        directionRepository.deleteById(id);
     }
 
     @Override
@@ -50,29 +56,31 @@ public class DirectionServiceImpl implements DirectionService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public void verifyExistsId(Long id) {
-
+        if(!directionRepository.existsById(id))
+            throw new CustomException(ExceptionCode.DIRECTION_NOT_FOUND);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Direction findVerifiedEntity(Long id) {
-        return null;
+        return directionRepository.findById(id).orElseThrow(
+                () -> new CustomException(ExceptionCode.DIRECTION_NOT_FOUND)
+        );
     }
 
     //Recipe Element Service
 
     @Override
-    public Direction findByRecipeId(Long recipeId) {
-        return null;
+    @Transactional
+    public void deleteAll(List<Direction> directions) {
+        directionRepository.deleteAll(directions);
     }
 
     @Override
     public List<Direction> findAllByRecipeId(Long recipeId) {
-        return null;
+        return directionRepository.findAllByRecipeId(recipeId);
     }
 
-    @Override
-    public void verifyExistsRecipeId(Long recipeId) {
-
-    }
 }

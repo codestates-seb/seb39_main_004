@@ -1,18 +1,24 @@
 package run.ward.mmz.mapper.post.impl;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import run.ward.mmz.domain.account.Account;
 import run.ward.mmz.domain.post.Recipe;
 import run.ward.mmz.domain.post.Review;
-import run.ward.mmz.dto.request.ReviewPostDto;
+import run.ward.mmz.dto.request.post.ReviewPostDto;
 import run.ward.mmz.dto.respones.ReviewResponseDto;
+import run.ward.mmz.mapper.account.AccountMapper;
 import run.ward.mmz.mapper.post.ReviewMapper;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
+@RequiredArgsConstructor
 public class ReviewMapperImpl implements ReviewMapper {
+
+    private final AccountMapper accountMapper;
 
     @Override
     public Review toEntity(ReviewPostDto reviewPostDto, Account owner, Recipe recipe) {
@@ -37,6 +43,7 @@ public class ReviewMapperImpl implements ReviewMapper {
         }
 
         return ReviewResponseDto.builder()
+                .owner(accountMapper.toInfoDto(review.getOwner()))
                 .id(review.getId())
                 .stars(review.getStars())
                 .body(review.getBody())
@@ -48,16 +55,8 @@ public class ReviewMapperImpl implements ReviewMapper {
     @Override
     public List<ReviewResponseDto> toResponseDto(List<Review> reviewList) {
 
-        if(reviewList.isEmpty()){
-            return new ArrayList<>();
-        }
-
-        List<ReviewResponseDto> reviewResponseDtoList = new ArrayList<>();
-
-        for(Review review : reviewList){
-            reviewResponseDtoList.add(toResponseDto(review));
-        }
-
-        return reviewResponseDtoList;
+        return reviewList.stream()
+                .map(this::toResponseDto)
+                .collect(Collectors.toList());
     }
 }
