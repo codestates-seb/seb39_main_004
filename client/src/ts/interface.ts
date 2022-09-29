@@ -1,8 +1,8 @@
 import { Dispatch, SetStateAction } from "react";
-import { TypeOfFileList, TypeOfFormData } from "./type";
+import { TypeOfFileList, TypeOfFormData, TypeOfIngredients } from "./type";
 import { UseFormRegister } from "react-hook-form";
 
-interface StepMakerProps {
+interface IStepMakerProps {
   idx?: number;
   setThumbNail?: Dispatch<SetStateAction<TypeOfFileList>>;
   stepImgFiles?: TypeOfFileList[];
@@ -10,7 +10,7 @@ interface StepMakerProps {
   clickEvent?: (orderValue: string) => Promise<void> | void;
 }
 
-interface ResponseImgProps {
+interface IResponseImgProps {
   contentType?: string;
   createData?: string;
   fileName: string;
@@ -20,8 +20,19 @@ interface ResponseImgProps {
   originFileName?: string;
 }
 
-interface AddIngredientsProps {
-  register: UseFormRegister<TypeOfFormData>;
+interface IAddIngredientsProps {
+  register?: UseFormRegister<TypeOfFormData>;
+  ingredientsDatas: TypeOfIngredients[];
+  setIngredientsDatas: Dispatch<SetStateAction<TypeOfIngredients[]>>;
 }
 
-export type { StepMakerProps, ResponseImgProps, AddIngredientsProps };
+interface IIngredientSetProps extends IAddIngredientsProps {
+  idx: number;
+}
+
+export type {
+  IStepMakerProps,
+  IResponseImgProps,
+  IAddIngredientsProps,
+  IIngredientSetProps,
+};

@@ -1,5 +1,5 @@
 import { useState, useRef } from "react";
-import { StepMakerProps } from "../../ts/interface";
+import { IStepMakerProps } from "../../ts/interface";
 import styled from "styled-components";
 
 const SImgInputContainer = styled.div`
@@ -23,7 +23,7 @@ const ImgUploader = ({
   setThumbNail,
   setStepImgFiles,
   stepImgFiles,
-}: StepMakerProps) => {
+}: IStepMakerProps) => {
   const [fileURL, setStepImgFilesURL] = useState<string>("");
   const imgUploadInput = useRef<HTMLInputElement | null>(null);
 

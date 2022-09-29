@@ -1,5 +1,5 @@
 import ImgUploader from "./ImgUploader";
-import { StepMakerProps } from "../../ts/interface";
+import { IStepMakerProps } from "../../ts/interface";
 import { useState, useEffect } from "react";
 import styled from "styled-components";
 
@@ -7,7 +7,7 @@ const SStepsContainer = styled.div`
   display: flex;
 `;
 
-const StepsMaker = ({ stepImgFiles, setStepImgFiles }: StepMakerProps) => {
+const StepsMaker = ({ stepImgFiles, setStepImgFiles }: IStepMakerProps) => {
   const ititialSteps = new Array<number>(1).fill(0);
   const [steps, setSteps] = useState(ititialSteps);
 

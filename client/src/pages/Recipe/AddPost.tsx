@@ -6,7 +6,12 @@ import {
   StepsMaker,
 } from "../../components/NewRecipe/indexNewRecipe";
 // import ImgRadio from "../../components/NewRecipe/ImgRadio";
-import { TypeOfFileList, TypeOfFormData } from "../../ts/type";
+import {
+  TypeOfFileList,
+  TypeOfFormData,
+  TypeOfDirections,
+  TypeOfIngredients,
+} from "../../ts/type";
 import React, { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import styled from "styled-components";
@@ -29,9 +34,13 @@ const SRecipeTexts = styled.div`
 const AddPost = () => {
   // const formData = new FormData();
   // const [formValues, setFormValues] = useState(formData);
-  // const [recipeData, setRecipeData] = useState({});
+  const [stepsDatas, setStepsDatas] = useState<TypeOfDirections[]>([]);
+  const [ingredientsDatas, setIngredientsDatas] = useState<TypeOfIngredients[]>(
+    []
+  );
   const [thumbNail, setThumbNail] = useState<TypeOfFileList>();
   const [stepImgFiles, setStepImgFiles] = useState<TypeOfFileList[]>([]);
+
   const {
     register,
     watch,
@@ -43,6 +52,7 @@ const AddPost = () => {
 
   const submitHandler: SubmitHandler<TypeOfFormData> = async (data) => {
     console.log("onSubmitData", typeof data);
+    console.log("재료", ingredientsDatas);
 
     const emptyIndex = stepImgFiles.findIndex((el) => el === undefined);
     if (emptyIndex >= 0) {
@@ -103,7 +113,11 @@ const AddPost = () => {
         <SFieldset>
           <legend>요리재료</legend>
           <Guide text="필수 재료는 체크표시를 해주세요." />
-          <AddingIngredients />
+          <AddingIngredients
+            // register={register}
+            setIngredientsDatas={setIngredientsDatas}
+            ingredientsDatas={ingredientsDatas}
+          />
         </SFieldset>
         <SFieldset>
           <legend>요리순서</legend>
