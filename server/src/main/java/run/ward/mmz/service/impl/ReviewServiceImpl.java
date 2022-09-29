@@ -15,6 +15,7 @@ import run.ward.mmz.service.RecipeService;
 import run.ward.mmz.service.ReviewService;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -72,5 +73,12 @@ public class ReviewServiceImpl implements ReviewService {
                 accountId,
                 PageRequest.of(page - 1 , size, Sort.by(orderBy).descending())
         );
+    }
+
+    @Override
+    public void verifyAccessOwner(Long reviewId, Long accountId) {
+        Long ownerId = findVerifiedEntity(reviewId).getOwner().getId();
+        if (!Objects.equals(ownerId, accountId))
+            throw new CustomException(ExceptionCode.USER_ACCESS_DENIED);
     }
 }

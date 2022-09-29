@@ -9,6 +9,6 @@ public interface BookmarkService {
 
     void setBookmarked(Long recipeId, Long accountId);
     void undoBookmarked(Long recipeId, Long accountId);
-    Page<Recipe> findAllByAccountId(int page, int size, Long accountId, String orderBy, String sort);
+    Page<Recipe> findAllBookmarkedRecipeByAccountId(int page, int size, Long accountId, String orderBy, String sort);
 
 }

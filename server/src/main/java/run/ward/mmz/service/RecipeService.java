@@ -8,6 +8,8 @@ import java.util.List;
 
 public interface RecipeService extends CrudService<Recipe> {
 
+
+    void verifyAccessOwner(Long recipeId, Long accountId);
     List<Recipe> findAll();
     void updateStars(Long id);
     void addViews(Long id);

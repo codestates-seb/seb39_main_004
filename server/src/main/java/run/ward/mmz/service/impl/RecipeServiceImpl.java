@@ -14,10 +14,7 @@ import run.ward.mmz.handler.exception.ExceptionCode;
 import run.ward.mmz.repository.RecipeRepository;
 import run.ward.mmz.service.*;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -52,7 +49,7 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     public void deleteById(Long id) {
-
+        recipeRepository.deleteById(id);
     }
 
     @Override
@@ -61,13 +58,12 @@ public class RecipeServiceImpl implements RecipeService {
         Recipe updateRecipe = recipeRepository.getReferenceById(id);
 
 
-
         return null;
     }
 
     @Override
     public void verifyExistsId(Long id) {
-        if(!recipeRepository.existsById(id))
+        if (!recipeRepository.existsById(id))
             throw new CustomException(ExceptionCode.RECIPE_NOT_FOUND);
     }
 
@@ -75,8 +71,15 @@ public class RecipeServiceImpl implements RecipeService {
     public Recipe findVerifiedEntity(Long id) {
 
         return recipeRepository.findById(id).orElseThrow(
-            () -> new CustomException(ExceptionCode.RECIPE_NOT_FOUND)
+                () -> new CustomException(ExceptionCode.RECIPE_NOT_FOUND)
         );
+    }
+
+    @Override
+    public void verifyAccessOwner(Long recipeId, Long accountId) {
+        Long ownerId = findVerifiedEntity(recipeId).getOwner().getId();
+        if (!Objects.equals(ownerId, accountId))
+            throw new CustomException(ExceptionCode.USER_ACCESS_DENIED);
     }
 
     @Override
@@ -102,12 +105,12 @@ public class RecipeServiceImpl implements RecipeService {
 
         Sort bySort = Sort.by(orderBy).descending();
 
-        if(!sort.equals("dec"))
+        if (!sort.equals("dec"))
             bySort = bySort.ascending();
 
         return recipeRepository.findAllByCategory(
                 category,
-                PageRequest.of(page - 1 , size, bySort)
+                PageRequest.of(page - 1, size, bySort)
         );
     }
 
@@ -117,7 +120,7 @@ public class RecipeServiceImpl implements RecipeService {
 
         Sort bySort = Sort.by(orderBy).descending();
 
-        if(!sort.equals("dec"))
+        if (!sort.equals("dec"))
             bySort = bySort.ascending();
 
         Set<Recipe> recipeSet = new HashSet<>();
@@ -140,12 +143,12 @@ public class RecipeServiceImpl implements RecipeService {
 
         Sort bySort = Sort.by(orderBy).descending();
 
-        if(!sort.equals("dec"))
+        if (!sort.equals("dec"))
             bySort = bySort.ascending();
 
         return recipeRepository.findAllByOwnerId(
                 accountId,
-                PageRequest.of(page - 1 , size, Sort.by(orderBy).descending())
+                PageRequest.of(page - 1, size, Sort.by(orderBy).descending())
         );
     }
 }
