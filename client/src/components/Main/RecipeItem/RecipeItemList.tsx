@@ -16,8 +16,6 @@ const SItemListLayout = styled.div`
 `;
 
 const RecipeItemList = ({ searchData }: ISearchDataProps) => {
-  console.log("RecipeItemList", searchData);
-
   return (
     <SItemListLayout>
       {searchData &&
