@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { BiSearch } from "react-icons/bi";
 import { Tag } from "../CommonUI";
@@ -54,25 +54,40 @@ interface SearchProps {
   searchWord: string;
   setSearchWord: React.Dispatch<React.SetStateAction<string>>;
   setSearchData: React.Dispatch<React.SetStateAction<any[]>>;
+  searchSortBy: string;
 }
 
 const SearchBar = ({
   searchWord,
   setSearchWord,
   setSearchData,
+  searchSortBy,
 }: SearchProps) => {
   const onChangeSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchWord(e.target.value);
   };
 
+  const axiosSearchData = async (searchWord: string, searchSortBy: string) => {
+    if (searchWord === "" || searchSortBy === "") {
+      // TODO: 검색어 또는 정렬 기준이 없을 시 전체 데이터 조회
+    } else {
+      const { data } = await axios.get(
+        `api/v1/recipe/search/1?search=${searchWord}&orderBy=${searchSortBy}`
+      );
+
+      setSearchData(data.data[0]);
+    }
+  };
+
+  // 정렬 기준 변경될 때 마다 검색 결과 리렌더링
+  useEffect(() => {
+    axiosSearchData(searchWord, searchSortBy);
+  }, [searchSortBy]);
+
   const onSubmitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const { data } = await axios.get(
-      `api/v1/recipe/search/1?search=${searchWord}&orderBy=id`
-    );
-
-    setSearchData(data.data[0]);
+    axiosSearchData(searchWord, searchSortBy);
   };
 
   // TODO: 태그 클릭 시 검색창 자동 검색 추후 구현

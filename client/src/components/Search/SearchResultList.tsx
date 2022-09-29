@@ -13,14 +13,27 @@ const SResultTitle = styled.div`
   font-size: 1.5rem;
 `;
 
-const SearchResultList = ({ searchData }: SearchDataProps) => {
+const SearchResultList = ({ searchData, setSearchSortBy }: SearchDataProps) => {
+  const onSortClick = (sortValue: string) => {
+    if (sortValue === "최신순") {
+      setSearchSortBy && setSearchSortBy("최신순");
+    } else if (sortValue === "조회순") {
+      setSearchSortBy && setSearchSortBy("조회순");
+    } else if (sortValue === "평점순") {
+      setSearchSortBy && setSearchSortBy("평점순");
+    }
+  };
+
   return (
     <div>
       <SSortArea>
         <SResultTitle>
           검색 결과 {searchData && searchData.length}개
         </SResultTitle>
-        <SortButtons sortValues={["최신순", "조회순", "평점순"]} />
+        <SortButtons
+          sortValues={["최신순", "조회순", "평점순"]}
+          clickEvent={onSortClick}
+        />
       </SSortArea>
 
       <RecipeItemList searchData={searchData} />

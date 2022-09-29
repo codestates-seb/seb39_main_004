@@ -29,6 +29,7 @@ interface ItemProps {
 
 interface SearchDataProps {
   searchData?: ItemProps[];
+  setSearchSortBy?: React.Dispatch<React.SetStateAction<string>>;
 }
 
 interface TagProps {
