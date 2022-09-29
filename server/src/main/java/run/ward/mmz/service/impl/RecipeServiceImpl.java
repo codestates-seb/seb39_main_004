@@ -1,10 +1,7 @@
 package run.ward.mmz.service.impl;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import run.ward.mmz.domain.post.Recipe;
@@ -14,6 +11,7 @@ import run.ward.mmz.handler.exception.ExceptionCode;
 import run.ward.mmz.repository.RecipeRepository;
 import run.ward.mmz.service.*;
 
+import java.sql.Array;
 import java.util.*;
 
 @Service
@@ -107,6 +105,20 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     @Transactional(readOnly = true)
+    public Page<Recipe> findAll(int page, int size, String orderBy, String sort) {
+
+        Sort bySort = Sort.by(orderBy).descending();
+
+        if (!sort.equals("dec"))
+            bySort = bySort.ascending();
+
+        return recipeRepository.findAll(
+                PageRequest.of(page - 1, size, bySort)
+        );
+    }
+
+    @Override
+    @Transactional(readOnly = true)
     public Page<Recipe> findAllByCategory(int page, int size, String category, String orderBy, String sort) {
 
         Sort bySort = Sort.by(orderBy).descending();
@@ -124,22 +136,38 @@ public class RecipeServiceImpl implements RecipeService {
     @Transactional(readOnly = true)
     public Page<Recipe> findAllBySearch(int page, int size, String search, String orderBy, String sort) {
 
-        Sort bySort = Sort.by(orderBy).descending();
+        Pageable pageable = PageRequest.of(page - 1, size);
 
-        if (!sort.equals("dec"))
-            bySort = bySort.ascending();
-
-        Set<Recipe> recipeSet = new HashSet<>();
-        recipeSet.addAll(recipeRepository.findAllByTitleContaining(search));
+        Set<Recipe> recipeSet = recipeRepository.findAllByTitleContaining(search);
         recipeSet.addAll(recipeTagService.findAllByTagName(search));
 
-        List<Recipe> recipeList = List.copyOf(recipeSet);
+        List<Recipe> mergedList = new ArrayList<>(recipeSet);
 
-        return new PageImpl<>(
-                recipeList,
-                PageRequest.of(page - 1, size, bySort),
-                recipeSet.size()
-        );
+        Comparator<Recipe> comparator = (o1, o2) -> sort.equals("dec") ?
+                (int) (o2.getId() - o1.getId()) :
+                (int) (o1.getId() - o2.getId());
+
+        switch (search) {
+            case "id":
+                comparator = (o1, o2) -> sort.equals("dec") ?
+                        (int) (o2.getId() - o1.getId()) :
+                        (int) (o1.getId() - o2.getId());
+                break;
+            case "stars":
+                comparator = (o1, o2) -> sort.equals("dec") ?
+                        (int) (o2.getStars() - o1.getStars()) :
+                        (int) (o1.getStars() - o2.getStars());
+                break;
+            case "views":
+                comparator = (o1, o2) -> sort.equals("dec") ?
+                        (int) (o2.getViews() - o1.getViews()) :
+                        (int) (o1.getViews() - o2.getViews());
+                break;
+        }
+
+        mergedList.sort(comparator);
+
+        return new PageImpl<>(mergedList, pageable, mergedList.size());
 
     }
 
