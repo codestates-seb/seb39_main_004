@@ -20,14 +20,14 @@ const IngredientsSet = ({
   const [amount, setAmonut] = useState("");
 
   useEffect(() => {
-    const initialData = ingredientsDatas;
-    initialData[idx] = {
+    const originData = ingredientsDatas;
+    originData[idx] = {
       index: idx,
       name: nameValue,
       amount,
       isEssential,
     };
-    setIngredientsDatas(initialData);
+    setIngredientsDatas(originData);
   }, [nameValue, isEssential, amount]);
 
   return (

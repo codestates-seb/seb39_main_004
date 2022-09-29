@@ -12,7 +12,7 @@ import {
   TypeOfDirections,
   TypeOfIngredients,
 } from "../../ts/type";
-import React, { useState } from "react";
+import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import styled from "styled-components";
 // import axios from "axios";
@@ -53,6 +53,7 @@ const AddPost = () => {
   const submitHandler: SubmitHandler<TypeOfFormData> = async (data) => {
     console.log("onSubmitData", typeof data);
     console.log("재료", ingredientsDatas);
+    console.log("순서", stepsDatas);
 
     const emptyIndex = stepImgFiles.findIndex((el) => el === undefined);
     if (emptyIndex >= 0) {
@@ -123,6 +124,8 @@ const AddPost = () => {
           <legend>요리순서</legend>
           <Guide text="중요한 부분은 빠짐없이 적어주세요." />
           <StepsMaker
+            stepsDatas={stepsDatas}
+            setStepsDatas={setStepsDatas}
             stepImgFiles={stepImgFiles}
             setStepImgFiles={setStepImgFiles}
           />

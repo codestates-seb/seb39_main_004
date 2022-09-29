@@ -9,6 +9,7 @@ type TypeOfIngredients = {
 
 type TypeOfDirections = {
   index: number;
+  fileName?: string;
   body: string;
 };
 
