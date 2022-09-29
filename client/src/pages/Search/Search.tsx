@@ -24,7 +24,7 @@ const SSearchResult = styled.div`
 const Search = () => {
   const [searchWord, setSearchWord] = useState("");
   const [searchData, setSearchData] = useState<any[]>([]);
-  const [searchSortBy, setSearchSortBy] = useState("");
+  const [searchSortBy, setSearchSortBy] = useState("id");
 
   return (
     <SSearchLayout>

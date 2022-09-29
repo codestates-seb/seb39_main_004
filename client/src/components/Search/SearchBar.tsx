@@ -68,14 +68,19 @@ const SearchBar = ({
   };
 
   const axiosSearchData = async (searchWord: string, searchSortBy: string) => {
-    if (searchWord === "" || searchSortBy === "") {
-      // TODO: 검색어 또는 정렬 기준이 없을 시 전체 데이터 조회
-    } else {
+    if (searchWord === "") {
+      // 검색어 없을 시 전체 데이터 조회
       const { data } = await axios.get(
-        `api/v1/recipe/search/1?search=${searchWord}&orderBy=${searchSortBy}`
+        `/api/v1/recipe/all/1?orderBy=${searchSortBy}&sort=dec`
       );
 
-      setSearchData(data.data[0]);
+      setSearchData(data.data);
+    } else {
+      const { data } = await axios.get(
+        `api/v1/recipe/search/1?search=${searchWord}&orderBy=${searchSortBy}&sort=dec`
+      );
+
+      setSearchData(data.data);
     }
   };
 

@@ -16,11 +16,11 @@ const SResultTitle = styled.div`
 const SearchResultList = ({ searchData, setSearchSortBy }: SearchDataProps) => {
   const onSortClick = (sortValue: string) => {
     if (sortValue === "최신순") {
-      setSearchSortBy && setSearchSortBy("최신순");
+      setSearchSortBy && setSearchSortBy("id");
     } else if (sortValue === "조회순") {
-      setSearchSortBy && setSearchSortBy("조회순");
+      setSearchSortBy && setSearchSortBy("views");
     } else if (sortValue === "평점순") {
-      setSearchSortBy && setSearchSortBy("평점순");
+      setSearchSortBy && setSearchSortBy("stars");
     }
   };
 
