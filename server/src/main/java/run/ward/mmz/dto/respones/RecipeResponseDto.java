@@ -10,6 +10,8 @@ import java.util.List;
 @Data
 @Builder
 public class RecipeResponseDto {
+
+    private AccountInfoDto owner;
     private Long id;
     private String title;
     private String body;

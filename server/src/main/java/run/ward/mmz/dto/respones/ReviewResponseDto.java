@@ -9,6 +9,7 @@ import lombok.Getter;
 @Builder
 public class ReviewResponseDto {
 
+    private AccountInfoDto owner;
     private Long id;
     private String body;
     private int stars;

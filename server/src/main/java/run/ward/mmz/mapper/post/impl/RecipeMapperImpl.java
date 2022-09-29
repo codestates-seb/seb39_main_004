@@ -9,6 +9,7 @@ import run.ward.mmz.dto.request.patch.RecipePatchDto;
 import run.ward.mmz.dto.request.post.RecipePostDto;
 import run.ward.mmz.dto.respones.RecipeInfoDto;
 import run.ward.mmz.dto.respones.RecipeResponseDto;
+import run.ward.mmz.mapper.account.AccountMapper;
 import run.ward.mmz.mapper.post.*;
 
 import java.util.List;
@@ -21,6 +22,7 @@ public class RecipeMapperImpl implements RecipeMapper {
     private final IngredientMapper ingredientMapper;
     private final TagMapper tagMapper;
     private final ReviewMapper reviewMapper;
+    private final AccountMapper accountMapper;
 
     @Override
     public Recipe toEntity(Account owner, RecipePostDto recipePostDto, Files imgThumbNail, List<Ingredient> ingredients, List<Direction> directionList) {
@@ -49,6 +51,7 @@ public class RecipeMapperImpl implements RecipeMapper {
         }
 
         return RecipeResponseDto.builder()
+                .owner(accountMapper.toInfoDto(recipe.getOwner()))
                 .id(recipe.getId())
                 .title(recipe.getTitle())
                 .body(recipe.getBody())

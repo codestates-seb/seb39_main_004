@@ -4,6 +4,7 @@ package run.ward.mmz.domain.account;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import run.ward.mmz.domain.auditable.Auditable;
+import run.ward.mmz.domain.file.Files;
 import run.ward.mmz.domain.post.Bookmark;
 import run.ward.mmz.domain.post.Recipe;
 import run.ward.mmz.domain.post.Review;
@@ -38,6 +39,12 @@ public class Account extends Auditable {
 
     @Column
     private String picture;
+
+    @JsonIgnore
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "profileId")
+    private Files imgProfile;
+
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
