@@ -11,34 +11,34 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.nio.charset.StandardCharsets;
-
 import java.security.Key;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Map;
 
+// (1)
 @Component
 public class JwtTokenizer {
-
     @Getter
     @Value("${jwt.secret-key}")
-    private String secretKey;
+    private String secretKey;       // (2)
 
     @Getter
     @Value("${jwt.access-token-expiration-minutes}")
-    private int accessTokenExpirationMinutes;
+    private int accessTokenExpirationMinutes;        // (3)
 
     @Getter
     @Value("${jwt.refresh-token-expiration-minutes}")
-    private int refreshTokenExpirationMinutes;
+    private int refreshTokenExpirationMinutes;          // (4)
 
-    public String encodeBase64SecretKey(String secretKey){
+    public String encodeBase64SecretKey(String secretKey) {
         return Encoders.BASE64.encode(secretKey.getBytes(StandardCharsets.UTF_8));
     }
 
     public String generateAccessToken(Map<String, Object> claims,
-                                      String subject, Date expiration,
-                                      String base64EncodedSecretKey){
+                                      String subject,
+                                      Date expiration,
+                                      String base64EncodedSecretKey) {
         Key key = getKeyFromBase64EncodedKey(base64EncodedSecretKey);
 
         return Jwts.builder()
@@ -61,7 +61,7 @@ public class JwtTokenizer {
                 .compact();
     }
 
-    public Jws<Claims> getClaims(String jws, String base64EncodedSecretKey){
+    public Jws<Claims> getClaims(String jws, String base64EncodedSecretKey) {
         Key key = getKeyFromBase64EncodedKey(base64EncodedSecretKey);
 
         Jws<Claims> claims = Jwts.parserBuilder()
@@ -71,7 +71,7 @@ public class JwtTokenizer {
         return claims;
     }
 
-    public void verifySignature(String jws, String base64EncodedSecretKey){
+    public void verifySignature(String jws, String base64EncodedSecretKey) {
         Key key = getKeyFromBase64EncodedKey(base64EncodedSecretKey);
 
         Jwts.parserBuilder()
@@ -80,6 +80,7 @@ public class JwtTokenizer {
                 .parseClaimsJws(jws);
     }
 
+    // (5)
     public Date getTokenExpiration(int expirationMinutes) {
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.MINUTE, expirationMinutes);
@@ -93,7 +94,5 @@ public class JwtTokenizer {
         Key key = Keys.hmacShaKeyFor(keyBytes);
 
         return key;
-
     }
-
 }

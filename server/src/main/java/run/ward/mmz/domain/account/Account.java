@@ -1,61 +1,52 @@
 package run.ward.mmz.domain.account;
 
-
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.springframework.data.domain.Auditable;
 
 import javax.persistence.*;
-
+import javax.validation.constraints.Email;
+import java.time.temporal.TemporalAccessor;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @Entity
-@Getter
 @NoArgsConstructor
+@Getter
+@Setter
+@Table(name = "ACCOUNT")
 public class Account {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private String name;
 
-    @Column(nullable = false)
+    @Column(unique = true, nullable = false)
     private String email;
 
-    @Column
-    private String picture;
+    @Column(length = 100, nullable = false)
+    private String password;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private Role role;
+    @Column(unique = true, nullable = false)
+    private String nickname;
 
-    @Column
-    private String authProvider;
-
-    @Column
-    private String refreshToken;
-
-    @Builder
-    public Account(String name, String email, String picture, Role role, String authProvider, String refreshToken){
-        this.name = name;
+    @ElementCollection(fetch = FetchType.EAGER)
+    private List<String> roles = new ArrayList<>();
+    public Account(String email) {
         this.email = email;
-        this.picture = picture;
-        this.role = role;
-        this.authProvider = authProvider;
+    }
+
+    public Account(String email, String nickname) {
+
+        this.email = email;
+        this.nickname = nickname;
 
     }
 
-    public Account update(String name, String picture, String authProvider){
-        this.name = name;
-        this.picture = picture;
-        this.authProvider = authProvider;
 
 
-        return this;
-    }
-
-    public String getRoleKey(){
-        return this.role.getKey();
-    }
 }
