@@ -79,6 +79,7 @@ public class RecipeMapperImpl implements RecipeMapper {
         return RecipeInfoDto.builder()
                 .id(recipe.getId())
                 .title(recipe.getTitle())
+                .views(recipe.getViews())
                 .imgThumbNailUrl(recipe.getImgThumbNail().getFileName())
                 .stars(String.format("%.2f", recipe.getStars()))
                 .tags(tagMapper.toResponseDto(recipe.getTagList()))

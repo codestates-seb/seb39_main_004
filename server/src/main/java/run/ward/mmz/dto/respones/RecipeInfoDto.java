@@ -14,6 +14,7 @@ public class RecipeInfoDto {
     private String title;
     private String imgThumbNailUrl;
     private String stars;
+    private int views;
     private List<TagResponseDto> tags;
 
 }

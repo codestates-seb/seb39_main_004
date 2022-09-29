@@ -97,16 +97,28 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
-    public Page<Recipe> findAllByCategory(int page, int size, String category, String orderBy) {
+    @Transactional(readOnly = true)
+    public Page<Recipe> findAllByCategory(int page, int size, String category, String orderBy, String sort) {
+
+        Sort bySort = Sort.by(orderBy).descending();
+
+        if(!sort.equals("dec"))
+            bySort = bySort.ascending();
 
         return recipeRepository.findAllByCategory(
                 category,
-                PageRequest.of(page - 1 , size, Sort.by(orderBy).descending())
+                PageRequest.of(page - 1 , size, bySort)
         );
     }
 
     @Override
-    public Page<Recipe> findAllBySearch(int page, int size, String search, String orderBy) {
+    @Transactional(readOnly = true)
+    public Page<Recipe> findAllBySearch(int page, int size, String search, String orderBy, String sort) {
+
+        Sort bySort = Sort.by(orderBy).descending();
+
+        if(!sort.equals("dec"))
+            bySort = bySort.ascending();
 
         Set<Recipe> recipeSet = new HashSet<>();
         recipeSet.addAll(recipeRepository.findAllByTitleContaining(search));
@@ -116,14 +128,20 @@ public class RecipeServiceImpl implements RecipeService {
 
         return new PageImpl<>(
                 recipeList,
-                PageRequest.of(page - 1, size, Sort.by(orderBy).descending()),
+                PageRequest.of(page - 1, size, bySort),
                 recipeSet.size()
         );
 
     }
 
     @Override
-    public Page<Recipe> findAllByAccountId(int page, int size, Long accountId, String orderBy) {
+    @Transactional(readOnly = true)
+    public Page<Recipe> findAllByAccountId(int page, int size, Long accountId, String orderBy, String sort) {
+
+        Sort bySort = Sort.by(orderBy).descending();
+
+        if(!sort.equals("dec"))
+            bySort = bySort.ascending();
 
         return recipeRepository.findAllByOwnerId(
                 accountId,

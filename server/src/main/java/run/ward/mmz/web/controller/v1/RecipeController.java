@@ -140,9 +140,6 @@ public class RecipeController {
 
 
 
-
-
-
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -151,9 +148,10 @@ public class RecipeController {
     public ResponseEntity<?> readSearchPage(
             @Positive @PathVariable(required = false, value = "pageNo") int pageNo,
             @RequestParam(required = false, defaultValue = "id", value = "orderBy") String orderBy,
-            @RequestParam("search") String search) {
+            @RequestParam("search") String search,
+            @RequestParam(required = false, defaultValue = "dec", value = "sort") String sort) {
 
-        Page<Recipe> recipePage = recipeService.findAllBySearch(pageNo, PAGE_SIZE, search, orderBy);
+        Page<Recipe> recipePage = recipeService.findAllBySearch(pageNo, PAGE_SIZE, search, orderBy, sort);
         List<Recipe> recipeList = recipePage.getContent();
         List<RecipeInfoDto> responseDtoList = new ArrayList<>();
 
@@ -173,10 +171,11 @@ public class RecipeController {
     public ResponseEntity<?> readCategoryPage(
             @Positive @PathVariable(required = false, value = "pageNo") int pageNo,
             @RequestParam(required = false, defaultValue = "id", value = "orderBy") String orderBy,
-            @RequestParam("category") String category) {
+            @RequestParam("category") String category,
+            @RequestParam(required = false, defaultValue = "dec", value = "sort") String sort) {
 
 
-        Page<Recipe> recipePage = recipeService.findAllByCategory(pageNo, PAGE_SIZE, category, orderBy);
+        Page<Recipe> recipePage = recipeService.findAllByCategory(pageNo, PAGE_SIZE, category, orderBy, sort);
         List<Recipe> recipeList = recipePage.getContent();
         List<RecipeInfoDto> responseDtoList = new ArrayList<>();
 
