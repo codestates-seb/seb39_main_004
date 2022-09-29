@@ -119,14 +119,14 @@ public class Recipe extends Auditable {
             this.recipeTags.add(recipeTag);
     }
 
-    protected void removeBookmarks(Bookmark bookmark) {
+    public void removeBookmarks(Bookmark bookmark) {
         if(bookmarks.contains(bookmark)) {
             bookmarks.remove(bookmark);
             isBookmarked = false;
         }
     }
 
-    protected void addBookmarks(Bookmark bookmark) {
+    public void addBookmarks(Bookmark bookmark) {
 
         if(!bookmarks.contains(bookmark)) {
             bookmarks.add(bookmark);
@@ -225,6 +225,8 @@ public class Recipe extends Auditable {
 
         return tagList;
     }
+
+
 
 //    public void deleteAllRecipeTag(){
 //        this.recipeTags = new ArrayList<>();

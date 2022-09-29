@@ -36,7 +36,28 @@ public class Bookmark extends Auditable {
         this.recipe = recipe;
     }
 
-    public void setRecipe(@NotNull Recipe recipe){
+
+    public void setBookmarked(Recipe recipe, Account account) {
+        this.setRecipe(recipe);
+        this.setOwner(account);
+    }
+
+    public void removeBookmarked(Recipe recipe, Account account) {
+        this.removeRecipe(recipe);
+        this.removeOwner(account);
+    }
+
+    protected void removeRecipe(@NotNull Recipe recipe){
+        this.recipe = null;
+        recipe.removeBookmarks(this);
+    }
+
+    public void removeOwner(@NotNull Account owner){
+        this.owner = null;
+        owner.removeBookmarks(this);
+    }
+
+    protected void setRecipe(@NotNull Recipe recipe){
         this.recipe = recipe;
         recipe.addBookmarks(this);
     }
@@ -45,6 +66,8 @@ public class Bookmark extends Auditable {
         this.owner = owner;
         owner.addBookmarks(this);
     }
+
+
 
 
 

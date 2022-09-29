@@ -5,9 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import run.ward.mmz.domain.auditable.Auditable;
 import run.ward.mmz.domain.file.Files;
-import run.ward.mmz.domain.post.Bookmark;
-import run.ward.mmz.domain.post.Recipe;
-import run.ward.mmz.domain.post.Review;
+import run.ward.mmz.domain.post.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -84,6 +82,11 @@ public class Account extends Auditable {
         bookmark.setOwner(this);
     }
 
+    public void removeBookmarks(Bookmark bookmark) {
+        bookmarks.remove(bookmark);
+    }
+
+
     public void addReview(Review review){
         if(!reviews.contains(review)){
             reviews.add(review);
@@ -96,6 +99,18 @@ public class Account extends Auditable {
             recipes.add(recipe);
         }
         recipe.setOwner(this);
+    }
+
+    @JsonIgnore
+    public List<Recipe> getRecipeList(){
+
+        List<Recipe> recipeList = new ArrayList<>();
+
+        for(Bookmark bookmark : this.bookmarks) {
+            recipeList.add(bookmark.getRecipe());
+        }
+
+        return recipeList;
     }
 
 }
