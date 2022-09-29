@@ -48,12 +48,10 @@ public class Bookmark extends Auditable {
     }
 
     protected void removeRecipe(@NotNull Recipe recipe){
-        this.recipe = null;
         recipe.removeBookmarks(this);
     }
 
     public void removeOwner(@NotNull Account owner){
-        this.owner = null;
         owner.removeBookmarks(this);
     }
 

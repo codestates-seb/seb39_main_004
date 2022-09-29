@@ -94,47 +94,44 @@ public class Recipe extends Auditable {
     }
 
     protected void addIngredients(Ingredient ingredient) {
-        if(!ingredients.contains(ingredient))  // ingredients가 list이므로 중복 허용, DB에는 중복되어있지 않지만, entity 객체에는 중복으로 들어가있음.
+        if (!ingredients.contains(ingredient))  // ingredients가 list이므로 중복 허용, DB에는 중복되어있지 않지만, entity 객체에는 중복으로 들어가있음.
             ingredients.add(ingredient);
         ingredient.setRecipe(this);
     }
 
 
     protected void addDirections(Direction direction) {
-        if(!directions.contains(direction)) // directions가 list이므로 중복 허용, DB에는 중복되어있지 않지만, entity 객체에는 중복으로 들어가있음.
+        if (!directions.contains(direction)) // directions가 list이므로 중복 허용, DB에는 중복되어있지 않지만, entity 객체에는 중복으로 들어가있음.
             directions.add(direction);
         direction.setRecipe(this);
     }
 
     protected void addReviews(Review review) {
 
-        if(!reviews.contains(review)){
+        if (!reviews.contains(review)) {
             reviews.add(review);
             review.setRecipe(this);
         }
 
     }
 
-    protected void mappingRecipeTag(RecipeTag recipeTag){
-        if(!recipeTags.contains(recipeTag))
+    protected void mappingRecipeTag(RecipeTag recipeTag) {
+        if (!recipeTags.contains(recipeTag))
             this.recipeTags.add(recipeTag);
     }
 
     public void removeBookmarks(Bookmark bookmark) {
-        if(bookmarks.contains(bookmark)) {
-            bookmarks.remove(bookmark);
-            isBookmarked = false;
-        }
+        bookmarks.remove(bookmark);
+        isBookmarked = false;
     }
 
     public void addBookmarks(Bookmark bookmark) {
 
-        if(!bookmarks.contains(bookmark)) {
+        if (!bookmarks.contains(bookmark)) {
             bookmarks.add(bookmark);
             isBookmarked = true;
             bookmark.setRecipe(this);
         }
-
 
 
     }
@@ -195,33 +192,33 @@ public class Recipe extends Auditable {
 
     /**
      * 비즈니스 로직
-     *
      */
 
-    public void addViews(){
-        if(views < 0){
+    public void addViews() {
+        if (views < 0) {
             //ToDo : views 는 0 보다 작은 값이 들어 갈 수 없음. -> Exception
         }
         this.views += 1;
     }
 
-    public void updateStars(){
+    public void updateStars() {
 
         double stars = 0;
 
-        for(Review review : reviews){
+        for (Review review : reviews) {
             stars += review.getStars();
         }
 
         this.stars = stars / reviews.size();
 
     }
+
     @JsonIgnore
-    public List<Tag> getTagList(){
+    public List<Tag> getTagList() {
 
         List<Tag> tagList = new ArrayList<>();
 
-        for(RecipeTag recipeTag : this.recipeTags) {
+        for (RecipeTag recipeTag : this.recipeTags) {
             tagList.add(recipeTag.getTag());
         }
 
@@ -229,18 +226,14 @@ public class Recipe extends Auditable {
     }
 
 
-
 //    public void deleteAllRecipeTag(){
 //        this.recipeTags = new ArrayList<>();
 //    }
 
 
-
-
     /**
      * 레시피 삭제
      */
-
 
 
 }

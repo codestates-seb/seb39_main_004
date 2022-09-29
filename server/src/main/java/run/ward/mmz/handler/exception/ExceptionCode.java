@@ -22,6 +22,9 @@ public enum ExceptionCode {
     REVIEW_NOT_FOUND(404, "Review not found."),
     REVIEW_EXISTS(409, "Review exists."),
 
+    BOOKMARK_NOT_FOUND(404, "Bookmark not found."),
+    BOOKMARK_EXISTS(409, "Bookmark exists."),
+
     TAG_NOT_FOUND(404, "Tag not found."),
     TAG_EXISTS(409, "Tag exists."),
 

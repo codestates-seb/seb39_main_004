@@ -40,8 +40,16 @@ public class BookmarkServiceImpl implements BookmarkService {
             throw new CustomException(ExceptionCode.USER_ACCESS_DENIED);
 
         Bookmark bookmark = Bookmark.builder().build();
-        bookmark.setBookmarked(recipe, account);
-        bookmarkRepository.save(bookmark);
+
+        if(bookmarkRepository.existsByOwnerAndRecipe(account, recipe)) {
+            throw new CustomException(ExceptionCode.BOOKMARK_EXISTS);
+        }
+        else{
+            bookmark.setBookmarked(recipe, account);
+            bookmarkRepository.save(bookmark);
+        }
+
+
 
     }
 
@@ -55,9 +63,15 @@ public class BookmarkServiceImpl implements BookmarkService {
         if(!recipe.getOwner().getId().equals(accountId))
             throw new CustomException(ExceptionCode.USER_ACCESS_DENIED);
 
-        Bookmark bookmark = Bookmark.builder().build();
-        bookmark.removeBookmarked(recipe, account);
-        bookmarkRepository.delete(bookmark);
+        Bookmark bookmark = bookmarkRepository.findByOwnerAndRecipe(account, recipe);
+
+        if(bookmarkRepository.existsByOwnerAndRecipe(account, recipe)) {
+            bookmark.removeBookmarked(recipe, account);
+            bookmarkRepository.delete(bookmark);
+        }
+        else{
+            throw new CustomException(ExceptionCode.BOOKMARK_NOT_FOUND);
+        }
 
     }
 
