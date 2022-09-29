@@ -77,18 +77,24 @@ public class Account extends Auditable {
     }
 
 
-    public void addBookmarks(Bookmark bookmark){
-        bookmarks.add(bookmark);
+    public void addBookmarks(Bookmark bookmark) {
+        if(!bookmarks.contains(bookmark)) {
+            bookmarks.add(bookmark);
+        }
         bookmark.setOwner(this);
     }
 
     public void addReview(Review review){
-        reviews.add(review);
+        if(!reviews.contains(review)){
+            reviews.add(review);
+        }
         review.setOwner(this);
     }
 
     public void addRecipe(Recipe recipe){
-        recipes.add(recipe);
+        if(!recipes.contains(recipe)) {
+            recipes.add(recipe);
+        }
         recipe.setOwner(this);
     }
 

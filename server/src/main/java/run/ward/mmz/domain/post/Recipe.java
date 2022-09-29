@@ -82,25 +82,6 @@ public class Recipe extends Auditable {
         this.bookmarks = bookmarks;
     }
 
-    public void setReviews(List<Review> reviews) {
-        this.reviews = reviews;
-    }
-
-    public void setRecipeTags(List<RecipeTag> recipeTags) {
-        this.recipeTags = recipeTags;
-    }
-
-    public void setDirections(List<Direction> directions) {
-        this.directions = directions;
-    }
-
-    public void setIngredients(List<Ingredient> ingredients) {
-        this.ingredients = ingredients;
-    }
-
-    public void setImgThumbNail(Files imgThumbNail) {
-        this.imgThumbNail = imgThumbNail;
-    }
 
     // 연관관계 메서드
     public void setOwner(Account owner) {
@@ -126,7 +107,10 @@ public class Recipe extends Auditable {
     }
 
     protected void addReviews(Review review) {
-        reviews.add(review);
+
+        if(!reviews.contains(review)){
+            reviews.add(review);
+        }
         review.setRecipe(this);
     }
 
@@ -136,14 +120,21 @@ public class Recipe extends Auditable {
     }
 
     protected void removeBookmarks(Bookmark bookmark) {
-        bookmarks.remove(bookmark);
-        isBookmarked = false;
+        if(bookmarks.contains(bookmark)) {
+            bookmarks.remove(bookmark);
+            isBookmarked = false;
+        }
     }
 
     protected void addBookmarks(Bookmark bookmark) {
-        bookmarks.add(bookmark);
+
+        if(!bookmarks.contains(bookmark)) {
+            bookmarks.add(bookmark);
+            isBookmarked = true;
+        }
         bookmark.setRecipe(this);
-        isBookmarked = true;
+
+
     }
 
 

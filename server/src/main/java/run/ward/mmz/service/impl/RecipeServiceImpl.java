@@ -119,9 +119,15 @@ public class RecipeServiceImpl implements RecipeService {
                 PageRequest.of(page - 1, size, Sort.by(orderBy).descending()),
                 recipeSet.size()
         );
-//        return recipeRepository.findAllByTitleContaining(
-//                search,
-//                PageRequest.of(page - 1 , size, Sort.by(orderBy).descending())
-//        );
+
+    }
+
+    @Override
+    public Page<Recipe> findAllByAccountId(int page, int size, Long accountId, String orderBy) {
+
+        return recipeRepository.findAllByOwnerId(
+                accountId,
+                PageRequest.of(page - 1 , size, Sort.by(orderBy).descending())
+        );
     }
 }

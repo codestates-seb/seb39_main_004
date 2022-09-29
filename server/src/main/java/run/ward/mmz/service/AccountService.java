@@ -7,6 +7,4 @@ public interface AccountService {
 
     Account findAccountById(Account account);
 
-
-
 }

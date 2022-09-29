@@ -45,11 +45,4 @@ public class RecipeTag {
     }
 
 
-    public Recipe getRecipeByTag(Tag tag){
-        if(tag.getId().equals(this.tag.getId()))
-            return this.recipe;
-        else
-            return null;
-    }
-
 }

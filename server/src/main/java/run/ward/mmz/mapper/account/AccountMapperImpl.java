@@ -17,7 +17,7 @@ public class AccountMapperImpl implements AccountMapper{
         return AccountInfoDto.builder()
                 .id(account.getId())
                 .name(account.getName())
-                .imgProfileUrl(account.getImgProfile().getFileName())
+//                .imgProfileUrl(account.getImgProfile().getFileName())
                 .bio(account.getBio())
                 .build();
     }

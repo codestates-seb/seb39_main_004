@@ -38,18 +38,14 @@ public class Bookmark extends Auditable {
 
     public void setRecipe(@NotNull Recipe recipe){
         this.recipe = recipe;
-        recipe.getBookmarks().add(this);
+        recipe.addBookmarks(this);
     }
 
     public void setOwner(@NotNull Account owner){
         this.owner = owner;
-        owner.getBookmarks().add(this);
+        owner.addBookmarks(this);
     }
 
-    public void mappingBookmark(Recipe recipe, Account owner) {
-        this.recipe = recipe;
-        this.owner = owner;
-    }
 
 
 
