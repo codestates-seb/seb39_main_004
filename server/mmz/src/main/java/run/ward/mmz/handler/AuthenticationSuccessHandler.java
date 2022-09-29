@@ -84,7 +84,7 @@ public class AuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccess
                 .newInstance()
                 .scheme("http")
                 .host("localhost")
-                .port(80)
+                .port(8080)
                 .path("/receive_token.html")
                 .queryParams(queryParmas)
                 .build()

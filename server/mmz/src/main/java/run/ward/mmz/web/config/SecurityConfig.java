@@ -46,7 +46,7 @@ public class SecurityConfig {
 
                 .and()
                 .authorizeRequests()
-                .antMatchers("/", "/guest", "/logout", "/login", "/h2-console").permitAll()
+                .antMatchers("/", "/guest", "/logout", "/login", "/h2-console/**").permitAll()
                 .antMatchers("/user").hasRole(Role.USER.name())
                 .anyRequest().authenticated()
                 .and()
