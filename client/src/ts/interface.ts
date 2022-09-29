@@ -4,6 +4,7 @@ import {
   TypeOfFileList,
   TypeOfFormData,
   TypeOfIngredients,
+  TypeOfTags,
 } from "./type";
 import { UseFormRegister } from "react-hook-form";
 
@@ -49,6 +50,10 @@ interface IIngredientSetProps extends IAddIngredientsProps {
   idx: number;
 }
 
+interface ITagsMakerProps {
+  setTagsDatas: Dispatch<SetStateAction<TypeOfTags[]>>;
+}
+
 export type {
   IImgUploaderProps,
   IStepMakerProps,
@@ -56,4 +61,5 @@ export type {
   IAddIngredientsProps,
   IIngredientSetProps,
   IStepSetProps,
+  ITagsMakerProps,
 };

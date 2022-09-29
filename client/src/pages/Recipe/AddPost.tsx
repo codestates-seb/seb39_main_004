@@ -11,6 +11,7 @@ import {
   TypeOfFormData,
   TypeOfDirections,
   TypeOfIngredients,
+  TypeOfTags,
 } from "../../ts/type";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -34,26 +35,27 @@ const SRecipeTexts = styled.div`
 const AddPost = () => {
   // const formData = new FormData();
   // const [formValues, setFormValues] = useState(formData);
+  const [thumbNail, setThumbNail] = useState<TypeOfFileList>();
   const [stepsDatas, setStepsDatas] = useState<TypeOfDirections[]>([]);
+  const [stepImgFiles, setStepImgFiles] = useState<TypeOfFileList[]>([]);
   const [ingredientsDatas, setIngredientsDatas] = useState<TypeOfIngredients[]>(
     []
   );
-  const [thumbNail, setThumbNail] = useState<TypeOfFileList>();
-  const [stepImgFiles, setStepImgFiles] = useState<TypeOfFileList[]>([]);
+  const [tagsDatas, setTagsDatas] = useState<TypeOfTags[]>([]);
 
   const {
     register,
-    watch,
     handleSubmit,
     // formState: { errors },
   } = useForm<TypeOfFormData>();
 
-  console.log("watch", watch("title"));
+  // console.log("watch", watch("title"));
 
   const submitHandler: SubmitHandler<TypeOfFormData> = async (data) => {
     console.log("onSubmitData", typeof data);
     console.log("재료", ingredientsDatas);
     console.log("순서", stepsDatas);
+    console.log("태그", tagsDatas);
 
     const emptyIndex = stepImgFiles.findIndex((el) => el === undefined);
     if (emptyIndex >= 0) {
@@ -132,7 +134,7 @@ const AddPost = () => {
         </SFieldset>
         <SFieldset>
           <legend>태그</legend>
-          <TagsMaker></TagsMaker>
+          <TagsMaker setTagsDatas={setTagsDatas} />
         </SFieldset>
         <section className="btnContainer">
           <button type="button" onClick={handleSubmit(submitHandler)}>

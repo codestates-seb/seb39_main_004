@@ -1,11 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { ITagsMakerProps } from "../../ts/interface";
+import { TypeOfTags } from "../../ts/type";
 import styled from "styled-components";
 
 const STagsContainer = styled.ul`
   display: flex;
 `;
 
-const TagsMaker = () => {
+const TagsMaker = ({ setTagsDatas }: ITagsMakerProps) => {
   const [tags, setTags] = useState<string[]>([]);
 
   const inputValueChange = (
@@ -17,6 +19,14 @@ const TagsMaker = () => {
       target.value = "";
     }
   };
+
+  useEffect(() => {
+    const newData: TypeOfTags[] = [];
+    tags.forEach((tags) => {
+      newData.push({ name: tags });
+    });
+    setTagsDatas(newData);
+  }, [tags]);
 
   return (
     <STagsContainer>
