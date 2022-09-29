@@ -8,12 +8,13 @@ import java.util.List;
 
 public interface RecipeService extends CrudService<Recipe> {
 
+
+    void verifyAccessOwner(Long recipeId, Long accountId);
     List<Recipe> findAll();
     void updateStars(Long id);
     void addViews(Long id);
-
-    Page<Recipe> findAllByCategory(int page, int size, String category, String orderBy);
-    Page<Recipe> findAllBySearch(int page, int size, String search, String orderBy);
-
+    Page<Recipe> findAllByCategory(int page, int size, String category, String orderBy, String sort);
+    Page<Recipe> findAllBySearch(int page, int size, String search, String orderBy, String sort);
+    Page<Recipe> findAllByAccountId(int page, int size, Long accountId, String orderBy, String sort);
 
 }

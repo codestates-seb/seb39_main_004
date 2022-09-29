@@ -13,7 +13,6 @@ public interface CrudService<T>{
     void deleteById(Long id);
     T update(Long id, T t);
     void verifyExistsId(Long id);
-
     T findVerifiedEntity(Long id);
 
 }

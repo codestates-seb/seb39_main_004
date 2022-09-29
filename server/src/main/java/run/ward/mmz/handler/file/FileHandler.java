@@ -5,6 +5,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.multipart.MultipartFile;
 import run.ward.mmz.dto.common.FilesDto;
+import run.ward.mmz.handler.exception.CustomException;
+import run.ward.mmz.handler.exception.ExceptionCode;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -30,8 +32,10 @@ public class FileHandler {
             String contentType = file.getContentType();
             String originalFilename = file.getOriginalFilename();
 
-            if (ObjectUtils.isEmpty(contentType) || ObjectUtils.isEmpty(originalFilename))
-                break;
+            if (ObjectUtils.isEmpty(contentType) || ObjectUtils.isEmpty(originalFilename)){
+                throw new CustomException(ExceptionCode.FILE_UPLOAD_FAILED);
+            }
+
 
             String ext = originalFilename.substring(originalFilename.lastIndexOf(".") + 1);
 
@@ -55,8 +59,11 @@ public class FileHandler {
                     filesDtoList.add(filesDto);
 
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    throw new CustomException(ExceptionCode.FILE_UPLOAD_FAILED);
                 }
+            }
+            else{
+                throw new CustomException(ExceptionCode.FILE_EXTENSION_INVALID);
             }
 
         }
@@ -72,7 +79,7 @@ public class FileHandler {
         String originalFilename = file.getOriginalFilename();
 
         if (ObjectUtils.isEmpty(contentType) || ObjectUtils.isEmpty(originalFilename)) {
-            return null;
+            throw new CustomException(ExceptionCode.FILE_UPLOAD_FAILED);
         }
 
         String ext = originalFilename.substring(originalFilename.lastIndexOf(".") + 1);
@@ -98,8 +105,11 @@ public class FileHandler {
                         .build();
 
             } catch (Exception e) {
-                e.printStackTrace();
+                throw new CustomException(ExceptionCode.FILE_UPLOAD_FAILED);
             }
+        }
+        else{
+            throw new CustomException(ExceptionCode.FILE_EXTENSION_INVALID);
         }
 
         return filesDto;

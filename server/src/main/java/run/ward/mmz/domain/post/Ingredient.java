@@ -1,5 +1,6 @@
 package run.ward.mmz.domain.post;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 
@@ -31,6 +32,7 @@ public class Ingredient {
     private boolean isEssential;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "recipeId")
     private Recipe recipe;
 

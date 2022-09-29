@@ -2,7 +2,8 @@ package run.ward.mmz.mapper.post.impl;
 
 import org.springframework.stereotype.Component;
 import run.ward.mmz.domain.post.Ingredient;
-import run.ward.mmz.dto.request.IngredientPostDto;
+import run.ward.mmz.dto.request.patch.IngredientPatchDto;
+import run.ward.mmz.dto.request.post.IngredientPostDto;
 import run.ward.mmz.dto.respones.IngredientResponseDto;
 import run.ward.mmz.mapper.post.IngredientMapper;
 
@@ -42,6 +43,37 @@ public class IngredientMapperImpl implements IngredientMapper {
         }
 
         return ingredients;
+    }
+
+    @Override
+    public IngredientPatchDto toPatchDto(Ingredient ingredient) {
+
+        if (ingredient == null) {
+            return null;
+        }
+
+        return IngredientPatchDto.builder()
+                .index(ingredient.getIdx())
+                .name(ingredient.getName())
+                .amount(ingredient.getAmount())
+                .isEssential(ingredient.isEssential())
+                .build();
+    }
+
+    @Override
+    public List<IngredientPatchDto> toPatchDto(List<Ingredient> ingredients) {
+
+        if(ingredients.isEmpty()){
+            return new ArrayList<>();
+        }
+
+        List<IngredientPatchDto> ingredientPatchDtoList = new ArrayList<>();
+
+        for(Ingredient ingredient : ingredients){
+            ingredientPatchDtoList.add(toPatchDto(ingredient));
+        }
+
+        return ingredientPatchDtoList;
     }
 
     @Override

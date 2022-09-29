@@ -1,5 +1,6 @@
 package run.ward.mmz.domain.post;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.jetbrains.annotations.NotNull;
 import run.ward.mmz.domain.account.Account;
@@ -18,11 +19,13 @@ public class Bookmark extends Auditable {
     private Long id;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "ownerId")
     @NotNull
     private Account owner;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "recipeId")
     @NotNull
     private Recipe recipe;
@@ -33,20 +36,37 @@ public class Bookmark extends Auditable {
         this.recipe = recipe;
     }
 
-    public void setRecipe(@NotNull Recipe recipe){
+
+    public void setBookmarked(Recipe recipe, Account account) {
+        this.setRecipe(recipe);
+        this.setOwner(account);
+    }
+
+    public void removeBookmarked(Recipe recipe, Account account) {
+        this.removeRecipe(recipe);
+        this.removeOwner(account);
+    }
+
+    protected void removeRecipe(@NotNull Recipe recipe){
+        recipe.removeBookmarks(this);
+    }
+
+    public void removeOwner(@NotNull Account owner){
+        owner.removeBookmarks(this);
+    }
+
+    protected void setRecipe(@NotNull Recipe recipe){
         this.recipe = recipe;
-        recipe.getBookmarks().add(this);
+        recipe.addBookmarks(this);
     }
 
     public void setOwner(@NotNull Account owner){
         this.owner = owner;
-        owner.getBookmarks().add(this);
+        owner.addBookmarks(this);
     }
 
-    public void mappingBookmark(Recipe recipe, Account owner) {
-        this.recipe = recipe;
-        this.owner = owner;
-    }
+
+
 
 
 

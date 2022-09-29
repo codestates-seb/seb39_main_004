@@ -6,6 +6,8 @@ import org.springframework.transaction.annotation.Transactional;
 import run.ward.mmz.domain.post.Recipe;
 import run.ward.mmz.domain.post.RecipeTag;
 import run.ward.mmz.domain.post.Tag;
+import run.ward.mmz.handler.exception.CustomException;
+import run.ward.mmz.handler.exception.ExceptionCode;
 import run.ward.mmz.repository.RecipeRepository;
 import run.ward.mmz.repository.RecipeTagRepository;
 import run.ward.mmz.repository.TagRepository;
@@ -43,32 +45,26 @@ public class RecipeTagServiceImpl implements RecipeTagService {
     @Override
     @Transactional(readOnly = true)
     public List<Tag> findAllByRecipeId(Long recipeId) {
+        //recipeId 없을 경우 예외처리 완료
+        if(!recipeRepository.existsById(recipeId))
+            throw new CustomException(ExceptionCode.RECIPE_NOT_FOUND);
 
-        List<RecipeTag> recipeTagList = recipeTagRepository.findAllByRecipeId(recipeId);
-
-        return recipeTagList.stream()
-                .map(
-                        recipeTag -> {
-                            Optional<Tag> tag = tagRepository.findById(recipeTag.getTag().getId());
-                            return tag.orElse(null);
-                        })
-                .collect(Collectors.toList());
+        return recipeRepository.getReferenceById(recipeId).getTagList();
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<Recipe> findAllByTagName(String tagName) {
+        //tagName 없을 경우 예외처리 필요 완료
+        if(!tagRepository.existsByName(tagName))
+            throw new CustomException(ExceptionCode.TAG_NOT_FOUND);
 
-        List<RecipeTag> recipeTagList = recipeTagRepository.findAllByTagName(tagName);
+        return tagRepository.getReferenceByName(tagName).getRecipeList();
+    }
 
-        return recipeTagList.stream()
-                .map(
-                        recipeTag -> {
-                            Optional<Recipe> recipe = recipeRepository.findById(recipeTag.getRecipe().getId());
-                            return recipe.orElse(null);
-                        })
-                .collect(Collectors.toList());
-
+    @Override
+    public void deleteAllByRecipe(Recipe recipe) {
+//        recipe.deleteAllRecipeTag();
     }
 
 
