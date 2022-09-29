@@ -16,7 +16,7 @@ import {
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import styled from "styled-components";
-// import axios from "axios";
+import axios from "axios";
 
 const SFieldset = styled.fieldset`
   border: 1px solid blue;
@@ -33,11 +33,9 @@ const SRecipeTexts = styled.div`
 `;
 
 const AddPost = () => {
-  // const formData = new FormData();
-  // const [formValues, setFormValues] = useState(formData);
   const [thumbNail, setThumbNail] = useState<TypeOfFileList>();
-  const [stepsDatas, setStepsDatas] = useState<TypeOfDirections[]>([]);
   const [stepImgFiles, setStepImgFiles] = useState<TypeOfFileList[]>([]);
+  const [stepsDatas, setStepsDatas] = useState<TypeOfDirections[]>([]);
   const [ingredientsDatas, setIngredientsDatas] = useState<TypeOfIngredients[]>(
     []
   );
@@ -52,8 +50,9 @@ const AddPost = () => {
   // console.log("watch", watch("title"));
 
   const submitHandler: SubmitHandler<TypeOfFormData> = async (data) => {
-    console.log("onSubmitData", typeof data);
+    console.log("onSubmitData", data);
     console.log("재료", ingredientsDatas);
+    console.log("d이미지 순서", stepImgFiles);
     console.log("순서", stepsDatas);
     console.log("태그", tagsDatas);
 
@@ -68,23 +67,40 @@ const AddPost = () => {
     }
 
     /** 서버통신 */
-    // const formData = new FormData();
+    const formData = new FormData();
+    formData.append("imgThumbNail", thumbNail);
+    stepImgFiles.forEach((file) => {
+      if (file) {
+        formData.append("imgDirection", file);
+      }
+    });
+    formData.append(
+      "recipe",
+      JSON.stringify({
+        ...data,
+        category: "기타",
+        ingredients: ingredientsDatas,
+        directions: stepsDatas,
+        tags: tagsDatas,
+      })
+    );
+    console.log(...formData); // 데이터 확인용
 
-    // if (file) {
-    //   formData.append("file", file[0]);
-    //   console.log(...formData); // 데이터 확인용
+    // try {
+    //   // const body = {
 
-    //   try {
-    //     const response = await axios.post("/api/upload", formData, {
-    //       headers: { "content-type": "multipart/form-data" },
-    //     });
-    //     console.log(response);
-    //     // 상위 컴포넌트 마크업 작업 후 처리하겠습니다.(이미지 )
-    //   } catch (error) {
-    //     console.log("이미지업로드 에러 발생");
-    //   }
-    // } else {
-    //   alert("업로드할 이미지가 없습니다");
+    //   // }
+    //   // const response = await axios.post("/api/upload", formData, {
+    //   //   headers: { "content-type": "multipart/form-data" },
+    //   // });
+    //   const response = await axios.post("/api/v1/recipe/add", formData, {
+    //     headers: { "content-type": "multipart/form-data" },
+    //   });
+    //   console.log(response);
+    //   // 상위 컴포넌트 마크업 작업 후 처리하겠습니다.(이미지 )
+    // } catch (error) {
+    //   console.log(error);
+    //   console.log("이미지업로드 에러 발생");
     // }
   };
 
@@ -108,7 +124,7 @@ const AddPost = () => {
               rows={7}
             ></textarea>
           </SRecipeTexts>
-          <ImgUploader setThumbNail={setThumbNail}></ImgUploader>
+          <ImgUploader setThumbNail={setThumbNail} />
         </SRecipeInfo>
         <label htmlFor="category">카테고리</label>
         {/* 카테고리 영역 */}

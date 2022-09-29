@@ -34,7 +34,7 @@ const ImgUploader = ({
         const newImgFile = stepImgFiles;
         newImgFile[idx] = event.target.files[0];
         // console.log("값 전체", newImgFile);
-        // console.log("파일이름", event.target.files[0].name);
+        // console.log("파일이름", event.target.files[0]);
         setStepImgFiles(newImgFile);
         setImgName(event.target.files[0].name);
       }

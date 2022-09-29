@@ -23,7 +23,7 @@ const StepSet = ({
     const originData = stepsDatas;
     originData[idx] = {
       index: idx,
-      fileName: imgName,
+      imgDirectionUrl: imgName,
       body: textValue,
     };
     setStepsDatas(originData);
