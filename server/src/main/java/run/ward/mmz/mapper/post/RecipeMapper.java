@@ -15,6 +15,7 @@ public interface RecipeMapper {
     Recipe toEntity(Account owner, RecipePostDto recipePostDto, Files imgThumbNail, List<Ingredient> ingredients, List<Direction> directionList);
     RecipeResponseDto toResponseDto(Recipe recipe);
     RecipeInfoDto toInfoDto(Recipe recipe);
+    List<RecipeInfoDto> toInfoDto(List<Recipe> recipeList);
     RecipePatchDto toPatchDto(Recipe recipe);
 
 }

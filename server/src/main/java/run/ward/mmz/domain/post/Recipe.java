@@ -207,9 +207,10 @@ public class Recipe extends Auditable {
 
         for (Review review : reviews) {
             stars += review.getStars();
+            this.stars = stars / reviews.size();
         }
 
-        this.stars = stars / reviews.size();
+
 
     }
 

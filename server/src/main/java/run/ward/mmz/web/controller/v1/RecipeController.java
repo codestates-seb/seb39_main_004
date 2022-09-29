@@ -2,6 +2,7 @@ package run.ward.mmz.web.controller.v1;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -85,7 +86,12 @@ public class RecipeController {
         tagService.saveAll(tags);
         recipeTagService.save(tags, recipe);
 
-        return new ResponseEntity<>(HttpStatus.OK);
+        RecipeInfoDto infoDto = recipeMapper.toInfoDto(recipe);
+        ResponseDto.Single<?> response = ResponseDto.Single.builder()
+                .data(infoDto)
+                .build();
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
 
@@ -162,20 +168,23 @@ public class RecipeController {
             @RequestParam(required = false, defaultValue = "dec", value = "sort") String sort) {
 
         Page<Recipe> recipePage = recipeService.findAllBySearch(pageNo, PAGE_SIZE, search, orderBy, sort);
-        List<Recipe> recipeList = recipePage.getContent();
-        List<RecipeInfoDto> responseDtoList = new ArrayList<>();
 
-        for(Recipe recipe : recipeList){
-            responseDtoList.add(recipeMapper.toInfoDto(recipe));
-        }
-
-        ResponseDto.Multi<?> response = ResponseDto.Multi.builder()
-                .page(recipePage)
-                .data(Collections.singletonList(responseDtoList))
-                .build();
-
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return getResponseEntity(recipePage);
     }
+
+    @GetMapping("/recipe/all/{pageNo}")
+    public ResponseEntity<?> readAllPage(
+            @Positive @PathVariable(required = false, value = "pageNo") int pageNo,
+            @RequestParam(required = false, defaultValue = "id", value = "orderBy") String orderBy,
+            @RequestParam(required = false, defaultValue = "dec", value = "sort") String sort) {
+
+        Page<Recipe> recipePage = recipeService.findAll(pageNo, PAGE_SIZE, orderBy, sort);
+
+        return getResponseEntity(recipePage);
+    }
+
+
+
 
     @GetMapping("/recipe/category/{pageNo}")
     public ResponseEntity<?> readCategoryPage(
@@ -184,21 +193,9 @@ public class RecipeController {
             @RequestParam("category") String category,
             @RequestParam(required = false, defaultValue = "dec", value = "sort") String sort) {
 
-
         Page<Recipe> recipePage = recipeService.findAllByCategory(pageNo, PAGE_SIZE, category, orderBy, sort);
-        List<Recipe> recipeList = recipePage.getContent();
-        List<RecipeInfoDto> responseDtoList = new ArrayList<>();
 
-        for(Recipe recipe : recipeList){
-            responseDtoList.add(recipeMapper.toInfoDto(recipe));
-        }
-
-        ResponseDto.Multi<?> response = ResponseDto.Multi.builder()
-                .page(recipePage)
-                .data(Collections.singletonList(responseDtoList))
-                .build();
-
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return getResponseEntity(recipePage);
     }
 
     @PostMapping("/recipe/{recipeId}/tags/delete")
@@ -209,6 +206,17 @@ public class RecipeController {
         recipeTagService.deleteAllByRecipe(recipeService.findById(recipeId));
 
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+
+
+    private ResponseEntity<?> getResponseEntity(Page<Recipe> recipePage) {
+
+        List<RecipeInfoDto> responseDtoList = recipeMapper.toInfoDto(recipePage.getContent());
+
+        ResponseDto.Multi<?> response = new ResponseDto.Multi<>(responseDtoList, recipePage);
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
 
