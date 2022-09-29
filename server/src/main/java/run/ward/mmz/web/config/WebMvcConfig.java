@@ -21,6 +21,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
         registry.addMapping("/api/**")
                 .allowedOrigins("http://localhost:8080", "http://localhost:8081")
                 .allowCredentials(false)
+                .allowedHeaders("*")
                 .allowedMethods("*");
     }
 
