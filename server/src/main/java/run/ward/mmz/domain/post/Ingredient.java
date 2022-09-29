@@ -1,5 +1,6 @@
 package run.ward.mmz.domain.post;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 
@@ -17,6 +18,9 @@ public class Ingredient {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(columnDefinition = "integer default 1", nullable = false)
+    private int idx;
+
     @NotBlank
     private String name;
 
@@ -24,20 +28,23 @@ public class Ingredient {
     private String amount;
 
     @NotNull
-    @ColumnDefault("false")
-    private boolean isEssential = false;
+    @Column(columnDefinition = "boolean default false", nullable = false)
+    private boolean isEssential;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "recipeId")
     private Recipe recipe;
 
     public void setRecipe(Recipe recipe){
         this.recipe = recipe;
-        recipe.getIngredients().add(this);
+        if(!recipe.getIngredients().contains(this))
+            recipe.getIngredients().add(this);
     }
 
     @Builder
-    public Ingredient(String name, String amount, boolean isEssential, Recipe recipe) {
+    public Ingredient(int index, String name, String amount, boolean isEssential, Recipe recipe) {
+        this.idx = index;
         this.name = name;
         this.amount = amount;
         this.isEssential = isEssential;

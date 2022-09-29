@@ -1,13 +1,13 @@
 package run.ward.mmz.service;
 
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import run.ward.mmz.domain.account.Account;
+import run.ward.mmz.domain.post.Recipe;
+import run.ward.mmz.handler.exception.CustomException;
+import run.ward.mmz.handler.exception.ExceptionCode;
 
-@Service
-@RequiredArgsConstructor
+public interface AccountService {
 
-public class AccountService {
-
+    Account findById(Long id);
+    void verifyExistsId(Long id);
+    Account findVerifiedEntity(Long id);
 }

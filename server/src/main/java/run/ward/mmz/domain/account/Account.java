@@ -1,14 +1,16 @@
 package run.ward.mmz.domain.account;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import run.ward.mmz.domain.auditable.Auditable;
-import run.ward.mmz.domain.post.Bookmark;
-import run.ward.mmz.domain.post.Recipe;
-import run.ward.mmz.domain.post.Review;
+import run.ward.mmz.domain.file.Files;
+import run.ward.mmz.domain.post.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 
@@ -26,7 +28,7 @@ public class Account extends Auditable {
     private String name;
 
     @Lob
-    private Long bio;
+    private String bio;
 
     private String password;
 
@@ -36,17 +38,23 @@ public class Account extends Auditable {
     @Column
     private String picture;
 
+    @JsonIgnore
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "profileId")
+    private Files imgProfile;
+
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Role role;
 
     @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    private Set<Recipe> recipes = new LinkedHashSet<>();
+    private List<Recipe> recipes = new ArrayList<>();
     @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    private Set<Bookmark> bookmarks = new LinkedHashSet<>();
+    private List<Bookmark> bookmarks = new ArrayList<>();
 
     @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    private Set<Review> reviews = new LinkedHashSet<>();
+    private List<Review> reviews = new ArrayList<>();
 
     @Builder
     public Account(String name, String email, String picture, Role role){
@@ -67,19 +75,45 @@ public class Account extends Auditable {
     }
 
 
-    public void addBookmarks(Bookmark bookmark){
-        bookmarks.add(bookmark);
-        bookmark.setOwner(this);
+    public void addBookmarks(Bookmark bookmark) {
+        if(!bookmarks.contains(bookmark)) {
+            bookmarks.add(bookmark);
+            bookmark.setOwner(this);
+        }
+
     }
 
+    public void removeBookmarks(Bookmark bookmark) {
+        bookmarks.remove(bookmark);
+    }
+
+
     public void addReview(Review review){
-        reviews.add(review);
-        review.setOwner(this);
+        if(!reviews.contains(review)){
+            reviews.add(review);
+            review.setOwner(this);
+        }
+
     }
 
     public void addRecipe(Recipe recipe){
-        recipes.add(recipe);
-        recipe.setOwner(this);
+        if(!recipes.contains(recipe)) {
+            recipes.add(recipe);
+            recipe.setOwner(this);
+        }
+
+    }
+
+    @JsonIgnore
+    public List<Recipe> getRecipeList(){
+
+        List<Recipe> recipeList = new ArrayList<>();
+
+        for(Bookmark bookmark : this.bookmarks) {
+            recipeList.add(bookmark.getRecipe());
+        }
+
+        return recipeList;
     }
 
 }

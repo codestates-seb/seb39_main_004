@@ -5,7 +5,8 @@
 
     <appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
 <!--              logstash 서버 ip:port-->
-        <destination>127.0.0.1:4560</destination>
+        <destination>mmz.today:4560</destination>
+
         <encoder>
             <pattern>%msg%n</pattern>
         </encoder>

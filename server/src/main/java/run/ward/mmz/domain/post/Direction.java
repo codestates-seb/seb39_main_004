@@ -1,11 +1,11 @@
 package run.ward.mmz.domain.post;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import run.ward.mmz.domain.file.Image.DirectionImage;
-import run.ward.mmz.domain.file.Image.ThumbNailImage;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
+
+import run.ward.mmz.domain.file.Files;
+import run.ward.mmz.dto.request.patch.RecipePatchDto;
+
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -20,27 +20,42 @@ public class Direction {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(columnDefinition = "integer default 1", nullable = false)
+    private int idx;
+
     @Lob
     @NotBlank
     private String body;
 
+    @JsonIgnore
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "directionId")
-    private DirectionImage image;
+    @JoinColumn(name = "fileId")
+    private Files files;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "recipeId")
     private Recipe recipe;
 
-    // 연관관계 메서드
-    public void setImage(DirectionImage image){
-        this.image = image;
-        image.setDirection(this);
+    public void setFiles(Files files) {
+        this.files = files;
     }
+
+    // 연관관계 메서드
 
     public void setRecipe(Recipe recipe){
         this.recipe = recipe;
-        recipe.getDirections().add(this);
+        if(!recipe.getDirections().contains(this))
+            recipe.getDirections().add(this);
     }
 
+
+
+    @Builder
+    public Direction(Long id, int index, String body, Files files, Recipe recipe) {
+        this.idx = index;
+        this.body = body;
+        this.files = files;
+        this.recipe = recipe;
+    }
 }

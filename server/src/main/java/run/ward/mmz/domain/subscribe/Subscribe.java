@@ -1,9 +1,6 @@
 package run.ward.mmz.domain.subscribe;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import run.ward.mmz.domain.account.Account;
 
 import javax.persistence.*;
@@ -21,10 +18,12 @@ public class Subscribe {
 
     @JoinColumn(name = "toUserId")
     @ManyToOne
+    @ToString.Exclude
     private Account toUser;
 
     @JoinColumn(name = "fromUserId")
     @ManyToOne
+    @ToString.Exclude
     private Account forUser;
 
 
