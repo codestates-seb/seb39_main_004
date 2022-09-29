@@ -40,6 +40,24 @@ interface IResponseImgProps {
   originFileName?: string;
 }
 
+interface IItemProps {
+  id: number;
+  title: string;
+  imgThumbNailUrl: string;
+  stars: string;
+  tags: ITagProps[];
+}
+
+interface ISearchDataProps {
+  searchData?: IItemProps[];
+  setSearchSortBy?: React.Dispatch<React.SetStateAction<string>>;
+}
+
+interface ITagProps {
+  id?: number;
+  name: string;
+}
+
 interface IAddIngredientsProps {
   register?: UseFormRegister<TypeOfFormData>;
   ingredientsDatas: TypeOfIngredients[];
@@ -62,4 +80,7 @@ export type {
   IIngredientSetProps,
   IStepSetProps,
   ITagsMakerProps,
+  IItemProps,
+  ITagProps,
+  ISearchDataProps,
 };

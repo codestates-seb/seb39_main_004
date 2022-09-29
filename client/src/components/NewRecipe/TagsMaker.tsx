@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { ITagsMakerProps } from "../../ts/interface";
-import { TypeOfTags } from "../../ts/type";
+import { ITagsMakerProps } from "../../types/interface";
+import { TypeOfTags } from "../../types/type";
 import styled from "styled-components";
 
 const STagsContainer = styled.ul`

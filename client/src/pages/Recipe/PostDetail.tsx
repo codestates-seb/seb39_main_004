@@ -105,7 +105,7 @@ const RecipeDetail = () => {
       </SHeaderContainer>
       <STagContainer>
         {data.recipeTags.map((i) => (
-          <Tag key={i} tagItem={i} />
+          <Tag key={i} name={i} />
         ))}
       </STagContainer>
       <RecipeInfo />

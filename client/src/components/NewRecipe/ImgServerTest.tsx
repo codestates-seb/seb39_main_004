@@ -1,6 +1,6 @@
 import ImgUploader from "./ImgUploader";
 import { SortButtons } from "../../components/CommonUI";
-import { TypeOfFileList } from "../../ts/type";
+import { TypeOfFileList } from "../../types/type";
 import styled from "styled-components";
 import axios from "axios";
 import { useEffect, useState } from "react";

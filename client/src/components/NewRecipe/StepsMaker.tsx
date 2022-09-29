@@ -1,4 +1,4 @@
-import { IStepMakerProps } from "../../ts/interface";
+import { IStepMakerProps } from "../../types/interface";
 import { useState } from "react";
 import { StepSet } from "./indexNewRecipe";
 
