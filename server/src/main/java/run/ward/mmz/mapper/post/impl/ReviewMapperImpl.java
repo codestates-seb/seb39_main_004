@@ -12,6 +12,7 @@ import run.ward.mmz.mapper.post.ReviewMapper;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
@@ -54,16 +55,8 @@ public class ReviewMapperImpl implements ReviewMapper {
     @Override
     public List<ReviewResponseDto> toResponseDto(List<Review> reviewList) {
 
-        if(reviewList.isEmpty()){
-            return new ArrayList<>();
-        }
-
-        List<ReviewResponseDto> reviewResponseDtoList = new ArrayList<>();
-
-        for(Review review : reviewList){
-            reviewResponseDtoList.add(toResponseDto(review));
-        }
-
-        return reviewResponseDtoList;
+        return reviewList.stream()
+                .map(this::toResponseDto)
+                .collect(Collectors.toList());
     }
 }

@@ -13,6 +13,7 @@ import run.ward.mmz.mapper.account.AccountMapper;
 import run.ward.mmz.mapper.post.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
@@ -76,6 +77,7 @@ public class RecipeMapperImpl implements RecipeMapper {
         if (recipe == null) {
             return null;
         }
+
         return RecipeInfoDto.builder()
                 .id(recipe.getId())
                 .title(recipe.getTitle())
@@ -84,6 +86,13 @@ public class RecipeMapperImpl implements RecipeMapper {
                 .stars(String.format("%.2f", recipe.getStars()))
                 .tags(tagMapper.toResponseDto(recipe.getTagList()))
                 .build();
+    }
+
+    @Override
+    public List<RecipeInfoDto> toInfoDto(List<Recipe> recipeList) {
+        return recipeList.stream()
+                .map(this::toInfoDto)
+                .collect(Collectors.toList());
     }
 
     @Override
