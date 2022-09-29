@@ -139,7 +139,7 @@ public class RecipeServiceImpl implements RecipeService {
         Pageable pageable = PageRequest.of(page - 1, size);
 
         Set<Recipe> recipeSet = recipeRepository.findAllByTitleContaining(search);
-        recipeSet.addAll(recipeTagService.findAllByTagName(search));
+        //recipeSet.addAll(recipeTagService.findAllByTagName(search));
 
         List<Recipe> mergedList = new ArrayList<>(recipeSet);
 
