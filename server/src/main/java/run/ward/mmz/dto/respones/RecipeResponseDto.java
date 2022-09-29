@@ -17,7 +17,6 @@ public class RecipeResponseDto {
     private String body;
     private String category;
     private String imgThumbNailUrl;
-    private String level;
     private boolean isBookmarked;
     private String stars;
     private int views;
@@ -27,7 +26,5 @@ public class RecipeResponseDto {
     private List<IngredientResponseDto> ingredients;
     private List<TagResponseDto> tags;
     private List<ReviewResponseDto> reviews;
-
-
 
 }

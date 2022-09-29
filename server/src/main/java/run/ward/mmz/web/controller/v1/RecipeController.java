@@ -95,7 +95,6 @@ public class RecipeController {
     }
 
 
-
     @GetMapping("/recipe/{recipeId}")
     public ResponseEntity<?> readRecipePage(
             @PathVariable Long recipeId) {
@@ -213,7 +212,6 @@ public class RecipeController {
     private ResponseEntity<?> getResponseEntity(Page<Recipe> recipePage) {
 
         List<RecipeInfoDto> responseDtoList = recipeMapper.toInfoDto(recipePage.getContent());
-
         ResponseDto.Multi<?> response = new ResponseDto.Multi<>(responseDtoList, recipePage);
 
         return new ResponseEntity<>(response, HttpStatus.OK);

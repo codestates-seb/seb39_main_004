@@ -58,8 +58,6 @@ public class Recipe extends Auditable {
     @JoinColumn(name = "ownerId")
     private Account owner;
 
-    @Column(nullable = false)
-    private String level;
 
     //orphanRemoval=true 영속성에서 관계가 끊어질 경우 commit 시점에서 삭제
     @JsonIgnore
@@ -138,13 +136,12 @@ public class Recipe extends Auditable {
 
 
     @Builder
-    public Recipe(String title, String body, String category, int views, int stars, String level) {
+    public Recipe(String title, String body, String category, int views, int stars) {
         this.title = title;
         this.body = body;
         this.category = category;
         this.views = views;
         this.stars = stars;
-        this.level = level;
     }
 
 
@@ -163,7 +160,7 @@ public class Recipe extends Auditable {
     // 레시피 생성 메서드
     @Builder
     @JsonIgnore
-    public static Recipe createRecipe(String title, String body, String category, Files imgThumbNail, Account owner, String level, List<Ingredient> ingredients, List<Direction> directions) {
+    public static Recipe createRecipe(String title, String body, String category, Files imgThumbNail, Account owner, List<Ingredient> ingredients, List<Direction> directions) {
 
         //Todo : 잘못된 값 혹은 null값이 들어올 경우 처리할 수 있는 Exception이 있어야한다.
 
@@ -171,7 +168,6 @@ public class Recipe extends Auditable {
                 .title(title)
                 .category(category)
                 .body(body)
-                .level(level)
                 .build();
 
         recipe.setOwner(owner);
@@ -209,8 +205,6 @@ public class Recipe extends Auditable {
             stars += review.getStars();
             this.stars = stars / reviews.size();
         }
-
-
 
     }
 
