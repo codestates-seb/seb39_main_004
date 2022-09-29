@@ -110,8 +110,9 @@ public class Recipe extends Auditable {
 
         if(!reviews.contains(review)){
             reviews.add(review);
+            review.setRecipe(this);
         }
-        review.setRecipe(this);
+
     }
 
     protected void mappingRecipeTag(RecipeTag recipeTag){
@@ -131,8 +132,9 @@ public class Recipe extends Auditable {
         if(!bookmarks.contains(bookmark)) {
             bookmarks.add(bookmark);
             isBookmarked = true;
+            bookmark.setRecipe(this);
         }
-        bookmark.setRecipe(this);
+
 
 
     }

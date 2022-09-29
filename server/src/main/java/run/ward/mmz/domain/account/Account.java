@@ -78,8 +78,9 @@ public class Account extends Auditable {
     public void addBookmarks(Bookmark bookmark) {
         if(!bookmarks.contains(bookmark)) {
             bookmarks.add(bookmark);
+            bookmark.setOwner(this);
         }
-        bookmark.setOwner(this);
+
     }
 
     public void removeBookmarks(Bookmark bookmark) {
@@ -90,15 +91,17 @@ public class Account extends Auditable {
     public void addReview(Review review){
         if(!reviews.contains(review)){
             reviews.add(review);
+            review.setOwner(this);
         }
-        review.setOwner(this);
+
     }
 
     public void addRecipe(Recipe recipe){
         if(!recipes.contains(recipe)) {
             recipes.add(recipe);
+            recipe.setOwner(this);
         }
-        recipe.setOwner(this);
+
     }
 
     @JsonIgnore
