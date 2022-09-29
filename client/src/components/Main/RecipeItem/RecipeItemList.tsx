@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import RecipeItem from "./RecipeItem";
-import { SearchDataProps } from "../../../ts/interface";
+import { ISearchDataProps } from "../../../types/interface";
 
 const SItemListLayout = styled.div`
   display: grid;
@@ -15,7 +15,7 @@ const SItemListLayout = styled.div`
   }
 `;
 
-const RecipeItemList = ({ searchData }: SearchDataProps) => {
+const RecipeItemList = ({ searchData }: ISearchDataProps) => {
   console.log("RecipeItemList", searchData);
 
   return (

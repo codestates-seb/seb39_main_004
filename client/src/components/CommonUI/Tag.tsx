@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { TagProps } from "../../ts/interface";
+import { ITagProps } from "../../types/interface";
 
 const STag = styled.span`
   margin: 0 4px;
@@ -11,7 +11,7 @@ const STag = styled.span`
   }
 `;
 
-const Tag = ({ name }: TagProps) => {
+const Tag = ({ name }: ITagProps) => {
   return <STag>{name}</STag>;
 };
 

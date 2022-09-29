@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { Tag } from "../../CommonUI";
 import { AiFillStar } from "react-icons/ai";
-import { ItemProps } from "../../../ts/interface";
+import { IItemProps } from "../../../types/interface";
 
 const SRecipeLayout = styled.div`
   display: flex;
@@ -53,7 +53,13 @@ const SLink = styled(Link)`
   color: black;
 `;
 
-const RecipeItem = ({ id, title, imgThumbNailUrl, stars, tags }: ItemProps) => {
+const RecipeItem = ({
+  id,
+  title,
+  imgThumbNailUrl,
+  stars,
+  tags,
+}: IItemProps) => {
   return (
     <SRecipeLayout>
       <SLink to={`/item/${id}`}>
