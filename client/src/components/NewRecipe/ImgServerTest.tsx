@@ -12,7 +12,7 @@ const SImg = styled.img`
   border: 1px solid black;
 `;
 
-interface ResponseImgProps {
+interface IResponseImgProps {
   contentType?: string;
   createData?: string;
   fileName: string;
@@ -25,7 +25,7 @@ interface ResponseImgProps {
 const ImgServerTest = () => {
   // const formData = new FormData();
   const [stepImgFiles, setStepImgFiles] = useState<TypeOfFileList[]>([]);
-  const [responsedImg, setResponsedImg] = useState<ResponseImgProps[]>([]);
+  const [responsedImg, setResponsedImg] = useState<IResponseImgProps[]>([]);
 
   const filterHandler = async (orderValue: string) => {
     console.log("filterhandler의 매개변수", orderValue); // 정렬 관련 서버 기능 구현 후 동작 처리하겠습니다.

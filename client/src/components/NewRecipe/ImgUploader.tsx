@@ -1,5 +1,5 @@
 import { useState, useRef } from "react";
-import { StepMakerProps } from "../../ts/interface";
+import { IImgUploaderProps } from "../../ts/interface";
 import styled from "styled-components";
 
 const SImgInputContainer = styled.div`
@@ -23,17 +23,20 @@ const ImgUploader = ({
   setThumbNail,
   setStepImgFiles,
   stepImgFiles,
-}: StepMakerProps) => {
+  setImgName,
+}: IImgUploaderProps) => {
   const [fileURL, setStepImgFilesURL] = useState<string>("");
   const imgUploadInput = useRef<HTMLInputElement | null>(null);
 
   const onImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
-      if (idx !== undefined && stepImgFiles && setStepImgFiles) {
+      if (idx !== undefined && stepImgFiles && setStepImgFiles && setImgName) {
         const newImgFile = stepImgFiles;
         newImgFile[idx] = event.target.files[0];
-        console.log("값 전체", newImgFile);
+        // console.log("값 전체", newImgFile);
+        // console.log("파일이름", event.target.files[0]);
         setStepImgFiles(newImgFile);
+        setImgName(event.target.files[0].name);
       }
       if (setThumbNail) {
         setThumbNail(event.target.files[0]);

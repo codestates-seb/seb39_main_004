@@ -1,15 +1,36 @@
 import { Dispatch, SetStateAction } from "react";
-import { TypeOfFileList } from "./type";
+import {
+  TypeOfDirections,
+  TypeOfFileList,
+  TypeOfFormData,
+  TypeOfIngredients,
+  TypeOfTags,
+} from "./type";
+import { UseFormRegister } from "react-hook-form";
 
-interface StepMakerProps {
+interface IImgUploaderProps {
   idx?: number;
   setThumbNail?: Dispatch<SetStateAction<TypeOfFileList>>;
   stepImgFiles?: TypeOfFileList[];
   setStepImgFiles?: Dispatch<SetStateAction<TypeOfFileList[]>>;
+  setImgName?: Dispatch<SetStateAction<string | undefined>>;
+}
+
+interface IStepMakerProps extends IImgUploaderProps {
+  stepsDatas: TypeOfDirections[];
+  setStepsDatas: Dispatch<SetStateAction<TypeOfDirections[]>>;
   clickEvent?: (orderValue: string) => Promise<void> | void;
 }
 
-interface ResponseImgProps {
+interface IStepSetProps {
+  idx: number;
+  stepImgFiles?: TypeOfFileList[];
+  setStepImgFiles?: Dispatch<SetStateAction<TypeOfFileList[]>>;
+  stepsDatas: TypeOfDirections[];
+  setStepsDatas: Dispatch<SetStateAction<TypeOfDirections[]>>;
+}
+
+interface IResponseImgProps {
   contentType?: string;
   createData?: string;
   fileName: string;
@@ -19,4 +40,26 @@ interface ResponseImgProps {
   originFileName?: string;
 }
 
-export type { StepMakerProps, ResponseImgProps };
+interface IAddIngredientsProps {
+  register?: UseFormRegister<TypeOfFormData>;
+  ingredientsDatas: TypeOfIngredients[];
+  setIngredientsDatas: Dispatch<SetStateAction<TypeOfIngredients[]>>;
+}
+
+interface IIngredientSetProps extends IAddIngredientsProps {
+  idx: number;
+}
+
+interface ITagsMakerProps {
+  setTagsDatas: Dispatch<SetStateAction<TypeOfTags[]>>;
+}
+
+export type {
+  IImgUploaderProps,
+  IStepMakerProps,
+  IResponseImgProps,
+  IAddIngredientsProps,
+  IIngredientSetProps,
+  IStepSetProps,
+  ITagsMakerProps,
+};
