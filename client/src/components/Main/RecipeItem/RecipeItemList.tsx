@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import RecipeItem from "./RecipeItem";
-import { ISearchDataProps } from "../../../types/interface";
+import { IRecipeDataProps } from "../../../types/interface";
 
 const SItemListLayout = styled.div`
   display: grid;
@@ -15,9 +15,20 @@ const SItemListLayout = styled.div`
   }
 `;
 
-const RecipeItemList = ({ searchData }: ISearchDataProps) => {
+const RecipeItemList = ({ mainData, searchData }: IRecipeDataProps) => {
   return (
     <SItemListLayout>
+      {mainData &&
+        mainData.map((i) => (
+          <RecipeItem
+            key={i.id}
+            id={i.id}
+            title={i.title}
+            imgThumbNailUrl={i.imgThumbNailUrl}
+            tags={i.tags}
+            stars={i.stars}
+          />
+        ))}
       {searchData &&
         searchData.map((i) => (
           <RecipeItem

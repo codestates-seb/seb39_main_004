@@ -35,11 +35,17 @@ interface IconProps {
   alt: string;
   text: string;
   link: string;
+  clickEvent: (categoryValue: string) => void;
 }
 
-const CategoryIcon = ({ img, alt, text, link }: IconProps) => {
+const CategoryIcon = ({ img, alt, text, link, clickEvent }: IconProps) => {
   return (
-    <SIconLayout>
+    <SIconLayout
+      onClick={(e) => {
+        e.preventDefault();
+        clickEvent?.(text);
+      }}
+    >
       <SIconLink to={link}>
         <SImage src={img} alt={alt} />
       </SIconLink>

@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { SortButtons } from "../CommonUI";
 import { RecipeItemList } from "../Main";
-import { ISearchDataProps } from "../../types/interface";
+import { IRecipeDataProps } from "../../types/interface";
 
 const SSortArea = styled.div`
   display: flex;
@@ -16,7 +16,7 @@ const SResultTitle = styled.div`
 const SearchResultList = ({
   searchData,
   setSearchSortBy,
-}: ISearchDataProps) => {
+}: IRecipeDataProps) => {
   const onSortClick = (sortValue: string) => {
     if (sortValue === "최신순") {
       setSearchSortBy && setSearchSortBy("id");
