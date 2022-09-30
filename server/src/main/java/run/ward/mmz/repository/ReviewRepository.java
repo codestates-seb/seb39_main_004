@@ -9,8 +9,11 @@ import run.ward.mmz.domain.post.Review;
 import java.util.List;
 
 public interface ReviewRepository extends JpaRepository<Review, Long> {
-    @Query("select r from Review r where r.recipe.id = :id order by r.id desc")
+    @Query("select r from Review r where r.recipe.id = :id")
     List<Review> findAllByRecipeId(Long id);
+
+    @Query("select r from Review r where r.recipe.id = :id")
+    Page<Review> findAllByRecipeId(Long id, Pageable pageable);
 
     @Query("select r from Review r where r.owner.id = :id")
     Page<Review> findAllByOwnerId(Long id, Pageable pageable);

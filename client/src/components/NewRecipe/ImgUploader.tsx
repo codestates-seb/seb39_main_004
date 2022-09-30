@@ -1,5 +1,5 @@
 import { useState, useRef } from "react";
-import { IImgUploaderProps } from "../../ts/interface";
+import { IImgUploaderProps } from "../../types/interface";
 import styled from "styled-components";
 
 const SImgInputContainer = styled.div`

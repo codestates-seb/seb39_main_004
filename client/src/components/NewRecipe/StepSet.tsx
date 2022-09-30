@@ -1,5 +1,5 @@
 import { ImgUploader } from "./indexNewRecipe";
-import { IStepSetProps } from "../../ts/interface";
+import { IStepSetProps } from "../../types/interface";
 // import { TypeOfFormData } from "../../ts/type";
 import { useEffect, useState } from "react";
 // import { useForm } from "react-hook-form";

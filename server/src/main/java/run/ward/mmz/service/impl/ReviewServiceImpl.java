@@ -6,12 +6,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import run.ward.mmz.domain.post.Recipe;
 import run.ward.mmz.domain.post.Review;
 import run.ward.mmz.handler.exception.CustomException;
 import run.ward.mmz.handler.exception.ExceptionCode;
 import run.ward.mmz.repository.ReviewRepository;
-import run.ward.mmz.service.RecipeService;
 import run.ward.mmz.service.ReviewService;
 
 import java.util.List;
@@ -75,11 +73,31 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     @Transactional(readOnly = true)
-    public Page<Review> findAllByAccountId(int page, int size, Long accountId, String orderBy) {
+    public Page<Review> findAllByRecipeId(int page, int size, Long recipeId, String orderBy, String sort) {
+
+        Sort bySort = Sort.by(orderBy).descending();
+
+        if (!sort.equals("dec"))
+            bySort = bySort.ascending();
+
+        return reviewRepository.findAllByRecipeId(
+                recipeId,
+                PageRequest.of(page - 1 , size, bySort)
+        );
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Page<Review> findAllByAccountId(int page, int size, Long accountId, String orderBy, String sort) {
+
+        Sort bySort = Sort.by(orderBy).descending();
+
+        if (!sort.equals("dec"))
+            bySort = bySort.ascending();
 
         return reviewRepository.findAllByOwnerId(
                 accountId,
-                PageRequest.of(page - 1 , size, Sort.by(orderBy).descending())
+                PageRequest.of(page - 1 , size, bySort)
         );
     }
 

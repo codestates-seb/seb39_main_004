@@ -13,7 +13,6 @@ public class RecipePatchDto {
     private String body;
     private String category;
     private String imgThumbNailUrl;
-    private String level;
 
     private List<DirectionPatchDto> directions;
     private List<IngredientPatchDto> ingredients;

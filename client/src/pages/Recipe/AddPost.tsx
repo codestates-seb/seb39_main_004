@@ -12,7 +12,7 @@ import {
   TypeOfDirections,
   TypeOfIngredients,
   TypeOfTags,
-} from "../../ts/type";
+} from "../../types/type";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import styled from "styled-components";

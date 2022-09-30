@@ -37,7 +37,6 @@ public class RecipeMapperImpl implements RecipeMapper {
                 recipePostDto.getCategory(),
                 imgThumbNail,
                 owner,
-                recipePostDto.getLevel(),
                 ingredients,
                 directionList
         );
@@ -58,7 +57,6 @@ public class RecipeMapperImpl implements RecipeMapper {
                 .body(recipe.getBody())
                 .category(recipe.getCategory())
                 .imgThumbNailUrl(recipe.getImgThumbNail().getFileName())
-                .level(recipe.getLevel())
                 .isBookmarked(recipe.isBookmarked())
                 .stars(String.format("%.2f", recipe.getStars()))
                 .views(recipe.getViews())
@@ -107,7 +105,6 @@ public class RecipeMapperImpl implements RecipeMapper {
                 .body(recipe.getBody())
                 .category(recipe.getCategory())
                 .imgThumbNailUrl(recipe.getImgThumbNail().getFileName())
-                .level(recipe.getLevel())
                 .directions(directionMapper.toPatchDto(recipe.getDirections()))
                 .ingredients(ingredientMapper.toPatchDto(recipe.getIngredients()))
                 .tags(tagMapper.toPatchDto(recipe.getTagList()))

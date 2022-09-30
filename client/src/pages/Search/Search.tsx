@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import React, { useState } from "react";
 import styled from "styled-components";
 import SearchBar from "../../components/Search/SearchBar";
 import SearchResultList from "../../components/Search/SearchResultList";
@@ -20,11 +22,23 @@ const SSearchResult = styled.div`
 `;
 
 const Search = () => {
+  const [searchWord, setSearchWord] = useState("");
+  const [searchData, setSearchData] = useState<any[]>([]);
+  const [searchSortBy, setSearchSortBy] = useState("id");
+
   return (
     <SSearchLayout>
-      <SearchBar />
+      <SearchBar
+        searchWord={searchWord}
+        setSearchWord={setSearchWord}
+        setSearchData={setSearchData}
+        searchSortBy={searchSortBy}
+      />
       <SSearchResult>
-        <SearchResultList />
+        <SearchResultList
+          searchData={searchData}
+          setSearchSortBy={setSearchSortBy}
+        />
       </SSearchResult>
     </SSearchLayout>
   );

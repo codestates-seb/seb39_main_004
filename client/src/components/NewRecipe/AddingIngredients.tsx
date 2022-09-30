@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { IAddIngredientsProps } from "../../ts/interface";
+import { IAddIngredientsProps } from "../../types/interface";
 import { IngredientsSet } from "./indexNewRecipe";
 import styled from "styled-components";
 

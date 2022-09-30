@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { useEffect, useState } from "react";
-import { IIngredientSetProps } from "../../ts/interface";
+import { IIngredientSetProps } from "../../types/interface";
 
 const SIngredientContainer = styled.li`
   display: flex;
