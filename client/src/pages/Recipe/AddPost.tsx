@@ -50,12 +50,13 @@ const AddPost = () => {
   // console.log("watch", watch("title"));
 
   const submitHandler: SubmitHandler<TypeOfFormData> = async (data) => {
-    console.log("onSubmitData", data);
-    console.log("재료", ingredientsDatas);
-    console.log("d이미지 순서", stepImgFiles);
-    console.log("순서", stepsDatas);
-    console.log("태그", tagsDatas);
+    // console.log("onSubmitData", data);
+    // console.log("재료", ingredientsDatas);
+    // console.log("d이미지 순서", stepImgFiles);
+    // console.log("순서", stepsDatas);
+    // console.log("태그", tagsDatas);
 
+    /** 이미지 누락 체크 */
     const emptyIndex = stepImgFiles.findIndex((el) => el === undefined);
     if (emptyIndex >= 0) {
       alert(`요리 순서의 ${emptyIndex + 1} 번째 이미지를 추가해주세요`);
@@ -66,7 +67,7 @@ const AddPost = () => {
       return;
     }
 
-    /** 서버통신 */
+    /** 서버 요청 데이터 구축 */
     const formData = new FormData();
     formData.append("imgThumbNail", thumbNail);
     stepImgFiles.forEach((file) => {
@@ -74,34 +75,29 @@ const AddPost = () => {
         formData.append("imgDirection", file);
       }
     });
+    const recipeDatas = {
+      ...data,
+      category: "기타",
+      ingredients: ingredientsDatas,
+      directions: stepsDatas,
+      tags: tagsDatas,
+    };
     formData.append(
       "recipe",
-      JSON.stringify({
-        ...data,
-        category: "기타",
-        ingredients: ingredientsDatas,
-        directions: stepsDatas,
-        tags: tagsDatas,
-      })
+      new Blob([JSON.stringify(recipeDatas)], { type: "application/json" })
     );
-    console.log(...formData); // 데이터 확인용
 
-    // try {
-    //   // const body = {
-
-    //   // }
-    //   // const response = await axios.post("/api/upload", formData, {
-    //   //   headers: { "content-type": "multipart/form-data" },
-    //   // });
-    //   const response = await axios.post("/api/v1/recipe/add", formData, {
-    //     headers: { "content-type": "multipart/form-data" },
-    //   });
-    //   console.log(response);
-    //   // 상위 컴포넌트 마크업 작업 후 처리하겠습니다.(이미지 )
-    // } catch (error) {
-    //   console.log(error);
-    //   console.log("이미지업로드 에러 발생");
-    // }
+    /** 서버 요청 */
+    try {
+      const response = await axios.post("/api/v1/recipe/add", formData, {
+        headers: { "content-type": "multipart/form-data" },
+      });
+      console.log(response);
+      // 등록된 페이지로 이동
+    } catch (error) {
+      console.log(error);
+      console.log("이미지업로드 에러 발생");
+    }
   };
 
   return (
