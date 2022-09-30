@@ -102,6 +102,12 @@ interface IIconProps {
   clickEvent: (categoryValue: string) => void;
 }
 
+interface ITagWithBtnProps {
+  tag: string;
+  idx: number;
+  tagRemover: (idx: number) => void;
+}
+
 export type {
   IImgUploaderProps,
   IStepMakerProps,
@@ -118,4 +124,5 @@ export type {
   IImgRadioProps,
   ICategoryProps,
   IIconProps,
+  ITagWithBtnProps,
 };
