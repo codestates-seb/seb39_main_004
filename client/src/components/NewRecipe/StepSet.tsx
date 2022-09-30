@@ -1,4 +1,4 @@
-import { ImgUploader } from "./indexNewRecipe";
+import { ImgUploader, RemoveBtn } from "./indexNewRecipe";
 import { IStepSetProps } from "../../types/interface";
 // import { TypeOfFormData } from "../../ts/type";
 import { useEffect, useState } from "react";
@@ -19,6 +19,10 @@ const StepSet = ({
   const [imgName, setImgName] = useState<string | undefined>();
   const [textValue, setTextValue] = useState("");
 
+  const removeHandler = () => {
+    console.log("stepse제거 idx", idx);
+  };
+
   useEffect(() => {
     const originData = stepsDatas;
     originData[idx] = {
@@ -38,10 +42,10 @@ const StepSet = ({
         placeholder="요리 과정을 입력해주세요."
         // value={textValue}
         onChange={(event) => {
-          // console.log("순서텍스트", event.target.value);
           setTextValue(event?.target.value);
         }}
       ></textarea>
+      <RemoveBtn removeHandler={removeHandler} />
       <ImgUploader
         idx={idx}
         stepImgFiles={stepImgFiles}

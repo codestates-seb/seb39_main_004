@@ -1,6 +1,6 @@
 import { IStepMakerProps } from "../../types/interface";
 import { useState } from "react";
-import { StepSet } from "./indexNewRecipe";
+import { StepSet, PlusBtn } from "./indexNewRecipe";
 
 const StepsMaker = ({
   stepsDatas,
@@ -10,10 +10,6 @@ const StepsMaker = ({
 }: IStepMakerProps) => {
   const ititialSteps = new Array<number>(1).fill(0);
   const [steps, setSteps] = useState(ititialSteps);
-
-  const addStepHandler = () => {
-    setSteps([...steps, 0]);
-  };
 
   return (
     <>
@@ -31,9 +27,11 @@ const StepsMaker = ({
           );
         })}
       </div>
-      <button type="button" onClick={addStepHandler}>
-        +
-      </button>
+      <PlusBtn
+        addHandler={() => {
+          setSteps([...steps, 0]);
+        }}
+      />
     </>
   );
 };

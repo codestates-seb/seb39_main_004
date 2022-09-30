@@ -108,6 +108,10 @@ interface ITagWithBtnProps {
   tagRemover: (idx: number) => void;
 }
 
+interface IRemoveBtnProps {
+  removeHandler: () => void;
+}
+
 export type {
   IImgUploaderProps,
   IStepMakerProps,
@@ -125,4 +129,5 @@ export type {
   ICategoryProps,
   IIconProps,
   ITagWithBtnProps,
+  IRemoveBtnProps,
 };
