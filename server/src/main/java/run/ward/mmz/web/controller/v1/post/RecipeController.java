@@ -176,6 +176,15 @@ public class RecipeController {
     }
 
 
+    @GetMapping("/main")
+    public ResponseEntity<?> main() {
+
+        Page<Recipe> recipePage = recipeService.findAll(1, PAGE_SIZE, "id", "dec");
+
+        return getResponseEntity(recipePage);
+    }
+
+
     @GetMapping("/recipe/category/{pageNo}")
     public ResponseEntity<?> readCategoryPage(
             @Positive @PathVariable(required = false, value = "pageNo") int pageNo,
@@ -187,6 +196,7 @@ public class RecipeController {
 
         return getResponseEntity(recipePage);
     }
+
 
 
     private ResponseEntity<?> getResponseEntity(Page<Recipe> recipePage) {
