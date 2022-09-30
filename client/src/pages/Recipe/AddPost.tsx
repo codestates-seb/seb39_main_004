@@ -4,8 +4,8 @@ import {
   Guide,
   AddingIngredients,
   StepsMaker,
+  ImgRadio,
 } from "../../components/NewRecipe/indexNewRecipe";
-// import ImgRadio from "../../components/NewRecipe/ImgRadio";
 import {
   TypeOfFileList,
   TypeOfFormData,
@@ -36,6 +36,7 @@ const AddPost = () => {
   const [thumbNail, setThumbNail] = useState<TypeOfFileList>();
   const [stepImgFiles, setStepImgFiles] = useState<TypeOfFileList[]>([]);
   const [stepsDatas, setStepsDatas] = useState<TypeOfDirections[]>([]);
+  const [checkedCateg, setCheckedCateg] = useState("");
   const [ingredientsDatas, setIngredientsDatas] = useState<TypeOfIngredients[]>(
     []
   );
@@ -55,6 +56,7 @@ const AddPost = () => {
     // console.log("d이미지 순서", stepImgFiles);
     // console.log("순서", stepsDatas);
     // console.log("태그", tagsDatas);
+    // console.log("카테", checkedCateg);
 
     /** 이미지 누락 체크 */
     const emptyIndex = stepImgFiles.findIndex((el) => el === undefined);
@@ -77,7 +79,7 @@ const AddPost = () => {
     });
     const recipeDatas = {
       ...data,
-      category: "기타",
+      category: checkedCateg,
       ingredients: ingredientsDatas,
       directions: stepsDatas,
       tags: tagsDatas,
@@ -122,9 +124,10 @@ const AddPost = () => {
           </SRecipeTexts>
           <ImgUploader setThumbNail={setThumbNail} />
         </SRecipeInfo>
-        <label htmlFor="category">카테고리</label>
-        {/* 카테고리 영역 */}
-        {/* <ImgRadio></ImgRadio> */}
+        <SFieldset>
+          <label htmlFor="category">카테고리</label>
+          <ImgRadio setCheckedCateg={setCheckedCateg}></ImgRadio>
+        </SFieldset>
         <SFieldset>
           <legend>요리재료</legend>
           <Guide text="필수 재료는 체크표시를 해주세요." />

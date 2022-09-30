@@ -72,6 +72,23 @@ interface ITagsMakerProps {
   setTagsDatas: Dispatch<SetStateAction<TypeOfTags[]>>;
 }
 
+interface IImgRadioProps {
+  setCheckedCateg: Dispatch<SetStateAction<string>>;
+}
+
+interface IRadioBtnProps extends IImgRadioProps {
+  keyValue: string;
+  srcValue: string;
+}
+
+interface ICategory {
+  rice?: string;
+  noddle?: string;
+  dessert?: string;
+  beverage?: string;
+  etc?: string;
+}
+
 export type {
   IImgUploaderProps,
   IStepMakerProps,
@@ -83,4 +100,7 @@ export type {
   IItemProps,
   ITagProps,
   ISearchDataProps,
+  IRadioBtnProps,
+  ICategory,
+  IImgRadioProps,
 };
