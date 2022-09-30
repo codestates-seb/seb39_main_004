@@ -48,7 +48,8 @@ interface IItemProps {
   tags: ITagProps[];
 }
 
-interface ISearchDataProps {
+interface IRecipeDataProps {
+  mainData?: IItemProps[];
   searchData?: IItemProps[];
   setSearchSortBy?: React.Dispatch<React.SetStateAction<string>>;
 }
@@ -89,6 +90,18 @@ interface ICategory {
   etc?: string;
 }
 
+interface ICategoryProps {
+  setCategory: React.Dispatch<React.SetStateAction<string>>;
+}
+
+interface IIconProps {
+  img: string;
+  alt: string;
+  text: string;
+  link: string;
+  clickEvent: (categoryValue: string) => void;
+}
+
 export type {
   IImgUploaderProps,
   IStepMakerProps,
@@ -99,8 +112,10 @@ export type {
   ITagsMakerProps,
   IItemProps,
   ITagProps,
-  ISearchDataProps,
+  IRecipeDataProps,
   IRadioBtnProps,
   ICategory,
   IImgRadioProps,
+  ICategoryProps,
+  IIconProps,
 };

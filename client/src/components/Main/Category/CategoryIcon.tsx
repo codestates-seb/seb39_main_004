@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import { IIconProps } from "../../../types/interface";
 
 const SIconLayout = styled.li`
   display: flex;
@@ -30,16 +31,14 @@ const SIconText = styled.span`
   margin: 1rem 0;
 `;
 
-interface IconProps {
-  img: string;
-  alt: string;
-  text: string;
-  link: string;
-}
-
-const CategoryIcon = ({ img, alt, text, link }: IconProps) => {
+const CategoryIcon = ({ img, alt, text, link, clickEvent }: IIconProps) => {
   return (
-    <SIconLayout>
+    <SIconLayout
+      onClick={(e) => {
+        e.preventDefault();
+        clickEvent?.(text);
+      }}
+    >
       <SIconLink to={link}>
         <SImage src={img} alt={alt} />
       </SIconLink>
