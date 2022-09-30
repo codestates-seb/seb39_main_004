@@ -2,6 +2,7 @@ package run.ward.mmz.mapper.account;
 
 import org.springframework.stereotype.Component;
 import run.ward.mmz.domain.account.Account;
+import run.ward.mmz.dto.request.account.SignUpDto;
 import run.ward.mmz.dto.respones.AccountInfoDto;
 
 @Component
@@ -19,6 +20,20 @@ public class AccountMapperImpl implements AccountMapper{
                 .name(account.getName())
 //                .imgProfileUrl(account.getImgProfile().getFileName())
                 .bio(account.getBio())
+                .build();
+    }
+
+    @Override
+    public Account toEntity(SignUpDto signUpDto) {
+
+        if (signUpDto == null) {
+            return null;
+        }
+
+        return Account.builder()
+                .email(signUpDto.getEmail())
+                .name(signUpDto.getName())
+                .password(signUpDto.getPassword())
                 .build();
     }
 }

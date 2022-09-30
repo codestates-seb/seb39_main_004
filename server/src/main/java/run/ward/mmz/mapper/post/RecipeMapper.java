@@ -4,7 +4,7 @@ package run.ward.mmz.mapper.post;
 import run.ward.mmz.domain.account.Account;
 import run.ward.mmz.domain.file.Files;
 import run.ward.mmz.domain.post.*;
-import run.ward.mmz.dto.request.patch.RecipePatchDto;
+import run.ward.mmz.dto.request.post.patch.RecipePatchDto;
 import run.ward.mmz.dto.request.post.RecipePostDto;
 import run.ward.mmz.dto.respones.RecipeInfoDto;
 import run.ward.mmz.dto.respones.RecipeResponseDto;
