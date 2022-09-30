@@ -11,8 +11,11 @@ import run.ward.mmz.handler.exception.ExceptionCode;
 import run.ward.mmz.repository.RecipeRepository;
 import run.ward.mmz.repository.RecipeTagRepository;
 import run.ward.mmz.repository.TagRepository;
+import run.ward.mmz.service.RecipeService;
 import run.ward.mmz.service.RecipeTagService;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -45,9 +48,6 @@ public class RecipeTagServiceImpl implements RecipeTagService {
     @Override
     @Transactional(readOnly = true)
     public List<Tag> findAllByRecipeId(Long recipeId) {
-        //recipeId 없을 경우 예외처리 완료
-        if(!recipeRepository.existsById(recipeId))
-            throw new CustomException(ExceptionCode.RECIPE_NOT_FOUND);
 
         return recipeRepository.getReferenceById(recipeId).getTagList();
     }
@@ -55,9 +55,9 @@ public class RecipeTagServiceImpl implements RecipeTagService {
     @Override
     @Transactional(readOnly = true)
     public List<Recipe> findAllByTagName(String tagName) {
-        //tagName 없을 경우 예외처리 필요 완료
-        if(!tagRepository.existsByName(tagName))
-            throw new CustomException(ExceptionCode.TAG_NOT_FOUND);
+
+        if(tagRepository.getReferenceByName(tagName) == null)
+            return Collections.emptyList();
 
         return tagRepository.getReferenceByName(tagName).getRecipeList();
     }
