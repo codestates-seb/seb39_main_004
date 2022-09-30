@@ -37,6 +37,7 @@ public class AccountDetailsService implements UserDetailsService {
     private final class AccountDetails extends Account implements UserDetails {
         // (1)
         AccountDetails(Account account) {
+
             setId(account.getId());
             setEmail(account.getEmail());
             setPassword(account.getPassword());

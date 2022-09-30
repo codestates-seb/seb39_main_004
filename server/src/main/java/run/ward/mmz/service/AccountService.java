@@ -56,7 +56,6 @@ public class AccountService {
         // 추가: DB에 User Role 저장
         List<String> roles = authorityUtils.createRoles(account.getEmail());
         account.setRoles(roles);
-
         Account savedAccount = accountRepository.save(account);
 
 

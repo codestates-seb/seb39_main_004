@@ -25,7 +25,7 @@ import java.util.List;
  * - @ExceptionHandler 적용
  */
 @RestController
-@RequestMapping("/v11/members")
+@RequestMapping("/api/v1/members")
 @Validated
 @Slf4j
 public class AccountController {
