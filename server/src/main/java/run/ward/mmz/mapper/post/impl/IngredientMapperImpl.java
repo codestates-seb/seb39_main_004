@@ -2,7 +2,7 @@ package run.ward.mmz.mapper.post.impl;
 
 import org.springframework.stereotype.Component;
 import run.ward.mmz.domain.post.Ingredient;
-import run.ward.mmz.dto.request.patch.IngredientPatchDto;
+import run.ward.mmz.dto.request.post.patch.IngredientPatchDto;
 import run.ward.mmz.dto.request.post.IngredientPostDto;
 import run.ward.mmz.dto.respones.IngredientResponseDto;
 import run.ward.mmz.mapper.post.IngredientMapper;

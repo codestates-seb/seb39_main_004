@@ -1,6 +1,7 @@
 package run.ward.mmz.handler.exception;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.expression.spel.SpelEvaluationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
@@ -73,5 +74,12 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(ErrorResponse.of(ExceptionCode.FILE_SIZE_EXCEED), HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(SpelEvaluationException.class)
+    public ResponseEntity<ErrorResponse> spelEvaluationException(SpelEvaluationException e) {
+
+        log.error("Exception : ", e);
+
+        return new ResponseEntity<>(ErrorResponse.of(ExceptionCode.USER_UNAUTHORIZED), HttpStatus.UNAUTHORIZED);
+    }
 
 }

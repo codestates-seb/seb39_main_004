@@ -3,7 +3,7 @@ package run.ward.mmz.mapper.post.impl;
 import org.springframework.stereotype.Component;
 import run.ward.mmz.domain.file.Files;
 import run.ward.mmz.domain.post.Direction;
-import run.ward.mmz.dto.request.patch.DirectionPatchDto;
+import run.ward.mmz.dto.request.post.patch.DirectionPatchDto;
 import run.ward.mmz.dto.request.post.DirectionPostDto;
 import run.ward.mmz.dto.respones.DirectionResponseDto;
 import run.ward.mmz.mapper.post.DirectionMapper;
