@@ -77,6 +77,14 @@ interface ICategoryProps {
   setCategory: React.Dispatch<React.SetStateAction<string>>;
 }
 
+interface IIconProps {
+  img: string;
+  alt: string;
+  text: string;
+  link: string;
+  clickEvent: (categoryValue: string) => void;
+}
+
 export type {
   IImgUploaderProps,
   IStepMakerProps,
@@ -89,4 +97,5 @@ export type {
   ITagProps,
   IRecipeDataProps,
   ICategoryProps,
+  IIconProps,
 };
