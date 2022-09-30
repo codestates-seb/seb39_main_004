@@ -138,10 +138,11 @@ public class RecipeServiceImpl implements RecipeService {
 
         Pageable pageable = PageRequest.of(page - 1, size);
 
-        Set<Recipe> recipeSet = recipeRepository.findAllByTitleContaining(search);
-        //recipeSet.addAll(recipeTagService.findAllByTagName(search));
+        Set<Recipe> recipeSet = new HashSet<>();
+        recipeSet.addAll(recipeRepository.findAllByTitleContaining(search));
+        recipeSet.addAll(recipeTagService.findAllByTagName(search));
 
-        List<Recipe> mergedList = new ArrayList<>(recipeSet);
+        List<Recipe> mergedList = new ArrayList<>(List.copyOf(recipeSet));
 
         Comparator<Recipe> comparator = (o1, o2) -> sort.equals("dec") ?
                 (int) (o2.getId() - o1.getId()) :
