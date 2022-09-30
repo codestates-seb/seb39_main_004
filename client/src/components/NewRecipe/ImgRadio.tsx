@@ -2,11 +2,11 @@ import { RadioBtn } from "./indexNewRecipe";
 import { IImgRadioProps } from "../../types/interface";
 
 const categoryImgsLink = [
-  { rice: "../../assets/category/rice.png" },
-  { noddle: "../../assets/category/noddle.png" },
-  { dessert: "../../assets/category/dessert.svg" },
-  { beverage: "../../assets/category/beverage.png" },
-  { etc: "../../assets/category/etc.svg" },
+  { rice: "" },
+  { noddle: "" },
+  { dessert: "" },
+  { beverage: "" },
+  { etc: "" },
 ];
 
 const ImgRadio = ({ setCheckedCateg }: IImgRadioProps) => {
