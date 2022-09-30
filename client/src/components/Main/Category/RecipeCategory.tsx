@@ -5,6 +5,7 @@ import pan from "../../../assets/icons/pot.svg";
 import noodle from "../../../assets/icons/noodles.svg";
 import bread from "../../../assets/icons/bread.svg";
 import CategoryIcon from "./CategoryIcon";
+import { ICategoryProps } from "../../../types/interface";
 
 const SCategoryLayout = styled.div`
   display: flex;
@@ -28,25 +29,30 @@ const SCategoryList = styled.ul`
 `;
 
 const categories = [
-  { id: 1, img: mainDish, alt: "메인", text: "메인", link: "/" },
-  { id: 2, img: rice, alt: "밥", text: "밥", link: "/" },
-  { id: 3, img: pan, alt: "국/탕", text: "국/탕", link: "/" },
-  { id: 4, img: noodle, alt: "면", text: "면", link: "/" },
-  { id: 5, img: bread, alt: "빵", text: "빵", link: "/" },
+  { id: 1, img: rice, alt: "밥", text: "밥", link: "/" },
+  { id: 2, img: noodle, alt: "면", text: "면", link: "/" },
+  { id: 3, img: bread, alt: "디저트", text: "디저트", link: "/" },
+  { id: 4, img: mainDish, alt: "음료", text: "음료", link: "/" },
+  { id: 5, img: pan, alt: "기타", text: "기타", link: "/" },
 ];
 
-const RecipeCategory = () => {
+const RecipeCategory = ({ setCategory }: ICategoryProps) => {
+  const onCategoryClick = (categoryValue: string) => {
+    setCategory(categoryValue);
+  };
+
   return (
     <SCategoryLayout>
       <SH1>레시피 분류</SH1>
       <SCategoryList>
-        {categories.map((i) => (
+        {categories.map((i, idx) => (
           <CategoryIcon
-            key={i.id}
+            key={idx}
             img={i.img}
             alt={i.alt}
             text={i.text}
             link={i.link}
+            clickEvent={onCategoryClick}
           />
         ))}
       </SCategoryList>
