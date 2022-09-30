@@ -4,8 +4,8 @@ import {
   Guide,
   AddingIngredients,
   StepsMaker,
+  ImgRadio,
 } from "../../components/NewRecipe/indexNewRecipe";
-// import ImgRadio from "../../components/NewRecipe/ImgRadio";
 import {
   TypeOfFileList,
   TypeOfFormData,
@@ -16,7 +16,7 @@ import {
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import styled from "styled-components";
-// import axios from "axios";
+import axios from "axios";
 
 const SFieldset = styled.fieldset`
   border: 1px solid blue;
@@ -36,6 +36,7 @@ const AddPost = () => {
   const [thumbNail, setThumbNail] = useState<TypeOfFileList>();
   const [stepImgFiles, setStepImgFiles] = useState<TypeOfFileList[]>([]);
   const [stepsDatas, setStepsDatas] = useState<TypeOfDirections[]>([]);
+  const [checkedCateg, setCheckedCateg] = useState("");
   const [ingredientsDatas, setIngredientsDatas] = useState<TypeOfIngredients[]>(
     []
   );
@@ -50,12 +51,14 @@ const AddPost = () => {
   // console.log("watch", watch("title"));
 
   const submitHandler: SubmitHandler<TypeOfFormData> = async (data) => {
-    console.log("onSubmitData", data);
-    console.log("재료", ingredientsDatas);
-    console.log("d이미지 순서", stepImgFiles);
-    console.log("순서", stepsDatas);
-    console.log("태그", tagsDatas);
+    // console.log("onSubmitData", data);
+    // console.log("재료", ingredientsDatas);
+    // console.log("d이미지 순서", stepImgFiles);
+    // console.log("순서", stepsDatas);
+    // console.log("태그", tagsDatas);
+    // console.log("카테", checkedCateg);
 
+    /** 이미지 누락 체크 */
     const emptyIndex = stepImgFiles.findIndex((el) => el === undefined);
     if (emptyIndex >= 0) {
       alert(`요리 순서의 ${emptyIndex + 1} 번째 이미지를 추가해주세요`);
@@ -66,7 +69,7 @@ const AddPost = () => {
       return;
     }
 
-    /** 서버통신 */
+    /** 서버 요청 데이터 구축 */
     const formData = new FormData();
     formData.append("imgThumbNail", thumbNail);
     stepImgFiles.forEach((file) => {
@@ -74,34 +77,29 @@ const AddPost = () => {
         formData.append("imgDirection", file);
       }
     });
+    const recipeDatas = {
+      ...data,
+      category: checkedCateg,
+      ingredients: ingredientsDatas,
+      directions: stepsDatas,
+      tags: tagsDatas,
+    };
     formData.append(
       "recipe",
-      JSON.stringify({
-        ...data,
-        category: "기타",
-        ingredients: ingredientsDatas,
-        directions: stepsDatas,
-        tags: tagsDatas,
-      })
+      new Blob([JSON.stringify(recipeDatas)], { type: "application/json" })
     );
-    console.log(...formData); // 데이터 확인용
 
-    // try {
-    //   // const body = {
-
-    //   // }
-    //   // const response = await axios.post("/api/upload", formData, {
-    //   //   headers: { "content-type": "multipart/form-data" },
-    //   // });
-    //   const response = await axios.post("/api/v1/recipe/add", formData, {
-    //     headers: { "content-type": "multipart/form-data" },
-    //   });
-    //   console.log(response);
-    //   // 상위 컴포넌트 마크업 작업 후 처리하겠습니다.(이미지 )
-    // } catch (error) {
-    //   console.log(error);
-    //   console.log("이미지업로드 에러 발생");
-    // }
+    /** 서버 요청 */
+    try {
+      const response = await axios.post("/api/v1/recipe/add", formData, {
+        headers: { "content-type": "multipart/form-data" },
+      });
+      console.log(response);
+      // 등록된 페이지로 이동
+    } catch (error) {
+      alert("레시피 등록에 실패했습니다.");
+      // console.log(error);
+    }
   };
 
   return (
@@ -126,14 +124,14 @@ const AddPost = () => {
           </SRecipeTexts>
           <ImgUploader setThumbNail={setThumbNail} />
         </SRecipeInfo>
-        <label htmlFor="category">카테고리</label>
-        {/* 카테고리 영역 */}
-        {/* <ImgRadio></ImgRadio> */}
+        <SFieldset>
+          <label htmlFor="category">카테고리</label>
+          <ImgRadio setCheckedCateg={setCheckedCateg}></ImgRadio>
+        </SFieldset>
         <SFieldset>
           <legend>요리재료</legend>
           <Guide text="필수 재료는 체크표시를 해주세요." />
           <AddingIngredients
-            // register={register}
             setIngredientsDatas={setIngredientsDatas}
             ingredientsDatas={ingredientsDatas}
           />

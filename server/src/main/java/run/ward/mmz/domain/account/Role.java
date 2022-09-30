@@ -4,11 +4,13 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 @Getter
-@RequiredArgsConstructor
 public enum Role {
-    GUEST("ROLE_GUEST","게스트"),
-    USER("ROLE_USER","일반 사용자");
+    ROLE_GUEST("ROLE_GUEST"),
+    ROLE_USER("ROLE_USER");
 
     private final String key;
-    private final String value;
+
+    Role(String key) {
+        this.key = key;
+    }
 }

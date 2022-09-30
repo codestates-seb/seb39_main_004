@@ -73,6 +73,23 @@ interface ITagsMakerProps {
   setTagsDatas: Dispatch<SetStateAction<TypeOfTags[]>>;
 }
 
+interface IImgRadioProps {
+  setCheckedCateg: Dispatch<SetStateAction<string>>;
+}
+
+interface IRadioBtnProps extends IImgRadioProps {
+  keyValue: string;
+  srcValue: string;
+}
+
+interface ICategory {
+  rice?: string;
+  noddle?: string;
+  dessert?: string;
+  beverage?: string;
+  etc?: string;
+}
+
 interface ICategoryProps {
   setCategory: React.Dispatch<React.SetStateAction<string>>;
 }
@@ -83,6 +100,12 @@ interface IIconProps {
   text: string;
   link: string;
   clickEvent: (categoryValue: string) => void;
+}
+
+interface ITagWithBtnProps {
+  tag: string;
+  idx: number;
+  tagRemover: (idx: number) => void;
 }
 
 export type {
@@ -96,6 +119,10 @@ export type {
   IItemProps,
   ITagProps,
   IRecipeDataProps,
+  IRadioBtnProps,
+  ICategory,
+  IImgRadioProps,
   ICategoryProps,
   IIconProps,
+  ITagWithBtnProps,
 };

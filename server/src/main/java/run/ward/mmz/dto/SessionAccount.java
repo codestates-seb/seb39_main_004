@@ -13,7 +13,7 @@ public class SessionAccount implements Serializable {
     public SessionAccount(Account account) {
         this.name = account.getName();
         this.email = account.getEmail();
-        this.picture = account.getPicture();
+        this.picture = account.getImgProfileUrl();
 
     }
 }

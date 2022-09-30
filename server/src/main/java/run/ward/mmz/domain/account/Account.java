@@ -9,9 +9,7 @@ import run.ward.mmz.domain.post.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
 
 
 @Entity
@@ -32,11 +30,11 @@ public class Account extends Auditable {
 
     private String password;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String email;
 
     @Column
-    private String picture;
+    private String imgProfileUrl;
 
     @JsonIgnore
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -45,7 +43,6 @@ public class Account extends Auditable {
 
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
     private Role role;
 
     @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
@@ -57,21 +54,12 @@ public class Account extends Auditable {
     private List<Review> reviews = new ArrayList<>();
 
     @Builder
-    public Account(String name, String email, String picture, Role role){
+    public Account(String name, String email, String password, String imgProfileUrl, Role role){
         this.name = name;
         this.email = email;
-        this.picture = picture;
+        this.password = password;
+        this.imgProfileUrl = imgProfileUrl;
         this.role = role;
-    }
-
-    public Account update(String name, String picture){
-        this.name = name;
-        this.picture = picture;
-        return this;
-    }
-
-    public String getRoleKey(){
-        return this.role.getKey();
     }
 
 
@@ -83,10 +71,10 @@ public class Account extends Auditable {
 
     }
 
+
     public void removeBookmarks(Bookmark bookmark) {
         bookmarks.remove(bookmark);
     }
-
 
     public void addReview(Review review){
         if(!reviews.contains(review)){
@@ -95,7 +83,6 @@ public class Account extends Auditable {
         }
 
     }
-
     public void addRecipe(Recipe recipe){
         if(!recipes.contains(recipe)) {
             recipes.add(recipe);
@@ -103,6 +90,14 @@ public class Account extends Auditable {
         }
 
     }
+
+    public void registerUser(Account account, String password, Role role) {
+        this.name = account.name;
+        this.email = account.email;
+        this.password = password;
+        this.role = role;
+    }
+
 
     @JsonIgnore
     public List<Recipe> getRecipeList(){

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { ITagsMakerProps } from "../../types/interface";
 import { TypeOfTags } from "../../types/type";
+import { TagWithBtn } from "./indexNewRecipe";
 import styled from "styled-components";
 
 const STagsContainer = styled.ul`
@@ -20,6 +21,14 @@ const TagsMaker = ({ setTagsDatas }: ITagsMakerProps) => {
     }
   };
 
+  const tagRemover = (idx: number) => {
+    console.log(idx);
+    const newTags = tags;
+    newTags.splice(idx, 1);
+    console.log(newTags);
+    setTags(newTags);
+  };
+
   useEffect(() => {
     const newData: TypeOfTags[] = [];
     tags.forEach((tags) => {
@@ -33,10 +42,12 @@ const TagsMaker = ({ setTagsDatas }: ITagsMakerProps) => {
       {tags.length > 0 &&
         tags.map((tag, idx) => {
           return (
-            <li key={idx}>
-              <span>{tag}</span>
-              <span>X</span>
-            </li>
+            <TagWithBtn
+              key={idx}
+              tag={tag}
+              idx={idx}
+              tagRemover={tagRemover}
+            ></TagWithBtn>
           );
         })}
       <input
