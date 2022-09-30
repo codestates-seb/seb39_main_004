@@ -97,8 +97,8 @@ const AddPost = () => {
       console.log(response);
       // 등록된 페이지로 이동
     } catch (error) {
-      console.log(error);
-      console.log("이미지업로드 에러 발생");
+      alert("레시피 등록에 실패했습니다.");
+      // console.log(error);
     }
   };
 
@@ -132,7 +132,6 @@ const AddPost = () => {
           <legend>요리재료</legend>
           <Guide text="필수 재료는 체크표시를 해주세요." />
           <AddingIngredients
-            // register={register}
             setIngredientsDatas={setIngredientsDatas}
             ingredientsDatas={ingredientsDatas}
           />
