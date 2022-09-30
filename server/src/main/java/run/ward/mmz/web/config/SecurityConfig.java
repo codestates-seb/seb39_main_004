@@ -4,12 +4,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.SessionManagementConfigurer;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -17,8 +17,10 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSessionEvent;
+import javax.servlet.http.HttpSessionListener;
 import java.io.IOException;
-import java.util.Arrays;
+import java.util.LinkedHashMap;
 
 @Configuration
 @EnableWebSecurity
@@ -49,12 +51,28 @@ public class SecurityConfig {
                     .and()
                 .formLogin()
                     .loginProcessingUrl("/api/v1/auth/login")
-                    .defaultSuccessUrl("/api/v1/main")
+                    .successHandler(new AuthenticationSuccessHandler() {
+                        @Override
+                        public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
+                            String uri = request.getHeader("Referer");
+                            if (uri != null && !uri.contains("/api/v1/auth/login")) {
+                                request.getSession().setAttribute("prevPage", uri);
+                            }
+                        }
+                    })
                     .failureUrl("/api/v1/auth/login-error")
                     .and()
                 .logout()
                     .logoutUrl("/api/v1/logout")
-                    .logoutSuccessUrl("/api/v1/main")
+                    .logoutSuccessHandler(new LogoutSuccessHandler() {
+                        @Override
+                        public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
+                            String uri = request.getHeader("Referer");
+                            if (uri != null && !uri.contains("/api/v1/auth/login")) {
+                                request.getSession().setAttribute("prevPage", uri);
+                            }
+                        }
+                    })
                 .deleteCookies("JSESSIONID");
 
 
@@ -69,6 +87,13 @@ public class SecurityConfig {
                 .configurationSource(corsConfigurationSource());
 
 
+        http
+                .sessionManagement(
+                        session -> session.sessionFixation(SessionManagementConfigurer.SessionFixationConfigurer::changeSessionId)
+                                .maximumSessions(1)
+                                .maxSessionsPreventsLogin(false)
+                                .expiredUrl("/auth/login-page")
+                );
 
         return http.build();
     }
@@ -85,5 +110,22 @@ public class SecurityConfig {
         source.registerCorsConfiguration("/**", configuration);
         return source;
     }
+
+    public class SessionListener implements HttpSessionListener {
+        @Override
+        public void sessionCreated(HttpSessionEvent se) {
+            se.getSession().setMaxInactiveInterval(60 * 60 * 3);
+            HttpSessionListener.super.sessionCreated(se);
+
+        }
+
+        @Override
+        public void sessionDestroyed(HttpSessionEvent se) {
+            HttpSessionListener.super.sessionDestroyed(se);
+        }
+    }
+
+
+
 
 }
