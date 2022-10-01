@@ -20,7 +20,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
 import java.io.IOException;
-import java.util.LinkedHashMap;
 
 @Configuration
 @EnableWebSecurity
@@ -36,19 +35,21 @@ public class SecurityConfig {
 
         //csrf 토큰 비활성화
         http
-                .csrf().disable();
+                .csrf().disable()
+        ;
 
         //접근을 전부 허용 @PreAuthorize("hasRole('ROLE_USER')") 사용 예정
         http
                 .authorizeRequests()
                 .anyRequest()
-                .permitAll();
+                .permitAll()
+        ;
 
 
         //일반 로그인 관련 인증
         http
                 .httpBasic()//postman 요청 임시
-                    .and()
+                .disable()
                 .formLogin()
                     .loginProcessingUrl("/api/v1/auth/login")
                     .successHandler(new AuthenticationSuccessHandler() {
@@ -73,7 +74,10 @@ public class SecurityConfig {
                             }
                         }
                     })
-                .deleteCookies("JSESSIONID");
+                .deleteCookies("JSESSIONID")
+                    .and()
+                .oauth2Login()
+        ;
 
 
         http
@@ -84,8 +88,8 @@ public class SecurityConfig {
 
         http
                 .cors()
-                .configurationSource(corsConfigurationSource());
-
+                .configurationSource(corsConfigurationSource())
+        ;
 
         http
                 .sessionManagement(
@@ -93,7 +97,9 @@ public class SecurityConfig {
                                 .maximumSessions(1)
                                 .maxSessionsPreventsLogin(false)
                                 .expiredUrl("/auth/login-page")
-                );
+                )
+        ;
+
 
         return http.build();
     }

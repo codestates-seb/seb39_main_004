@@ -43,6 +43,7 @@ public class Account extends Auditable {
 
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private Role role;
 
     @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
@@ -89,6 +90,15 @@ public class Account extends Auditable {
             recipe.setOwner(this);
         }
 
+    }
+
+    public String getRoleKey() {
+        return this.role.getKey();
+    }
+
+    public Account updateName(String name) {
+        this.name = name;
+        return this;
     }
 
     public void registerUser(Account account, String password, Role role) {

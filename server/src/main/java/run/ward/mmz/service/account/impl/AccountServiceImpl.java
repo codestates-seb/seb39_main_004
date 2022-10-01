@@ -24,7 +24,7 @@ public class AccountServiceImpl implements AccountService {
 
         String rawPassword = account.getPassword();
         String encPassword = bCryptPasswordEncoder.encode(rawPassword);
-        account.registerUser(account, encPassword, Role.ROLE_USER);
+        account.registerUser(account, encPassword, Role.USER);
         return accountRepository.save(account);
     }
 
