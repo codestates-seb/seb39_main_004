@@ -3,6 +3,10 @@ import { useState } from "react";
 import { NavLink, Link } from "react-router-dom";
 import { MdOutlineLogout, MdOutlineLogin } from "react-icons/md";
 import { BiSearchAlt2 } from "react-icons/bi";
+import { useNavigate } from "react-router-dom";
+import { userLogin } from "../../redux/slices/userSlice";
+import { useAppSelector, useAppDispatch } from "../../hooks/dispatchHook";
+import { useEffect } from "react";
 
 const SLogo = styled.img`
   width: 100px;
@@ -31,7 +35,13 @@ const SNavLink = styled(NavLink)`
 `;
 
 const Header = () => {
-  const [isLogin, setIsLogin] = useState(true); // redux 사용시 변경
+  const navigate = useNavigate();
+  const { userInfo } = useAppSelector((state) => state.user);
+
+  useEffect(() => {
+    if (userInfo) navigate("/");
+  }, [userInfo]);
+  const [isLogin, setIsLogin] = useState(true);
 
   return (
     <SHeader>

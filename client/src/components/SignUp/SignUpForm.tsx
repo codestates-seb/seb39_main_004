@@ -4,7 +4,6 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../hooks/dispatchHook";
 import { userSignUp } from "../../redux/slices/userSlice";
-import { useEffect } from "react";
 
 const SForm = styled.form``;
 
@@ -36,11 +35,6 @@ const SignUpForm = () => {
     formState: { isSubmitting, errors },
   } = useForm<Inputs>();
 
-  useEffect(() => {
-    // 회원가입 성공 시 로그인 페이지로 이동
-    if (signUpInfo) navigate("/login");
-  }, [signUpInfo]);
-
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     const signUpData = {
       name: data.nickname,
@@ -49,6 +43,7 @@ const SignUpForm = () => {
     };
 
     dispatch(userSignUp(signUpData));
+    if (signUpInfo) navigate("/login");
   };
 
   return (
