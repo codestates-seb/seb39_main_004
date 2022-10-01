@@ -1,18 +1,26 @@
 package run.ward.mmz.web.config;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.SessionManagementConfigurer;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.oauth2.client.OAuth2AuthorizationSuccessHandler;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import run.ward.mmz.handler.auth.LoginFailureHandler;
+import run.ward.mmz.handler.auth.LoginSuccessHandler;
+import run.ward.mmz.web.auth.OAuth2UserServiceImpl;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -20,11 +28,16 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
 import java.io.IOException;
-import java.util.LinkedHashMap;
+import java.util.Map;
 
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class SecurityConfig {
+
+    private final OAuth2UserServiceImpl oAuth2UserService;
+    private final LoginSuccessHandler loginSuccessHandler;
+    private final LoginFailureHandler loginFailureHandler;
 
     @Bean
     public BCryptPasswordEncoder encodePassword() {
@@ -36,44 +49,38 @@ public class SecurityConfig {
 
         //csrf 토큰 비활성화
         http
-                .csrf().disable();
+                .csrf().disable()
+        ;
 
         //접근을 전부 허용 @PreAuthorize("hasRole('ROLE_USER')") 사용 예정
         http
                 .authorizeRequests()
                 .anyRequest()
-                .permitAll();
+                .permitAll()
+        ;
 
 
         //일반 로그인 관련 인증
         http
                 .httpBasic()//postman 요청 임시
-                    .and()
+                .disable()
                 .formLogin()
-                    .loginProcessingUrl("/api/v1/auth/login")
-                    .successHandler(new AuthenticationSuccessHandler() {
-                        @Override
-                        public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-                            String uri = request.getHeader("Referer");
-                            if (uri != null && !uri.contains("/api/v1/auth/login")) {
-                                request.getSession().setAttribute("prevPage", uri);
-                            }
-                        }
-                    })
-                    .failureUrl("/api/v1/auth/login-error")
-                    .and()
+                .loginProcessingUrl("/api/v1/auth/login")
+                .failureUrl("/api/v1/auth/login-error")
+                .successHandler(loginSuccessHandler)
+                .failureHandler(loginFailureHandler)
+                .and()
                 .logout()
-                    .logoutUrl("/api/v1/logout")
-                    .logoutSuccessHandler(new LogoutSuccessHandler() {
-                        @Override
-                        public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-                            String uri = request.getHeader("Referer");
-                            if (uri != null && !uri.contains("/api/v1/auth/login")) {
-                                request.getSession().setAttribute("prevPage", uri);
-                            }
-                        }
-                    })
-                .deleteCookies("JSESSIONID");
+                .logoutUrl("/api/v1/logout")
+                .deleteCookies("JSESSIONID")
+        ;
+
+        http
+                .oauth2Login()
+                .successHandler(loginSuccessHandler)
+                .failureHandler(loginFailureHandler)
+                .userInfoEndpoint()
+                .userService(oAuth2UserService);
 
 
         http
@@ -84,8 +91,8 @@ public class SecurityConfig {
 
         http
                 .cors()
-                .configurationSource(corsConfigurationSource());
-
+//                .configurationSource(corsConfigurationSource())
+        ;
 
         http
                 .sessionManagement(
@@ -93,7 +100,9 @@ public class SecurityConfig {
                                 .maximumSessions(1)
                                 .maxSessionsPreventsLogin(false)
                                 .expiredUrl("/auth/login-page")
-                );
+                )
+        ;
+
 
         return http.build();
     }
@@ -101,7 +110,7 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.addAllowedOrigin(CorsConfiguration.ALL);
+        configuration.addAllowedOriginPattern(CorsConfiguration.ALL);
         configuration.addAllowedHeader(CorsConfiguration.ALL);
         configuration.addAllowedMethod(CorsConfiguration.ALL);
         configuration.setAllowCredentials(true);
@@ -124,8 +133,6 @@ public class SecurityConfig {
             HttpSessionListener.super.sessionDestroyed(se);
         }
     }
-
-
 
 
 }
