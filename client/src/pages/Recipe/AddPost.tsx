@@ -9,10 +9,10 @@ import {
 import {
   TypeOfFileList,
   TypeOfFormData,
-  TypeOfDirections,
   TypeOfIngredients,
   TypeOfTags,
 } from "../../types/type";
+import { IDirections } from "../../types/interface";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import styled from "styled-components";
@@ -35,7 +35,7 @@ const SRecipeTexts = styled.div`
 const AddPost = () => {
   const [thumbNail, setThumbNail] = useState<TypeOfFileList>();
   const [stepImgFiles, setStepImgFiles] = useState<TypeOfFileList[]>([]);
-  const [stepsDatas, setStepsDatas] = useState<TypeOfDirections[]>([]);
+  const [directDatas, setDirectDatas] = useState<IDirections[]>([]);
   const [checkedCateg, setCheckedCateg] = useState("");
   const [ingredientsDatas, setIngredientsDatas] = useState<TypeOfIngredients[]>(
     []
@@ -54,7 +54,7 @@ const AddPost = () => {
     // console.log("onSubmitData", data);
     // console.log("재료", ingredientsDatas);
     // console.log("d이미지 순서", stepImgFiles);
-    // console.log("순서", stepsDatas);
+    // console.log("순서", directDatas);
     // console.log("태그", tagsDatas);
     // console.log("카테", checkedCateg);
 
@@ -81,7 +81,7 @@ const AddPost = () => {
       ...data,
       category: checkedCateg,
       ingredients: ingredientsDatas,
-      directions: stepsDatas,
+      directions: directDatas,
       tags: tagsDatas,
     };
     formData.append(
@@ -140,8 +140,8 @@ const AddPost = () => {
           <legend>요리순서</legend>
           <Guide text="중요한 부분은 빠짐없이 적어주세요." />
           <StepsMaker
-            stepsDatas={stepsDatas}
-            setStepsDatas={setStepsDatas}
+            directDatas={directDatas}
+            setDirectDatas={setDirectDatas}
             stepImgFiles={stepImgFiles}
             setStepImgFiles={setStepImgFiles}
           />

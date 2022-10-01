@@ -1,42 +1,48 @@
-import { IStepMakerProps } from "../../types/interface";
-import { useEffect, useState } from "react";
+import { IStepMakerProps, IStepValues } from "../../types/interface";
+import { useState } from "react";
 import { StepSet, PlusBtn } from "./indexNewRecipe";
 
 const StepsMaker = ({
-  stepsDatas,
-  setStepsDatas,
+  directDatas,
+  setDirectDatas,
   stepImgFiles,
   setStepImgFiles,
 }: IStepMakerProps) => {
-  const ititialSteps = new Array<number>(1).fill(0);
-  const [steps, setSteps] = useState(ititialSteps);
+  const initialValue = {
+    id: 0,
+    imgDirectionUrl: "",
+    body: "",
+  };
 
-  // useEffect(() => {
-  //   console.log(stepsDatas);
-  //   // setStepsDatas()
-  // }, [steps]);
+  const [steps, setSteps] = useState<IStepValues[]>([initialValue]);
 
   return (
     <>
       <div>
-        {steps.map((step, idx) => {
+        {steps.map((step) => {
           return (
             <StepSet
-              key={idx}
-              idx={idx}
+              key={step.id}
+              id={step.id}
+              text={step.body}
+              imgUrl={step.imgDirectionUrl}
               steps={steps}
               setSteps={setSteps}
               stepImgFiles={stepImgFiles}
               setStepImgFiles={setStepImgFiles}
-              stepsDatas={stepsDatas}
-              setStepsDatas={setStepsDatas}
+              directDatas={directDatas}
+              setDirectDatas={setDirectDatas}
             />
           );
         })}
       </div>
       <PlusBtn
         addHandler={() => {
-          setSteps([...steps, 0]);
+          const lastStep = steps.slice(-1)[0];
+          if (lastStep) {
+            initialValue.id = lastStep.id + 1;
+          }
+          setSteps([...steps, initialValue]);
         }}
       />
     </>

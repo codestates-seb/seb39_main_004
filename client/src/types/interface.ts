@@ -1,6 +1,5 @@
 import { Dispatch, SetStateAction } from "react";
 import {
-  TypeOfDirections,
   TypeOfFileList,
   TypeOfFormData,
   TypeOfIngredients,
@@ -9,27 +8,39 @@ import {
 import { UseFormRegister } from "react-hook-form";
 
 interface IImgUploaderProps {
-  idx?: number;
+  id?: number;
   setThumbNail?: Dispatch<SetStateAction<TypeOfFileList>>;
   stepImgFiles?: TypeOfFileList[];
   setStepImgFiles?: Dispatch<SetStateAction<TypeOfFileList[]>>;
-  setImgName?: Dispatch<SetStateAction<string | undefined>>;
+  setImgName?: Dispatch<SetStateAction<string>>;
 }
 
 interface IStepMakerProps extends IImgUploaderProps {
-  stepsDatas: TypeOfDirections[];
-  setStepsDatas: Dispatch<SetStateAction<TypeOfDirections[]>>;
+  directDatas: IDirections[];
+  setDirectDatas: Dispatch<SetStateAction<IDirections[]>>;
   clickEvent?: (orderValue: string) => Promise<void> | void;
 }
 
+interface IStepValues {
+  imgDirectionUrl: string;
+  body: string;
+  id: number;
+}
+
+interface IDirections extends IStepValues {
+  index: number;
+}
+
 interface IStepSetProps {
-  idx: number;
-  steps: number[];
-  setSteps: Dispatch<SetStateAction<number[]>>;
+  id: number;
+  text: string;
+  imgUrl: string;
+  steps: IStepValues[];
+  setSteps: Dispatch<SetStateAction<IStepValues[]>>;
   stepImgFiles?: TypeOfFileList[];
   setStepImgFiles?: Dispatch<SetStateAction<TypeOfFileList[]>>;
-  stepsDatas: TypeOfDirections[];
-  setStepsDatas: Dispatch<SetStateAction<TypeOfDirections[]>>;
+  directDatas: IDirections[];
+  setDirectDatas: Dispatch<SetStateAction<IDirections[]>>;
 }
 
 interface IResponseImgProps {
@@ -112,7 +123,7 @@ interface ITagWithBtnProps {
 
 interface IRemoveBtnProps {
   removeHandler: (idx: number) => void;
-  idx: number;
+  id: number;
 }
 
 export type {
@@ -133,4 +144,6 @@ export type {
   IIconProps,
   ITagWithBtnProps,
   IRemoveBtnProps,
+  IStepValues,
+  IDirections,
 };

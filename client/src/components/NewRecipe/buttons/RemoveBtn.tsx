@@ -6,9 +6,9 @@ const SBtn = styled.button`
   color: var(--deep-gray);
 `;
 
-const RemoveBtn = ({ removeHandler, idx }: IRemoveBtnProps) => {
+const RemoveBtn = ({ removeHandler, id }: IRemoveBtnProps) => {
   return (
-    <SBtn type="button" onClick={() => removeHandler(idx)}>
+    <SBtn type="button" onClick={() => removeHandler(id)}>
       <IoMdRemoveCircleOutline size={22} />
     </SBtn>
   );

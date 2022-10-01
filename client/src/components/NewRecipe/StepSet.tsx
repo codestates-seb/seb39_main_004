@@ -8,33 +8,36 @@ const SStepsContainer = styled.div`
 `;
 
 const StepSet = ({
-  idx,
+  id,
   stepImgFiles,
   setStepImgFiles,
-  stepsDatas,
-  setStepsDatas,
+  text,
+  imgUrl,
+  directDatas,
+  setDirectDatas,
   steps,
   setSteps,
 }: IStepSetProps) => {
-  const [imgName, setImgName] = useState<string | undefined>();
-  const [textValue, setTextValue] = useState("");
+  const [textValue, setTextValue] = useState<string>(text ?? "");
+  const [imgName, setImgName] = useState<string>("");
 
-  const removeHandler = (idx: number) => {
-    // 데이터 제거 필요
-    const newSteps = steps.slice();
-    newSteps.splice(idx, 1);
+  const removeHandler = (id: number) => {
+    const newSteps = steps.filter((step) => {
+      return step.id !== id;
+    });
     setSteps(newSteps);
   };
-  // console.log("step 갱신", steps);
 
   useEffect(() => {
-    const originData = stepsDatas.slice();
-    originData[idx] = {
-      index: idx,
-      imgDirectionUrl: imgName,
-      body: textValue,
-    };
-    setStepsDatas(originData);
+    // console.log("directDatas", directDatas);
+    // console.log("턴", steps);
+    // const originData = directDatas.slice();
+    // originData[idx] = {
+    //   index: idx,
+    //   imgDirectionUrl: imgName,
+    //   body: textValue,
+    // };
+    // setDirectDatas(originData);
   }, [textValue, imgName, steps]);
 
   return (
@@ -44,15 +47,20 @@ const StepSet = ({
         cols={70}
         rows={5}
         placeholder="요리 과정을 입력해주세요."
-        // value={textValue}
-        onChange={(event) => {
-          setTextValue(event?.target.value);
-        }}
         value={textValue}
+        onChange={(event) => {
+          setTextValue(event.target.value);
+          const newStepsValue = steps.slice();
+          const targetIdx = newStepsValue.findIndex((step) => {
+            return step.id === id;
+          });
+          newStepsValue[targetIdx].body = event.target.value;
+          setSteps(newStepsValue);
+        }}
       ></textarea>
-      <RemoveBtn removeHandler={removeHandler} idx={idx} />
+      <RemoveBtn removeHandler={removeHandler} id={id} />
       <ImgUploader
-        idx={idx}
+        id={id}
         stepImgFiles={stepImgFiles}
         setStepImgFiles={setStepImgFiles}
         setImgName={setImgName}
