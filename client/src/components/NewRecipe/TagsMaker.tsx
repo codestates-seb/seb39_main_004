@@ -22,10 +22,8 @@ const TagsMaker = ({ setTagsDatas }: ITagsMakerProps) => {
   };
 
   const tagRemover = (idx: number) => {
-    console.log(idx);
-    const newTags = tags;
+    const newTags = tags.slice();
     newTags.splice(idx, 1);
-    console.log(newTags);
     setTags(newTags);
   };
 
