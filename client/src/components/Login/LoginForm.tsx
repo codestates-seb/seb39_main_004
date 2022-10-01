@@ -1,9 +1,10 @@
 import styled from "styled-components";
 import { Button, StyledInput } from "../../components/CommonUI";
 import { useForm, SubmitHandler } from "react-hook-form";
-import axios from "axios";
-import qs from "qs";
 import { useNavigate } from "react-router-dom";
+import { userLogin } from "../../redux/slices/userSlice";
+import { useAppSelector, useAppDispatch } from "../../hooks/dispatchHook";
+import { useEffect } from "react";
 
 const SForm = styled.form``;
 
@@ -24,40 +25,26 @@ type Inputs = {
 
 const LoginForm = () => {
   const navigate = useNavigate();
-
+  const dispatch = useAppDispatch();
+  const { userInfo } = useAppSelector((state) => state.user);
   const {
     register,
     handleSubmit,
     formState: { isSubmitting, errors },
   } = useForm<Inputs>();
 
+  useEffect(() => {
+    // 로그인 성공 시 홈으로 이동
+    if (userInfo) navigate("/login");
+  }, [userInfo]);
+
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    console.log(data.email, data.password);
-
-    const axiosConfig = {
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      withCredentials: true,
-    };
-
-    const axiosBody = {
+    const loginData = {
       username: data.email,
       password: data.password,
     };
 
-    axios
-      .post("/api/v1/auth/login", qs.stringify(axiosBody), axiosConfig)
-      .then((response) => {
-        console.log(response); // 구현 완료 후 제거
-
-        if (response.status === 200) {
-          navigate("/");
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    dispatch(userLogin(loginData));
   };
 
   return (
