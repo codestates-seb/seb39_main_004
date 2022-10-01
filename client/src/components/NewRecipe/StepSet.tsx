@@ -8,7 +8,7 @@ const SStepsContainer = styled.div`
 `;
 
 const StepSet = ({
-  id,
+  idx,
   stepImgFiles,
   setStepImgFiles,
   text,
@@ -21,22 +21,26 @@ const StepSet = ({
   const [textValue, setTextValue] = useState<string>(text ?? "");
   const [imgName, setImgName] = useState<string>("");
 
-  const removeHandler = (id: number) => {
+  const removeHandler = (idx: number) => {
     const newSteps = steps.filter((step) => {
-      return step.id !== id;
+      return step.idx !== idx;
     });
     setSteps(newSteps);
   };
 
   useEffect(() => {
-    // console.log("directDatas", directDatas);
     // console.log("턴", steps);
-    // const originData = directDatas.slice();
-    // originData[idx] = {
-    //   index: idx,
+    // const currentIndex = steps.findIndex((step) => {
+    //   return step.idx === idx;
+    // });
+    // // console.log(currentIndex);
+    // const originData = directDatas.slice(); //[]
+    // originData[currentIndex] = {
+    //   index: currentIndex,
     //   imgDirectionUrl: imgName,
     //   body: textValue,
     // };
+    // console.log("originData", originData);
     // setDirectDatas(originData);
   }, [textValue, imgName, steps]);
 
@@ -52,15 +56,16 @@ const StepSet = ({
           setTextValue(event.target.value);
           const newStepsValue = steps.slice();
           const targetIdx = newStepsValue.findIndex((step) => {
-            return step.id === id;
+            return step.idx === idx;
           });
           newStepsValue[targetIdx].body = event.target.value;
           setSteps(newStepsValue);
         }}
       ></textarea>
-      <RemoveBtn removeHandler={removeHandler} id={id} />
+      <RemoveBtn removeHandler={removeHandler} idx={idx} />
       <ImgUploader
-        id={id}
+        idx={idx}
+        // imgUrl={imgUrl}
         stepImgFiles={stepImgFiles}
         setStepImgFiles={setStepImgFiles}
         setImgName={setImgName}

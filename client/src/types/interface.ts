@@ -8,7 +8,8 @@ import {
 import { UseFormRegister } from "react-hook-form";
 
 interface IImgUploaderProps {
-  id?: number;
+  idx?: number;
+  // imgUrl: string;
   setThumbNail?: Dispatch<SetStateAction<TypeOfFileList>>;
   stepImgFiles?: TypeOfFileList[];
   setStepImgFiles?: Dispatch<SetStateAction<TypeOfFileList[]>>;
@@ -24,15 +25,15 @@ interface IStepMakerProps extends IImgUploaderProps {
 interface IStepValues {
   imgDirectionUrl: string;
   body: string;
-  id: number;
+  idx: number;
 }
 
-interface IDirections extends IStepValues {
+interface IDirections extends Omit<IStepValues, "idx"> {
   index: number;
 }
 
 interface IStepSetProps {
-  id: number;
+  idx: number;
   text: string;
   imgUrl: string;
   steps: IStepValues[];
@@ -123,7 +124,7 @@ interface ITagWithBtnProps {
 
 interface IRemoveBtnProps {
   removeHandler: (idx: number) => void;
-  id: number;
+  idx: number;
 }
 
 export type {

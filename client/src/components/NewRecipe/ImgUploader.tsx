@@ -19,7 +19,8 @@ const SImgInput = styled.input`
 `;
 
 const ImgUploader = ({
-  id,
+  idx,
+  // imgUrl,
   setThumbNail,
   setStepImgFiles,
   stepImgFiles,
@@ -30,9 +31,9 @@ const ImgUploader = ({
 
   const onImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
-      if (id !== undefined && stepImgFiles && setStepImgFiles && setImgName) {
+      if (idx !== undefined && stepImgFiles && setStepImgFiles && setImgName) {
         const newImgFile = stepImgFiles;
-        newImgFile[id] = event.target.files[0];
+        newImgFile[idx] = event.target.files[0];
         // console.log("값 전체", newImgFile);
         // console.log("파일이름", event.target.files[0]);
         setStepImgFiles(newImgFile);
@@ -51,7 +52,7 @@ const ImgUploader = ({
 
   return (
     <SImgInputContainer>
-      {id === undefined && <label htmlFor="img">레시피 사진</label>}
+      {idx === undefined && <label htmlFor="img">레시피 사진</label>}
       <SImg
         src={
           fileURL

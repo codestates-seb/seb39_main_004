@@ -9,7 +9,7 @@ const StepsMaker = ({
   setStepImgFiles,
 }: IStepMakerProps) => {
   const initialValue = {
-    id: 0,
+    idx: 0,
     imgDirectionUrl: "",
     body: "",
   };
@@ -22,8 +22,8 @@ const StepsMaker = ({
         {steps.map((step) => {
           return (
             <StepSet
-              key={step.id}
-              id={step.id}
+              key={step.idx}
+              idx={step.idx}
               text={step.body}
               imgUrl={step.imgDirectionUrl}
               steps={steps}
@@ -40,7 +40,7 @@ const StepsMaker = ({
         addHandler={() => {
           const lastStep = steps.slice(-1)[0];
           if (lastStep) {
-            initialValue.id = lastStep.id + 1;
+            initialValue.idx = lastStep.idx + 1;
           }
           setSteps([...steps, initialValue]);
         }}
