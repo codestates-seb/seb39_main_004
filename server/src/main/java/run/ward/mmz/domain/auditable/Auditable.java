@@ -1,6 +1,8 @@
 package run.ward.mmz.domain.auditable;
 
 import lombok.Getter;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
@@ -13,8 +15,11 @@ import java.time.format.DateTimeFormatter;
 public abstract class Auditable {
 
     @Column(name = "createDate", updatable = false)
+    @CreatedDate
     protected String createDate;
+
     @Column(name = "modDate")
+    @LastModifiedDate
     protected String modDate;
 
     @PrePersist

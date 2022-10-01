@@ -2,6 +2,8 @@ package run.ward.mmz.mapper.account;
 
 import org.springframework.stereotype.Component;
 import run.ward.mmz.domain.account.Account;
+import run.ward.mmz.domain.account.Role;
+import run.ward.mmz.dto.auth.OAuthAttributes;
 import run.ward.mmz.dto.request.account.SignUpDto;
 import run.ward.mmz.dto.respones.AccountInfoDto;
 
@@ -36,4 +38,21 @@ public class AccountMapperImpl implements AccountMapper{
                 .password(signUpDto.getPassword())
                 .build();
     }
+
+    @Override
+    public Account toEntity(OAuthAttributes oAuthAttributes) {
+
+        if (oAuthAttributes == null) {
+            return null;
+        }
+
+        return Account.builder()
+                .name(oAuthAttributes.getName())
+                .email(oAuthAttributes.getEmail())
+                .role(Role.USER)
+                .provider(oAuthAttributes.getProvider())
+                .build();
+    }
+
+
 }

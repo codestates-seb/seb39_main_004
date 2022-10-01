@@ -1,15 +1,12 @@
 package run.ward.mmz.handler.log;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Builder
-@AllArgsConstructor
+
+@Getter
+@Setter
 @NoArgsConstructor
-@Data
 public class LogELK {
 
     String timestamp;
@@ -21,4 +18,15 @@ public class LogELK {
     String type;
     String parameter;
 
+    @Builder
+    public LogELK(String timestamp, String hostname, String hostIp, String clientIp, String clientUrl, String callFunction, String type, String parameter) {
+        this.timestamp = timestamp;
+        this.hostname = hostname;
+        this.hostIp = hostIp;
+        this.clientIp = clientIp;
+        this.clientUrl = clientUrl;
+        this.callFunction = callFunction;
+        this.type = type;
+        this.parameter = parameter;
+    }
 }

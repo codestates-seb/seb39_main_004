@@ -1,5 +1,6 @@
 package run.ward.mmz.web.config;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -13,6 +14,7 @@ import org.springframework.security.web.authentication.logout.LogoutSuccessHandl
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import run.ward.mmz.web.auth.OAuth2UserServiceImpl;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -23,8 +25,10 @@ import java.io.IOException;
 
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class SecurityConfig {
 
+    private final OAuth2UserServiceImpl oAuth2UserService;
     @Bean
     public BCryptPasswordEncoder encodePassword() {
         return new BCryptPasswordEncoder();
@@ -77,6 +81,8 @@ public class SecurityConfig {
                 .deleteCookies("JSESSIONID")
                     .and()
                 .oauth2Login()
+                .userInfoEndpoint()
+                .userService(oAuth2UserService)
         ;
 
 
@@ -88,7 +94,7 @@ public class SecurityConfig {
 
         http
                 .cors()
-                .configurationSource(corsConfigurationSource())
+//                .configurationSource(corsConfigurationSource())
         ;
 
         http
@@ -99,6 +105,7 @@ public class SecurityConfig {
                                 .expiredUrl("/auth/login-page")
                 )
         ;
+
 
 
         return http.build();

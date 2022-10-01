@@ -22,7 +22,7 @@ public class Account extends Auditable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String name;
 
     @Lob
@@ -41,6 +41,9 @@ public class Account extends Auditable {
     @JoinColumn(name = "profileId")
     private Files imgProfile;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Provider provider;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -55,12 +58,13 @@ public class Account extends Auditable {
     private List<Review> reviews = new ArrayList<>();
 
     @Builder
-    public Account(String name, String email, String password, String imgProfileUrl, Role role){
+    public Account(String name, String email, String password, String imgProfileUrl, Role role, Provider provider){
         this.name = name;
         this.email = email;
         this.password = password;
         this.imgProfileUrl = imgProfileUrl;
         this.role = role;
+        this.provider = provider;
     }
 
 
@@ -92,20 +96,23 @@ public class Account extends Auditable {
 
     }
 
+    @JsonIgnore
     public String getRoleKey() {
         return this.role.getKey();
     }
 
+    @JsonIgnore
     public Account updateName(String name) {
         this.name = name;
         return this;
     }
 
-    public void registerUser(Account account, String password, Role role) {
+    public void registerUser(Account account, String password, Role role, Provider provider) {
         this.name = account.name;
         this.email = account.email;
         this.password = password;
         this.role = role;
+        this.provider = provider;
     }
 
 
