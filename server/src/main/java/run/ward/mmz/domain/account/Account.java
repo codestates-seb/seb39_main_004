@@ -33,6 +33,8 @@ public class Account extends Auditable {
     @Column(nullable = false, unique = true)
     private String email;
 
+    @Column(nullable = false)
+    private boolean isNew = true;
     @Column
     private String imgProfileUrl;
 
@@ -107,8 +109,9 @@ public class Account extends Auditable {
         return this;
     }
 
-    public void registerUser(Account account, String password, Role role, Provider provider) {
+    public void registerUser(Account account, boolean isNew, String password, Role role, Provider provider) {
         this.name = account.name;
+        this.isNew = isNew;
         this.email = account.email;
         this.password = password;
         this.role = role;

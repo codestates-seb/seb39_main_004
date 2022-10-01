@@ -4,24 +4,28 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
+import lombok.Setter;
 import run.ward.mmz.domain.account.Provider;
 
 import java.util.Map;
 
 
 @Getter
+@Setter
 public class OAuthAttributes {
 
     private Map<String, Object> attributes;
     private String key;
     private String name;
     private String email;
+    private boolean isNew;
     private Provider provider;
 
     @Builder
-    public OAuthAttributes(Map<String, Object> attributes, String key, String name, String email, Provider provider) {
+    public OAuthAttributes(Map<String, Object> attributes, String key, String name, String email, boolean isNew,  Provider provider) {
         this.attributes = attributes;
         this.key = key;
+        this.isNew = isNew;
         this.name = name;
         this.email = email;
         this.provider = provider;

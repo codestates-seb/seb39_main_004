@@ -8,6 +8,7 @@ import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import run.ward.mmz.domain.account.Account;
 import run.ward.mmz.dto.auth.OAuthAttributes;
 import run.ward.mmz.dto.auth.SessionUser;
@@ -15,6 +16,8 @@ import run.ward.mmz.mapper.account.AccountMapper;
 import run.ward.mmz.repository.AccountRepository;
 
 import javax.servlet.http.HttpSession;
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -43,11 +46,17 @@ public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserReques
     }
 
 
-    private Account save(OAuthAttributes attributes) {
+    @Transactional
+    public Account save(OAuthAttributes attributes) {
 
         String userName = attributes.getName();
         long tail = 1;
         //유저 이름이 있으면, 이름 변경, 없으면 회원가입
+
+        if(accountRepository.existsByName(userName)){
+            Map<String, String> statusAttribute = new HashMap<>();
+            attributes.setNew(true);
+        }
 
         while (accountRepository.existsByName(userName)) {
             userName = userName + tail++;
@@ -55,10 +64,12 @@ public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserReques
 
         String finalUserName = userName;
 
-        return accountRepository.findByEmail(attributes.getEmail())
+        Account findUser = accountRepository.findByEmail(attributes.getEmail())
                 .map(user -> user.updateName(finalUserName))
                 .orElse(accountMapper.toEntity(attributes));
 
+
+        return accountRepository.save(findUser);
 
     }
 

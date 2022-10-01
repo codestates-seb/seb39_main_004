@@ -43,7 +43,6 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
         collector.add(() -> user.getRole().getKey());
 
         return collector;
-
     }
 
     @Override
