@@ -1,13 +1,12 @@
 import React from "react";
+import axios from "axios";
+import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
+import { IPostUserProps } from "../../types/interface";
 
 const SContainer = styled.div`
   position: relative;
   padding: 0 0 45px;
-  .thumbNail {
-    width: 100%;
-    height: 300px;
-  }
 `;
 
 const SUserInfo = styled.div`
@@ -17,14 +16,16 @@ const SUserInfo = styled.div`
   text-align: center;
   width: 100%;
   height: 130px;
-  img {
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    border: 1px solid var(--pale-gray);
-    display: block;
-    margin: 0 auto 5px;
-  }
+  z-index: -1;
+`;
+
+const ProfileImg = styled.img`
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  border: 1px solid var(--pale-gray);
+  display: block;
+  margin: 0 auto 5px;
 `;
 
 const SUserId = styled.div`
@@ -42,29 +43,42 @@ const SButtonContaienr = styled.div`
   gap: 10px;
   margin-top: 15px;
   font-size: 0.8rem;
+  cursor: pointer;
 `;
+const PostUserInfo = ({ name, imgProfileUrl }: IPostUserProps) => {
+  const { id } = useParams();
+  const navigate = useNavigate();
 
-interface Prop {
-  thumbNail: string;
-  user: {
-    ninkname: string;
-    email: string;
-    userImage: string;
+  const DeleteHandler = async () => {
+    if (window.confirm("정말로 삭제하시겠습니까?")) {
+      try {
+        const res = await axios.post(`/v1/recipe/${id}`);
+        if (res.data.success) {
+          alert("레시피가 삭제되었습니다.");
+          navigate("/");
+        }
+        // 등록된 페이지로 이동
+      } catch (error) {
+        alert("레시피 삭제에 실패했습니다.");
+        // console.log(error);
+      }
+    }
   };
-}
 
-const PostUserInfo = ({ thumbNail, user }: Prop) => {
   return (
     <>
       <SContainer>
-        <img className="thumbNail" src={thumbNail} alt="profile" />
         <SUserInfo>
-          <img src={user.userImage} alt="profile" />
-          <SUserId>{user.ninkname}</SUserId>
+          <ProfileImg
+            src={`${process.env.PUBLIC_URL}/assets/${imgProfileUrl}`}
+          />
+          <SUserId>{name}</SUserId>
         </SUserInfo>
         <SButtonContaienr>
           <span>Edit</span>
-          <span>Delete</span>
+          <span role="presentation" onClick={DeleteHandler}>
+            Delete
+          </span>
         </SButtonContaienr>
       </SContainer>
     </>
