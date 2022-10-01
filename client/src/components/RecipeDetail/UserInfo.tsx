@@ -57,10 +57,8 @@ const PostUserInfo = ({ name, imgProfileUrl }: IPostUserProps) => {
           alert("레시피가 삭제되었습니다.");
           navigate("/");
         }
-        // 등록된 페이지로 이동
       } catch (error) {
         alert("레시피 삭제에 실패했습니다.");
-        // console.log(error);
       }
     }
   };
