@@ -62,7 +62,7 @@ const RecipeItem = ({
 }: IItemProps) => {
   return (
     <SRecipeLayout>
-      <SLink to={`/item/${id}`}>
+      <SLink to={`/post/${id}`}>
         <SItemImage
           src={`${process.env.PUBLIC_URL}/assets/${imgThumbNailUrl}`}
           alt={title}
