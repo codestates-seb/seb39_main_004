@@ -7,6 +7,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
+import org.springframework.security.web.savedrequest.RequestCache;
+import org.springframework.security.web.savedrequest.SavedRequest;
 import org.springframework.stereotype.Service;
 import run.ward.mmz.domain.account.Account;
 import run.ward.mmz.handler.exception.CustomException;
@@ -26,6 +29,10 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
     public void onAuthenticationSuccess(HttpServletRequest request,
                                         HttpServletResponse response,
                                         Authentication authentication) throws IOException {
+
+        RequestCache requestCache = new HttpSessionRequestCache();
+        SavedRequest savedRequest = requestCache.getRequest(request, response);
+
 
         String url = "/api/v1/auth/login-success";
 

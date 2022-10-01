@@ -70,8 +70,8 @@ public class AspectELK {
 
         logelk.setTimestamp(timeStamp);
         logelk.setType("CONTROLLER_RES");
-        logelk.setParameter(result.toString());
-        log.info("{}", logelk);
+//        logelk.setParameter(result.toString());
+//        log.info("{}", logelk);
 
         return result;
 
@@ -92,8 +92,8 @@ public class AspectELK {
         logelk.setClientUrl(clientUrl);
         logelk.setCallFunction(callFunction);
         logelk.setType("SERVICE_REQ");
-        logelk.setParameter(Arrays.stream(argNames).map(Object::toString).toString());
-        log.info("{}", logelk);
+//        logelk.setParameter(Arrays.stream(argNames).map(Object::toString).toString());
+//        log.info("{}", logelk);
     }
 
     @AfterReturning(pointcut = "bean(*ServiceImpl)", returning = "retVal")
@@ -109,8 +109,8 @@ public class AspectELK {
         logelk.setClientUrl(clientUrl);
         logelk.setCallFunction(callFunction);
         logelk.setType("SERVICE_RES");
-        logelk.setParameter(retVal.toString());
-        log.info("{}", logelk);
+//        logelk.setParameter(retVal.toString());
+//        log.info("{}", logelk);
     }
 
 

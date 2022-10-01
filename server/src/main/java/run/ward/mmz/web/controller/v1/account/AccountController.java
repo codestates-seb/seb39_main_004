@@ -11,6 +11,8 @@ import run.ward.mmz.dto.respones.AccountInfoDto;
 import run.ward.mmz.mapper.account.AccountMapper;
 import run.ward.mmz.service.account.AccountService;
 
+import javax.servlet.http.HttpServletRequest;
+
 @RestController
 @RequestMapping("/api/v1")
 @RequiredArgsConstructor
@@ -22,8 +24,9 @@ public class AccountController {
 
     @GetMapping("/auth/signup/user-info")
     public ResponseEntity<?> changeUserInfoPage(
-            @AuthenticationPrincipal Account user){
+            HttpServletRequest httpRequest){
 
+        Account user = (Account) httpRequest.getAttribute("user");
         AccountInfoDto accountInfoDto = accountMapper.toInfoDto(user);
         ResponseDto.Single<?> response = ResponseDto.Single.builder()
                 .data(accountInfoDto)
@@ -34,10 +37,11 @@ public class AccountController {
 
     @PostMapping("/auth/signup/user-info/update")
     public ResponseEntity<?> changeUserInfo(
-            @AuthenticationPrincipal Account user,
+            HttpServletRequest httpRequest,
             @RequestBody AccountInfoDto accountInfoDto){
 
 
+        Account user = (Account) httpRequest.getAttribute("user");
 
         return null;
     }
