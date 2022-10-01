@@ -108,6 +108,47 @@ interface ITagWithBtnProps {
   tagRemover: (idx: number) => void;
 }
 
+interface IPostResponceProps {
+  id: number;
+  title: string;
+  body: string;
+  imgThumbNailUrl?: string;
+  category: string;
+  stars: string;
+  views: number;
+  createDate: string;
+  modifyDate: string;
+  tags: ITagProps[];
+  owner: IPostUserProps;
+  directions: IPostDirectionsProps[];
+  ingredients: IPostInGredientProps[];
+}
+
+interface IPostUserProps {
+  id?: number;
+  name: string;
+  imgProfileUrl?: null;
+}
+
+interface IPostCategoryProps {
+  stars: string;
+  views: number;
+  createDate: string;
+}
+
+interface IPostInGredientProps {
+  index: number;
+  name: string;
+  amount: string;
+  isEssential: boolean;
+}
+
+interface IPostDirectionsProps {
+  index?: number;
+  imgDirectionUrl?: string;
+  body: string;
+}
+
 export type {
   IImgUploaderProps,
   IStepMakerProps,
@@ -125,4 +166,9 @@ export type {
   ICategoryProps,
   IIconProps,
   ITagWithBtnProps,
+  IPostResponceProps,
+  IPostInGredientProps,
+  IPostDirectionsProps,
+  IPostUserProps,
+  IPostCategoryProps,
 };
