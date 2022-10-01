@@ -1,4 +1,4 @@
-package run.ward.mmz.handler.log;
+package run.ward.mmz.log;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.aspectj.lang.JoinPoint;
@@ -17,8 +17,6 @@ import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
@@ -61,10 +59,10 @@ public class AspectELK {
                 .clientUrl(clientUrl)
                 .callFunction(callFunction)
                 .type(LogType.CONTROLLER.getType())
-//                .parameter(mapper.writeValueAsString(request.getParameterMap()))
+                .parameter(request.getParameterMap().toString())
                 .build();
 
-//        log.info("{}", mapper.writeValueAsString(logelk));
+        log.info("{}", logelk);
 
         Object result = pjp.proceed();
 
@@ -72,8 +70,8 @@ public class AspectELK {
 
         logelk.setTimestamp(timeStamp);
         logelk.setType("CONTROLLER_RES");
-//        logelk.setParameter(mapper.writeValueAsString(result));
-//        log.info("{}", mapper.writeValueAsString(logelk));
+        logelk.setParameter(result.toString());
+        log.info("{}", logelk);
 
         return result;
 
@@ -95,7 +93,7 @@ public class AspectELK {
         logelk.setCallFunction(callFunction);
         logelk.setType("SERVICE_REQ");
         logelk.setParameter(Arrays.stream(argNames).map(Object::toString).toString());
-//        log.info("{}", mapper.writeValueAsString(logelk));
+        log.info("{}", logelk);
     }
 
     @AfterReturning(pointcut = "bean(*ServiceImpl)", returning = "retVal")
@@ -112,7 +110,7 @@ public class AspectELK {
         logelk.setCallFunction(callFunction);
         logelk.setType("SERVICE_RES");
         logelk.setParameter(retVal.toString());
-//        log.info("{}", mapper.writeValueAsString(logelk));
+        log.info("{}", logelk);
     }
 
 

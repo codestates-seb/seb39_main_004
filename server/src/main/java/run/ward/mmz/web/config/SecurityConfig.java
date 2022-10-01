@@ -29,6 +29,7 @@ import java.io.IOException;
 public class SecurityConfig {
 
     private final OAuth2UserServiceImpl oAuth2UserService;
+    private final SessionListener sessionListener;
     @Bean
     public BCryptPasswordEncoder encodePassword() {
         return new BCryptPasswordEncoder();

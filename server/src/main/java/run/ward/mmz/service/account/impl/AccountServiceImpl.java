@@ -15,7 +15,6 @@ import run.ward.mmz.service.account.AccountService;
 @Service
 @RequiredArgsConstructor
 public class AccountServiceImpl implements AccountService {
-
     private final AccountRepository accountRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 

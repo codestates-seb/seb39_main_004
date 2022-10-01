@@ -1,4 +1,4 @@
-package run.ward.mmz.handler.log;
+package run.ward.mmz.log;
 
 
 import lombok.*;
@@ -6,6 +6,7 @@ import lombok.*;
 
 @Getter
 @Setter
+@ToString
 @NoArgsConstructor
 public class LogELK {
 
