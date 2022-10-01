@@ -46,7 +46,7 @@ const IngredientsSet = ({
           setNameValue(event.target.value);
         }}
       />
-      <RemoveBtn removeHandler={removeHandler} />
+      <RemoveBtn removeHandler={removeHandler} idx={idx} />
       <input
         placeholder="양을 입력해주세요"
         name="ingredientAmount"

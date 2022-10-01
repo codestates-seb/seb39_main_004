@@ -1,8 +1,6 @@
 import { ImgUploader, RemoveBtn } from "./indexNewRecipe";
 import { IStepSetProps } from "../../types/interface";
-// import { TypeOfFormData } from "../../ts/type";
 import { useEffect, useState } from "react";
-// import { useForm } from "react-hook-form";
 import styled from "styled-components";
 
 const SStepsContainer = styled.div`
@@ -15,23 +13,29 @@ const StepSet = ({
   setStepImgFiles,
   stepsDatas,
   setStepsDatas,
+  steps,
+  setSteps,
 }: IStepSetProps) => {
   const [imgName, setImgName] = useState<string | undefined>();
   const [textValue, setTextValue] = useState("");
 
-  const removeHandler = () => {
-    console.log("stepse제거 idx", idx);
+  const removeHandler = (idx: number) => {
+    // 데이터 제거 필요
+    const newSteps = steps.slice();
+    newSteps.splice(idx, 1);
+    setSteps(newSteps);
   };
+  // console.log("step 갱신", steps);
 
   useEffect(() => {
-    const originData = stepsDatas;
+    const originData = stepsDatas.slice();
     originData[idx] = {
       index: idx,
       imgDirectionUrl: imgName,
       body: textValue,
     };
     setStepsDatas(originData);
-  }, [textValue, imgName]);
+  }, [textValue, imgName, steps]);
 
   return (
     <SStepsContainer>
@@ -44,8 +48,9 @@ const StepSet = ({
         onChange={(event) => {
           setTextValue(event?.target.value);
         }}
+        value={textValue}
       ></textarea>
-      <RemoveBtn removeHandler={removeHandler} />
+      <RemoveBtn removeHandler={removeHandler} idx={idx} />
       <ImgUploader
         idx={idx}
         stepImgFiles={stepImgFiles}

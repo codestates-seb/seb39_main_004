@@ -24,6 +24,8 @@ interface IStepMakerProps extends IImgUploaderProps {
 
 interface IStepSetProps {
   idx: number;
+  steps: number[];
+  setSteps: Dispatch<SetStateAction<number[]>>;
   stepImgFiles?: TypeOfFileList[];
   setStepImgFiles?: Dispatch<SetStateAction<TypeOfFileList[]>>;
   stepsDatas: TypeOfDirections[];
@@ -109,7 +111,8 @@ interface ITagWithBtnProps {
 }
 
 interface IRemoveBtnProps {
-  removeHandler: () => void;
+  removeHandler: (idx: number) => void;
+  idx: number;
 }
 
 export type {

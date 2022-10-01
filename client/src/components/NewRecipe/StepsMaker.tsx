@@ -1,5 +1,5 @@
 import { IStepMakerProps } from "../../types/interface";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { StepSet, PlusBtn } from "./indexNewRecipe";
 
 const StepsMaker = ({
@@ -11,6 +11,11 @@ const StepsMaker = ({
   const ititialSteps = new Array<number>(1).fill(0);
   const [steps, setSteps] = useState(ititialSteps);
 
+  // useEffect(() => {
+  //   console.log(stepsDatas);
+  //   // setStepsDatas()
+  // }, [steps]);
+
   return (
     <>
       <div>
@@ -19,6 +24,8 @@ const StepsMaker = ({
             <StepSet
               key={idx}
               idx={idx}
+              steps={steps}
+              setSteps={setSteps}
               stepImgFiles={stepImgFiles}
               setStepImgFiles={setStepImgFiles}
               stepsDatas={stepsDatas}
