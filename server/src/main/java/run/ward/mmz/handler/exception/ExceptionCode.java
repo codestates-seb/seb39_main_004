@@ -2,12 +2,16 @@ package run.ward.mmz.handler.exception;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 
 @Getter
 @RequiredArgsConstructor
 public enum ExceptionCode {
 
+
+
     USER_ACCESS_DENIED(403,"Access Denied User."),
+    USER_UNAUTHORIZED(401, "User Unauthorized."),
     USER_NOT_FOUND(404, "User not found."),
     USER_EXISTS(409, "User exists."),
     RECIPE_NOT_FOUND(404, "Recipe not found."),

@@ -7,7 +7,6 @@ import org.hibernate.annotations.DynamicUpdate;
 import run.ward.mmz.domain.account.Account;
 import run.ward.mmz.domain.auditable.Auditable;
 import run.ward.mmz.domain.file.Files;
-import run.ward.mmz.dto.request.patch.RecipePatchDto;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
