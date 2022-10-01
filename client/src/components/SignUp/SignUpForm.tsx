@@ -1,6 +1,10 @@
 import styled from "styled-components";
 import { Button, StyledInput } from "../../components/CommonUI";
 import { useForm, SubmitHandler } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../../hooks/dispatchHook";
+import { userSignUp } from "../../redux/slices/userSlice";
+import { useEffect } from "react";
 
 const SForm = styled.form``;
 
@@ -22,6 +26,9 @@ type Inputs = {
 };
 
 const SignUpForm = () => {
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const { signUpInfo } = useAppSelector((state) => state.user);
   const {
     register,
     handleSubmit,
@@ -29,8 +36,19 @@ const SignUpForm = () => {
     formState: { isSubmitting, errors },
   } = useForm<Inputs>();
 
+  useEffect(() => {
+    // 회원가입 성공 시 로그인 페이지로 이동
+    if (signUpInfo) navigate("/login");
+  }, [signUpInfo]);
+
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    console.log(data);
+    const signUpData = {
+      name: data.nickname,
+      email: data.email,
+      password: data.password,
+    };
+
+    dispatch(userSignUp(signUpData));
   };
 
   return (

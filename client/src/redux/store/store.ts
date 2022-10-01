@@ -1,0 +1,34 @@
+import {
+  combineReducers,
+  configureStore,
+  getDefaultMiddleware,
+} from "@reduxjs/toolkit";
+import userReducer from "../slices/userSlice";
+import storage from "redux-persist/lib/storage";
+import { persistReducer } from "redux-persist";
+
+const reducers = combineReducers({
+  user: userReducer,
+});
+
+const persistConfig = {
+  key: "root", // localStorage에 userReducer 저장
+  storage,
+};
+
+const persistedReducer = persistReducer(persistConfig, reducers);
+
+export const store = configureStore({
+  reducer: {
+    persistedReducer,
+    user: userReducer,
+  },
+  // A non-serializable value 에러 방지
+  middleware: getDefaultMiddleware({
+    serializableCheck: false,
+  }),
+});
+
+// 스토어 자체에서 RootState 및 AppDispatch 유형을 추론
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
