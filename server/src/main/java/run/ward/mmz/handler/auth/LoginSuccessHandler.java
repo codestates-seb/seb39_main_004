@@ -27,18 +27,17 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
                                         HttpServletResponse response,
                                         Authentication authentication) throws IOException {
 
-        String url = "/auth/login-success";
+        String url = "/api/v1/auth/login-success";
 
         Account user = accountRepository.findByEmail(authentication.getName()).orElseThrow(
                 () -> new CustomException(ExceptionCode.USER_NOT_FOUND)
         );
 
         if(user.isNew()){
-            url = "/auth/signup/user-info";
+            url = "/api/v1/auth/signup/user-info";
         }
 
         response.sendRedirect(url);
-
     }
 
 }
