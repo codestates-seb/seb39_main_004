@@ -59,7 +59,7 @@ export const userLogin = createAsyncThunk(
         // localStorage.clear();
         // localStorage.setItem("userToken", data.headers.authorization);
       }
-      return response.data;
+      return response;
     } catch (error: any) {
       if (error.response.data.status === 500) {
         console.log(error);
@@ -150,6 +150,7 @@ const userSlice = createSlice({
       .addCase(userLogin.fulfilled, (state, { payload }) => {
         state.loading = false;
         state.userInfo = payload;
+        console.log("페이로드 ", payload);
         //state.success = true;
       })
       .addCase(userLogin.rejected, (state) => {

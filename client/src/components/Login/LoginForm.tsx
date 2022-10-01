@@ -35,7 +35,7 @@ const LoginForm = () => {
 
   useEffect(() => {
     // 로그인 성공 시 홈으로 이동
-    if (userInfo) navigate("/login");
+    if (userInfo) navigate("/");
   }, [userInfo]);
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
