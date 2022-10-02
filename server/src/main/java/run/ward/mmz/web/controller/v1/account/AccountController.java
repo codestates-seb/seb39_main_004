@@ -10,12 +10,8 @@ import run.ward.mmz.dto.auth.SessionUser;
 import run.ward.mmz.dto.common.ResponseDto;
 import run.ward.mmz.dto.respones.AccountInfoDto;
 import run.ward.mmz.handler.auth.LoginUser;
-import run.ward.mmz.handler.exception.CustomException;
-import run.ward.mmz.handler.exception.ExceptionCode;
 import run.ward.mmz.mapper.account.AccountMapper;
 import run.ward.mmz.service.account.AccountService;
-
-import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -31,9 +27,6 @@ public class AccountController {
     public ResponseEntity<?> updateUserInfoPage(
             @LoginUser Account user) {
 
-        if (!user.isNew())
-            throw new CustomException(ExceptionCode.USER_EXISTS);
-
         AccountInfoDto accountInfoDto = accountMapper.toInfoDto(user);
         ResponseDto.Single<?> response = ResponseDto.Single.builder()
                 .data(accountInfoDto)
@@ -48,12 +41,9 @@ public class AccountController {
             @LoginUser Account user,
             @RequestBody AccountInfoDto userInfoDto) {
 
-        Account editUser = accountService.findById(userInfoDto.getId());
 
-        if(!user.equals(editUser))
-            throw new CustomException(ExceptionCode.USER_ACCESS_DENIED);
 
-        editUser = accountService.update(user, userInfoDto);
+        Account editUser = accountService.update(user, userInfoDto);
 
         SessionUser sessionUser = SessionUser.builder()
                 .user(editUser)

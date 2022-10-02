@@ -111,6 +111,7 @@ public class Account extends Auditable {
     public Account updateInfo(AccountInfoDto accountInfoDto) {
         this.name = accountInfoDto.getName();
         this.bio = accountInfoDto.getBio();
+        this.isNew = false;
         return this;
     }
 

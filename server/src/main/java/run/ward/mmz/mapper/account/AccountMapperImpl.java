@@ -11,8 +11,7 @@ import run.ward.mmz.dto.respones.AccountInfoDto;
 @Component
 public class AccountMapperImpl implements AccountMapper{
 
-    @Value("${default.img.path}")
-    String defaultProfileUrl;
+    String defaultProfileUrl = "default_thumbnail.png";
 
     @Override
     public AccountInfoDto toInfoDto(Account account) {
@@ -24,7 +23,7 @@ public class AccountMapperImpl implements AccountMapper{
         return AccountInfoDto.builder()
                 .id(account.getId())
                 .name(account.getName())
-//                .imgProfileUrl(account.getImgProfile().getFileName())
+                .imgProfileUrl(account.getImgProfileUrl())
                 .bio(account.getBio())
                 .build();
     }

@@ -13,7 +13,7 @@ public interface AccountRepository extends JpaRepository<Account, Long> {
     @Query("SELECT COUNT(a.name) > 0 " + "FROM Account a " + "WHERE a.name =:name")
     boolean existsByName(@Param("name")String name);
 
-    @Query("SELECT COUNT(a.email) > 0 " + "FROM Account a " + "WHERE a.name =:email")
+    @Query("SELECT COUNT(a.email) > 0 " + "FROM Account a " + "WHERE a.email =:email")
     boolean existsByEmail(@Param("email")String email);
     Optional<Account> findByEmail(String email);
     Optional<Account> findByName(String name);
