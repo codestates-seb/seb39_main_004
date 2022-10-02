@@ -2,6 +2,7 @@ package run.ward.mmz.web.controller.v1.account;
 
 import com.nimbusds.openid.connect.sdk.claims.UserInfo;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -15,6 +16,7 @@ import run.ward.mmz.handler.exception.ExceptionCode;
 import run.ward.mmz.mapper.account.AccountMapper;
 import run.ward.mmz.service.account.AccountService;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -54,9 +56,9 @@ public class AuthController {
     }
 
     @GetMapping("/auth/login-success")
-    public ResponseEntity<?> loginSuccess(
-            @AuthenticationPrincipal Account user) {
-        AccountInfoDto accountInfoDto = accountMapper.toInfoDto(accountService.findById(user.getId()));
+    public ResponseEntity<?> loginSuccess(HttpServletRequest httpRequest) {
+
+        AccountInfoDto accountInfoDto = accountMapper.toInfoDto((Account) httpRequest.getAttribute("user"));
 
         ResponseDto.Single<?> response = ResponseDto.Single.builder()
                 .data(accountInfoDto)
