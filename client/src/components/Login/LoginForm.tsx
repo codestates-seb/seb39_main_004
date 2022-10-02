@@ -2,9 +2,8 @@ import styled from "styled-components";
 import { Button, StyledInput } from "../../components/CommonUI";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { userLogin } from "../../redux/slices/userSlice";
+import { userLogin, userSession } from "../../redux/slices/userSlice";
 import { useAppSelector, useAppDispatch } from "../../hooks/dispatchHook";
-import { useEffect } from "react";
 
 const SForm = styled.form``;
 
@@ -33,10 +32,7 @@ const LoginForm = () => {
     formState: { isSubmitting, errors },
   } = useForm<Inputs>();
 
-  useEffect(() => {
-    // 로그인 성공 시 홈으로 이동
-    if (userInfo) navigate("/login");
-  }, [userInfo]);
+  if (userInfo) navigate("/"); // 로그인 성공 시 홈으로 이동
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     const loginData = {
@@ -44,7 +40,8 @@ const LoginForm = () => {
       password: data.password,
     };
 
-    dispatch(userLogin(loginData));
+    // 로그인 후 로그인 상태 검증
+    dispatch(userLogin(loginData)).then(() => dispatch(userSession()));
   };
 
   return (
