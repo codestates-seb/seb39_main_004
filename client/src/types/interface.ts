@@ -1,6 +1,5 @@
 import { Dispatch, SetStateAction } from "react";
 import {
-  TypeOfDirections,
   TypeOfFileList,
   TypeOfFormData,
   TypeOfIngredients,
@@ -9,25 +8,41 @@ import {
 import { UseFormRegister } from "react-hook-form";
 
 interface IImgUploaderProps {
-  idx?: number;
+  steps?: IStepValues[];
+  imgName?: string;
+  currentIndex?: number;
+  imgUrl?: string;
   setThumbNail?: Dispatch<SetStateAction<TypeOfFileList>>;
   stepImgFiles?: TypeOfFileList[];
   setStepImgFiles?: Dispatch<SetStateAction<TypeOfFileList[]>>;
-  setImgName?: Dispatch<SetStateAction<string | undefined>>;
+  setImgName?: Dispatch<SetStateAction<string>>;
 }
 
-interface IStepMakerProps extends IImgUploaderProps {
-  stepsDatas: TypeOfDirections[];
-  setStepsDatas: Dispatch<SetStateAction<TypeOfDirections[]>>;
-  clickEvent?: (orderValue: string) => Promise<void> | void;
+interface IStepMakerProps {
+  resDirecttions?: IStepValues[] | undefined;
+  directDatas: IStepValues[];
+  setDirectDatas: Dispatch<SetStateAction<IStepValues[]>>;
+  stepImgFiles: TypeOfFileList[];
+  setStepImgFiles: Dispatch<SetStateAction<TypeOfFileList[]>>;
+  // clickEvent?: (orderValue: string) => Promise<void> | void;
+}
+
+interface IStepValues {
+  imgDirectionUrl: string;
+  body: string;
+  index: number;
 }
 
 interface IStepSetProps {
   idx: number;
-  stepImgFiles?: TypeOfFileList[];
-  setStepImgFiles?: Dispatch<SetStateAction<TypeOfFileList[]>>;
-  stepsDatas: TypeOfDirections[];
-  setStepsDatas: Dispatch<SetStateAction<TypeOfDirections[]>>;
+  text: string;
+  imgUrl: string;
+  steps: IStepValues[];
+  setSteps: Dispatch<SetStateAction<IStepValues[]>>;
+  stepImgFiles: TypeOfFileList[];
+  setStepImgFiles: Dispatch<SetStateAction<TypeOfFileList[]>>;
+  directDatas: IStepValues[];
+  setDirectDatas: Dispatch<SetStateAction<IStepValues[]>>;
 }
 
 interface IResponseImgProps {
@@ -70,16 +85,20 @@ interface IIngredientSetProps extends IAddIngredientsProps {
 }
 
 interface ITagsMakerProps {
+  resTags: TypeOfTags[] | undefined;
   setTagsDatas: Dispatch<SetStateAction<TypeOfTags[]>>;
 }
 
 interface IImgRadioProps {
+  checkedCateg: string;
   setCheckedCateg: Dispatch<SetStateAction<string>>;
 }
 
-interface IRadioBtnProps extends IImgRadioProps {
-  keyValue: string;
-  srcValue: string;
+interface IRadioBtnProps extends Omit<IImgRadioProps, "checkedCateg"> {
+  name: string;
+  data: string;
+  icon: string;
+  checked: boolean;
 }
 
 interface ICategory {
@@ -106,6 +125,11 @@ interface ITagWithBtnProps {
   tag: string;
   idx: number;
   tagRemover: (idx: number) => void;
+}
+
+interface IRemoveBtnProps {
+  removeHandler: (idx: number) => void;
+  idx: number;
 }
 
 interface IPostResponceProps {
@@ -149,6 +173,16 @@ interface IPostDirectionsProps {
   body: string;
 }
 
+interface IEditResponseData {
+  title: string;
+  body: string;
+  category: string;
+  directions: IStepValues[];
+  imgThumbNailUrl: string;
+  ingredients: IStepValues[];
+  tags: ITagProps[];
+}
+
 export type {
   IImgUploaderProps,
   IStepMakerProps,
@@ -166,9 +200,12 @@ export type {
   ICategoryProps,
   IIconProps,
   ITagWithBtnProps,
+  IRemoveBtnProps,
+  IStepValues,
   IPostResponceProps,
   IPostInGredientProps,
   IPostDirectionsProps,
   IPostUserProps,
   IPostCategoryProps,
+  IEditResponseData,
 };

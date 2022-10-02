@@ -1,39 +1,61 @@
-import { IStepMakerProps } from "../../types/interface";
-import { useState } from "react";
-import { StepSet } from "./indexNewRecipe";
+import { IStepMakerProps, IStepValues } from "../../types/interface";
+import { useEffect, useState } from "react";
+import { StepSet, PlusBtn } from "./indexNewRecipe";
 
 const StepsMaker = ({
-  stepsDatas,
-  setStepsDatas,
+  resDirecttions,
+  directDatas,
+  setDirectDatas,
   stepImgFiles,
   setStepImgFiles,
 }: IStepMakerProps) => {
-  const ititialSteps = new Array<number>(1).fill(0);
-  const [steps, setSteps] = useState(ititialSteps);
-
-  const addStepHandler = () => {
-    setSteps([...steps, 0]);
+  const basicForm = {
+    index: 0,
+    imgDirectionUrl: "",
+    body: "",
   };
+  const initialValue = resDirecttions ? resDirecttions : [basicForm];
+  const [steps, setSteps] = useState<IStepValues[]>(initialValue);
+  // console.log("directDatas", directDatas);
+  // console.log("steps", steps);
+  useEffect(() => {
+    const newSteps = steps.slice();
+    newSteps.forEach((steps, idx) => {
+      steps.index = idx;
+    });
+    setDirectDatas(newSteps);
+  }, [steps]);
 
   return (
     <>
       <div>
-        {steps.map((step, idx) => {
+        {steps.map((step) => {
           return (
             <StepSet
-              key={idx}
-              idx={idx}
+              key={step.index}
+              idx={step.index}
+              text={step.body}
+              imgUrl={step.imgDirectionUrl}
+              steps={steps}
+              setSteps={setSteps}
               stepImgFiles={stepImgFiles}
               setStepImgFiles={setStepImgFiles}
-              stepsDatas={stepsDatas}
-              setStepsDatas={setStepsDatas}
+              directDatas={directDatas}
+              setDirectDatas={setDirectDatas}
             />
           );
         })}
       </div>
-      <button type="button" onClick={addStepHandler}>
-        +
-      </button>
+      <PlusBtn
+        addHandler={() => {
+          // console.log("lastStep", steps.slice(-1)[0]);
+          const lastStep = steps.slice(-1)[0];
+          if (lastStep) {
+            basicForm.index = lastStep.index + 1;
+          }
+          setSteps([...steps, basicForm]);
+        }}
+      />
     </>
   );
 };

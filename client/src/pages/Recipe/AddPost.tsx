@@ -9,14 +9,15 @@ import {
 import {
   TypeOfFileList,
   TypeOfFormData,
-  TypeOfDirections,
   TypeOfIngredients,
   TypeOfTags,
 } from "../../types/type";
-import { useState } from "react";
+import { IStepValues, IEditResponseData } from "../../types/interface";
+import { useState, useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import styled from "styled-components";
 import axios from "axios";
+import { useParams } from "react-router-dom";
 
 const SFieldset = styled.fieldset`
   border: 1px solid blue;
@@ -33,9 +34,17 @@ const SRecipeTexts = styled.div`
 `;
 
 const AddPost = () => {
+  // 수정페이지 관련
+  const [editMode, setEditMode] = useState(false);
+  const { recipeId } = useParams();
+  const [editResponse, setEditResponse] = useState<
+    IEditResponseData | undefined
+  >();
+
+  // 등록페이지 관련
   const [thumbNail, setThumbNail] = useState<TypeOfFileList>();
   const [stepImgFiles, setStepImgFiles] = useState<TypeOfFileList[]>([]);
-  const [stepsDatas, setStepsDatas] = useState<TypeOfDirections[]>([]);
+  const [directDatas, setDirectDatas] = useState<IStepValues[]>([]);
   const [checkedCateg, setCheckedCateg] = useState("");
   const [ingredientsDatas, setIngredientsDatas] = useState<TypeOfIngredients[]>(
     []
@@ -46,15 +55,16 @@ const AddPost = () => {
     register,
     handleSubmit,
     // formState: { errors },
-  } = useForm<TypeOfFormData>();
-
-  // console.log("watch", watch("title"));
+  } = useForm<TypeOfFormData>(
+    // editMode && editResponse ? { defaultValues: editResponse } :
+    undefined
+  );
 
   const submitHandler: SubmitHandler<TypeOfFormData> = async (data) => {
     // console.log("onSubmitData", data);
     // console.log("재료", ingredientsDatas);
     // console.log("d이미지 순서", stepImgFiles);
-    // console.log("순서", stepsDatas);
+    // console.log("순서", directDatas);
     // console.log("태그", tagsDatas);
     // console.log("카테", checkedCateg);
 
@@ -81,7 +91,7 @@ const AddPost = () => {
       ...data,
       category: checkedCateg,
       ingredients: ingredientsDatas,
-      directions: stepsDatas,
+      directions: directDatas,
       tags: tagsDatas,
     };
     formData.append(
@@ -101,6 +111,22 @@ const AddPost = () => {
       // console.log(error);
     }
   };
+
+  useEffect(() => {
+    if (recipeId) {
+      axios
+        .get(`/api/v1/recipe/${recipeId}/edit`)
+        .then((res) => {
+          setEditResponse(res.data.data);
+          console.log(res);
+          setEditMode(true);
+          setCheckedCateg(res.data.data.category);
+        })
+        .catch((err) => {
+          console.log("수정에러", err);
+        });
+    }
+  }, []);
 
   return (
     <>
@@ -122,11 +148,19 @@ const AddPost = () => {
               rows={7}
             ></textarea>
           </SRecipeTexts>
-          <ImgUploader setThumbNail={setThumbNail} />
+          <ImgUploader
+            setThumbNail={setThumbNail}
+            imgUrl={
+              editResponse && editMode ? editResponse.imgThumbNailUrl : ""
+            }
+          />
         </SRecipeInfo>
         <SFieldset>
           <label htmlFor="category">카테고리</label>
-          <ImgRadio setCheckedCateg={setCheckedCateg}></ImgRadio>
+          <ImgRadio
+            setCheckedCateg={setCheckedCateg}
+            checkedCateg={checkedCateg}
+          ></ImgRadio>
         </SFieldset>
         <SFieldset>
           <legend>요리재료</legend>
@@ -140,15 +174,21 @@ const AddPost = () => {
           <legend>요리순서</legend>
           <Guide text="중요한 부분은 빠짐없이 적어주세요." />
           <StepsMaker
-            stepsDatas={stepsDatas}
-            setStepsDatas={setStepsDatas}
+            resDirecttions={
+              editResponse && editMode ? editResponse.directions : undefined
+            }
+            directDatas={directDatas}
+            setDirectDatas={setDirectDatas}
             stepImgFiles={stepImgFiles}
             setStepImgFiles={setStepImgFiles}
           />
         </SFieldset>
         <SFieldset>
           <legend>태그</legend>
-          <TagsMaker setTagsDatas={setTagsDatas} />
+          <TagsMaker
+            setTagsDatas={setTagsDatas}
+            resTags={editResponse && editMode ? editResponse.tags : undefined}
+          />
         </SFieldset>
         <section className="btnContainer">
           <button type="button" onClick={handleSubmit(submitHandler)}>

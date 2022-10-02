@@ -8,8 +8,15 @@ const STagsContainer = styled.ul`
   display: flex;
 `;
 
-const TagsMaker = ({ setTagsDatas }: ITagsMakerProps) => {
-  const [tags, setTags] = useState<string[]>([]);
+const TagsMaker = ({ setTagsDatas, resTags }: ITagsMakerProps) => {
+  const initialValue: string[] = [];
+  if (resTags) {
+    resTags.forEach((tag) => {
+      const el = Object.values(tag)[0];
+      initialValue.push(el);
+    });
+  }
+  const [tags, setTags] = useState<string[]>(initialValue);
 
   const inputValueChange = (
     event: React.KeyboardEvent<HTMLInputElement>
@@ -22,10 +29,8 @@ const TagsMaker = ({ setTagsDatas }: ITagsMakerProps) => {
   };
 
   const tagRemover = (idx: number) => {
-    console.log(idx);
-    const newTags = tags;
+    const newTags = tags.slice();
     newTags.splice(idx, 1);
-    console.log(newTags);
     setTags(newTags);
   };
 

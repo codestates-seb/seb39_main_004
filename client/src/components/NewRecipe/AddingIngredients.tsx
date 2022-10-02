@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { IAddIngredientsProps } from "../../types/interface";
-import { IngredientsSet } from "./indexNewRecipe";
+import { IngredientsSet, PlusBtn } from "./indexNewRecipe";
 import styled from "styled-components";
 
 const SIngredientsGroups = styled.div`
@@ -14,6 +14,10 @@ const AddIngredients = ({
 }: IAddIngredientsProps) => {
   const initialArray = new Array<number>(2).fill(0);
   const [ingrediStage, setIngrediStage] = useState<number[]>(initialArray);
+
+  const addHandler = () => {
+    setIngrediStage([...ingrediStage, 0]);
+  };
 
   return (
     <>
@@ -29,16 +33,7 @@ const AddIngredients = ({
           );
         })}
       </SIngredientsGroups>
-      <div>
-        <button
-          type="button"
-          onClick={() => {
-            setIngrediStage([...ingrediStage, 0]);
-          }}
-        >
-          +
-        </button>
-      </div>
+      <PlusBtn addHandler={addHandler} />
     </>
   );
 };

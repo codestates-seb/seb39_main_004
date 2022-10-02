@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { useEffect, useState } from "react";
 import { IIngredientSetProps } from "../../types/interface";
+import RemoveBtn from "./buttons/RemoveBtn";
 
 const SIngredientContainer = styled.li`
   display: flex;
@@ -18,6 +19,10 @@ const IngredientsSet = ({
   const [nameValue, setNameValue] = useState("");
   const [isEssential, setIsEssential] = useState(false);
   const [amount, setAmonut] = useState("");
+
+  const removeHandler = () => {
+    console.log("IngredientsSet제거 idx", idx);
+  };
 
   useEffect(() => {
     const originData = ingredientsDatas;
@@ -41,14 +46,7 @@ const IngredientsSet = ({
           setNameValue(event.target.value);
         }}
       />
-      <SCheckInput
-        type="checkbox"
-        // checked={isEssential}
-        name="isEssential"
-        onChange={() => {
-          setIsEssential(!isEssential);
-        }}
-      />
+      <RemoveBtn removeHandler={removeHandler} idx={idx} />
       <input
         placeholder="양을 입력해주세요"
         name="ingredientAmount"
@@ -56,6 +54,14 @@ const IngredientsSet = ({
         value={amount}
         onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
           setAmonut(event.target.value);
+        }}
+      />
+      <SCheckInput
+        type="checkbox"
+        // checked={isEssential}
+        name="isEssential"
+        onChange={() => {
+          setIsEssential(!isEssential);
         }}
       />
     </SIngredientContainer>

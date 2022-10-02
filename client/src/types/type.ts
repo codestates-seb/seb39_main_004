@@ -1,3 +1,5 @@
+import { IStepValues } from "./interface";
+
 type TypeOfFileList = FileList[0] | null | undefined;
 
 type TypeOfIngredients = {
@@ -5,12 +7,6 @@ type TypeOfIngredients = {
   name: string;
   amount: string;
   isEssential: boolean;
-};
-
-type TypeOfDirections = {
-  index: number;
-  imgDirectionUrl?: string;
-  body: string;
 };
 
 type TypeOfTags = {
@@ -23,14 +19,8 @@ type TypeOfFormData = {
   category: string;
   level: string;
   ingredients: TypeOfIngredients[];
-  directions: TypeOfDirections[];
+  directions: IStepValues[];
   tags: TypeOfTags[];
 };
 
-export type {
-  TypeOfFileList,
-  TypeOfFormData,
-  TypeOfIngredients,
-  TypeOfDirections,
-  TypeOfTags,
-};
+export type { TypeOfFileList, TypeOfFormData, TypeOfIngredients, TypeOfTags };
