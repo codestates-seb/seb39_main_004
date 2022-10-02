@@ -22,17 +22,17 @@ public class AccountServiceImpl implements AccountService {
     private final AccountRepository accountRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    @Value("${default.img.path}")
-    String defaultProfileUrl;
+
+    String defaultProfileUrl = "default_thumbnail.png";
 
     @Override
     @Transactional
     public Account signUp(Account user) {
 
-        if (!accountRepository.existsByEmail(user.getName()))
+        if (accountRepository.existsByEmail(user.getEmail()))
             throw new CustomException(ExceptionCode.USER_EXISTS);
 
-        if (!accountRepository.existsByName(user.getName()))
+        if (accountRepository.existsByName(user.getName()))
             throw new CustomException(ExceptionCode.USER_EXISTS);
 
         String rawPassword = user.getPassword();
@@ -42,24 +42,36 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
+    @Transactional
     public void resign(Account user) {
 
         accountRepository.delete(user);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Account findById(Long id) {
         return findVerifiedEntity(id);
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public Account findByEmail(String email) {
+        return accountRepository.findByEmail(email).orElseThrow(
+                () -> new CustomException(ExceptionCode.USER_NOT_FOUND)
+        );
+    }
+
 
     @Override
+    @Transactional(readOnly = true)
     public void verifyExistsId(Long id) {
         if (!accountRepository.existsById(id))
             throw new CustomException(ExceptionCode.USER_NOT_FOUND);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Account findVerifiedEntity(Long id) {
 
         return accountRepository.findById(id).orElseThrow(
@@ -68,13 +80,14 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
+    @Transactional
     public Account update(Account user, AccountInfoDto userInfoDto) {
 
-        if (!accountRepository.existsByEmail(user.getName()))
-            throw new CustomException(ExceptionCode.USER_EXISTS);
+        if (!accountRepository.existsByEmail(user.getEmail()))
+            throw new CustomException(ExceptionCode.USER_NOT_FOUND);
 
         if (!accountRepository.existsByName(user.getName()))
-            throw new CustomException(ExceptionCode.USER_EXISTS);
+            throw new CustomException(ExceptionCode.USER_NOT_FOUND);
 
         return user.updateInfo(userInfoDto);
     }
