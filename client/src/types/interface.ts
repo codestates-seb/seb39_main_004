@@ -85,6 +85,7 @@ interface IIngredientSetProps extends IAddIngredientsProps {
 }
 
 interface ITagsMakerProps {
+  resTags: TypeOfTags[] | undefined;
   setTagsDatas: Dispatch<SetStateAction<TypeOfTags[]>>;
 }
 

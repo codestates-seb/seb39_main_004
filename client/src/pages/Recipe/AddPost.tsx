@@ -177,7 +177,10 @@ const AddPost = () => {
         </SFieldset>
         <SFieldset>
           <legend>태그</legend>
-          <TagsMaker setTagsDatas={setTagsDatas} />
+          <TagsMaker
+            setTagsDatas={setTagsDatas}
+            resTags={editResponse ? editResponse.tags : undefined}
+          />
         </SFieldset>
         <section className="btnContainer">
           <button type="button" onClick={handleSubmit(submitHandler)}>
