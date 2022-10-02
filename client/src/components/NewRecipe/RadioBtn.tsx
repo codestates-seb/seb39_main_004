@@ -19,19 +19,26 @@ const SLabel = styled.label`
   }
 `;
 
-const RadioBtn = ({ keyValue, srcValue, setCheckedCateg }: IRadioBtnProps) => {
+const RadioBtn = ({
+  name,
+  data,
+  icon,
+  checked,
+  setCheckedCateg,
+}: IRadioBtnProps) => {
   return (
-    <SLabel htmlFor={keyValue}>
+    <SLabel htmlFor={name}>
       <input
         type="radio"
         name="category"
-        id={keyValue}
-        value={keyValue}
+        id={name}
+        value={data}
         onClick={() => {
-          setCheckedCateg(keyValue);
+          setCheckedCateg(data);
         }}
+        checked={checked}
       />
-      <img src={srcValue} alt={keyValue} />
+      <img src={icon} alt={name} />
     </SLabel>
   );
 };

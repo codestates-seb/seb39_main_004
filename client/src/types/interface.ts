@@ -90,12 +90,15 @@ interface ITagsMakerProps {
 }
 
 interface IImgRadioProps {
+  checkedCateg: string;
   setCheckedCateg: Dispatch<SetStateAction<string>>;
 }
 
-interface IRadioBtnProps extends IImgRadioProps {
-  keyValue: string;
-  srcValue: string;
+interface IRadioBtnProps extends Omit<IImgRadioProps, "checkedCateg"> {
+  name: string;
+  data: string;
+  icon: string;
+  checked: boolean;
 }
 
 interface ICategory {

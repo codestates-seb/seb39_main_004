@@ -34,6 +34,14 @@ const SRecipeTexts = styled.div`
 `;
 
 const AddPost = () => {
+  // 수정페이지 관련
+  const [editMode, setEditMode] = useState(false);
+  const { recipeId } = useParams();
+  const [editResponse, setEditResponse] = useState<
+    IEditResponseData | undefined
+  >();
+
+  // 등록페이지 관련
   const [thumbNail, setThumbNail] = useState<TypeOfFileList>();
   const [stepImgFiles, setStepImgFiles] = useState<TypeOfFileList[]>([]);
   const [directDatas, setDirectDatas] = useState<IStepValues[]>([]);
@@ -42,12 +50,6 @@ const AddPost = () => {
     []
   );
   const [tagsDatas, setTagsDatas] = useState<TypeOfTags[]>([]);
-  // 수정페이지 관련
-  const [editMode, setEditMode] = useState(false);
-  const { recipeId } = useParams();
-  const [editResponse, setEditResponse] = useState<
-    IEditResponseData | undefined
-  >();
 
   const {
     register,
@@ -118,6 +120,7 @@ const AddPost = () => {
           setEditResponse(res.data.data);
           console.log(res);
           setEditMode(true);
+          setCheckedCateg(res.data.data.category);
         })
         .catch((err) => {
           console.log("수정에러", err);
@@ -154,7 +157,10 @@ const AddPost = () => {
         </SRecipeInfo>
         <SFieldset>
           <label htmlFor="category">카테고리</label>
-          <ImgRadio setCheckedCateg={setCheckedCateg}></ImgRadio>
+          <ImgRadio
+            setCheckedCateg={setCheckedCateg}
+            checkedCateg={checkedCateg}
+          ></ImgRadio>
         </SFieldset>
         <SFieldset>
           <legend>요리재료</legend>
@@ -168,7 +174,9 @@ const AddPost = () => {
           <legend>요리순서</legend>
           <Guide text="중요한 부분은 빠짐없이 적어주세요." />
           <StepsMaker
-            resDirecttions={editResponse ? editResponse.directions : undefined}
+            resDirecttions={
+              editResponse && editMode ? editResponse.directions : undefined
+            }
             directDatas={directDatas}
             setDirectDatas={setDirectDatas}
             stepImgFiles={stepImgFiles}
@@ -179,7 +187,7 @@ const AddPost = () => {
           <legend>태그</legend>
           <TagsMaker
             setTagsDatas={setTagsDatas}
-            resTags={editResponse ? editResponse.tags : undefined}
+            resTags={editResponse && editMode ? editResponse.tags : undefined}
           />
         </SFieldset>
         <section className="btnContainer">
