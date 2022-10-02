@@ -19,10 +19,10 @@ public class OAuthAttributes {
     private String name;
     private String email;
     private boolean isNew;
-    private Provider provider;
+    private String provider;
 
     @Builder
-    public OAuthAttributes(Map<String, Object> attributes, String key, String name, String email, boolean isNew,  Provider provider) {
+    public OAuthAttributes(Map<String, Object> attributes, String key, String name, String email, boolean isNew,  String provider) {
         this.attributes = attributes;
         this.key = key;
         this.isNew = isNew;
@@ -46,7 +46,7 @@ public class OAuthAttributes {
                 .email((String) attributes.get("email"))
                 .attributes(attributes)
                 .key(attributeName)
-                .provider(Provider.GOOGLE)
+                .provider(Provider.GOOGLE.getValue())
                 .build();
     }
 

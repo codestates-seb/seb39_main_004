@@ -7,20 +7,15 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.SessionManagementConfigurer;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.oauth2.client.OAuth2AuthorizationSuccessHandler;
-import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import run.ward.mmz.handler.auth.LoginFailureHandler;
 import run.ward.mmz.handler.auth.LoginSuccessHandler;
-import run.ward.mmz.web.auth.OAuth2UserServiceImpl;
+import run.ward.mmz.service.auth.OAuth2UserService;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -28,14 +23,13 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
 import java.io.IOException;
-import java.util.Map;
 
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-    private final OAuth2UserServiceImpl oAuth2UserService;
+    private final OAuth2UserService oAuth2UserService;
     private final LoginSuccessHandler loginSuccessHandler;
     private final LoginFailureHandler loginFailureHandler;
 
@@ -67,8 +61,15 @@ public class SecurityConfig {
                 .formLogin()
                 .loginProcessingUrl("/api/v1/auth/login")
                 .failureUrl("/api/v1/auth/login-error")
-                .successHandler(loginSuccessHandler)
-                .failureHandler(loginFailureHandler)
+                .successHandler(new AuthenticationSuccessHandler() {
+                    @Override
+                    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
+                        String uri = request.getHeader("Referer");
+                        if (uri != null && !uri.contains("/api/v1/auth/login")) {
+                            request.getSession().setAttribute("prevPage", uri);
+                        }
+                    }
+                })
                 .and()
                 .logout()
                 .logoutUrl("/api/v1/logout")
@@ -77,8 +78,15 @@ public class SecurityConfig {
 
         http
                 .oauth2Login()
-                .successHandler(loginSuccessHandler)
-                .failureHandler(loginFailureHandler)
+                .successHandler(new AuthenticationSuccessHandler() {
+                    @Override
+                    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
+                        String uri = request.getHeader("Referer");
+                        if (uri != null && !uri.contains("/api/v1/auth/login")) {
+                            request.getSession().setAttribute("prevPage", uri);
+                        }
+                    }
+                })
                 .userInfoEndpoint()
                 .userService(oAuth2UserService);
 

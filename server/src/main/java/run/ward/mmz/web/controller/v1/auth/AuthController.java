@@ -1,4 +1,4 @@
-package run.ward.mmz.web.controller.v1.account;
+package run.ward.mmz.web.controller.v1.auth;
 
 import com.nimbusds.openid.connect.sdk.claims.UserInfo;
 import lombok.RequiredArgsConstructor;
@@ -8,9 +8,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import run.ward.mmz.domain.account.Account;
+import run.ward.mmz.dto.auth.SessionUser;
 import run.ward.mmz.dto.common.ResponseDto;
 import run.ward.mmz.dto.request.account.SignUpDto;
 import run.ward.mmz.dto.respones.AccountInfoDto;
+import run.ward.mmz.handler.auth.LoginUser;
 import run.ward.mmz.handler.exception.ErrorResponse;
 import run.ward.mmz.handler.exception.ExceptionCode;
 import run.ward.mmz.mapper.account.AccountMapper;
@@ -34,9 +36,15 @@ public class AuthController {
             @RequestBody SignUpDto signUpDto) {
 
         Account user = accountMapper.toEntity(signUpDto);
-        accountService.signUp(user);
+        user = accountService.signUp(user);
 
-        return new ResponseEntity<>(HttpStatus.OK);
+        AccountInfoDto accountInfoDto = accountMapper.toInfoDto(user);
+
+        ResponseDto.Single<?> response = ResponseDto.Single.builder()
+                .data(accountInfoDto)
+                .build();
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @GetMapping("/auth/session-expired")
@@ -48,23 +56,19 @@ public class AuthController {
         return new ResponseEntity<>(responseMap, HttpStatus.OK);
     }
 
+    @GetMapping("/auth/session-status")
+    public ResponseEntity<?> sessionStatus(
+            @LoginUser Account user) {
 
-    @GetMapping("/auth/login-error")
-    public ResponseEntity<?> loginError() {
-
-        return new ResponseEntity<>(ErrorResponse.of(ExceptionCode.USER_NOT_FOUND), HttpStatus.NOT_FOUND);
-    }
-
-    @GetMapping("/auth/login-success")
-    public ResponseEntity<?> loginSuccess(HttpServletRequest httpRequest) {
-
-        AccountInfoDto accountInfoDto = accountMapper.toInfoDto((Account) httpRequest.getAttribute("user"));
-
-        ResponseDto.Single<?> response = ResponseDto.Single.builder()
-                .data(accountInfoDto)
+        SessionUser sessionUser = SessionUser.builder()
+                .user(user)
                 .build();
 
-        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+        ResponseDto.Single<?> response = ResponseDto.Single.builder()
+                .data(sessionUser)
+                .build();
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
 }
