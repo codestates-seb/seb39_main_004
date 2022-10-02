@@ -90,7 +90,7 @@ public class SecurityConfig {
                         session -> session.sessionFixation(SessionManagementConfigurer.SessionFixationConfigurer::changeSessionId)
                                 .maximumSessions(1)
                                 .maxSessionsPreventsLogin(false)
-                                .expiredUrl("/auth/login-page")
+                                .expiredUrl("/api/v1/auth/login")
                 )
         ;
 
