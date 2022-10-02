@@ -52,7 +52,7 @@ const SDropContainer = styled.div`
   width: 220px;
   color: white;
   position: absolute;
-  transform: translate(-89px, 21px);
+  transform: translate(-89px, 24px);
   z-index: 1;
   display: flex;
   flex-direction: column;
