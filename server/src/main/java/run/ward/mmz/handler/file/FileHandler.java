@@ -71,7 +71,7 @@ public class FileHandler {
     }
 
     public FilesDto parseFileInfo(MultipartFile file, List<String> extensions) {
-        if (file.isEmpty()) {
+        if (file == null) {
             throw new CustomException(ExceptionCode.FILE_NOT_FOUND);
         }
 

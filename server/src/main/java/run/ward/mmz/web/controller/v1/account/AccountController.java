@@ -41,8 +41,6 @@ public class AccountController {
             @LoginUser Account user,
             @RequestBody AccountInfoDto userInfoDto) {
 
-
-
         Account editUser = accountService.update(user, userInfoDto);
 
         SessionUser sessionUser = SessionUser.builder()
