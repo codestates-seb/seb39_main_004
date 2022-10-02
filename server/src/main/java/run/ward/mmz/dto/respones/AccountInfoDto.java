@@ -10,5 +10,6 @@ public class AccountInfoDto {
     private Long id;
     private String name;
     private String bio;
+    private String email;
     private String imgProfileUrl;
 }

@@ -23,6 +23,7 @@ public class AccountMapperImpl implements AccountMapper{
         return AccountInfoDto.builder()
                 .id(account.getId())
                 .name(account.getName())
+                .email(account.getEmail())
                 .imgProfileUrl(account.getImgProfileUrl())
                 .bio(account.getBio())
                 .build();
