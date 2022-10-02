@@ -1,20 +1,30 @@
 import { IStepMakerProps, IStepValues } from "../../types/interface";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { StepSet, PlusBtn } from "./indexNewRecipe";
 
 const StepsMaker = ({
+  resDirecttions,
   directDatas,
   setDirectDatas,
   stepImgFiles,
   setStepImgFiles,
 }: IStepMakerProps) => {
-  const initialValue = {
-    idx: 0,
+  const basicForm = {
+    index: 0,
     imgDirectionUrl: "",
     body: "",
   };
-
-  const [steps, setSteps] = useState<IStepValues[]>([initialValue]);
+  const initialValue = resDirecttions ? resDirecttions : [basicForm];
+  const [steps, setSteps] = useState<IStepValues[]>(initialValue);
+  // console.log("directDatas", directDatas);
+  // console.log("steps", steps);
+  useEffect(() => {
+    const newSteps = steps.slice();
+    newSteps.forEach((steps, idx) => {
+      steps.index = idx;
+    });
+    setDirectDatas(newSteps);
+  }, [steps]);
 
   return (
     <>
@@ -22,8 +32,8 @@ const StepsMaker = ({
         {steps.map((step) => {
           return (
             <StepSet
-              key={step.idx}
-              idx={step.idx}
+              key={step.index}
+              idx={step.index}
               text={step.body}
               imgUrl={step.imgDirectionUrl}
               steps={steps}
@@ -38,11 +48,12 @@ const StepsMaker = ({
       </div>
       <PlusBtn
         addHandler={() => {
+          // console.log("lastStep", steps.slice(-1)[0]);
           const lastStep = steps.slice(-1)[0];
           if (lastStep) {
-            initialValue.idx = lastStep.idx + 1;
+            basicForm.index = lastStep.index + 1;
           }
-          setSteps([...steps, initialValue]);
+          setSteps([...steps, basicForm]);
         }}
       />
     </>

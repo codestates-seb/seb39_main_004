@@ -1,4 +1,4 @@
-import { IDirections } from "./interface";
+import { IStepValues } from "./interface";
 
 type TypeOfFileList = FileList[0] | null | undefined;
 
@@ -19,7 +19,7 @@ type TypeOfFormData = {
   category: string;
   level: string;
   ingredients: TypeOfIngredients[];
-  directions: IDirections[];
+  directions: IStepValues[];
   tags: TypeOfTags[];
 };
 

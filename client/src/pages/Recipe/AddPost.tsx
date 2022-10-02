@@ -12,11 +12,12 @@ import {
   TypeOfIngredients,
   TypeOfTags,
 } from "../../types/type";
-import { IDirections } from "../../types/interface";
-import { useState } from "react";
+import { IStepValues, IEditResponseData } from "../../types/interface";
+import { useState, useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import styled from "styled-components";
 import axios from "axios";
+import { useParams } from "react-router-dom";
 
 const SFieldset = styled.fieldset`
   border: 1px solid blue;
@@ -35,20 +36,27 @@ const SRecipeTexts = styled.div`
 const AddPost = () => {
   const [thumbNail, setThumbNail] = useState<TypeOfFileList>();
   const [stepImgFiles, setStepImgFiles] = useState<TypeOfFileList[]>([]);
-  const [directDatas, setDirectDatas] = useState<IDirections[]>([]);
+  const [directDatas, setDirectDatas] = useState<IStepValues[]>([]);
   const [checkedCateg, setCheckedCateg] = useState("");
   const [ingredientsDatas, setIngredientsDatas] = useState<TypeOfIngredients[]>(
     []
   );
   const [tagsDatas, setTagsDatas] = useState<TypeOfTags[]>([]);
+  // 수정페이지 관련
+  const [editMode, setEditMode] = useState(false);
+  const { recipeId } = useParams();
+  const [editResponse, setEditResponse] = useState<
+    IEditResponseData | undefined
+  >();
 
   const {
     register,
     handleSubmit,
     // formState: { errors },
-  } = useForm<TypeOfFormData>();
-
-  // console.log("watch", watch("title"));
+  } = useForm<TypeOfFormData>(
+    // editMode && editResponse ? { defaultValues: editResponse } :
+    undefined
+  );
 
   const submitHandler: SubmitHandler<TypeOfFormData> = async (data) => {
     // console.log("onSubmitData", data);
@@ -102,6 +110,21 @@ const AddPost = () => {
     }
   };
 
+  useEffect(() => {
+    if (recipeId) {
+      axios
+        .get(`/api/v1/recipe/${recipeId}/edit`)
+        .then((res) => {
+          setEditResponse(res.data.data);
+          console.log(res);
+          setEditMode(true);
+        })
+        .catch((err) => {
+          console.log("수정에러", err);
+        });
+    }
+  }, []);
+
   return (
     <>
       <form action="" method="post" onSubmit={handleSubmit(submitHandler)}>
@@ -122,7 +145,12 @@ const AddPost = () => {
               rows={7}
             ></textarea>
           </SRecipeTexts>
-          <ImgUploader setThumbNail={setThumbNail} />
+          <ImgUploader
+            setThumbNail={setThumbNail}
+            imgUrl={
+              editResponse && editMode ? editResponse.imgThumbNailUrl : ""
+            }
+          />
         </SRecipeInfo>
         <SFieldset>
           <label htmlFor="category">카테고리</label>
@@ -140,6 +168,7 @@ const AddPost = () => {
           <legend>요리순서</legend>
           <Guide text="중요한 부분은 빠짐없이 적어주세요." />
           <StepsMaker
+            resDirecttions={editResponse ? editResponse.directions : undefined}
             directDatas={directDatas}
             setDirectDatas={setDirectDatas}
             stepImgFiles={stepImgFiles}

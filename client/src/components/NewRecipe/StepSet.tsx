@@ -20,29 +20,38 @@ const StepSet = ({
 }: IStepSetProps) => {
   const [textValue, setTextValue] = useState<string>(text ?? "");
   const [imgName, setImgName] = useState<string>("");
+  const currentIndex = steps.findIndex((step) => {
+    return step.index === idx;
+  });
 
-  const removeHandler = (idx: number) => {
-    const newSteps = steps.filter((step) => {
-      return step.idx !== idx;
-    });
+  const textHandler = (
+    event: React.ChangeEvent<HTMLTextAreaElement>,
+    currentIndex: number
+  ) => {
+    setTextValue(event.target.value);
+    const newStepsValue = steps.slice();
+    newStepsValue[currentIndex].body = event.target.value;
+    setSteps(newStepsValue);
+  };
+
+  const removeHandler = (currentIndex: number) => {
+    const newSteps = steps.slice();
+    newSteps.splice(currentIndex, 1);
     setSteps(newSteps);
+    // 이미지파일 제거
+    const newStepImgFiles = stepImgFiles.slice();
+    newStepImgFiles.splice(currentIndex, 1);
+    setStepImgFiles(newStepImgFiles);
   };
 
   useEffect(() => {
-    // console.log("턴", steps);
-    // const currentIndex = steps.findIndex((step) => {
-    //   return step.idx === idx;
-    // });
-    // // console.log(currentIndex);
-    // const originData = directDatas.slice(); //[]
-    // originData[currentIndex] = {
-    //   index: currentIndex,
-    //   imgDirectionUrl: imgName,
-    //   body: textValue,
-    // };
+    const originData = steps.slice();
     // console.log("originData", originData);
-    // setDirectDatas(originData);
-  }, [textValue, imgName, steps]);
+    if (originData[currentIndex].imgDirectionUrl !== undefined) {
+      originData[currentIndex].imgDirectionUrl = imgName;
+      setSteps(originData);
+    }
+  }, [textValue, imgName]);
 
   return (
     <SStepsContainer>
@@ -52,20 +61,16 @@ const StepSet = ({
         rows={5}
         placeholder="요리 과정을 입력해주세요."
         value={textValue}
-        onChange={(event) => {
-          setTextValue(event.target.value);
-          const newStepsValue = steps.slice();
-          const targetIdx = newStepsValue.findIndex((step) => {
-            return step.idx === idx;
-          });
-          newStepsValue[targetIdx].body = event.target.value;
-          setSteps(newStepsValue);
+        onChange={(e) => {
+          textHandler(e, currentIndex);
         }}
       ></textarea>
-      <RemoveBtn removeHandler={removeHandler} idx={idx} />
+      <RemoveBtn removeHandler={() => removeHandler(currentIndex)} idx={idx} />
       <ImgUploader
-        idx={idx}
-        // imgUrl={imgUrl}
+        steps={steps}
+        imgName={imgName}
+        currentIndex={currentIndex}
+        imgUrl={imgUrl}
         stepImgFiles={stepImgFiles}
         setStepImgFiles={setStepImgFiles}
         setImgName={setImgName}

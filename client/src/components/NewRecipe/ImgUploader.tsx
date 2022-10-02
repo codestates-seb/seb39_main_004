@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { IImgUploaderProps } from "../../types/interface";
 import styled from "styled-components";
 
@@ -19,21 +19,28 @@ const SImgInput = styled.input`
 `;
 
 const ImgUploader = ({
-  idx,
-  // imgUrl,
+  currentIndex,
+  steps,
+  imgName,
+  imgUrl,
   setThumbNail,
   setStepImgFiles,
   stepImgFiles,
   setImgName,
 }: IImgUploaderProps) => {
-  const [fileURL, setStepImgFilesURL] = useState<string>("");
+  const [fileURL, setFileURL] = useState<string>("");
   const imgUploadInput = useRef<HTMLInputElement | null>(null);
 
   const onImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
-      if (idx !== undefined && stepImgFiles && setStepImgFiles && setImgName) {
+      if (
+        currentIndex !== undefined &&
+        stepImgFiles &&
+        setStepImgFiles &&
+        setImgName
+      ) {
         const newImgFile = stepImgFiles;
-        newImgFile[idx] = event.target.files[0];
+        newImgFile[currentIndex] = event.target.files[0];
         // console.log("값 전체", newImgFile);
         // console.log("파일이름", event.target.files[0]);
         setStepImgFiles(newImgFile);
@@ -44,15 +51,22 @@ const ImgUploader = ({
       }
 
       const newFileURL = URL.createObjectURL(event.target.files[0]);
-      setStepImgFilesURL(newFileURL);
+      setFileURL(newFileURL);
       // console.log("event.target.files", event.target.files);
       // console.log("file", file);
     }
   };
 
+  useEffect(() => {
+    if (imgUrl) {
+      const imgThumbNailUrl = `${process.env.PUBLIC_URL}/${imgUrl}`;
+      setFileURL(imgThumbNailUrl);
+    }
+  }, []);
+
   return (
     <SImgInputContainer>
-      {idx === undefined && <label htmlFor="img">레시피 사진</label>}
+      {currentIndex === undefined && <label htmlFor="img">레시피 사진</label>}
       <SImg
         src={
           fileURL
@@ -74,7 +88,6 @@ const ImgUploader = ({
         ref={imgUploadInput}
         onChange={onImageChange}
       ></SImgInput>
-      {/* <button onClick={submitHandler}>submit</button> */}
     </SImgInputContainer>
   );
 };

@@ -8,27 +8,28 @@ import {
 import { UseFormRegister } from "react-hook-form";
 
 interface IImgUploaderProps {
-  idx?: number;
-  // imgUrl: string;
+  steps?: IStepValues[];
+  imgName?: string;
+  currentIndex?: number;
+  imgUrl?: string;
   setThumbNail?: Dispatch<SetStateAction<TypeOfFileList>>;
   stepImgFiles?: TypeOfFileList[];
   setStepImgFiles?: Dispatch<SetStateAction<TypeOfFileList[]>>;
   setImgName?: Dispatch<SetStateAction<string>>;
 }
 
-interface IStepMakerProps extends IImgUploaderProps {
-  directDatas: IDirections[];
-  setDirectDatas: Dispatch<SetStateAction<IDirections[]>>;
-  clickEvent?: (orderValue: string) => Promise<void> | void;
+interface IStepMakerProps {
+  resDirecttions?: IStepValues[] | undefined;
+  directDatas: IStepValues[];
+  setDirectDatas: Dispatch<SetStateAction<IStepValues[]>>;
+  stepImgFiles: TypeOfFileList[];
+  setStepImgFiles: Dispatch<SetStateAction<TypeOfFileList[]>>;
+  // clickEvent?: (orderValue: string) => Promise<void> | void;
 }
 
 interface IStepValues {
   imgDirectionUrl: string;
   body: string;
-  idx: number;
-}
-
-interface IDirections extends Omit<IStepValues, "idx"> {
   index: number;
 }
 
@@ -38,10 +39,10 @@ interface IStepSetProps {
   imgUrl: string;
   steps: IStepValues[];
   setSteps: Dispatch<SetStateAction<IStepValues[]>>;
-  stepImgFiles?: TypeOfFileList[];
-  setStepImgFiles?: Dispatch<SetStateAction<TypeOfFileList[]>>;
-  directDatas: IDirections[];
-  setDirectDatas: Dispatch<SetStateAction<IDirections[]>>;
+  stepImgFiles: TypeOfFileList[];
+  setStepImgFiles: Dispatch<SetStateAction<TypeOfFileList[]>>;
+  directDatas: IStepValues[];
+  setDirectDatas: Dispatch<SetStateAction<IStepValues[]>>;
 }
 
 interface IResponseImgProps {
@@ -168,6 +169,16 @@ interface IPostDirectionsProps {
   body: string;
 }
 
+interface IEditResponseData {
+  title: string;
+  body: string;
+  category: string;
+  directions: IStepValues[];
+  imgThumbNailUrl: string;
+  ingredients: IStepValues[];
+  tags: ITagProps[];
+}
+
 export type {
   IImgUploaderProps,
   IStepMakerProps,
@@ -187,10 +198,10 @@ export type {
   ITagWithBtnProps,
   IRemoveBtnProps,
   IStepValues,
-  IDirections,
   IPostResponceProps,
   IPostInGredientProps,
   IPostDirectionsProps,
   IPostUserProps,
   IPostCategoryProps,
+  IEditResponseData,
 };
