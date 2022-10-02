@@ -13,6 +13,10 @@ const SLogo = styled.img`
   margin-right: 1.6rem;
 `;
 
+const SOutLine = styled.div`
+  border-bottom: 1px solid var(--pale-gray);
+`;
+
 const SHeader = styled.header`
   max-width: 1280px;
   height: 95px;
@@ -21,7 +25,6 @@ const SHeader = styled.header`
   display: flex;
   justify-content: space-between;
   align-items: center;
-
   span {
     font-size: 1.2rem;
     font-weight: lighter;
@@ -95,54 +98,56 @@ const Header = () => {
   };
 
   return (
-    <SHeader>
-      <SSection>
-        <Link to="/">
-          <SLogo src={logo} alt="MMZ logo" />
-        </Link>
-        <SNavLink to="/" end>
-          HOME
-        </SNavLink>
-        <SDash>|</SDash>
-        <SNavLink to="/rank">RANKING</SNavLink>
-      </SSection>
-      <SSection>
-        <SNavLink to="/write">
-          <MdOutlineNoteAlt size={47} />
-        </SNavLink>
-        <section>
-          {!sessionStatus ? (
-            <SNavLink to="/login">
-              <MdOutlineLogin size={45} />
-            </SNavLink>
-          ) : (
-            <SProfile
-              onClick={() => {
-                setIsClicked(!isClicked);
-              }}
-            >
-              <CgProfile
-                size={43}
-                className={isClicked ? "actived" : undefined}
-              />
-              {isClicked && (
-                <SDropContainer>
-                  <SLink to="/mypage">
-                    <div>MyPage</div>
-                  </SLink>
-                  <SLink to="/" onClick={logoutHandler}>
-                    Logout
-                  </SLink>
-                </SDropContainer>
-              )}
-            </SProfile>
-          )}
-        </section>
-        <SNavLink to="/search">
-          <BiSearchAlt2 size={45} />
-        </SNavLink>
-      </SSection>
-    </SHeader>
+    <SOutLine>
+      <SHeader>
+        <SSection>
+          <Link to="/">
+            <SLogo src={logo} alt="MMZ logo" />
+          </Link>
+          <SNavLink to="/" end>
+            HOME
+          </SNavLink>
+          <SDash>|</SDash>
+          <SNavLink to="/rank">RANKING</SNavLink>
+        </SSection>
+        <SSection>
+          <SNavLink to="/write">
+            <MdOutlineNoteAlt size={47} />
+          </SNavLink>
+          <section>
+            {!sessionStatus ? (
+              <SNavLink to="/login">
+                <MdOutlineLogin size={45} />
+              </SNavLink>
+            ) : (
+              <SProfile
+                onClick={() => {
+                  setIsClicked(!isClicked);
+                }}
+              >
+                <CgProfile
+                  size={43}
+                  className={isClicked ? "actived" : undefined}
+                />
+                {isClicked && (
+                  <SDropContainer>
+                    <SLink to="/mypage">
+                      <div>MyPage</div>
+                    </SLink>
+                    <SLink to="/" onClick={logoutHandler}>
+                      Logout
+                    </SLink>
+                  </SDropContainer>
+                )}
+              </SProfile>
+            )}
+          </section>
+          <SNavLink to="/search">
+            <BiSearchAlt2 size={45} />
+          </SNavLink>
+        </SSection>
+      </SHeader>
+    </SOutLine>
   );
 };
 export default Header;
