@@ -1,8 +1,6 @@
-import { ImgUploader } from "./indexNewRecipe";
+import { ImgUploader, RemoveBtn } from "./indexNewRecipe";
 import { IStepSetProps } from "../../types/interface";
-// import { TypeOfFormData } from "../../ts/type";
 import { useEffect, useState } from "react";
-// import { useForm } from "react-hook-form";
 import styled from "styled-components";
 
 const SStepsContainer = styled.div`
@@ -13,21 +11,50 @@ const StepSet = ({
   idx,
   stepImgFiles,
   setStepImgFiles,
-  stepsDatas,
-  setStepsDatas,
+  text,
+  imgUrl,
+  directDatas,
+  setDirectDatas,
+  steps,
+  setSteps,
 }: IStepSetProps) => {
-  const [imgName, setImgName] = useState<string | undefined>();
-  const [textValue, setTextValue] = useState("");
+  const [textValue, setTextValue] = useState<string>(text ?? "");
+  const [imgName, setImgName] = useState<string>("");
+  const currentIndex = steps.findIndex((step) => {
+    return step.index === idx;
+  });
+
+  const textHandler = (
+    event: React.ChangeEvent<HTMLTextAreaElement>,
+    currentIndex: number
+  ) => {
+    setTextValue(event.target.value);
+    const newStepsValue = steps.slice();
+    newStepsValue[currentIndex].body = event.target.value;
+    setSteps(newStepsValue);
+  };
+
+  const removeHandler = (currentIndex: number) => {
+    const newSteps = steps.slice();
+    newSteps.splice(currentIndex, 1);
+    setSteps(newSteps);
+    // 이미지파일 제거
+    const newStepImgFiles = stepImgFiles.slice();
+    newStepImgFiles.splice(currentIndex, 1);
+    setStepImgFiles(newStepImgFiles);
+  };
 
   useEffect(() => {
-    const originData = stepsDatas;
-    originData[idx] = {
-      index: idx,
-      imgDirectionUrl: imgName,
-      body: textValue,
-    };
-    setStepsDatas(originData);
+    const originData = steps.slice();
+    // console.log("originData", originData);
+    if (originData[currentIndex].imgDirectionUrl !== undefined) {
+      originData[currentIndex].imgDirectionUrl = imgName;
+      setSteps(originData);
+    }
   }, [textValue, imgName]);
+
+  console.log(directDatas); // 빌드에러용 임시 추가
+  console.log(setDirectDatas); // 빌드에러용 임시 추가
 
   return (
     <SStepsContainer>
@@ -36,14 +63,17 @@ const StepSet = ({
         cols={70}
         rows={5}
         placeholder="요리 과정을 입력해주세요."
-        // value={textValue}
-        onChange={(event) => {
-          // console.log("순서텍스트", event.target.value);
-          setTextValue(event?.target.value);
+        value={textValue}
+        onChange={(e) => {
+          textHandler(e, currentIndex);
         }}
       ></textarea>
+      <RemoveBtn removeHandler={() => removeHandler(currentIndex)} idx={idx} />
       <ImgUploader
-        idx={idx}
+        steps={steps}
+        imgName={imgName}
+        currentIndex={currentIndex}
+        imgUrl={imgUrl}
         stepImgFiles={stepImgFiles}
         setStepImgFiles={setStepImgFiles}
         setImgName={setImgName}
