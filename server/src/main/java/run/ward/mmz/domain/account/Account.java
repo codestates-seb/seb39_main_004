@@ -6,6 +6,7 @@ import lombok.*;
 import run.ward.mmz.domain.auditable.Auditable;
 import run.ward.mmz.domain.file.Files;
 import run.ward.mmz.domain.post.*;
+import run.ward.mmz.dto.respones.AccountInfoDto;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -22,7 +23,7 @@ public class Account extends Auditable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String name;
 
     @Lob
@@ -33,6 +34,8 @@ public class Account extends Auditable {
     @Column(nullable = false, unique = true)
     private String email;
 
+    @Column(nullable = false)
+    private boolean isNew = true;
     @Column
     private String imgProfileUrl;
 
@@ -41,8 +44,11 @@ public class Account extends Auditable {
     @JoinColumn(name = "profileId")
     private Files imgProfile;
 
+    @Column(nullable = false)
+    private String provider;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private Role role;
 
     @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
@@ -54,12 +60,13 @@ public class Account extends Auditable {
     private List<Review> reviews = new ArrayList<>();
 
     @Builder
-    public Account(String name, String email, String password, String imgProfileUrl, Role role){
+    public Account(String name, String email, String password, String imgProfileUrl, Role role, String provider){
         this.name = name;
         this.email = email;
         this.password = password;
         this.imgProfileUrl = imgProfileUrl;
         this.role = role;
+        this.provider = provider;
     }
 
 
@@ -91,11 +98,37 @@ public class Account extends Auditable {
 
     }
 
-    public void registerUser(Account account, String password, Role role) {
+    @JsonIgnore
+    public String getRoleKey() {
+        return this.role.getKey();
+    }
+
+    @JsonIgnore
+    public String getProvider() {
+        return this.provider;
+    }
+
+    public Account updateInfo(AccountInfoDto accountInfoDto) {
+        this.name = accountInfoDto.getName();
+        this.bio = accountInfoDto.getBio();
+        this.isNew = false;
+        return this;
+    }
+
+    @JsonIgnore
+    public Account updateName(String name) {
+        this.name = name;
+        return this;
+    }
+
+    public void registerUser(Account account, String imgProfileUrl, boolean isNew, String password, Role role, String provider) {
         this.name = account.name;
+        this.imgProfileUrl = imgProfileUrl;
+        this.isNew = isNew;
         this.email = account.email;
         this.password = password;
         this.role = role;
+        this.provider = provider;
     }
 
 
@@ -107,7 +140,6 @@ public class Account extends Auditable {
         for(Bookmark bookmark : this.bookmarks) {
             recipeList.add(bookmark.getRecipe());
         }
-
         return recipeList;
     }
 

@@ -1,4 +1,4 @@
-package run.ward.mmz.web.auth;
+package run.ward.mmz.handler.auth;
 
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;

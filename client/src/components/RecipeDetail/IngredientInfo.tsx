@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { IPostInGredientProps } from "../../types/interface";
 
 const SIngredientItem = styled.div`
   width: 50%;
@@ -12,19 +13,16 @@ const SIngredientItem = styled.div`
   }
 `;
 
-interface Prop {
-  id: number;
-  name: string;
-  amount: string;
-  isEssential: boolean;
-}
-
-const IngredientItem = ({ name, amount }: Prop) => {
+const IngredientItem = ({
+  name,
+  amount,
+  isEssential,
+}: IPostInGredientProps) => {
   return (
     <>
       <SIngredientItem>
         <dl>
-          <input type="checkbox" />
+          <input type="checkbox" checked={isEssential} />
           <dt>{name}</dt>
           <dd>{amount}</dd>
         </dl>

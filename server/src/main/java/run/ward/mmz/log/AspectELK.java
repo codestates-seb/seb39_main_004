@@ -1,4 +1,4 @@
-package run.ward.mmz.handler.log;
+package run.ward.mmz.log;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.aspectj.lang.JoinPoint;
@@ -17,15 +17,15 @@ import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 
 @Aspect
 @Component
 public class AspectELK {
 
 
-    private static final String TIMESTAMP_FORMAT = "yyyy-MM-dd HH:mm:ss";
     private static final Logger log = LoggerFactory.getLogger("ELK_LOGGER");
     private ObjectMapper mapper = new ObjectMapper();
     private String host = "";
@@ -45,7 +45,7 @@ public class AspectELK {
     @Around("bean(*Controller)")
     public Object controllerAroundLogging(ProceedingJoinPoint pjp) throws Throwable {
 
-        String timeStamp = new SimpleDateFormat(TIMESTAMP_FORMAT).format(new Timestamp(System.currentTimeMillis()));
+        String timeStamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
         this.clientIp = getIp(request);
         this.clientUrl = request.getRequestURL().toString();
@@ -59,19 +59,19 @@ public class AspectELK {
                 .clientUrl(clientUrl)
                 .callFunction(callFunction)
                 .type(LogType.CONTROLLER.getType())
-                .parameter(mapper.writeValueAsString(request.getParameterMap()))
+                .parameter(request.getParameterMap().toString())
                 .build();
 
-        log.info("{}", mapper.writeValueAsString(logelk));
+        log.info("{}", logelk);
 
         Object result = pjp.proceed();
 
-        timeStamp = new SimpleDateFormat(TIMESTAMP_FORMAT).format(new Timestamp(System.currentTimeMillis()));
+        timeStamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 
         logelk.setTimestamp(timeStamp);
         logelk.setType("CONTROLLER_RES");
-        logelk.setParameter(mapper.writeValueAsString(result));
-        log.info("{}", mapper.writeValueAsString(logelk));
+//        logelk.setParameter(result.toString());
+//        log.info("{}", logelk);
 
         return result;
 
@@ -79,7 +79,7 @@ public class AspectELK {
 
     @Before("bean(*ServiceImpl)")
     public void serviceBeforeLogging(JoinPoint pjp) throws Throwable {
-        String timeStamp = new SimpleDateFormat(TIMESTAMP_FORMAT).format(new Timestamp(System.currentTimeMillis()));
+        String timeStamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
         String callFunction = pjp.getSignature().getDeclaringTypeName() + "." + pjp.getSignature().getName();
 
         Object[] argNames = pjp.getArgs();
@@ -92,13 +92,13 @@ public class AspectELK {
         logelk.setClientUrl(clientUrl);
         logelk.setCallFunction(callFunction);
         logelk.setType("SERVICE_REQ");
-        logelk.setParameter(mapper.writeValueAsString(argNames));
-        log.info("{}", mapper.writeValueAsString(logelk));
+//        logelk.setParameter(Arrays.stream(argNames).map(Object::toString).toString());
+//        log.info("{}", logelk);
     }
 
     @AfterReturning(pointcut = "bean(*ServiceImpl)", returning = "retVal")
     public void serviceAfterReturningLogging(JoinPoint pjp, Object retVal) throws Throwable {
-        String timeStamp = new SimpleDateFormat(TIMESTAMP_FORMAT).format(new Timestamp(System.currentTimeMillis()));
+        String timeStamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
         String callFunction = pjp.getSignature().getDeclaringTypeName() + "." + pjp.getSignature().getName();
 
         LogELK logelk = new LogELK();
@@ -109,8 +109,8 @@ public class AspectELK {
         logelk.setClientUrl(clientUrl);
         logelk.setCallFunction(callFunction);
         logelk.setType("SERVICE_RES");
-        logelk.setParameter(mapper.writeValueAsString(retVal));
-        log.info("{}", mapper.writeValueAsString(logelk));
+//        logelk.setParameter(retVal.toString());
+//        log.info("{}", logelk);
     }
 
 

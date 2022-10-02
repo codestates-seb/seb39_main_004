@@ -5,7 +5,7 @@ import run.ward.mmz.domain.account.Account;
 
 public interface AuthService {
 
-    Account signUp(Account account);
-    void resign(Account account);
+    Account signUp(Account user);
+    void resign(Account user);
 
 }

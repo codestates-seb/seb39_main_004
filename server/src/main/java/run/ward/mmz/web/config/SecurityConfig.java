@@ -1,5 +1,6 @@
 package run.ward.mmz.web.config;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -8,11 +9,13 @@ import org.springframework.security.config.annotation.web.configurers.SessionMan
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import run.ward.mmz.handler.auth.CustomLoginSuccessHandler;
+import run.ward.mmz.handler.auth.CustomLogoutSuccessHandler;
+import run.ward.mmz.service.auth.OAuth2UserService;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -20,11 +23,15 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
 import java.io.IOException;
-import java.util.LinkedHashMap;
 
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class SecurityConfig {
+
+    private final OAuth2UserService oAuth2UserService;
+    private final CustomLoginSuccessHandler loginSuccessHandler;
+    private final CustomLogoutSuccessHandler logoutSuccessHandler;
 
     @Bean
     public BCryptPasswordEncoder encodePassword() {
@@ -36,44 +43,36 @@ public class SecurityConfig {
 
         //csrf 토큰 비활성화
         http
-                .csrf().disable();
+                .csrf().disable()
+        ;
 
         //접근을 전부 허용 @PreAuthorize("hasRole('ROLE_USER')") 사용 예정
         http
                 .authorizeRequests()
                 .anyRequest()
-                .permitAll();
-
+                .permitAll()
+        ;
 
         //일반 로그인 관련 인증
         http
                 .httpBasic()//postman 요청 임시
-                    .and()
+                .disable()
                 .formLogin()
-                    .loginProcessingUrl("/api/v1/auth/login")
-                    .successHandler(new AuthenticationSuccessHandler() {
-                        @Override
-                        public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-                            String uri = request.getHeader("Referer");
-                            if (uri != null && !uri.contains("/api/v1/auth/login")) {
-                                request.getSession().setAttribute("prevPage", uri);
-                            }
-                        }
-                    })
-                    .failureUrl("/api/v1/auth/login-error")
-                    .and()
+                .loginProcessingUrl("/api/v1/auth/login")
+                .failureUrl("/api/v1/auth/login-error")
+                .successHandler(loginSuccessHandler)
+                .and()
                 .logout()
-                    .logoutUrl("/api/v1/logout")
-                    .logoutSuccessHandler(new LogoutSuccessHandler() {
-                        @Override
-                        public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-                            String uri = request.getHeader("Referer");
-                            if (uri != null && !uri.contains("/api/v1/auth/login")) {
-                                request.getSession().setAttribute("prevPage", uri);
-                            }
-                        }
-                    })
-                .deleteCookies("JSESSIONID");
+                .logoutUrl("/api/v1/auth/logout")
+                .logoutSuccessHandler(logoutSuccessHandler)
+                .deleteCookies("JSESSIONID")
+        ;
+
+        http
+                .oauth2Login()
+                .successHandler(loginSuccessHandler)
+                .userInfoEndpoint()
+                .userService(oAuth2UserService);
 
 
         http
@@ -84,16 +83,17 @@ public class SecurityConfig {
 
         http
                 .cors()
-                .configurationSource(corsConfigurationSource());
-
+        ;
 
         http
                 .sessionManagement(
                         session -> session.sessionFixation(SessionManagementConfigurer.SessionFixationConfigurer::changeSessionId)
                                 .maximumSessions(1)
                                 .maxSessionsPreventsLogin(false)
-                                .expiredUrl("/auth/login-page")
-                );
+                                .expiredUrl("/api/v1/auth/login")
+                )
+        ;
+
 
         return http.build();
     }
@@ -101,7 +101,7 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.addAllowedOrigin(CorsConfiguration.ALL);
+        configuration.addAllowedOriginPattern(CorsConfiguration.ALL);
         configuration.addAllowedHeader(CorsConfiguration.ALL);
         configuration.addAllowedMethod(CorsConfiguration.ALL);
         configuration.setAllowCredentials(true);
@@ -124,8 +124,6 @@ public class SecurityConfig {
             HttpSessionListener.super.sessionDestroyed(se);
         }
     }
-
-
 
 
 }

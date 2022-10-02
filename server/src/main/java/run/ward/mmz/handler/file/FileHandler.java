@@ -22,7 +22,7 @@ public class FileHandler {
 
     public List<FilesDto> parseFileInfo(List<MultipartFile> files, List<String> extensions) {
         if (ObjectUtils.isEmpty(files)) {
-            return Collections.emptyList();
+            throw new CustomException(ExceptionCode.FILE_NOT_FOUND);
         }
 
         List<FilesDto> filesDtoList = new ArrayList<>();
@@ -72,7 +72,7 @@ public class FileHandler {
 
     public FilesDto parseFileInfo(MultipartFile file, List<String> extensions) {
         if (file.isEmpty()) {
-            return null;
+            throw new CustomException(ExceptionCode.FILE_NOT_FOUND);
         }
 
         String contentType = file.getContentType();

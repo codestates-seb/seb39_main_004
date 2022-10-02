@@ -9,7 +9,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import run.ward.mmz.domain.account.Account;
-import run.ward.mmz.domain.account.Role;
 import run.ward.mmz.domain.file.Files;
 import run.ward.mmz.domain.file.Image.ImageType;
 import run.ward.mmz.domain.post.*;
@@ -28,7 +27,7 @@ import run.ward.mmz.service.post.RecipeService;
 import run.ward.mmz.service.post.RecipeTagService;
 import run.ward.mmz.service.post.TagService;
 import run.ward.mmz.service.post.impl.TestAccountService;
-import run.ward.mmz.web.auth.LoginUser;
+import run.ward.mmz.handler.auth.LoginUser;
 
 import javax.validation.constraints.Positive;
 import java.util.List;
