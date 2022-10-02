@@ -27,18 +27,24 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     @Transactional
-    public Account signUp(Account account) {
+    public Account signUp(Account user) {
 
-        String rawPassword = account.getPassword();
+        if (!accountRepository.existsByEmail(user.getName()))
+            throw new CustomException(ExceptionCode.USER_EXISTS);
+
+        if (!accountRepository.existsByName(user.getName()))
+            throw new CustomException(ExceptionCode.USER_EXISTS);
+
+        String rawPassword = user.getPassword();
         String encPassword = bCryptPasswordEncoder.encode(rawPassword);
-        account.registerUser(account, defaultProfileUrl, false, encPassword, Role.USER, Provider.LOCAL.getValue());
-        return accountRepository.save(account);
+        user.registerUser(user, defaultProfileUrl, false, encPassword, Role.USER, Provider.LOCAL.getValue());
+        return accountRepository.save(user);
     }
 
     @Override
-    public void resign(Account account) {
+    public void resign(Account user) {
 
-        accountRepository.delete(account);
+        accountRepository.delete(user);
     }
 
     @Override
@@ -63,6 +69,13 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public Account update(Account user, AccountInfoDto userInfoDto) {
+
+        if (!accountRepository.existsByEmail(user.getName()))
+            throw new CustomException(ExceptionCode.USER_EXISTS);
+
+        if (!accountRepository.existsByName(user.getName()))
+            throw new CustomException(ExceptionCode.USER_EXISTS);
+
         return user.updateInfo(userInfoDto);
     }
 

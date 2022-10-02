@@ -36,9 +36,15 @@ public class AuthController {
             @RequestBody SignUpDto signUpDto) {
 
         Account user = accountMapper.toEntity(signUpDto);
-        accountService.signUp(user);
+        user = accountService.signUp(user);
 
-        return new ResponseEntity<>(HttpStatus.OK);
+        AccountInfoDto accountInfoDto = accountMapper.toInfoDto(user);
+
+        ResponseDto.Single<?> response = ResponseDto.Single.builder()
+                .data(accountInfoDto)
+                .build();
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @GetMapping("/auth/session-expired")
