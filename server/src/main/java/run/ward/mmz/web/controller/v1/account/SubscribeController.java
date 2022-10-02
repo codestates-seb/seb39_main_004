@@ -9,7 +9,9 @@ import org.springframework.web.bind.annotation.*;
 import run.ward.mmz.domain.account.Account;
 import run.ward.mmz.domain.subscribe.Subscribe;
 import run.ward.mmz.dto.common.ResponseDto;
+import run.ward.mmz.dto.respones.AccountInfoDto;
 import run.ward.mmz.handler.auth.LoginUser;
+import run.ward.mmz.mapper.account.AccountMapper;
 import run.ward.mmz.service.account.AccountService;
 import run.ward.mmz.service.account.SubscribeService;
 
@@ -22,7 +24,7 @@ import java.util.List;
 public class SubscribeController {
 
     private final SubscribeService subscribeService;
-    private final AccountService accountService;
+    private final AccountMapper accountMapper;
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping("/follow/{followId}")
@@ -41,6 +43,9 @@ public class SubscribeController {
             @LoginUser Account user) {
 
         subscribeService.unFollow(followId, user.getId());
+
+
+
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -51,7 +56,12 @@ public class SubscribeController {
 
         List<Account> followList = subscribeService.findAllFollowUserByAccount(user.getId());
 
-        return new ResponseEntity<>(followList, HttpStatus.OK);
+        List<AccountInfoDto> userInfoList = accountMapper.toInfoDto(followList);
+        ResponseDto.Single<?> response = ResponseDto.Single.builder()
+                .data(userInfoList)
+                .build();
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
 
@@ -60,7 +70,13 @@ public class SubscribeController {
     public ResponseEntity<?> myFollowingList(
             @LoginUser Account user) {
         List<Account> followingList = subscribeService.findAllFollowingUserByAccount(user.getId());
-        return new ResponseEntity<>(followingList, HttpStatus.OK);
+
+        List<AccountInfoDto> userInfoList = accountMapper.toInfoDto(followingList);
+        ResponseDto.Single<?> response = ResponseDto.Single.builder()
+                .data(userInfoList)
+                .build();
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
 }

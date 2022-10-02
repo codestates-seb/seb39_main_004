@@ -74,10 +74,6 @@ public class Account extends Auditable {
         this.provider = provider;
     }
 
-
-
-
-
     public void addBookmarks(Bookmark bookmark) {
         if(!bookmarks.contains(bookmark)) {
             bookmarks.add(bookmark);
