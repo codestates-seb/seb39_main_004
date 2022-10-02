@@ -1,6 +1,5 @@
 import { RadioBtn } from "./indexNewRecipe";
 import { IImgRadioProps } from "../../types/interface";
-import { useState } from "react";
 
 const categoryImgsLink = [
   {

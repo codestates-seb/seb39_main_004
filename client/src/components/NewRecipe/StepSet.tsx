@@ -53,6 +53,9 @@ const StepSet = ({
     }
   }, [textValue, imgName]);
 
+  console.log(directDatas); // 빌드에러용 임시 추가
+  console.log(setDirectDatas); // 빌드에러용 임시 추가
+
   return (
     <SStepsContainer>
       <textarea

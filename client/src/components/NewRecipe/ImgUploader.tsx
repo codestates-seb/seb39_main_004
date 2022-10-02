@@ -57,6 +57,9 @@ const ImgUploader = ({
     }
   };
 
+  console.log(steps); // 빌드에러용 임시 추가
+  console.log(imgName); // 빌드에러용 임시 추가
+
   useEffect(() => {
     if (imgUrl) {
       const imgThumbNailUrl = `${process.env.PUBLIC_URL}/${imgUrl}`;
