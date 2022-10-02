@@ -1,12 +1,10 @@
 import styled from "styled-components";
-import { useState } from "react";
-import { NavLink, Link } from "react-router-dom";
+import { useEffect } from "react";
+import { NavLink, Link, useNavigate } from "react-router-dom";
 import { MdOutlineLogout, MdOutlineLogin } from "react-icons/md";
 import { BiSearchAlt2 } from "react-icons/bi";
-import { useNavigate } from "react-router-dom";
-import { userLogin } from "../../redux/slices/userSlice";
+import { userLogout, userSession } from "../../redux/slices/userSlice";
 import { useAppSelector, useAppDispatch } from "../../hooks/dispatchHook";
-import { useEffect } from "react";
 
 const SLogo = styled.img`
   width: 100px;
@@ -36,12 +34,12 @@ const SNavLink = styled(NavLink)`
 
 const Header = () => {
   const navigate = useNavigate();
-  const { userInfo } = useAppSelector((state) => state.user);
+  const dispatch = useAppDispatch();
+  const { sessionStatus } = useAppSelector((state) => state.user);
 
   useEffect(() => {
-    if (userInfo) navigate("/");
-  }, [userInfo]);
-  const [isLogin, setIsLogin] = useState(true);
+    if (sessionStatus) dispatch(userSession); // TODO: 로그인 상태면 유저 정보 가져옴 (나중에 마이페이지에서 필요)
+  }, [sessionStatus]);
 
   return (
     <SHeader>
@@ -60,7 +58,7 @@ const Header = () => {
         <SNavLink to="/mypage">MYPAGE</SNavLink>
       </section>
       <section className="right">
-        {!isLogin ? (
+        {!sessionStatus ? (
           <SNavLink to="/login">
             <MdOutlineLogin size={25} />
           </SNavLink>
@@ -69,7 +67,8 @@ const Header = () => {
             to="/"
             end
             onClick={() => {
-              setIsLogin(!isLogin);
+              dispatch(userLogout());
+              navigate("/");
             }}
           >
             <MdOutlineLogout size={25} />

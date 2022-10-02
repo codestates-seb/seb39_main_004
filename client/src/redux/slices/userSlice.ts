@@ -8,8 +8,9 @@ import Swal from "sweetalert2";
 interface UserInfos {
   name: string;
   email: string;
-  image: string;
-  bio?: string;
+  imageProfileUrl: string;
+  bio: string;
+  new: boolean;
 }
 
 interface UserState {
@@ -17,6 +18,7 @@ interface UserState {
   signUpInfo: any | null;
   loading: boolean;
   //error: any;
+  sessionStatus: boolean;
   success: boolean;
 }
 
@@ -35,9 +37,61 @@ const initialUserState: UserState = {
   loading: false,
   userInfo: null,
   signUpInfo: null,
+  sessionStatus: false,
   //error: null,
   success: false,
 };
+
+// 로그인 세션 확인 액션 생성자
+export const userSession = createAsyncThunk(
+  "userSlice/userSession ",
+  async () => {
+    try {
+      const response = await axios.get("/api/v1/auth/session-status");
+      console.log("session 생성자: ", response);
+      if (response.status === 401) {
+        const Toast = Swal.mixin({
+          toast: true,
+          position: "top-end",
+          showConfirmButton: false,
+          timer: 3000,
+          timerProgressBar: true,
+          didOpen: (toast) => {
+            toast.addEventListener("mouseenter", Swal.stopTimer);
+            toast.addEventListener("mouseleave", Swal.resumeTimer);
+          },
+        });
+
+        Toast.fire({
+          icon: "error",
+          title: "권한이 없는 요청입니다. 로그인을 해주세요.",
+        });
+      }
+
+      return response.data;
+    } catch (error: any) {
+      console.log("session 생성자: ", error);
+      if (error.response.data.status === 500) {
+        const Toast = Swal.mixin({
+          toast: true,
+          position: "top-end",
+          showConfirmButton: false,
+          timer: 3000,
+          timerProgressBar: true,
+          didOpen: (toast) => {
+            toast.addEventListener("mouseenter", Swal.stopTimer);
+            toast.addEventListener("mouseleave", Swal.resumeTimer);
+          },
+        });
+
+        Toast.fire({
+          icon: "error",
+          title: "서버 에러입니다. 관리자에게 문의해주세요.",
+        });
+      }
+    }
+  }
+);
 
 // 로그인 액션 생성자 (form data로 전송)
 export const userLogin = createAsyncThunk(
@@ -56,13 +110,12 @@ export const userLogin = createAsyncThunk(
       );
       if (response.status === 200) {
         console.log("로그인 액션 생성자: ", response);
-        // localStorage.clear();
-        // localStorage.setItem("userToken", data.headers.authorization);
       }
+
       return response;
     } catch (error: any) {
       if (error.response.data.status === 500) {
-        console.log(error);
+        console.log("로그인 액션 생성자: ", error);
         const Toast = Swal.mixin({
           toast: true,
           position: "top-end",
@@ -91,9 +144,9 @@ export const userSignUp = createAsyncThunk(
     try {
       const response = await axios.post("/api/v1/auth/signup", signUpData);
       if (response.status === 200) {
-        console.log(response);
-        //localStorage.clear();
+        console.log("회원가입 액션 생성자: ", response);
       }
+
       return response;
     } catch (error: any) {
       if (error.response.data.status === 500) {
@@ -123,16 +176,30 @@ export const userLogout = createAsyncThunk(
   "userSlice/userLogout ",
   async () => {
     try {
-      const response = await axios.post("/api/v1/logout");
+      const response = await axios.post("/api/v1/auth/logout");
+      console.log("로그아웃 액션 생성자: ", response);
       if (response.status === 200) {
         localStorage.clear();
+
+        const Toast = Swal.mixin({
+          toast: true,
+          position: "top-end",
+          showConfirmButton: false,
+          timer: 3000,
+          timerProgressBar: true,
+          didOpen: (toast) => {
+            toast.addEventListener("mouseenter", Swal.stopTimer);
+            toast.addEventListener("mouseleave", Swal.resumeTimer);
+          },
+        });
+
+        Toast.fire({
+          icon: "success",
+          title: "로그아웃 되었습니다.",
+        });
       }
     } catch (error) {
-      // if (error.response && error.response.data.message) {
-      //   return error.response.data.message;
-      // } else {
-      //   return error.message;
-      // }
+      console.log("로그아웃 액션 생성자: ", error);
     }
   }
 );
@@ -143,6 +210,7 @@ const userSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
+      //로그인
       .addCase(userLogin.pending, (state) => {
         state.loading = true;
         //state.error = null;
@@ -150,18 +218,32 @@ const userSlice = createSlice({
       .addCase(userLogin.fulfilled, (state, { payload }) => {
         state.loading = false;
         state.userInfo = payload;
-        console.log("페이로드 ", payload);
+        console.log("login payload: ", payload);
         //state.success = true;
       })
       .addCase(userLogin.rejected, (state) => {
         state.loading = false;
         //state.error = payload;
       })
+      // 회원가입
       .addCase(userSignUp.fulfilled, (state, { payload }) => {
         state.loading = false;
         state.signUpInfo = payload;
-        //console.log(payload);
         //state.error = payload;
+      })
+      // 로그아웃
+      .addCase(userLogout.fulfilled, (state, { payload }) => {
+        state.loading = false;
+        state.signUpInfo = payload;
+        state.sessionStatus = false;
+        //state.error = payload;
+      })
+      // 세션 체크
+      .addCase(userSession.fulfilled, (state, { payload }) => {
+        console.log("session payload: ", payload);
+        if (payload) state.sessionStatus = true;
+        else state.sessionStatus = false;
+        state.userInfo = payload.data; // 현재 로그인 된 사용자의 정보 할당
       });
   },
 });
