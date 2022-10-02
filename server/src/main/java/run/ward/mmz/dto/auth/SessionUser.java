@@ -10,6 +10,7 @@ import java.io.Serializable;
 public class SessionUser implements Serializable {
 
     private String name;
+    private String imgProfileUrl;
     private String email;
     private String bio;
     private boolean isNew;
@@ -20,6 +21,7 @@ public class SessionUser implements Serializable {
         this.name = user.getName();
         this.email = user.getEmail();
         this.bio = user.getBio();
+        this.imgProfileUrl = user.getImgProfileUrl();
         this.isNew = user.isNew();
     }
 

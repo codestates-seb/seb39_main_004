@@ -9,12 +9,12 @@ import org.springframework.security.config.annotation.web.configurers.SessionMan
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import run.ward.mmz.handler.auth.LoginFailureHandler;
-import run.ward.mmz.handler.auth.LoginSuccessHandler;
+import run.ward.mmz.handler.auth.CustomLoginSuccessHandler;
+import run.ward.mmz.handler.auth.CustomLogoutSuccessHandler;
 import run.ward.mmz.service.auth.OAuth2UserService;
 
 import javax.servlet.ServletException;
@@ -30,8 +30,8 @@ import java.io.IOException;
 public class SecurityConfig {
 
     private final OAuth2UserService oAuth2UserService;
-    private final LoginSuccessHandler loginSuccessHandler;
-    private final LoginFailureHandler loginFailureHandler;
+    private final CustomLoginSuccessHandler loginSuccessHandler;
+    private final CustomLogoutSuccessHandler logoutSuccessHandler;
 
     @Bean
     public BCryptPasswordEncoder encodePassword() {
@@ -53,7 +53,6 @@ public class SecurityConfig {
                 .permitAll()
         ;
 
-
         //일반 로그인 관련 인증
         http
                 .httpBasic()//postman 요청 임시
@@ -61,32 +60,17 @@ public class SecurityConfig {
                 .formLogin()
                 .loginProcessingUrl("/api/v1/auth/login")
                 .failureUrl("/api/v1/auth/login-error")
-                .successHandler(new AuthenticationSuccessHandler() {
-                    @Override
-                    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-                        String uri = request.getHeader("Referer");
-                        if (uri != null && !uri.contains("/api/v1/auth/login")) {
-                            request.getSession().setAttribute("prevPage", uri);
-                        }
-                    }
-                })
+                .successHandler(loginSuccessHandler)
                 .and()
                 .logout()
-                .logoutUrl("/api/v1/logout")
+                .logoutUrl("/api/v1/auth/logout")
+                .logoutSuccessHandler(logoutSuccessHandler)
                 .deleteCookies("JSESSIONID")
         ;
 
         http
                 .oauth2Login()
-                .successHandler(new AuthenticationSuccessHandler() {
-                    @Override
-                    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-                        String uri = request.getHeader("Referer");
-                        if (uri != null && !uri.contains("/api/v1/auth/login")) {
-                            request.getSession().setAttribute("prevPage", uri);
-                        }
-                    }
-                })
+                .successHandler(loginSuccessHandler)
                 .userInfoEndpoint()
                 .userService(oAuth2UserService);
 
@@ -99,7 +83,6 @@ public class SecurityConfig {
 
         http
                 .cors()
-//                .configurationSource(corsConfigurationSource())
         ;
 
         http
@@ -107,7 +90,7 @@ public class SecurityConfig {
                         session -> session.sessionFixation(SessionManagementConfigurer.SessionFixationConfigurer::changeSessionId)
                                 .maximumSessions(1)
                                 .maxSessionsPreventsLogin(false)
-                                .expiredUrl("/auth/login-page")
+                                .expiredUrl("/api/v1/auth/login")
                 )
         ;
 
