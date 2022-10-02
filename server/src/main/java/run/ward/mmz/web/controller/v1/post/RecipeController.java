@@ -116,7 +116,7 @@ public class RecipeController {
         Recipe recipe = recipeService.findById(recipeId);
 
         ResponseDto.Single<?> response = ResponseDto.Single.builder()
-                .data(recipeMapper.toPatchDto(recipe))
+                .data(recipeMapper.toResponseDto(recipe))
                 .build();
 
         return new ResponseEntity<>(response, HttpStatus.OK);

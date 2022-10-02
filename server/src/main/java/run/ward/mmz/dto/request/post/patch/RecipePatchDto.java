@@ -5,7 +5,7 @@ import lombok.*;
 
 import java.util.List;
 
-@Data
+@Getter
 @Builder
 public class RecipePatchDto {
 
