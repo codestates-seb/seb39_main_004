@@ -122,6 +122,22 @@ public class RecipeController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    @GetMapping("/recipe/{recipeId}/edit/test")
+    public ResponseEntity<?> readRecipeUpdatePageTest(
+            @PathVariable Long recipeId){
+
+        recipeService.verifyExistsId(recipeId);
+
+        Recipe recipe = recipeService.findById(recipeId);
+
+        ResponseDto.Single<?> response = ResponseDto.Single.builder()
+                .data(recipeMapper.toResponseDto(recipe))
+                .build();
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+
     @PreAuthorize("hasRole('ROLE_USER')")
     @PatchMapping("/recipe/{recipeId}/edit")
     public ResponseEntity<?> updateRecipePage(
