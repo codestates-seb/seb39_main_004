@@ -1,16 +1,16 @@
-package run.ward.mmz.web.auth;
+package run.ward.mmz.service.auth;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
-import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import run.ward.mmz.domain.account.Account;
 import run.ward.mmz.dto.auth.OAuthAttributes;
+import run.ward.mmz.dto.auth.PrincipalDetails;
 import run.ward.mmz.dto.auth.SessionUser;
 import run.ward.mmz.mapper.account.AccountMapper;
 import run.ward.mmz.repository.AccountRepository;
@@ -21,16 +21,19 @@ import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
-public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
+public class OAuth2UserService implements org.springframework.security.oauth2.client.userinfo.OAuth2UserService<OAuth2UserRequest, OAuth2User> {
 
     private final AccountRepository accountRepository;
     private final HttpSession httpSession;
     private final AccountMapper accountMapper;
 
+
+
+
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
 
-        OAuth2UserService<OAuth2UserRequest, OAuth2User> delegate = new DefaultOAuth2UserService();
+        org.springframework.security.oauth2.client.userinfo.OAuth2UserService<OAuth2UserRequest, OAuth2User> delegate = new DefaultOAuth2UserService();
         OAuth2User oAuth2User = delegate.loadUser(userRequest);
 
         String regId = userRequest.getClientRegistration().getRegistrationId();
@@ -54,7 +57,7 @@ public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserReques
         //유저 이름이 있으면, 이름 변경, 없으면 회원가입
 
         if(accountRepository.existsByName(userName)){
-            Map<String, String> statusAttribute = new HashMap<>();
+
             attributes.setNew(true);
         }
 

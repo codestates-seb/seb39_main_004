@@ -1,5 +1,6 @@
 package run.ward.mmz.mapper.account;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import run.ward.mmz.domain.account.Account;
 import run.ward.mmz.domain.account.Role;
@@ -9,6 +10,9 @@ import run.ward.mmz.dto.respones.AccountInfoDto;
 
 @Component
 public class AccountMapperImpl implements AccountMapper{
+
+    @Value("${default.img.path}")
+    String defaultProfileUrl;
 
     @Override
     public AccountInfoDto toInfoDto(Account account) {
@@ -51,6 +55,7 @@ public class AccountMapperImpl implements AccountMapper{
                 .email(oAuthAttributes.getEmail())
                 .role(Role.USER)
                 .provider(oAuthAttributes.getProvider())
+                .imgProfileUrl(defaultProfileUrl)
                 .build();
     }
 

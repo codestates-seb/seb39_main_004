@@ -15,11 +15,9 @@ import java.time.format.DateTimeFormatter;
 public abstract class Auditable {
 
     @Column(name = "createDate", updatable = false)
-    @CreatedDate
     protected String createDate;
 
     @Column(name = "modDate")
-    @LastModifiedDate
     protected String modDate;
 
     @PrePersist

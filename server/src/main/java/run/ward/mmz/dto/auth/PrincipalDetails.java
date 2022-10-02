@@ -1,4 +1,4 @@
-package run.ward.mmz.web.auth;
+package run.ward.mmz.dto.auth;
 
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
