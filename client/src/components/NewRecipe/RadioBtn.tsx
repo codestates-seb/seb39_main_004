@@ -33,7 +33,7 @@ const RadioBtn = ({
         name="category"
         id={name}
         value={data}
-        onClick={() => {
+        onChange={() => {
           setCheckedCateg(data);
         }}
         checked={checked}
