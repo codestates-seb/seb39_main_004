@@ -9,29 +9,31 @@ const SSNSLoginContainer = styled.div`
   flex-direction: column;
   align-items: center;
   margin-top: 2rem;
+  width: 100%;
 `;
 
 const SH3 = styled.h3``;
 
 const JoinContainer = styled.ul`
   display: flex;
-  width: 60%;
+  width: 100%;
   justify-content: space-between;
+  margin-top: 15px;
 `;
 
 const NaverImg = styled.img.attrs({
   src: Naver,
 })`
-  height: 40px;
-  width: 40px;
+  height: 45px;
+  width: 45px;
   cursor: pointer;
 `;
 
 const KakaoImg = styled.img.attrs({
   src: Kakao,
 })`
-  height: 40px;
-  width: 40px;
+  height: 45px;
+  width: 45px;
   border-radius: 100%;
   cursor: pointer;
 `;
@@ -39,8 +41,8 @@ const KakaoImg = styled.img.attrs({
 const GoogleImg = styled.img.attrs({
   src: Google,
 })`
-  height: 40px;
-  width: 40px;
+  height: 45px;
+  width: 45px;
   border: 0.1px solid lightgray;
   border-radius: 100%;
   cursor: pointer;

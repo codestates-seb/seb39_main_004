@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import axios from "axios";
+import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import Rating from "./Rating";
 
@@ -41,9 +43,19 @@ const SReplyContainer = styled.div`
 
 const RepleUpload = () => {
   const [reple, setReple] = useState("");
+  const { id } = useParams();
 
   const onSubmitHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    axios.post(`api/v1/recipe/${id}/review/add`).then((response) => {
+      if (response.data.success) {
+        alert("댓글 작성이 성공하였습니다.");
+        window.location.reload();
+      } else {
+        alert("댓글 작성이 실패하였습니다.");
+      }
+    });
   };
 
   return (

@@ -5,13 +5,23 @@ import { useNavigate } from "react-router-dom";
 import { userLogin } from "../../redux/slices/userSlice";
 import { useAppSelector, useAppDispatch } from "../../hooks/dispatchHook";
 import { useEffect } from "react";
+import SNSLogin from "../../components/Login/SNSLogin";
+import loginlogo from "../../assets/icons/loginlogo.svg";
 
-const SForm = styled.form``;
+const SForm = styled.form`
+  position: relative;
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: center;
+  align-items: center;
+  width: 430px;
+  padding: 50px 60px;
+  background-color: #f2f1ea;
+`;
 
-const SH1 = styled.h1`
-  text-align: center;
-  padding: 20px;
-  font-size: 30px;
+const SLoginLogo = styled.div`
+  position: absolute;
+  top: -45px;
 `;
 
 const SErrorMsg = styled.div`
@@ -49,9 +59,11 @@ const LoginForm = () => {
 
   return (
     <SForm onSubmit={handleSubmit(onSubmit)}>
-      <SH1>로그인</SH1>
+      <SLoginLogo>
+        <img src={loginlogo} alt="loginlogo" />
+      </SLoginLogo>
       <StyledInput>
-        <label htmlFor="email">이메일</label>
+        <label htmlFor="email">EMAIL</label>
         <input
           id="email"
           type="text"
@@ -68,7 +80,7 @@ const LoginForm = () => {
         </SErrorMsg>
       </StyledInput>
       <StyledInput>
-        <label htmlFor="password">비밀번호</label>
+        <label htmlFor="password">PASSWORD</label>
         <input
           id="password"
           type="password"
@@ -89,6 +101,7 @@ const LoginForm = () => {
       <Button type="submit" disabled={isSubmitting}>
         로그인
       </Button>
+      <SNSLogin />
     </SForm>
   );
 };
