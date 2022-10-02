@@ -7,7 +7,7 @@ import star from "../../assets/icons/star.svg";
 import { IPostCategoryProps } from "../../types/interface";
 
 const SCtagoryContainer = styled.div`
-  padding: 15px;
+  padding: 20px;
   background-color: var(--deep-green);
   color: #fff;
   p {
@@ -16,10 +16,16 @@ const SCtagoryContainer = styled.div`
   img {
     width: 27px;
     vertical-align: middle;
+    :first-child {
+      margin-right: 10px;
+    }
   }
   .date {
-    padding-top: 10px;
-    font-size: 0.7rem;
+    padding-top: 20px;
+    font-size: 0.8rem;
+    span {
+      padding-right: 10px;
+    }
   }
 `;
 
@@ -29,7 +35,10 @@ const SHeader = styled.div`
   justify-content: space-between;
   -webkit-box-align: center;
   align-items: center;
-  padding-bottom: 10px;
+  padding-bottom: 20px;
+  h1 {
+    font-size: 1.3rem;
+  }
   p {
     padding-right: 10px;
   }
@@ -54,7 +63,10 @@ const PostInfo = ({ stars, views, createDate }: IPostCategoryProps) => {
           <img src={star} alt="stastarr" />
           {stars}
         </p>
-        <p className="date">등록일{createDate}</p>
+        <p className="date">
+          <span>등록일</span>
+          {createDate}
+        </p>
       </SCtagoryContainer>
     </>
   );

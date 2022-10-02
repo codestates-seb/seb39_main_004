@@ -5,11 +5,15 @@ import { IPostInGredientProps } from "../../types/interface";
 const SIngredientItem = styled.div`
   width: 50%;
   display: inline-block;
-  dt,
-  dd {
-    display: inline-block;
-    padding: 10px 5px;
+  dl {
+    width: 100%;
+    display: inline-grid;
+    grid-template-columns: 1fr 1fr;
+    padding: 12px 20px;
     min-height: 30px;
+  }
+  dd {
+    justify-self: end;
   }
 `;
 
@@ -22,8 +26,10 @@ const IngredientItem = ({
     <>
       <SIngredientItem>
         <dl>
-          <input type="checkbox" checked={isEssential} />
-          <dt>{name}</dt>
+          <dt>
+            <input type="checkbox" checked={isEssential} />
+            {name}
+          </dt>
           <dd>{amount}</dd>
         </dl>
       </SIngredientItem>

@@ -6,7 +6,6 @@ import lombok.*;
 import run.ward.mmz.domain.auditable.Auditable;
 import run.ward.mmz.domain.file.Files;
 import run.ward.mmz.domain.post.*;
-import run.ward.mmz.domain.subscribe.Subscribe;
 import run.ward.mmz.dto.respones.AccountInfoDto;
 
 import javax.persistence.*;
@@ -56,13 +55,9 @@ public class Account extends Auditable {
     private List<Recipe> recipes = new ArrayList<>();
     @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<Bookmark> bookmarks = new ArrayList<>();
+
     @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<Review> reviews = new ArrayList<>();
-
-    @OneToMany(mappedBy = "toUser", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    private List<Subscribe> followings = new ArrayList<>();
-    @OneToMany(mappedBy = "forUser", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    private List<Subscribe> followers = new ArrayList<>();
 
     @Builder
     public Account(String name, String email, String password, String imgProfileUrl, Role role, String provider){
@@ -75,9 +70,6 @@ public class Account extends Auditable {
     }
 
 
-
-
-
     public void addBookmarks(Bookmark bookmark) {
         if(!bookmarks.contains(bookmark)) {
             bookmarks.add(bookmark);
@@ -85,6 +77,7 @@ public class Account extends Auditable {
         }
 
     }
+
 
     public void removeBookmarks(Bookmark bookmark) {
         bookmarks.remove(bookmark);
@@ -142,9 +135,6 @@ public class Account extends Auditable {
     @JsonIgnore
     public List<Recipe> getRecipeList(){
 
-        if(this.bookmarks == null || this.bookmarks.isEmpty())
-            return new ArrayList<>();
-
         List<Recipe> recipeList = new ArrayList<>();
 
         for(Bookmark bookmark : this.bookmarks) {
@@ -152,36 +142,5 @@ public class Account extends Auditable {
         }
         return recipeList;
     }
-
-    @JsonIgnore
-    public List<Account> getFollowerUserList(){
-
-        if(this.followers == null || this.followers.isEmpty())
-            return new ArrayList<>();
-
-        List<Account> followerList = new ArrayList<>();
-
-        for(Subscribe subscribe : this.followers ) {
-            followerList.add(subscribe.getToUser());
-        }
-
-        return followerList;
-    }
-
-    @JsonIgnore
-    public List<Account> getFollowingUserList(){
-
-        if(this.followers == null || this.followers.isEmpty())
-            return new ArrayList<>();
-
-        List<Account> followingList = new ArrayList<>();
-
-        for(Subscribe subscribe : this.followers ) {
-            followingList.add(subscribe.getForUser());
-        }
-
-        return followingList;
-    }
-
 
 }

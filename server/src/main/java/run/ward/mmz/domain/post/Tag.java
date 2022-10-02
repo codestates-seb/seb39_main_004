@@ -25,10 +25,12 @@ public class Tag {
     @OneToMany(mappedBy = "tag", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<RecipeTag> recipeTags = new ArrayList<>();
 
+
     protected void mappingRecipeTag(RecipeTag recipeTag) {
         if(!recipeTags.contains(recipeTag))
             this.recipeTags.add(recipeTag);
     }
+
 
     @JsonIgnore
     public List<Recipe> getRecipeList(){
@@ -38,6 +40,7 @@ public class Tag {
         for(RecipeTag recipeTag : this.recipeTags) {
             recipeList.add(recipeTag.getRecipe());
         }
+
         return recipeList;
     }
 

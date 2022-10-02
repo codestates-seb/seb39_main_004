@@ -5,7 +5,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import run.ward.mmz.domain.account.Account;
@@ -48,17 +47,6 @@ public class AuthController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @PreAuthorize("hasRole('ROLE_USER')")
-    @DeleteMapping("/auth/resign")
-    public ResponseEntity<?> resign(
-            @LoginUser Account user) {
-
-        accountService.resign(user);
-
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
-
     @GetMapping("/auth/session-expired")
     public ResponseEntity<?> sessionExpired() {
 
@@ -82,6 +70,5 @@ public class AuthController {
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
-
 
 }

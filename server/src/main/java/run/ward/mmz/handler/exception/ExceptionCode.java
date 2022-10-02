@@ -14,16 +14,6 @@ public enum ExceptionCode {
     USER_UNAUTHORIZED(401, "User Unauthorized."),
     USER_NOT_FOUND(404, "User not found."),
     USER_EXISTS(409, "User exists."),
-
-
-    SUBSCRIBE_FOLLOWING_USER_NOT_FOUND(404, "Following User not found."),
-    SUBSCRIBE_FOLLOWING_USER_EXISTS(409, "Following User exists."),
-    SUBSCRIBE_FOLLOW_USER_NOT_FOUND(404, "Follow User not found."),
-    SUBSCRIBE_FOLLOW_USER_EXISTS(409, "Follow User exists."),
-
-    SUBSCRIBE_METHOD_NOT_ALLOWED(405, "Follow Method not allow."),
-
-
     RECIPE_NOT_FOUND(404, "Recipe not found."),
     RECIPE_EXISTS(409, "Recipe exists."),
 

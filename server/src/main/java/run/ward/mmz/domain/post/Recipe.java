@@ -210,9 +210,6 @@ public class Recipe extends Auditable {
     @JsonIgnore
     public List<Tag> getTagList() {
 
-        if(this.recipeTags == null || this.recipeTags.isEmpty())
-            return new ArrayList<>();
-
         List<Tag> tagList = new ArrayList<>();
 
         for (RecipeTag recipeTag : this.recipeTags) {
