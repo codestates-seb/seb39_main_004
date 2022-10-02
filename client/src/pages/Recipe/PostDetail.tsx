@@ -36,10 +36,10 @@ const SHeaderContainer = styled.div`
   }
 `;
 
-const SDesc = styled.div`
+const SDesc = styled.p`
   position: relative;
-  padding-top: 10px;
-  color: #aaa;
+  padding-top: 15px;
+  color: var(--gray);
   font-size: 1rem;
 `;
 
@@ -50,6 +50,7 @@ const IngredientContainer = styled.div`
     font-size: 1.3rem;
     font-weight: bold;
     padding-bottom: 20px;
+    padding-left: 20px;
   }
 `;
 
@@ -68,7 +69,7 @@ const STabMenu = styled.ul`
   align-items: center;
   list-style: none;
   margin-bottom: 50px;
-  border-bottom: 1px solid var(--pale-gray);
+  border-bottom: 1px solid var(--pale-green);
   .submenu {
     padding: 10px 30px;
     cursor: pointer;
@@ -83,9 +84,9 @@ const STabMenu = styled.ul`
 const SRecipeInfoContainer = styled.div`
   display: grid;
   grid-template-columns: 300px auto;
-  column-gap: 20px;
+  column-gap: 70px;
   flex-grow: 1;
-  padding: 20px 0;
+  padding: 70px 0;
 `;
 
 const SRecipeStepContainer = styled.div``;

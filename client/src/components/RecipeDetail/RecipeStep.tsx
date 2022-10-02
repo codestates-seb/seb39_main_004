@@ -7,9 +7,6 @@ const SStepContainer = styled.div`
   grid-template-columns: 300px auto;
   column-gap: 20px;
   margin-bottom: 30px;
-  h2 {
-    font-size: 1.5rem;
-  }
 `;
 
 const StepInfo = styled.div`
@@ -17,6 +14,9 @@ const StepInfo = styled.div`
     color: var(--red);
     font-size: 1.2rem;
     padding-bottom: 20px;
+  }
+  span {
+    padding-right: 5px;
   }
 `;
 
@@ -35,7 +35,10 @@ const PostStep = ({ index, imgDirectionUrl, body }: IPostDirectionsProps) => {
     <>
       <SStepContainer>
         <StepInfo>
-          <h2>Step{index}</h2>
+          <h2>
+            <span>Step</span>
+            {index}
+          </h2>
           <p>{body}</p>
         </StepInfo>
         <SStepImg src={`${process.env.PUBLIC_URL}/assets/${imgDirectionUrl}`} />

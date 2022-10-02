@@ -4,8 +4,7 @@ import { Link } from "react-router-dom";
 const SLi = styled.li``;
 
 const SLink = styled(Link)`
-  font-size: 0.8rem;
-  color: #d7d3d3;
+  font-size: 0.9rem;
   &:hover {
     color: gray;
   }

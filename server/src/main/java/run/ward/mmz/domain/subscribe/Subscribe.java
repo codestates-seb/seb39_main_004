@@ -1,16 +1,33 @@
 package run.ward.mmz.domain.subscribe;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import run.ward.mmz.domain.account.Account;
+import run.ward.mmz.domain.auditable.Auditable;
+import run.ward.mmz.domain.post.Recipe;
+import run.ward.mmz.domain.post.RecipeTag;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Entity
-@Table(name = "subscribe")
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Setter(AccessLevel.PROTECTED)
-public class Subscribe {
+@Table(
+        name = "subscribe",
+        uniqueConstraints = {
+                @UniqueConstraint(
+                        name="subscribe_uk",
+                        columnNames = {"fromUserId", "toUserId"}
+                )
+        }
+)
+public class Subscribe{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,13 +35,15 @@ public class Subscribe {
 
     @JoinColumn(name = "toUserId")
     @ManyToOne
-    @ToString.Exclude
+    @JsonIgnore
     private Account toUser;
 
     @JoinColumn(name = "fromUserId")
     @ManyToOne
-    @ToString.Exclude
+    @JsonIgnore
     private Account forUser;
+
+
 
 
 }

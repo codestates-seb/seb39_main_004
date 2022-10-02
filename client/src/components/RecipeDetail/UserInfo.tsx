@@ -1,22 +1,21 @@
 import React from "react";
 import axios from "axios";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, Link } from "react-router-dom";
 import styled from "styled-components";
 import { IPostUserProps } from "../../types/interface";
 
 const SContainer = styled.div`
   position: relative;
-  padding: 0 0 45px;
+  padding: 0 0 75px;
 `;
 
 const SUserInfo = styled.div`
   position: absolute;
   bottom: 0;
+  right: 0;
   left: 0;
   text-align: center;
-  width: 100%;
   height: 130px;
-  z-index: -1;
 `;
 
 const ProfileImg = styled.img`
@@ -38,12 +37,15 @@ const SUserId = styled.div`
 `;
 
 const SButtonContaienr = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  gap: 10px;
+  position: absolute;
+  right: 0;
+  bottom: 40px;
   margin-top: 15px;
   font-size: 0.8rem;
   cursor: pointer;
+  > :first-child {
+    margin-right: 10px;
+  }
 `;
 const PostUserInfo = ({ name, imgProfileUrl }: IPostUserProps) => {
   const { id } = useParams();
@@ -52,8 +54,9 @@ const PostUserInfo = ({ name, imgProfileUrl }: IPostUserProps) => {
   const DeleteHandler = async () => {
     if (window.confirm("정말로 삭제하시겠습니까?")) {
       try {
-        const res = await axios.post(`/v1/recipe/${id}`);
+        const res = await axios.delete(`/api/v1/recipe/${id}`);
         if (res.data.success) {
+          console.log(res.data);
           alert("레시피가 삭제되었습니다.");
           navigate("/");
         }
@@ -71,13 +74,15 @@ const PostUserInfo = ({ name, imgProfileUrl }: IPostUserProps) => {
             src={`${process.env.PUBLIC_URL}/assets/${imgProfileUrl}`}
           />
           <SUserId>{name}</SUserId>
+          <SButtonContaienr>
+            <span>
+              <Link to={`/api/v1/recipe/${id}/edit`}>Edit</Link>
+            </span>
+            <span role="presentation" onClick={DeleteHandler}>
+              Delete
+            </span>
+          </SButtonContaienr>
         </SUserInfo>
-        <SButtonContaienr>
-          <span>Edit</span>
-          <span role="presentation" onClick={DeleteHandler}>
-            Delete
-          </span>
-        </SButtonContaienr>
       </SContainer>
     </>
   );

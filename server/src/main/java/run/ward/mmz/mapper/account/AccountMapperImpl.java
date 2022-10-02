@@ -8,10 +8,29 @@ import run.ward.mmz.dto.auth.OAuthAttributes;
 import run.ward.mmz.dto.request.account.SignUpDto;
 import run.ward.mmz.dto.respones.AccountInfoDto;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 @Component
 public class AccountMapperImpl implements AccountMapper{
 
     String defaultProfileUrl = "default_thumbnail.png";
+
+    @Override
+    public List<AccountInfoDto> toInfoDto(List<Account> accountList) {
+
+        if(accountList.isEmpty())
+            return new ArrayList<>();
+
+        List<AccountInfoDto> accountInfoDtoList = new ArrayList<>();
+
+        for (Account account : accountList) {
+            accountInfoDtoList.add(toInfoDto(account));
+        }
+
+        return accountInfoDtoList;
+    }
 
     @Override
     public AccountInfoDto toInfoDto(Account account) {
@@ -23,6 +42,7 @@ public class AccountMapperImpl implements AccountMapper{
         return AccountInfoDto.builder()
                 .id(account.getId())
                 .name(account.getName())
+                .email(account.getEmail())
                 .imgProfileUrl(account.getImgProfileUrl())
                 .bio(account.getBio())
                 .build();

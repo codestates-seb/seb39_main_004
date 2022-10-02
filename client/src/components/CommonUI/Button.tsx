@@ -1,15 +1,15 @@
 import styled from "styled-components";
 
 const SButton = styled.button`
-  background: #cecbcb;
-  margin-top: 1rem;
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
-  cursor: pointer;
+  background: var(--deep-green);
   user-select: none; // drag 방지
   border-radius: 0.2rem;
   width: 100%;
+  line-height: 45px;
+  color: white;
+  font-size: 1.1rem;
   transition: 0.2s all;
+  cursor: pointer;
   &:hover {
     background: #857a7a;
   }

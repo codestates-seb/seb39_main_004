@@ -1,22 +1,25 @@
 import styled from "styled-components";
 
 export const StyledInput = styled.div`
+  width: 100%;
   display: flex;
   flex-direction: column;
-  margin: 15px 0;
+  margin: 10px 0;
 
   label {
-    font-size: 1rem;
-    color: #c9c5c5;
+    font-size: 0.8rem;
+    color: #333;
     margin-bottom: 0.25rem;
   }
 
   input {
     width: 100%;
+    height: 45px;
     border: none;
-    border-bottom: 1px solid gray;
     padding: 0.4rem;
-
+    background: white;
+    border-radius: 5px;
+    font-size: 1rem;
     ::placeholder {
       color: #bbb;
     }
