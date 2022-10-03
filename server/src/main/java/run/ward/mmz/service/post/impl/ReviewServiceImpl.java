@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import run.ward.mmz.domain.post.Review;
 import run.ward.mmz.handler.exception.CustomException;
 import run.ward.mmz.handler.exception.ExceptionCode;
-import run.ward.mmz.repository.ReviewRepository;
+import run.ward.mmz.repository.post.ReviewRepository;
 import run.ward.mmz.service.post.ReviewService;
 
 import java.util.List;

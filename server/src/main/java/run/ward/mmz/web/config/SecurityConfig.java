@@ -72,9 +72,9 @@ public class SecurityConfig {
         http
                 .oauth2Login()
                 .successHandler(loginSuccessHandler)
+                .defaultSuccessUrl("/api/v1/auth/session-status")
                 .userInfoEndpoint()
                 .userService(oAuth2UserService);
-
 
         http
 
