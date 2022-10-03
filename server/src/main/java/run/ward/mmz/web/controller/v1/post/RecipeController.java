@@ -24,6 +24,8 @@ import run.ward.mmz.mapper.post.DirectionMapper;
 import run.ward.mmz.mapper.post.IngredientMapper;
 import run.ward.mmz.mapper.post.RecipeMapper;
 import run.ward.mmz.mapper.post.TagMapper;
+import run.ward.mmz.service.account.AccountService;
+import run.ward.mmz.service.account.AuthService;
 import run.ward.mmz.service.post.BookmarkService;
 import run.ward.mmz.service.post.RecipeService;
 import run.ward.mmz.service.post.RecipeTagService;
@@ -55,7 +57,7 @@ public class RecipeController {
     private final TagService tagService;
     private final RecipeTagService recipeTagService;
     private final BookmarkService bookmarkService;
-    private final TestAccountService testAccountService;
+    private final AccountService accountService;
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping("/recipe/add")
@@ -65,9 +67,7 @@ public class RecipeController {
             @RequestPart(value = "imgDirection", required = false) List<MultipartFile> imgDirectionList,
             @RequestPart(value = "recipe") RecipePostDto recipePostDto) {
 
-        //Test account
-        Account testOwner = testAccountService.save(user);
-
+        Account findUser = accountService.findById(user.getId());
         //Controller Code
 
         Files imgThumbNailFile = filesMapper.fileDtoToImage(fileHandler.parseFileInfo(imgThumbNail, ImageType.EXTENSIONS));
@@ -77,7 +77,7 @@ public class RecipeController {
         List<Ingredient> ingredients = ingredientMapper.toEntity(recipePostDto.getIngredients());
         List<Tag> tags = tagMapper.toEntity(recipePostDto.getTags());
         
-        Recipe recipe = recipeMapper.toEntity(testOwner, recipePostDto, imgThumbNailFile, ingredients, directions);
+        Recipe recipe = recipeMapper.toEntity(findUser, recipePostDto, imgThumbNailFile, ingredients, directions);
         recipe = recipeService.save(recipe);
         tagService.saveAll(tags);
         recipeTagService.save(tags, recipe);
@@ -93,7 +93,7 @@ public class RecipeController {
 
     @GetMapping("/recipe/{recipeId}")
     public ResponseEntity<?> readRecipePage(
-            @AuthenticationPrincipal Account user,
+            @LoginUser Account user,
             @PathVariable Long recipeId) {
 
         recipeService.verifyExistsId(recipeId); //레시피가 있는 지 예외 처리
@@ -117,7 +117,10 @@ public class RecipeController {
         return getResponseEntity(user, recipeId, recipe);
     }
 
-    private ResponseEntity<?> getResponseEntity(@LoginUser Account user, @PathVariable Long recipeId, Recipe recipe) {
+    private ResponseEntity<?> getResponseEntity(
+            @LoginUser Account user,
+            @PathVariable Long recipeId,
+            Recipe recipe) {
         RecipeResponseDto recipeResponseDto = recipeMapper.toResponseDto(recipe);
 
         if(user == null){

@@ -27,9 +27,14 @@ public class BookmarkServiceImpl implements BookmarkService {
     private final RecipeService recipeService;
     private final AccountService accountService;
 
+    @Override
+    @Transactional(readOnly = true)
     public boolean isBookmarkedByUser(Long recipeId, Long accountId){
 
-        return bookmarkRepository.existsByOwnerIdAndRecipeId(accountId, recipeId);
+        Recipe recipe = recipeService.findById(recipeId);
+        Account account = accountService.findById(accountId);
+
+        return bookmarkRepository.existsByOwnerAndRecipe(account, recipe);
     }
 
     @Override
