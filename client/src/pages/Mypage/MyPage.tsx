@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import MyPageUser from "./MyPageUser/MyPageUser";
 import MyPageRecipe from "./MyPageRecipe/MyPageRecipe";
@@ -6,6 +6,8 @@ import MyPageReview from "./MyPageReview/MyPageReview";
 import MyPageBookMark from "./MyPageBookMark/MyPageBookMark";
 import MyPageFollow from "./MyPageFreind/MyPageFollow";
 import MyPageFollowing from "./MyPageFreind/MyPageFollowing";
+import { userSession } from "../../redux/slices/userSlice";
+import { useAppDispatch, useAppSelector } from "../../hooks/dispatchHook";
 
 const SContainer = styled.div`
   padding-top: 50px;
@@ -40,7 +42,14 @@ const STabMenu = styled.ul`
 `;
 
 const MyPage = () => {
+  const dispatch = useAppDispatch();
+  const { sessionStatus } = useAppSelector((state) => state.user);
   const [currentTab, setCurrentTab] = useState(0);
+
+  useEffect(() => {
+    dispatch(userSession());
+    console.log("마이페이지 세션 체크: ", sessionStatus);
+  }, []);
 
   const menuArr = [
     {

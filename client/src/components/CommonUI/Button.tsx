@@ -13,10 +13,6 @@ const SButton = styled.button`
   &:hover {
     background: var(--red);
   }
-
-  &:active {
-    background: gainsboro;
-  }
 `;
 
 interface ButtonProps {

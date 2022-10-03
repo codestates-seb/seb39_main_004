@@ -50,6 +50,7 @@ const SButtonContaienr = styled.div`
     margin-right: 10px;
   }
 `;
+
 const PostUserInfo = ({ name, imgProfileUrl }: IPostUserProps) => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -81,6 +82,7 @@ const PostUserInfo = ({ name, imgProfileUrl }: IPostUserProps) => {
             icon: "success",
             title: "삭제되었습니다.",
           });
+
           navigate("/");
         });
       } catch (error) {
@@ -113,7 +115,7 @@ const PostUserInfo = ({ name, imgProfileUrl }: IPostUserProps) => {
           />
           <SUserId>{name}</SUserId>
           <SButtonContaienr>
-            {name === userInfo.name ? (
+            {userInfo.name && name === userInfo.name ? (
               <>
                 <span>
                   <Link to={`/api/v1/recipe/${id}/edit`}>Edit</Link>
