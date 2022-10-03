@@ -30,7 +30,6 @@ public class Recipe extends Auditable {
     private String title;
 
     @Lob
-    @Column(nullable = false)
     @NotBlank
     private String body;
 

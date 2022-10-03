@@ -82,4 +82,5 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(ErrorResponse.of(ExceptionCode.USER_UNAUTHORIZED), HttpStatus.UNAUTHORIZED);
     }
 
+
 }

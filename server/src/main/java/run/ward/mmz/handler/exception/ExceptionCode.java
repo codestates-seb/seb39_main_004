@@ -9,7 +9,7 @@ import org.springframework.http.HttpStatus;
 public enum ExceptionCode {
 
 
-
+    LOGIN_FAILED(403,"Login failed."),
     USER_ACCESS_DENIED(403,"Access Denied User."),
     USER_UNAUTHORIZED(401, "User Unauthorized."),
     USER_NOT_FOUND(404, "User not found."),

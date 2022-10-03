@@ -6,14 +6,14 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.SessionManagementConfigurer;
-import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.logout.CookieClearingLogoutHandler;
-import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import run.ward.mmz.handler.auth.CustomLoginFailureHandler;
 import run.ward.mmz.handler.auth.CustomLoginSuccessHandler;
 import run.ward.mmz.handler.auth.CustomLogoutSuccessHandler;
 import run.ward.mmz.service.auth.OAuth2UserService;
@@ -33,6 +33,7 @@ public class SecurityConfig {
     private final OAuth2UserService oAuth2UserService;
     private final CustomLoginSuccessHandler loginSuccessHandler;
     private final CustomLogoutSuccessHandler logoutSuccessHandler;
+    private final CustomLoginFailureHandler loginFailureHandler;
 
     @Bean
     public BCryptPasswordEncoder encodePassword() {
@@ -60,9 +61,8 @@ public class SecurityConfig {
                 .disable()
                 .formLogin()
                 .loginProcessingUrl("/api/v1/auth/login")
-                .defaultSuccessUrl("/api/v1/auth/login-success")
-                .failureUrl("/api/v1/auth/login-error")
                 .successHandler(loginSuccessHandler)
+                .failureHandler(loginFailureHandler)
                 .and()
                 .logout()
                 .logoutUrl("/api/v1/auth/logout")
@@ -73,8 +73,7 @@ public class SecurityConfig {
         http
                 .oauth2Login()
                 .successHandler(loginSuccessHandler)
-                .defaultSuccessUrl("/api/v1/auth/login-success")
-                .failureUrl("/api/v1/auth/login-error")
+                .failureHandler(loginFailureHandler)
                 .userInfoEndpoint()
                 .userService(oAuth2UserService);
 
