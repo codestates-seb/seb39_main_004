@@ -4,7 +4,7 @@ import { IPostDirectionsProps } from "../../types/interface";
 
 const SStepContainer = styled.div`
   display: grid;
-  grid-template-columns: 300px auto;
+  grid-template-columns: 730px auto;
   column-gap: 20px;
   margin-bottom: 30px;
 `;
@@ -26,7 +26,7 @@ const SStepImg = styled.img`
   position: relative;
   box-sizing: border-box;
   width: 100%;
-  height: 250px;
+  height: 300px;
   object-fit: cover;
 `;
 

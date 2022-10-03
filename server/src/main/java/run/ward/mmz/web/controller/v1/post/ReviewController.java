@@ -85,10 +85,10 @@ public class ReviewController {
         return getResponseEntity(reviewPage);
     }
 
-    private ResponseEntity<?> getResponseEntity(Page<Review> recipePage) {
+    private ResponseEntity<?> getResponseEntity(Page<Review> reviewPage) {
 
-        List<ReviewResponseDto> responseDtoList = reviewMapper.toResponseDto(recipePage.getContent());
-        ResponseDto.Multi<?> response = new ResponseDto.Multi<>(responseDtoList, recipePage);
+        List<ReviewResponseDto> responseDtoList = reviewMapper.toResponseDto(reviewPage.getContent());
+        ResponseDto.Multi<?> response = new ResponseDto.Multi<>(responseDtoList, reviewPage);
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }

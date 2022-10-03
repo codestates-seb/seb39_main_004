@@ -6,9 +6,9 @@ import org.springframework.transaction.annotation.Transactional;
 import run.ward.mmz.domain.post.Recipe;
 import run.ward.mmz.domain.post.RecipeTag;
 import run.ward.mmz.domain.post.Tag;
-import run.ward.mmz.repository.RecipeRepository;
-import run.ward.mmz.repository.RecipeTagRepository;
-import run.ward.mmz.repository.TagRepository;
+import run.ward.mmz.repository.post.RecipeRepository;
+import run.ward.mmz.repository.post.RecipeTagRepository;
+import run.ward.mmz.repository.post.TagRepository;
 import run.ward.mmz.service.post.RecipeTagService;
 
 import java.util.Collections;

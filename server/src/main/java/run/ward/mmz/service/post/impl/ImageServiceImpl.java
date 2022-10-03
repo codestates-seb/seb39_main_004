@@ -8,7 +8,7 @@ import run.ward.mmz.domain.file.Files;
 import run.ward.mmz.domain.file.Image.ImageType;
 import run.ward.mmz.handler.file.FileHandler;
 import run.ward.mmz.mapper.file.FilesMapper;
-import run.ward.mmz.repository.FileRepository;
+import run.ward.mmz.repository.post.FileRepository;
 import run.ward.mmz.service.post.ImageService;
 
 import java.util.List;

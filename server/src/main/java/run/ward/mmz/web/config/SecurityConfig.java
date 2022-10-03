@@ -60,6 +60,7 @@ public class SecurityConfig {
                 .disable()
                 .formLogin()
                 .loginProcessingUrl("/api/v1/auth/login")
+                .defaultSuccessUrl("/api/v1/auth/login-success")
                 .failureUrl("/api/v1/auth/login-error")
                 .successHandler(loginSuccessHandler)
                 .and()
@@ -72,9 +73,10 @@ public class SecurityConfig {
         http
                 .oauth2Login()
                 .successHandler(loginSuccessHandler)
+                .defaultSuccessUrl("/api/v1/auth/login-success")
+                .failureUrl("/api/v1/auth/login-error")
                 .userInfoEndpoint()
                 .userService(oAuth2UserService);
-
 
         http
 

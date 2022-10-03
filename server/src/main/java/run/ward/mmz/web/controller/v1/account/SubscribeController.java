@@ -15,7 +15,6 @@ import run.ward.mmz.mapper.account.AccountMapper;
 import run.ward.mmz.service.account.AccountService;
 import run.ward.mmz.service.account.SubscribeService;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -43,19 +42,15 @@ public class SubscribeController {
             @LoginUser Account user) {
 
         subscribeService.unFollow(followId, user.getId());
-
-
-
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PreAuthorize("hasRole('ROLE_USER')")
-    @GetMapping("/user/me/follow-list")
+
+    @GetMapping("/user/{userId}/follow-list")
     public ResponseEntity<?> myFollowList(
-            @LoginUser Account user) {
+            @PathVariable Long userId) {
 
-        List<Account> followList = subscribeService.findAllFollowUserByAccount(user.getId());
-
+        List<Account> followList = subscribeService.findAllFollowUserByAccount(userId);
         List<AccountInfoDto> userInfoList = accountMapper.toInfoDto(followList);
         ResponseDto.Single<?> response = ResponseDto.Single.builder()
                 .data(userInfoList)
@@ -65,12 +60,11 @@ public class SubscribeController {
     }
 
 
-    @PreAuthorize("hasRole('ROLE_USER')")
-    @GetMapping("/user/me/following-list")
+    @GetMapping("/user/{userId}/following-list")
     public ResponseEntity<?> myFollowingList(
-            @LoginUser Account user) {
-        List<Account> followingList = subscribeService.findAllFollowingUserByAccount(user.getId());
+            @PathVariable Long userId) {
 
+        List<Account> followingList = subscribeService.findAllFollowingUserByAccount(userId);
         List<AccountInfoDto> userInfoList = accountMapper.toInfoDto(followingList);
         ResponseDto.Single<?> response = ResponseDto.Single.builder()
                 .data(userInfoList)

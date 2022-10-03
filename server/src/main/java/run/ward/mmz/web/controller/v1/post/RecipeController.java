@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import run.ward.mmz.domain.account.Account;
@@ -23,10 +24,11 @@ import run.ward.mmz.mapper.post.DirectionMapper;
 import run.ward.mmz.mapper.post.IngredientMapper;
 import run.ward.mmz.mapper.post.RecipeMapper;
 import run.ward.mmz.mapper.post.TagMapper;
+import run.ward.mmz.service.account.AccountService;
+import run.ward.mmz.service.post.BookmarkService;
 import run.ward.mmz.service.post.RecipeService;
 import run.ward.mmz.service.post.RecipeTagService;
 import run.ward.mmz.service.post.TagService;
-import run.ward.mmz.service.post.impl.TestAccountService;
 import run.ward.mmz.handler.auth.LoginUser;
 
 import javax.validation.constraints.Positive;
@@ -52,7 +54,8 @@ public class RecipeController {
     private final RecipeService recipeService;
     private final TagService tagService;
     private final RecipeTagService recipeTagService;
-    private final TestAccountService testAccountService;
+    private final BookmarkService bookmarkService;
+    private final AccountService accountService;
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping("/recipe/add")
@@ -62,9 +65,7 @@ public class RecipeController {
             @RequestPart(value = "imgDirection", required = false) List<MultipartFile> imgDirectionList,
             @RequestPart(value = "recipe") RecipePostDto recipePostDto) {
 
-        //Test account
-        Account testOwner = testAccountService.save(user);
-
+        Account findUser = accountService.findById(user.getId());
         //Controller Code
 
         Files imgThumbNailFile = filesMapper.fileDtoToImage(fileHandler.parseFileInfo(imgThumbNail, ImageType.EXTENSIONS));
@@ -74,7 +75,7 @@ public class RecipeController {
         List<Ingredient> ingredients = ingredientMapper.toEntity(recipePostDto.getIngredients());
         List<Tag> tags = tagMapper.toEntity(recipePostDto.getTags());
         
-        Recipe recipe = recipeMapper.toEntity(testOwner, recipePostDto, imgThumbNailFile, ingredients, directions);
+        Recipe recipe = recipeMapper.toEntity(findUser, recipePostDto, imgThumbNailFile, ingredients, directions);
         recipe = recipeService.save(recipe);
         tagService.saveAll(tags);
         recipeTagService.save(tags, recipe);
@@ -90,6 +91,7 @@ public class RecipeController {
 
     @GetMapping("/recipe/{recipeId}")
     public ResponseEntity<?> readRecipePage(
+            @AuthenticationPrincipal Account user,
             @PathVariable Long recipeId) {
 
         recipeService.verifyExistsId(recipeId); //레시피가 있는 지 예외 처리
@@ -97,12 +99,7 @@ public class RecipeController {
         Recipe recipe = recipeService.findById(recipeId);
         recipeService.addViews(recipeId);
 
-        RecipeResponseDto responseDto = recipeMapper.toResponseDto(recipe);
-        ResponseDto.Single<?> response = ResponseDto.Single.builder()
-                .data(responseDto)
-                .build();
-
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return getRecipeResponse(user, recipeId, recipe);
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
@@ -115,12 +112,26 @@ public class RecipeController {
 
         Recipe recipe = recipeService.findById(recipeId);
 
+        return getRecipeResponse(user, recipeId, recipe);
+    }
+
+
+
+    @GetMapping("/recipe/{recipeId}/edit/test")
+    public ResponseEntity<?> readRecipeUpdatePageTest(
+            @PathVariable Long recipeId){
+
+        recipeService.verifyExistsId(recipeId);
+
+        Recipe recipe = recipeService.findById(recipeId);
+
         ResponseDto.Single<?> response = ResponseDto.Single.builder()
-                .data(recipeMapper.toPatchDto(recipe))
+                .data(recipeMapper.toResponseDto(recipe))
                 .build();
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @PatchMapping("/recipe/{recipeId}/edit")
@@ -160,7 +171,7 @@ public class RecipeController {
 
         Page<Recipe> recipePage = recipeService.findAllBySearch(pageNo, PAGE_SIZE, search, orderBy, sort);
 
-        return getResponseEntity(recipePage);
+        return getRecipeInfoList(recipePage);
     }
 
     @GetMapping("/recipe/all/{pageNo}")
@@ -171,7 +182,7 @@ public class RecipeController {
 
         Page<Recipe> recipePage = recipeService.findAll(pageNo, PAGE_SIZE, orderBy, sort);
 
-        return getResponseEntity(recipePage);
+        return getRecipeInfoList(recipePage);
     }
 
 
@@ -180,7 +191,7 @@ public class RecipeController {
 
         Page<Recipe> recipePage = recipeService.findAll(1, PAGE_SIZE, "id", "dec");
 
-        return getResponseEntity(recipePage);
+        return getRecipeInfoList(recipePage);
     }
 
 
@@ -193,15 +204,39 @@ public class RecipeController {
 
         Page<Recipe> recipePage = recipeService.findAllByCategory(pageNo, PAGE_SIZE, category, orderBy, sort);
 
-        return getResponseEntity(recipePage);
+        return getRecipeInfoList(recipePage);
     }
 
 
 
-    private ResponseEntity<?> getResponseEntity(Page<Recipe> recipePage) {
+
+
+
+    private ResponseEntity<?> getRecipeInfoList(Page<Recipe> recipePage) {
 
         List<RecipeInfoDto> responseDtoList = recipeMapper.toInfoDto(recipePage.getContent());
         ResponseDto.Multi<?> response = new ResponseDto.Multi<>(responseDtoList, recipePage);
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    private ResponseEntity<?> getRecipeResponse(
+            Account user,
+            @PathVariable Long recipeId,
+            Recipe recipe) {
+        RecipeResponseDto recipeResponseDto = recipeMapper.toResponseDto(recipe);
+
+        if(user == null){
+            recipeResponseDto.setBookmarked(false);
+        }
+        else{
+            recipeResponseDto.setBookmarked(bookmarkService.isBookmarkedByUser(recipeId, user.getId()));
+        }
+
+        ResponseDto.Single<?> response = ResponseDto.Single.builder()
+                .data(recipeResponseDto)
+                .build();
+
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }

@@ -12,7 +12,7 @@ import run.ward.mmz.domain.post.Bookmark;
 import run.ward.mmz.domain.post.Recipe;
 import run.ward.mmz.handler.exception.CustomException;
 import run.ward.mmz.handler.exception.ExceptionCode;
-import run.ward.mmz.repository.BookmarkRepository;
+import run.ward.mmz.repository.post.BookmarkRepository;
 import run.ward.mmz.service.account.AccountService;
 import run.ward.mmz.service.post.BookmarkService;
 import run.ward.mmz.service.post.RecipeService;
@@ -26,6 +26,16 @@ public class BookmarkServiceImpl implements BookmarkService {
     private final BookmarkRepository bookmarkRepository;
     private final RecipeService recipeService;
     private final AccountService accountService;
+
+    @Override
+    @Transactional(readOnly = true)
+    public boolean isBookmarkedByUser(Long recipeId, Long accountId){
+
+        Recipe recipe = recipeService.findById(recipeId);
+        Account account = accountService.findById(accountId);
+
+        return bookmarkRepository.existsByOwnerAndRecipe(account, recipe);
+    }
 
     @Override
     @Transactional
@@ -73,7 +83,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 
     @Override
     @Transactional(readOnly = true)
-    public Page<Recipe> findAllBookmarkedRecipeByAccountId(int page, int size, Long accountId, String orderBy, String sort) {
+    public Page<Recipe> findAllBookmarkedRecipeByUserId(int page, int size, Long accountId, String orderBy, String sort) {
 
         Sort bySort = Sort.by(orderBy).descending();
 

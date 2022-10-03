@@ -25,7 +25,7 @@ public class ResponseDto {
 
     @Data
     public static class Multi<T> {
-        private List<T> data;
+        private List data;
         private PageInfo pageInfo;
 
         @Builder

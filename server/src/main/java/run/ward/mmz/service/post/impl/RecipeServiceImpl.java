@@ -7,11 +7,8 @@ import org.springframework.transaction.annotation.Transactional;
 import run.ward.mmz.domain.post.Recipe;
 import run.ward.mmz.handler.exception.CustomException;
 import run.ward.mmz.handler.exception.ExceptionCode;
-import run.ward.mmz.repository.RecipeRepository;
-import run.ward.mmz.service.post.DirectionService;
-import run.ward.mmz.service.post.IngredientService;
-import run.ward.mmz.service.post.RecipeService;
-import run.ward.mmz.service.post.RecipeTagService;
+import run.ward.mmz.repository.post.RecipeRepository;
+import run.ward.mmz.service.post.*;
 
 import java.util.*;
 
@@ -24,7 +21,6 @@ public class RecipeServiceImpl implements RecipeService {
     private final RecipeRepository recipeRepository;
     private final DirectionService directionService;
     private final IngredientService ingredientService;
-
 
     @Override
     public List<Recipe> saveAll(List<Recipe> list) {
@@ -175,7 +171,7 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     @Transactional(readOnly = true)
-    public Page<Recipe> findAllByAccountId(int page, int size, Long accountId, String orderBy, String sort) {
+    public Page<Recipe> findAllByOwnerId(int page, int size, Long accountId, String orderBy, String sort) {
 
         Sort bySort = Sort.by(orderBy).descending();
 
@@ -184,7 +180,9 @@ public class RecipeServiceImpl implements RecipeService {
 
         return recipeRepository.findAllByOwnerId(
                 accountId,
-                PageRequest.of(page - 1, size, Sort.by(orderBy).descending())
+                PageRequest.of(page - 1, size, bySort)
         );
     }
+
+
 }

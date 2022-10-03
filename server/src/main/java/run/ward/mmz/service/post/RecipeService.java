@@ -16,6 +16,6 @@ public interface RecipeService extends CrudService<Recipe> {
     Page<Recipe> findAll(int page, int size, String orderBy, String sort);
     Page<Recipe> findAllByCategory(int page, int size, String category, String orderBy, String sort);
     Page<Recipe> findAllBySearch(int page, int size, String search, String orderBy, String sort);
-    Page<Recipe> findAllByAccountId(int page, int size, Long accountId, String orderBy, String sort);
+    Page<Recipe> findAllByOwnerId(int page, int size, Long ownerId, String orderBy, String sort);
 
 }

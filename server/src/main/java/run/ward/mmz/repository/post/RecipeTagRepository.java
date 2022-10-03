@@ -1,4 +1,4 @@
-package run.ward.mmz.repository;
+package run.ward.mmz.repository.post;
 
 
 import org.springframework.data.jpa.repository.JpaRepository;

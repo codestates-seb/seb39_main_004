@@ -2,12 +2,12 @@ import styled from "styled-components";
 import SNSInfoForm from "../../components/SNSInfo/SNSInfoForm";
 
 const SSNSInfoContainer = styled.div`
-  width: 300px;
   // 중앙 정렬
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: center;
+  align-items: center;
+  padding-top: 200px;
 `;
 
 const SNSInfo = () => {
