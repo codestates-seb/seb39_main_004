@@ -6,6 +6,13 @@ import styled from "styled-components";
 
 const SStepsContainer = styled.div`
   display: flex;
+  gap: 2.5rem;
+  margin-bottom: 20px;
+`;
+
+const SStepBox = styled.div`
+  position: relative;
+  flex: 1;
 `;
 
 const StepSet = ({
@@ -59,17 +66,22 @@ const StepSet = ({
 
   return (
     <SStepsContainer>
-      <STextarea
-        name="directionBody"
-        // cols={70}
-        rows={8}
-        placeholder="요리 과정을 입력해주세요."
-        value={textValue}
-        onChange={(e) => {
-          textHandler(e, currentIndex);
-        }}
-      ></STextarea>
-      <RemoveBtn removeHandler={() => removeHandler(currentIndex)} idx={idx} />
+      <SStepBox>
+        <STextarea
+          name="directionBody"
+          // cols={70}
+          rows={8}
+          placeholder="요리 과정을 입력해주세요."
+          value={textValue}
+          onChange={(e) => {
+            textHandler(e, currentIndex);
+          }}
+        ></STextarea>
+        <RemoveBtn
+          removeHandler={() => removeHandler(currentIndex)}
+          idx={idx}
+        />
+      </SStepBox>
       <ImgUploader
         steps={steps}
         imgName={imgName}
