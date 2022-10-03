@@ -93,7 +93,7 @@ public class RecipeController {
 
     @GetMapping("/recipe/{recipeId}")
     public ResponseEntity<?> readRecipePage(
-            @LoginUser Account user,
+            @AuthenticationPrincipal Account user,
             @PathVariable Long recipeId) {
 
         recipeService.verifyExistsId(recipeId); //레시피가 있는 지 예외 처리
@@ -118,7 +118,7 @@ public class RecipeController {
     }
 
     private ResponseEntity<?> getResponseEntity(
-            @LoginUser Account user,
+            Account user,
             @PathVariable Long recipeId,
             Recipe recipe) {
         RecipeResponseDto recipeResponseDto = recipeMapper.toResponseDto(recipe);
@@ -239,8 +239,6 @@ public class RecipeController {
 
         return getResponseEntity(recipePage);
     }
-
-
 
 
     private ResponseEntity<?> getResponseEntity(Page<Recipe> recipePage) {
