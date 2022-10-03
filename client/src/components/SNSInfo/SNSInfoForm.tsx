@@ -5,13 +5,22 @@ import {
   Button,
 } from "../../components/CommonUI";
 import { useForm, SubmitHandler } from "react-hook-form";
+import signlogo from "../../assets/icons/signlogo.svg";
 
-const SForm = styled.form``;
+const SForm = styled.form`
+  position: relative;
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: center;
+  align-items: center;
+  width: 430px;
+  padding: 50px 60px;
+  background-color: #f2f1ea;
+`;
 
-const SH1 = styled.h1`
-  text-align: center;
-  padding: 20px;
-  font-size: 30px;
+const SSignLogo = styled.div`
+  position: absolute;
+  top: -45px;
 `;
 
 const SErrorMsg = styled.div`
@@ -36,7 +45,9 @@ const SNSInfoForm = () => {
 
   return (
     <SForm onSubmit={handleSubmit(onSubmit)}>
-      <SH1>SNS 회원 가입</SH1>
+      <SSignLogo>
+        <img src={signlogo} alt="loginlogo" />
+      </SSignLogo>
       <StyledInput>
         <label htmlFor="email">이메일</label>
         <input

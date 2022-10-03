@@ -2,23 +2,23 @@ import styled from "styled-components";
 
 const SSortContainer = styled.section`
   display: flex;
-  gap: 0.1rem;
-  margin: 1rem;
+  gap: 0.5rem;
   justify-content: right;
   align-items: center;
   color: var(--deep-gray);
 
   button {
-    font-size: 1.2rem;
-  }
-
-  button:hover {
-    transition: 0.1s;
-    color: var(--red);
-  }
-
-  div:after {
-    content: "|";
+    padding: 7px 10px;
+    background-color: var(--pale-gray);
+    font-size: 0.9rem;
+    color: var(--gray);
+    border-radius: 50px;
+    &:active,
+    &:focus {
+      background-color: var(--pink);
+      color: #fff;
+      transition: 0.1s;
+    }
   }
 
   div:last-child:after {

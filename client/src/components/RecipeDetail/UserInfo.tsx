@@ -54,7 +54,7 @@ const PostUserInfo = ({ name, imgProfileUrl }: IPostUserProps) => {
   const DeleteHandler = async () => {
     if (window.confirm("정말로 삭제하시겠습니까?")) {
       try {
-        const res = await axios.delete(`/api/v1/recipe/${id}`);
+        const res = await axios.delete(`/api/v1/recipe/${id}/delete`);
         if (res.data.success) {
           console.log(res.data);
           alert("레시피가 삭제되었습니다.");
