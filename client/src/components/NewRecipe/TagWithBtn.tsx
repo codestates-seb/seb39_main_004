@@ -1,21 +1,22 @@
 import { ITagWithBtnProps } from "../../types/interface";
+import { STag } from "../CommonUI/Tag";
 import styled from "styled-components";
 
-const Stag = styled.span`
-  margin: 0.5rem;
+const SFormTag = styled(STag)`
+  font-size: 1.6rem;
 `;
 
-const TagWithBtn = ({ tag, tagRemover, idx }: ITagWithBtnProps) => {
+const TagWithBtn = ({ tag, tagRemover, id }: ITagWithBtnProps) => {
   return (
     <li>
-      <Stag
+      <SFormTag
         role="presentation"
         onClick={(): void => {
-          tagRemover(idx);
+          tagRemover(id);
         }}
       >
         {tag}
-      </Stag>
+      </SFormTag>
     </li>
   );
 };

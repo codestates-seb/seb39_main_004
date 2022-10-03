@@ -3,6 +3,8 @@ import { FaRegLightbulb } from "react-icons/fa";
 
 const SGuideText = styled.p`
   color: var(--gray);
+  float: right;
+  font-size: 1.2rem;
 `;
 
 const Guide = ({ text }: { text: string }) => {

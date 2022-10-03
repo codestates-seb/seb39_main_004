@@ -4,8 +4,8 @@ import { BsGithub } from "react-icons/bs";
 const SFooter = styled.footer`
   background-color: var(--deep-green);
   color: var(--pale-gray);
-  padding-top: 2.7rem;
-  padding-bottom: 2rem;
+  padding-top: 4rem;
+  padding-bottom: 4rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -78,6 +78,7 @@ const Footer = () => {
         <STeamContainer>
           <div>DESIGN |</div>
           <div>탁나현</div>
+          <div>하태경</div>
         </STeamContainer>
       </SUl>
     </SFooter>

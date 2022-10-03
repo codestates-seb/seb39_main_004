@@ -123,7 +123,7 @@ interface IIconProps {
 
 interface ITagWithBtnProps {
   tag: string;
-  idx: number;
+  id: number;
   tagRemover: (idx: number) => void;
 }
 
