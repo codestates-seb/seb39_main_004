@@ -1,6 +1,9 @@
 import { useState, useRef, useEffect } from "react";
+import { SLable } from "./RecipeFormStyled";
 import { IImgUploaderProps } from "../../types/interface";
 import styled from "styled-components";
+import { RequireMark } from "./indexNewRecipe";
+import defaultImg from "../../assets/images/Recipe/defaultIMG.svg";
 
 const SImgInputContainer = styled.div`
   display: flex;
@@ -8,10 +11,10 @@ const SImgInputContainer = styled.div`
 `;
 
 const SImg = styled.img`
-  width: 250px;
-  height: 200px;
+  width: 430px;
+  height: ${(props) => props.height ?? "252px"};
   object-fit: cover; // 비율 조정
-  border: 1px solid black;
+  border: 2.5px solid var(--gray);
 `;
 
 const SImgInput = styled.input`
@@ -20,8 +23,6 @@ const SImgInput = styled.input`
 
 const ImgUploader = ({
   currentIndex,
-  steps,
-  imgName,
   imgUrl,
   setThumbNail,
   setStepImgFiles,
@@ -57,9 +58,6 @@ const ImgUploader = ({
     }
   };
 
-  console.log(steps); // 빌드에러용 임시 추가
-  console.log(imgName); // 빌드에러용 임시 추가
-
   useEffect(() => {
     if (imgUrl) {
       const imgThumbNailUrl = `${process.env.PUBLIC_URL}/${imgUrl}`;
@@ -69,13 +67,15 @@ const ImgUploader = ({
 
   return (
     <SImgInputContainer>
-      {currentIndex === undefined && <label htmlFor="img">레시피 사진</label>}
+      {currentIndex === undefined && (
+        <SLable htmlFor="img">
+          썸네일
+          <RequireMark />
+        </SLable>
+      )}
       <SImg
-        src={
-          fileURL
-            ? fileURL
-            : "https://cdn-icons-png.flaticon.com/512/1555/1555492.png"
-        }
+        height={currentIndex === undefined ? "323px" : undefined}
+        src={fileURL ? fileURL : defaultImg}
         alt=""
         onClick={() => {
           if (imgUploadInput.current) {

@@ -1,4 +1,5 @@
 import { ImgUploader, RemoveBtn } from "./indexNewRecipe";
+import { STextarea } from "./RecipeFormStyled";
 import { IStepSetProps } from "../../types/interface";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
@@ -53,21 +54,21 @@ const StepSet = ({
     }
   }, [textValue, imgName]);
 
-  console.log(directDatas); // 빌드에러용 임시 추가
-  console.log(setDirectDatas); // 빌드에러용 임시 추가
+  console.log("directDatas", directDatas); // 빌드에러용 임시 추가
+  console.log("setDirectDatas", setDirectDatas); // 빌드에러용 임시 추가
 
   return (
     <SStepsContainer>
-      <textarea
+      <STextarea
         name="directionBody"
-        cols={70}
-        rows={5}
+        // cols={70}
+        rows={8}
         placeholder="요리 과정을 입력해주세요."
         value={textValue}
         onChange={(e) => {
           textHandler(e, currentIndex);
         }}
-      ></textarea>
+      ></STextarea>
       <RemoveBtn removeHandler={() => removeHandler(currentIndex)} idx={idx} />
       <ImgUploader
         steps={steps}

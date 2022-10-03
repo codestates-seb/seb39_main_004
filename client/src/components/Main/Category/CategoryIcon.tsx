@@ -7,7 +7,7 @@ const SIconLayout = styled.li`
   flex-direction: column;
   justify-content: center;
   text-align: center;
-  width: 100px;
+  width: 20%;
   height: 100%;
 
   color: var(--dark-gray);

@@ -16,7 +16,6 @@ public interface RecipeRepository extends JpaRepository<Recipe, Long> {
 
     Page<Recipe> findAllByCategory(String name, Pageable pageable);
     Set<Recipe> findAllByTitleContaining(String title);
-
     @Query("select r from Recipe r where r.owner.id = :id")
     Page<Recipe> findAllByOwnerId(Long id, Pageable pageable);
 

@@ -8,7 +8,7 @@ const SBtn = styled.button`
 const PlusBtn = ({ addHandler }) => {
   return (
     <SBtn type="button" onClick={addHandler}>
-      <HiPlusCircle size={27} />
+      <HiPlusCircle size={50} />
     </SBtn>
   );
 };

@@ -1,9 +1,14 @@
 package run.ward.mmz.service.account.impl;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import run.ward.mmz.domain.account.Account;
+import run.ward.mmz.domain.post.Recipe;
 import run.ward.mmz.domain.subscribe.Subscribe;
 import run.ward.mmz.handler.exception.CustomException;
 import run.ward.mmz.handler.exception.ExceptionCode;
@@ -11,9 +16,8 @@ import run.ward.mmz.repository.account.AccountRepository;
 import run.ward.mmz.repository.account.SubscribeRepository;
 import run.ward.mmz.service.account.SubscribeService;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -65,6 +69,10 @@ public class SubscribeServiceImpl implements SubscribeService {
     @Transactional(readOnly = true)
     public List<Account> findAllFollowUserByAccount(Long userId) {
 
+        if(!accountRepository.existsById(userId)) {
+            throw new CustomException(ExceptionCode.USER_NOT_FOUND);
+        }
+
         List<Account> followerUserList = new ArrayList<>();
         List<Subscribe> subscribeList = subscribeRepository.findAllByToUserId(userId);
 
@@ -73,7 +81,9 @@ public class SubscribeServiceImpl implements SubscribeService {
                 followerUserList.add(subscribe.getForUser());
         }
 
-        return followerUserList;
+        return followerUserList.stream()
+                .sorted((user1, user2) -> (int) (user1.getId() - user2.getId()))
+                .collect(Collectors.toList());
 
     }
 
@@ -83,6 +93,9 @@ public class SubscribeServiceImpl implements SubscribeService {
 
         return accountRepository.findById(userId).orElseThrow(
                 () -> new CustomException(ExceptionCode.USER_NOT_FOUND)
-        ).getFollowerUserList();
+        ).getFollowerUserList()
+                .stream()
+                .sorted((user1, user2) -> (int) (user1.getId() - user2.getId()))
+                .collect(Collectors.toList());
     }
 }
