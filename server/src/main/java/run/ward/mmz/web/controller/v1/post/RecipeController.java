@@ -228,6 +228,19 @@ public class RecipeController {
         return getResponseEntity(recipePage);
     }
 
+    @GetMapping("/recipe/user/{userId}/{pageNo}")
+    public ResponseEntity<?> readUserRecipePage(
+            @Positive @PathVariable(required = false, value = "pageNo") int pageNo,
+            @Positive @PathVariable(value = "userId") Long userId,
+            @RequestParam(required = false, defaultValue = "id", value = "orderBy") String orderBy,
+            @RequestParam(required = false, defaultValue = "dec", value = "sort") String sort) {
+
+        Page<Recipe> recipePage = recipeService.findAllByAccountId(pageNo, PAGE_SIZE, userId, orderBy, sort);
+
+        return getResponseEntity(recipePage);
+    }
+
+
 
 
     private ResponseEntity<?> getResponseEntity(Page<Recipe> recipePage) {

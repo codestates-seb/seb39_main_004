@@ -84,4 +84,20 @@ public class AuthController {
     }
 
 
+    @GetMapping("/auth/login-success")
+    public ResponseEntity<?> loginSuccess(
+            @LoginUser Account user) {
+
+        SessionUser sessionUser = SessionUser.builder()
+                .user(user)
+                .build();
+
+        ResponseDto.Single<?> response = ResponseDto.Single.builder()
+                .data(sessionUser)
+                .build();
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+
 }
