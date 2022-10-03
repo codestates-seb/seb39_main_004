@@ -7,7 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import run.ward.mmz.domain.post.Recipe;
 import run.ward.mmz.handler.exception.CustomException;
 import run.ward.mmz.handler.exception.ExceptionCode;
-import run.ward.mmz.repository.RecipeRepository;
+import run.ward.mmz.repository.post.RecipeRepository;
 import run.ward.mmz.service.post.DirectionService;
 import run.ward.mmz.service.post.IngredientService;
 import run.ward.mmz.service.post.RecipeService;

@@ -12,7 +12,7 @@ import run.ward.mmz.domain.post.Bookmark;
 import run.ward.mmz.domain.post.Recipe;
 import run.ward.mmz.handler.exception.CustomException;
 import run.ward.mmz.handler.exception.ExceptionCode;
-import run.ward.mmz.repository.BookmarkRepository;
+import run.ward.mmz.repository.post.BookmarkRepository;
 import run.ward.mmz.service.account.AccountService;
 import run.ward.mmz.service.post.BookmarkService;
 import run.ward.mmz.service.post.RecipeService;
@@ -26,6 +26,11 @@ public class BookmarkServiceImpl implements BookmarkService {
     private final BookmarkRepository bookmarkRepository;
     private final RecipeService recipeService;
     private final AccountService accountService;
+
+    public boolean isBookmarkedByUser(Long recipeId, Long accountId){
+
+        return bookmarkRepository.existsByOwnerIdAndRecipeId(accountId, recipeId);
+    }
 
     @Override
     @Transactional

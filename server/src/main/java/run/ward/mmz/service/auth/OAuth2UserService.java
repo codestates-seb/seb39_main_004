@@ -1,7 +1,6 @@
 package run.ward.mmz.service.auth;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
@@ -13,11 +12,9 @@ import run.ward.mmz.dto.auth.OAuthAttributes;
 import run.ward.mmz.dto.auth.PrincipalDetails;
 import run.ward.mmz.dto.auth.SessionUser;
 import run.ward.mmz.mapper.account.AccountMapper;
-import run.ward.mmz.repository.AccountRepository;
+import run.ward.mmz.repository.account.AccountRepository;
 
 import javax.servlet.http.HttpSession;
-import java.util.HashMap;
-import java.util.Map;
 
 @Service
 @RequiredArgsConstructor

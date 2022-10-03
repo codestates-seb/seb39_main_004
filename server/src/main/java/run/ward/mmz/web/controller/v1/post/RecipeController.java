@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import run.ward.mmz.domain.account.Account;
@@ -23,6 +24,7 @@ import run.ward.mmz.mapper.post.DirectionMapper;
 import run.ward.mmz.mapper.post.IngredientMapper;
 import run.ward.mmz.mapper.post.RecipeMapper;
 import run.ward.mmz.mapper.post.TagMapper;
+import run.ward.mmz.service.post.BookmarkService;
 import run.ward.mmz.service.post.RecipeService;
 import run.ward.mmz.service.post.RecipeTagService;
 import run.ward.mmz.service.post.TagService;
@@ -52,6 +54,7 @@ public class RecipeController {
     private final RecipeService recipeService;
     private final TagService tagService;
     private final RecipeTagService recipeTagService;
+    private final BookmarkService bookmarkService;
     private final TestAccountService testAccountService;
 
     @PreAuthorize("hasRole('ROLE_USER')")
@@ -90,6 +93,7 @@ public class RecipeController {
 
     @GetMapping("/recipe/{recipeId}")
     public ResponseEntity<?> readRecipePage(
+            @AuthenticationPrincipal Account user,
             @PathVariable Long recipeId) {
 
         recipeService.verifyExistsId(recipeId); //레시피가 있는 지 예외 처리
@@ -97,12 +101,7 @@ public class RecipeController {
         Recipe recipe = recipeService.findById(recipeId);
         recipeService.addViews(recipeId);
 
-        RecipeResponseDto responseDto = recipeMapper.toResponseDto(recipe);
-        ResponseDto.Single<?> response = ResponseDto.Single.builder()
-                .data(responseDto)
-                .build();
-
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return getResponseEntity(user, recipeId, recipe);
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
@@ -115,9 +114,23 @@ public class RecipeController {
 
         Recipe recipe = recipeService.findById(recipeId);
 
+        return getResponseEntity(user, recipeId, recipe);
+    }
+
+    private ResponseEntity<?> getResponseEntity(@LoginUser Account user, @PathVariable Long recipeId, Recipe recipe) {
+        RecipeResponseDto recipeResponseDto = recipeMapper.toResponseDto(recipe);
+
+        if(user == null){
+            recipeResponseDto.setBookmarked(false);
+        }
+        else{
+            recipeResponseDto.setBookmarked(bookmarkService.isBookmarkedByUser(recipeId, user.getId()));
+        }
+
         ResponseDto.Single<?> response = ResponseDto.Single.builder()
-                .data(recipeMapper.toResponseDto(recipe))
+                .data(recipeResponseDto)
                 .build();
+
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }

@@ -57,7 +57,6 @@ public class RecipeMapperImpl implements RecipeMapper {
                 .body(recipe.getBody())
                 .category(recipe.getCategory())
                 .imgThumbNailUrl(recipe.getImgThumbNail().getFileName())
-                .isBookmarked(recipe.isBookmarked())
                 .stars(String.format("%.2f", recipe.getStars()))
                 .views(recipe.getViews())
                 .createDate(recipe.getCreateDate().toString())
