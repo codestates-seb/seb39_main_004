@@ -21,11 +21,14 @@ const GlobalStyle = createGlobalStyle`
 
   :root{
     --red: #ff5936;
+    --pink: #FF8D9B;
     --yellow: #ffe053;
     --pale-green:#93C68E;
     --deep-green: #396941;
+    --green-bean: #93C68E;
     --sky-blue: #AFD2F2;
     --deep-gray: #707070;
+    --greenish-grey: #F2F1EA;
     --pale-gray: #DFDFDF;
     --gray: #949494;
     --ivory: #F2F1EA;

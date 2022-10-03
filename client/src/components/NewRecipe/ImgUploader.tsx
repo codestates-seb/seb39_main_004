@@ -1,6 +1,8 @@
 import { useState, useRef, useEffect } from "react";
+import { SLable } from "./RecipeFormStyled";
 import { IImgUploaderProps } from "../../types/interface";
 import styled from "styled-components";
+import RequireMark from "./RequireMark";
 
 const SImgInputContainer = styled.div`
   display: flex;
@@ -8,8 +10,8 @@ const SImgInputContainer = styled.div`
 `;
 
 const SImg = styled.img`
-  width: 250px;
-  height: 200px;
+  width: 420px;
+  height: ${(props) => props.height ?? "252px"};
   object-fit: cover; // 비율 조정
   border: 1px solid black;
 `;
@@ -57,8 +59,8 @@ const ImgUploader = ({
     }
   };
 
-  console.log(steps); // 빌드에러용 임시 추가
-  console.log(imgName); // 빌드에러용 임시 추가
+  // console.log(steps); // 빌드에러용 임시 추가
+  // console.log(imgName); // 빌드에러용 임시 추가
 
   useEffect(() => {
     if (imgUrl) {
@@ -69,8 +71,14 @@ const ImgUploader = ({
 
   return (
     <SImgInputContainer>
-      {currentIndex === undefined && <label htmlFor="img">레시피 사진</label>}
+      {currentIndex === undefined && (
+        <SLable htmlFor="img">
+          썸네일
+          <RequireMark />
+        </SLable>
+      )}
       <SImg
+        height={currentIndex === undefined ? "321px" : undefined}
         src={
           fileURL
             ? fileURL

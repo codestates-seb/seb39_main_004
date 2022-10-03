@@ -1,10 +1,17 @@
 import {
+  SLable,
+  SLogoRecipe,
+  SInput,
+  STextarea,
+} from "../../components/NewRecipe/RecipeFormStyled";
+import {
   ImgUploader,
   TagsMaker,
   Guide,
   AddingIngredients,
   StepsMaker,
   ImgRadio,
+  RequireMark,
 } from "../../components/NewRecipe/indexNewRecipe";
 import {
   TypeOfFileList,
@@ -18,6 +25,21 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import styled from "styled-components";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import recipeLogo from "../../assets/images/Recipe/recipeLogo.svg";
+
+const SFormContainer = styled.main`
+  max-width: 1280px;
+  display: flex;
+  flex-direction: column;
+`;
+
+const SSection = styled.div`
+  background-color: var(--greenish-grey);
+  border: 3px solid ${(props) => props.color ?? "var(--pink)"};
+  border-style: solid none;
+  padding: 4rem;
+  margin-bottom: 3rem;
+`;
 
 const SFieldset = styled.fieldset`
   border: 1px solid blue;
@@ -31,6 +53,22 @@ const SRecipeInfo = styled.div`
 const SRecipeTexts = styled.div`
   display: flex;
   flex-direction: column;
+`;
+
+const SSectionBtn = styled.section`
+  display: flex;
+  justify-content: center;
+  gap: 3rem;
+  padding-top: 2rem;
+`;
+
+const SFormBtn = styled.button`
+  background-color: ${(props) => props.color ?? "var(--pink)"};
+  color: white;
+  width: 280px;
+  font-size: 1.6rem;
+  padding: 1rem;
+  border-radius: 3px;
 `;
 
 const AddPost = () => {
@@ -115,12 +153,12 @@ const AddPost = () => {
   useEffect(() => {
     if (recipeId) {
       axios
-        .get(`/api/v1/recipe/${recipeId}/edit`)
+        .get(`/api/v1/recipe/${recipeId}/edit/test`)
         .then((res) => {
           setEditResponse(res.data.data);
-          console.log(res);
           setEditMode(true);
           setCheckedCateg(res.data.data.category);
+          console.log(res);
         })
         .catch((err) => {
           console.log("수정에러", err);
@@ -129,76 +167,97 @@ const AddPost = () => {
   }, []);
 
   return (
-    <>
+    <SFormContainer>
+      <SLogoRecipe src={recipeLogo} alt="recipeLogo"></SLogoRecipe>
       <form action="" method="post" onSubmit={handleSubmit(submitHandler)}>
-        <SRecipeInfo>
-          <SRecipeTexts>
-            <label htmlFor="title">레시피 제목</label>
-            <input
-              {...register("title", { required: true })}
-              id="title"
-              placeholder="레시피 제목을 적어주세요."
+        <SSection>
+          <SRecipeInfo>
+            <SRecipeTexts>
+              <SLable htmlFor="title">
+                레시피 제목
+                <RequireMark />
+              </SLable>
+              <SInput
+                {...register("title", { required: true })}
+                id="title"
+                placeholder="레시피 제목을 적어주세요."
+              />
+              {/* {errors.recipeTitle && <p>{errors.recipeTitle.message}</p>} */}
+              <SLable htmlFor="body">
+                요리 소개
+                <RequireMark />
+              </SLable>
+              <STextarea
+                {...register("body", { required: true })}
+                id="body"
+                // cols={50}
+                rows={5}
+                placeholder="레시피를 소개해주세요."
+              ></STextarea>
+            </SRecipeTexts>
+            <ImgUploader
+              setThumbNail={setThumbNail}
+              imgUrl={
+                editResponse && editMode ? editResponse.imgThumbNailUrl : ""
+              }
             />
-            {/* {errors.recipeTitle && <p>{errors.recipeTitle.message}</p>} */}
-            <label htmlFor="body">요리 소개</label>
-            <textarea
-              {...register("body", { required: true })}
-              id="body"
-              cols={50}
-              rows={7}
-            ></textarea>
-          </SRecipeTexts>
-          <ImgUploader
-            setThumbNail={setThumbNail}
-            imgUrl={
-              editResponse && editMode ? editResponse.imgThumbNailUrl : ""
-            }
-          />
-        </SRecipeInfo>
-        <SFieldset>
-          <label htmlFor="category">카테고리</label>
-          <ImgRadio
-            setCheckedCateg={setCheckedCateg}
-            checkedCateg={checkedCateg}
-          ></ImgRadio>
-        </SFieldset>
-        <SFieldset>
-          <legend>요리재료</legend>
+          </SRecipeInfo>
+          <SFieldset>
+            <SLable htmlFor="category">
+              요리 카테고리
+              <RequireMark />
+            </SLable>
+            <ImgRadio
+              setCheckedCateg={setCheckedCateg}
+              checkedCateg={checkedCateg}
+            ></ImgRadio>
+          </SFieldset>
+        </SSection>
+        <SSection color={"var(--green-bean)"}>
+          <SLable htmlFor="ingredients">
+            요리 재료
+            <RequireMark />
+          </SLable>
           <Guide text="필수 재료는 체크표시를 해주세요." />
           <AddingIngredients
             setIngredientsDatas={setIngredientsDatas}
             ingredientsDatas={ingredientsDatas}
           />
-        </SFieldset>
-        <SFieldset>
-          <legend>요리순서</legend>
-          <Guide text="중요한 부분은 빠짐없이 적어주세요." />
-          <StepsMaker
-            resDirecttions={
-              editResponse && editMode ? editResponse.directions : undefined
-            }
-            directDatas={directDatas}
-            setDirectDatas={setDirectDatas}
-            stepImgFiles={stepImgFiles}
-            setStepImgFiles={setStepImgFiles}
-          />
-        </SFieldset>
-        <SFieldset>
-          <legend>태그</legend>
+        </SSection>
+        <SSection color={"var(--yellow)"}>
+          <SLable>
+            요리 순서
+            <RequireMark />
+            <Guide text="중요한 부분은 빠짐없이 적어주세요." />
+            <StepsMaker
+              resDirecttions={
+                editResponse && editMode ? editResponse.directions : undefined
+              }
+              directDatas={directDatas}
+              setDirectDatas={setDirectDatas}
+              stepImgFiles={stepImgFiles}
+              setStepImgFiles={setStepImgFiles}
+            />
+          </SLable>
+        </SSection>
+        <SSection color={"var(--sky-blue)"}>
+          <SLable>태그</SLable>
           <TagsMaker
             setTagsDatas={setTagsDatas}
             resTags={editResponse && editMode ? editResponse.tags : undefined}
           />
-        </SFieldset>
-        <section className="btnContainer">
-          <button type="button" onClick={handleSubmit(submitHandler)}>
-            제출
-          </button>
-          <button type="reset">초기화</button>
+        </SSection>
+        <SSectionBtn>
+          <SFormBtn color={"var(--deep-green)"} type="reset">
+            취소
+          </SFormBtn>
+          <SFormBtn type="button" onClick={handleSubmit(submitHandler)}>
+            등록
+          </SFormBtn>
           {/* <button >임시저장</button> */}
-        </section>
+        </SSectionBtn>
       </form>
-    </>
+    </SFormContainer>
   );
 };
 export default AddPost;
