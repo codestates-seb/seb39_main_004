@@ -43,10 +43,6 @@ public class BookmarkServiceImpl implements BookmarkService {
 
         Recipe recipe = recipeService.findById(recipeId);
         Account account = accountService.findById(accountId);
-
-        if(!recipe.getOwner().getId().equals(accountId))
-            throw new CustomException(ExceptionCode.USER_ACCESS_DENIED);
-
         Bookmark bookmark = Bookmark.builder().build();
 
         if(bookmarkRepository.existsByOwnerAndRecipe(account, recipe)) {
@@ -65,9 +61,6 @@ public class BookmarkServiceImpl implements BookmarkService {
 
         Recipe recipe = recipeService.findById(recipeId);
         Account account = accountService.findById(accountId);
-
-        if(!recipe.getOwner().getId().equals(accountId))
-            throw new CustomException(ExceptionCode.USER_ACCESS_DENIED);
 
         Bookmark bookmark = bookmarkRepository.findByOwnerAndRecipe(account, recipe);
 
