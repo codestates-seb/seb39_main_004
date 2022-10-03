@@ -25,6 +25,7 @@ import run.ward.mmz.mapper.file.FilesMapper;
 import run.ward.mmz.mapper.post.RecipeMapper;
 import run.ward.mmz.mapper.post.ReviewMapper;
 import run.ward.mmz.service.account.AccountService;
+import run.ward.mmz.service.account.SubscribeService;
 import run.ward.mmz.service.post.BookmarkService;
 import run.ward.mmz.service.post.ImageService;
 import run.ward.mmz.service.post.RecipeService;
@@ -49,7 +50,7 @@ public class AccountController {
     private final BookmarkService bookmarkService;
     private final FilesMapper filesMapper;
     private final FileHandler fileHandler;
-    private final ImageService imageService;
+    private final SubscribeService subscribeService;
 
 
     @PreAuthorize("hasRole('ROLE_USER')")
@@ -112,9 +113,12 @@ public class AccountController {
         Page<Recipe> recipePage = recipeService.findAllByOwnerId(1, PAGE_SIZE, userId, "id", "dec");
         List<RecipeInfoDto> responseDtoList = recipeMapper.toInfoDto(recipePage.getContent());
 
+
         UserPageDto<?> response = UserPageDto.builder()
                 .user(accountInfoDto)
                 .page(recipePage)
+                .followerCount(subscribeService.countFollowUserByAccount(userId))
+                .followingCount(subscribeService.countFollowingUserByAccount(userId))
                 .data(responseDtoList)
                 .build();
 
@@ -132,14 +136,12 @@ public class AccountController {
 
         accountService.verifyExistsId(userId);
 
-        AccountInfoDto accountInfoDto = accountMapper.toInfoDto(accountService.findById(userId));
         Page<Recipe> recipePage = bookmarkService.findAllBookmarkedRecipeByUserId(pageNo, PAGE_SIZE, userId, orderBy, sort);
         List<RecipeInfoDto> responseDtoList = recipeMapper.toInfoDto(recipePage.getContent());
 
-        UserPageDto<?> response = UserPageDto.builder()
-                .user(accountInfoDto)
-                .page(recipePage)
+        ResponseDto.Multi<?> response = ResponseDto.Multi.builder()
                 .data(responseDtoList)
+                .page(recipePage)
                 .build();
 
         return new ResponseEntity<>(response, HttpStatus.OK);
@@ -154,14 +156,12 @@ public class AccountController {
 
         accountService.verifyExistsId(userId);
 
-        AccountInfoDto accountInfoDto = accountMapper.toInfoDto(accountService.findById(userId));
         Page<Recipe> recipePage = recipeService.findAllByOwnerId(pageNo, PAGE_SIZE, userId, orderBy, sort);
         List<RecipeInfoDto> responseDtoList = recipeMapper.toInfoDto(recipePage.getContent());
 
-        UserPageDto<?> response = UserPageDto.builder()
-                .user(accountInfoDto)
-                .page(recipePage)
+        ResponseDto.Multi<?> response = ResponseDto.Multi.builder()
                 .data(responseDtoList)
+                .page(recipePage)
                 .build();
 
         return new ResponseEntity<>(response, HttpStatus.OK);
@@ -177,14 +177,12 @@ public class AccountController {
 
         accountService.verifyExistsId(userId);
 
-        AccountInfoDto accountInfoDto = accountMapper.toInfoDto(accountService.findById(userId));
         Page<Review> reviewPage = reviewService.findAllByAccountId(pageNo, PAGE_SIZE, userId, orderBy, sort);
         List<ReviewResponseDto> responseDtoList = reviewMapper.toResponseDto(reviewPage.getContent());
 
-        UserPageDto<?> response = UserPageDto.builder()
-                .user(accountInfoDto)
-                .page(reviewPage)
+        ResponseDto.Multi<?> response = ResponseDto.Multi.builder()
                 .data(responseDtoList)
+                .page(reviewPage)
                 .build();
 
         return new ResponseEntity<>(response, HttpStatus.OK);

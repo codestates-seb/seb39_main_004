@@ -12,4 +12,7 @@ public interface SubscribeService {
     List<Account> findAllFollowUserByAccount(Long userId);
     List<Account> findAllFollowingUserByAccount(Long userId);
 
+    int countFollowUserByAccount(Long userId);
+    int countFollowingUserByAccount(Long userId);
+
 }
