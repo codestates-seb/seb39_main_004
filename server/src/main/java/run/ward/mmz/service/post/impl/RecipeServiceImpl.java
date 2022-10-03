@@ -184,7 +184,7 @@ public class RecipeServiceImpl implements RecipeService {
 
         return recipeRepository.findAllByOwnerId(
                 accountId,
-                PageRequest.of(page - 1, size, Sort.by(orderBy).descending())
+                PageRequest.of(page - 1, size, bySort)
         );
     }
 }
