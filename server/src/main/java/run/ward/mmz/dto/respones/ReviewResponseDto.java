@@ -13,6 +13,7 @@ public class ReviewResponseDto {
     private Long id;
     private String body;
     private int stars;
+    private Long recipeId;
     private String createDate;
     private String modifyDate;
 }

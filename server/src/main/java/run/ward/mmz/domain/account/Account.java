@@ -134,6 +134,14 @@ public class Account extends Auditable {
         this.provider = provider;
     }
 
+    @JsonIgnore
+    public Account updateImgProfile(Files imgProfile){
+        this.imgProfile = imgProfile;
+        this.imgProfileUrl = imgProfile.getFileName();
+
+        return this;
+    }
+
 
     @JsonIgnore
     public List<Recipe> getRecipeList(){

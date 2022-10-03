@@ -47,6 +47,7 @@ public class ReviewMapperImpl implements ReviewMapper {
                 .id(review.getId())
                 .stars(review.getStars())
                 .body(review.getBody())
+                .recipeId(review.getRecipe().getId())
                 .createDate(review.getCreateDate().toString())
                 .modifyDate(review.getModDate().toString())
                 .build();

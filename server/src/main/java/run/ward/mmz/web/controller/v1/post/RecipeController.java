@@ -25,12 +25,10 @@ import run.ward.mmz.mapper.post.IngredientMapper;
 import run.ward.mmz.mapper.post.RecipeMapper;
 import run.ward.mmz.mapper.post.TagMapper;
 import run.ward.mmz.service.account.AccountService;
-import run.ward.mmz.service.account.AuthService;
 import run.ward.mmz.service.post.BookmarkService;
 import run.ward.mmz.service.post.RecipeService;
 import run.ward.mmz.service.post.RecipeTagService;
 import run.ward.mmz.service.post.TagService;
-import run.ward.mmz.service.post.impl.TestAccountService;
 import run.ward.mmz.handler.auth.LoginUser;
 
 import javax.validation.constraints.Positive;
@@ -93,7 +91,7 @@ public class RecipeController {
 
     @GetMapping("/recipe/{recipeId}")
     public ResponseEntity<?> readRecipePage(
-            @LoginUser Account user,
+            @AuthenticationPrincipal Account user,
             @PathVariable Long recipeId) {
 
         recipeService.verifyExistsId(recipeId); //레시피가 있는 지 예외 처리
@@ -101,7 +99,7 @@ public class RecipeController {
         Recipe recipe = recipeService.findById(recipeId);
         recipeService.addViews(recipeId);
 
-        return getResponseEntity(user, recipeId, recipe);
+        return getRecipeResponse(user, recipeId, recipe);
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
@@ -114,29 +112,10 @@ public class RecipeController {
 
         Recipe recipe = recipeService.findById(recipeId);
 
-        return getResponseEntity(user, recipeId, recipe);
+        return getRecipeResponse(user, recipeId, recipe);
     }
 
-    private ResponseEntity<?> getResponseEntity(
-            @LoginUser Account user,
-            @PathVariable Long recipeId,
-            Recipe recipe) {
-        RecipeResponseDto recipeResponseDto = recipeMapper.toResponseDto(recipe);
 
-        if(user == null){
-            recipeResponseDto.setBookmarked(false);
-        }
-        else{
-            recipeResponseDto.setBookmarked(bookmarkService.isBookmarkedByUser(recipeId, user.getId()));
-        }
-
-        ResponseDto.Single<?> response = ResponseDto.Single.builder()
-                .data(recipeResponseDto)
-                .build();
-
-
-        return new ResponseEntity<>(response, HttpStatus.OK);
-    }
 
     @GetMapping("/recipe/{recipeId}/edit/test")
     public ResponseEntity<?> readRecipeUpdatePageTest(
@@ -192,7 +171,7 @@ public class RecipeController {
 
         Page<Recipe> recipePage = recipeService.findAllBySearch(pageNo, PAGE_SIZE, search, orderBy, sort);
 
-        return getResponseEntity(recipePage);
+        return getRecipeInfoList(recipePage);
     }
 
     @GetMapping("/recipe/all/{pageNo}")
@@ -203,7 +182,7 @@ public class RecipeController {
 
         Page<Recipe> recipePage = recipeService.findAll(pageNo, PAGE_SIZE, orderBy, sort);
 
-        return getResponseEntity(recipePage);
+        return getRecipeInfoList(recipePage);
     }
 
 
@@ -212,7 +191,7 @@ public class RecipeController {
 
         Page<Recipe> recipePage = recipeService.findAll(1, PAGE_SIZE, "id", "dec");
 
-        return getResponseEntity(recipePage);
+        return getRecipeInfoList(recipePage);
     }
 
 
@@ -225,28 +204,39 @@ public class RecipeController {
 
         Page<Recipe> recipePage = recipeService.findAllByCategory(pageNo, PAGE_SIZE, category, orderBy, sort);
 
-        return getResponseEntity(recipePage);
-    }
-
-    @GetMapping("/recipe/user/{userId}/{pageNo}")
-    public ResponseEntity<?> readUserRecipePage(
-            @Positive @PathVariable(required = false, value = "pageNo") int pageNo,
-            @Positive @PathVariable(value = "userId") Long userId,
-            @RequestParam(required = false, defaultValue = "id", value = "orderBy") String orderBy,
-            @RequestParam(required = false, defaultValue = "dec", value = "sort") String sort) {
-
-        Page<Recipe> recipePage = recipeService.findAllByAccountId(pageNo, PAGE_SIZE, userId, orderBy, sort);
-
-        return getResponseEntity(recipePage);
+        return getRecipeInfoList(recipePage);
     }
 
 
 
 
-    private ResponseEntity<?> getResponseEntity(Page<Recipe> recipePage) {
+
+
+    private ResponseEntity<?> getRecipeInfoList(Page<Recipe> recipePage) {
 
         List<RecipeInfoDto> responseDtoList = recipeMapper.toInfoDto(recipePage.getContent());
         ResponseDto.Multi<?> response = new ResponseDto.Multi<>(responseDtoList, recipePage);
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    private ResponseEntity<?> getRecipeResponse(
+            Account user,
+            @PathVariable Long recipeId,
+            Recipe recipe) {
+        RecipeResponseDto recipeResponseDto = recipeMapper.toResponseDto(recipe);
+
+        if(user == null){
+            recipeResponseDto.setBookmarked(false);
+        }
+        else{
+            recipeResponseDto.setBookmarked(bookmarkService.isBookmarkedByUser(recipeId, user.getId()));
+        }
+
+        ResponseDto.Single<?> response = ResponseDto.Single.builder()
+                .data(recipeResponseDto)
+                .build();
+
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
