@@ -1,7 +1,8 @@
 import styled from "styled-components";
 import { useEffect, useState } from "react";
 import { IIngredientSetProps } from "../../types/interface";
-import RemoveBtn from "./buttons/RemoveBtn";
+import { RemoveBtn } from "./indexNewRecipe";
+import { SInput } from "./RecipeFormStyled";
 
 const SIngredientContainer = styled.li`
   display: flex;
@@ -37,7 +38,7 @@ const IngredientsSet = ({
 
   return (
     <SIngredientContainer>
-      <input
+      <SInput
         placeholder="재료를 입력해주세요."
         name="ingredientName"
         required
@@ -47,7 +48,7 @@ const IngredientsSet = ({
         }}
       />
       <RemoveBtn removeHandler={removeHandler} idx={idx} />
-      <input
+      <SInput
         placeholder="양을 입력해주세요"
         name="ingredientAmount"
         required

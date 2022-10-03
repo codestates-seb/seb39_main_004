@@ -45,8 +45,11 @@ const SSection = styled.div`
 `;
 
 const SFieldset = styled.fieldset`
-  border: 1px solid blue;
-  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  & > :first-child {
+    margin-top: 3rem;
+  }
 `;
 
 const SRecipeInfo = styled.div`
@@ -58,7 +61,7 @@ const SRecipeTexts = styled.div`
   display: flex;
   flex-direction: column;
   flex: 1;
-  & :nth-child(3) {
+  & > :nth-child(3) {
     margin-top: 2rem;
   }
 `;
