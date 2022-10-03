@@ -14,13 +14,17 @@ import java.util.List;
 public class UserPageDto<T> {
 
     private AccountInfoDto user;
+    private int followerCount;
+    private int followingCount;
     private List data;
     private PageInfo pageInfo;
 
     @Builder
-    public UserPageDto(AccountInfoDto user, List data, Page page) {
+    public UserPageDto(AccountInfoDto user, List data, Page page, int followerCount, int followingCount) {
         this.user = user;
         this.data = data;
+        this.followerCount = followerCount;
+        this.followingCount = followingCount;
         this.pageInfo = new PageInfo(page.getNumber() + 1,
                 page.getSize(), page.getTotalElements(), page.getTotalPages());
     }

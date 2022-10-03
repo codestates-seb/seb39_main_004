@@ -2,6 +2,8 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { SortButtons } from "../../components/CommonUI";
+import { userSession } from "../../redux/slices/userSlice";
+import { useAppSelector, useAppDispatch } from "../../hooks/dispatchHook";
 import {
   Carousel,
   RecipeCategory,
@@ -29,6 +31,13 @@ const Main = () => {
   const [mainData, setMainData] = useState<any[]>([]);
   const [mainSortBy, setMainSortBy] = useState("id");
   const [category, setCategory] = useState("");
+  const dispatch = useAppDispatch();
+  const { sessionStatus } = useAppSelector((state) => state.user);
+
+  useEffect(() => {
+    if (sessionStatus) dispatch(userSession());
+    console.log("메인 세션 체크: ", sessionStatus);
+  }, [sessionStatus]);
 
   const axiosMainData = async (mainSortBy: string) => {
     // 카테고리 미선택 시 전체 데이터 조회

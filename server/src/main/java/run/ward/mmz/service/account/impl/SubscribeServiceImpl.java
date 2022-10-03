@@ -98,4 +98,39 @@ public class SubscribeServiceImpl implements SubscribeService {
                 .sorted((user1, user2) -> (int) (user1.getId() - user2.getId()))
                 .collect(Collectors.toList());
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public int countFollowUserByAccount(Long userId) {
+
+        int count = 0;
+
+        if(!accountRepository.existsById(userId)) {
+            throw new CustomException(ExceptionCode.USER_NOT_FOUND);
+        }
+
+        for (Subscribe subscribe : subscribeRepository.findAllByToUserId(userId)) {
+            if(subscribe.getToUser().getId().equals(userId))
+                count++;
+        }
+
+        return count;
+
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public int countFollowingUserByAccount(Long userId) {
+
+        int count = 0 ;
+
+        count = accountRepository.findById(userId).orElseThrow(
+                        () -> new CustomException(ExceptionCode.USER_NOT_FOUND))
+                .getFollowerUserList()
+                .size();
+
+        return count;
+    }
+
+
 }

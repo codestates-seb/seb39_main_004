@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import Rating from "./Rating";
+import { Button } from "../CommonUI";
 
 const SContainer = styled.div`
   h2 {
@@ -58,7 +59,7 @@ const RepleUpload = () => {
             onChange={(e) => setReple(e.target.value)}
             placeholder="직접 만들어본 후기를 남겨주세요!"
           />
-          <button type="submit">등록</button>
+          <Button type="submit">등록</Button>
         </form>
       </SReplyContainer>
     </SContainer>
