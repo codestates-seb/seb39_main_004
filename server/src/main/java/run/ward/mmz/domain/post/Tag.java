@@ -20,7 +20,6 @@ public class Tag {
     @Column(nullable = false, unique = true)
     private String name;
 
-
     @JsonIgnore
     @OneToMany(mappedBy = "tag", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<RecipeTag> recipeTags = new ArrayList<>();

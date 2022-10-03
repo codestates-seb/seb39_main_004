@@ -7,8 +7,8 @@ import run.ward.mmz.domain.account.Account;
 import run.ward.mmz.domain.subscribe.Subscribe;
 import run.ward.mmz.handler.exception.CustomException;
 import run.ward.mmz.handler.exception.ExceptionCode;
-import run.ward.mmz.repository.AccountRepository;
-import run.ward.mmz.repository.SubscribeRepository;
+import run.ward.mmz.repository.account.AccountRepository;
+import run.ward.mmz.repository.account.SubscribeRepository;
 import run.ward.mmz.service.account.SubscribeService;
 
 import java.util.ArrayList;

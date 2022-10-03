@@ -10,7 +10,7 @@ import run.ward.mmz.domain.account.Account;
 import run.ward.mmz.dto.auth.PrincipalDetails;
 import run.ward.mmz.handler.exception.CustomException;
 import run.ward.mmz.handler.exception.ExceptionCode;
-import run.ward.mmz.repository.AccountRepository;
+import run.ward.mmz.repository.account.AccountRepository;
 
 @Service
 @RequiredArgsConstructor

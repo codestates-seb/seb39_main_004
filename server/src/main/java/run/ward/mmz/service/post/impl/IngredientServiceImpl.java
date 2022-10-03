@@ -6,7 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import run.ward.mmz.domain.post.Ingredient;
 import run.ward.mmz.handler.exception.CustomException;
 import run.ward.mmz.handler.exception.ExceptionCode;
-import run.ward.mmz.repository.IngredientRepository;
+import run.ward.mmz.repository.post.IngredientRepository;
 import run.ward.mmz.service.post.IngredientService;
 
 import java.util.List;

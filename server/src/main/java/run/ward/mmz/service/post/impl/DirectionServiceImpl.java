@@ -6,7 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import run.ward.mmz.domain.post.Direction;
 import run.ward.mmz.handler.exception.CustomException;
 import run.ward.mmz.handler.exception.ExceptionCode;
-import run.ward.mmz.repository.DirectionRepository;
+import run.ward.mmz.repository.post.DirectionRepository;
 import run.ward.mmz.service.post.DirectionService;
 import run.ward.mmz.service.post.ImageService;
 
