@@ -7,7 +7,7 @@ const SLabel = styled.label`
     transform: scale(110%);
   }
   input:checked + img {
-    filter: drop-shadow(0.1rem 0.5rem 0 var(--pink));
+    filter: drop-shadow(0.1rem 0.4rem 0 var(--pink));
   }
   input {
     margin: 0;

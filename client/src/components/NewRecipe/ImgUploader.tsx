@@ -57,7 +57,6 @@ const ImgUploader = ({
       // console.log("file", file);
     }
   };
-  console.log(imgUrl);
 
   useEffect(() => {
     if (imgUrl) {
