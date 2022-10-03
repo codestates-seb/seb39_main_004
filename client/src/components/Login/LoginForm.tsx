@@ -6,6 +6,7 @@ import { userLogin, userSession } from "../../redux/slices/userSlice";
 import { useAppSelector, useAppDispatch } from "../../hooks/dispatchHook";
 import SNSLogin from "../../components/Login/SNSLogin";
 import loginlogo from "../../assets/icons/loginlogo.svg";
+import { useEffect } from "react";
 
 const SForm = styled.form`
   position: relative;
@@ -35,14 +36,16 @@ type Inputs = {
 const LoginForm = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const { userInfo } = useAppSelector((state) => state.user);
+  const { sessionStatus } = useAppSelector((state) => state.user);
   const {
     register,
     handleSubmit,
     formState: { isSubmitting, errors },
   } = useForm<Inputs>();
 
-  if (userInfo) navigate("/"); // 로그인 성공 시 홈으로 이동
+  useEffect(() => {
+    if (sessionStatus) navigate("/");
+  }, [sessionStatus]);
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     const loginData = {

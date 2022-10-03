@@ -3,10 +3,11 @@ import { useEffect, useState } from "react";
 import { NavLink, Link, useNavigate } from "react-router-dom";
 import { MdOutlineLogin, MdOutlineNoteAlt } from "react-icons/md";
 import { BiSearchAlt2 } from "react-icons/bi";
-import { userLogout, userSession } from "../../redux/slices/userSlice";
+import { userLogout } from "../../redux/slices/userSlice";
 import { useAppSelector, useAppDispatch } from "../../hooks/dispatchHook";
 import { CgProfile } from "react-icons/cg";
 import logo from "../../assets/logos/logo.svg";
+import { persistor } from "../..";
 
 const SLogo = styled.img`
   width: 190px;
@@ -77,6 +78,7 @@ const SLink = styled(Link)`
 const SProfile = styled.div`
   color: var(--gray);
   padding: 1.2rem;
+  cursor: pointer;
   .actived {
     color: var(--red);
   }
@@ -89,13 +91,8 @@ const Header = () => {
   const { sessionStatus } = useAppSelector((state) => state.user);
 
   useEffect(() => {
-    if (sessionStatus) dispatch(userSession); // TODO: 로그인 상태면 유저 정보 가져옴 (나중에 마이페이지에서 필요)
+    if (sessionStatus) navigate("/");
   }, [sessionStatus]);
-
-  const logoutHandler = () => {
-    dispatch(userLogout());
-    navigate("/");
-  };
 
   return (
     <SOutLine>
@@ -111,9 +108,12 @@ const Header = () => {
           <SNavLink to="/rank">RANKING</SNavLink>
         </SSection>
         <SSection>
-          <SNavLink to="/write">
-            <MdOutlineNoteAlt size={47} />
-          </SNavLink>
+          {sessionStatus && (
+            <SNavLink to="/write">
+              <MdOutlineNoteAlt size={47} />
+            </SNavLink>
+          )}
+
           <section>
             {!sessionStatus ? (
               <SNavLink to="/login">
@@ -134,7 +134,13 @@ const Header = () => {
                     <SLink to="/mypage">
                       <div>MyPage</div>
                     </SLink>
-                    <SLink to="/" onClick={logoutHandler}>
+                    <SLink
+                      to="/"
+                      onClick={async () => {
+                        await dispatch(userLogout());
+                        await persistor.purge(); // persistStore 데이터 초기화
+                      }}
+                    >
                       Logout
                     </SLink>
                   </SDropContainer>
@@ -150,4 +156,5 @@ const Header = () => {
     </SOutLine>
   );
 };
+
 export default Header;

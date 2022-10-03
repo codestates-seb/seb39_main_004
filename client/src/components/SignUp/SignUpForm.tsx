@@ -1,3 +1,4 @@
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { Button, StyledInput } from "../../components/CommonUI";
 import { useForm, SubmitHandler } from "react-hook-form";
@@ -44,6 +45,10 @@ const SignUpForm = () => {
     formState: { isSubmitting, errors },
   } = useForm<Inputs>();
 
+  useEffect(() => {
+    if (signUpInfo) navigate("/login");
+  }, [signUpInfo]);
+
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     const signUpData = {
       name: data.nickname,
@@ -52,7 +57,6 @@ const SignUpForm = () => {
     };
 
     dispatch(userSignUp(signUpData));
-    if (signUpInfo) navigate("/login");
   };
 
   return (
