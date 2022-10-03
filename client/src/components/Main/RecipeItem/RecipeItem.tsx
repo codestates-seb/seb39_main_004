@@ -6,6 +6,7 @@ import hot from "../../../assets/icons/hot.svg";
 import bookmark_on from "../../../assets/icons/bookmark-on.svg";
 import bookmark_off from "../../../assets/icons/bookmark-off.svg";
 import { IItemProps } from "../../../types/interface";
+import axios from "axios";
 
 const SRecipeLayout = styled.div`
   position: relative;
@@ -85,7 +86,25 @@ const RecipeItem = ({
   stars,
   tags,
 }: IItemProps) => {
-  const [bookMark, setbookMark] = useState(false);
+  const [bookCheck, setBookCheck] = useState(false);
+
+  const doBookmark = async () => {
+    await axios.post(`/api/v1/recipe/${id}/bookmark`);
+    try {
+      setBookCheck(true);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const undoBookmark = async () => {
+    await axios.post(`/api/v1/recipe/${id}/bookmark/undo`);
+    try {
+      setBookCheck(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <SRecipeLayout>
@@ -111,11 +130,23 @@ const RecipeItem = ({
           </SItemStar>
         </SItemWrapper>
       </SLink>
-      <SBookMark onClick={() => setbookMark(!bookMark)}>
-        {bookMark === true ? (
-          <img src={bookmark_on} alt="bookmark_on" />
+      <SBookMark>
+        {bookCheck ? (
+          <img
+            src={bookmark_on}
+            alt="bookmark_on"
+            onClick={undoBookmark}
+            onKeyUp={undoBookmark}
+            role="presentation"
+          />
         ) : (
-          <img src={bookmark_off} alt="bookmark_off" />
+          <img
+            src={bookmark_off}
+            alt="bookmark_off"
+            onClick={doBookmark}
+            onKeyUp={doBookmark}
+            role="presentation"
+          />
         )}
       </SBookMark>
     </SRecipeLayout>
