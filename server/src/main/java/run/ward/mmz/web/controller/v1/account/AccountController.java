@@ -1,5 +1,8 @@
 package run.ward.mmz.web.controller.v1.account;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -51,6 +54,14 @@ public class AccountController {
     private final SubscribeService subscribeService;
 
 
+
+    @Operation(summary = "유저 정보 수정 페이지", description = "유저의 ")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "OK !!"),
+            @ApiResponse(responseCode = "400", description = "BAD REQUEST !!"),
+            @ApiResponse(responseCode = "404", description = "NOT FOUND !!"),
+            @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR !!")
+    })
     @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/auth/signup/user-info")
     public ResponseEntity<?> updateUserInfoPage(
