@@ -100,6 +100,7 @@ public class SubscribeServiceImpl implements SubscribeService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public int countFollowUserByAccount(Long userId) {
 
         int count = 0;
@@ -118,6 +119,7 @@ public class SubscribeServiceImpl implements SubscribeService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public int countFollowingUserByAccount(Long userId) {
 
         int count = 0 ;

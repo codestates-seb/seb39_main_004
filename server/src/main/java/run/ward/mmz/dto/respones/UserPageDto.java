@@ -23,6 +23,8 @@ public class UserPageDto<T> {
     public UserPageDto(AccountInfoDto user, List data, Page page, int followerCount, int followingCount) {
         this.user = user;
         this.data = data;
+        this.followerCount = followerCount;
+        this.followingCount = followingCount;
         this.pageInfo = new PageInfo(page.getNumber() + 1,
                 page.getSize(), page.getTotalElements(), page.getTotalPages());
     }
