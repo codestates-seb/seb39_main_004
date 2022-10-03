@@ -83,7 +83,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 
     @Override
     @Transactional(readOnly = true)
-    public Page<Recipe> findAllBookmarkedRecipeByAccountId(int page, int size, Long accountId, String orderBy, String sort) {
+    public Page<Recipe> findAllBookmarkedRecipeByUserId(int page, int size, Long accountId, String orderBy, String sort) {
 
         Sort bySort = Sort.by(orderBy).descending();
 
