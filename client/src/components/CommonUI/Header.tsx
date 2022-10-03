@@ -84,11 +84,8 @@ const SProfile = styled.div`
 `;
 
 const Header = () => {
-<<<<<<< HEAD
-=======
   const [isClicked, setIsClicked] = useState(false);
   const navigate = useNavigate();
->>>>>>> ba5774e0b63f64a4611bab3ae2fa64ce3551de84
   const dispatch = useAppDispatch();
   const { sessionStatus } = useAppSelector((state) => state.user);
 
@@ -96,47 +93,6 @@ const Header = () => {
     if (sessionStatus) dispatch(userSession()); // TODO: 로그인 상태면 유저 정보 가져옴 (나중에 마이페이지에서 필요)
     console.log("메인페이지 세션상태: ", sessionStatus);
   }, [sessionStatus]);
-
-<<<<<<< HEAD
-  return (
-    <SHeader>
-      <Link to="/">
-        <SLogo src={`${process.env.PUBLIC_URL}/logo.png`} alt="MMZ logo" />
-      </Link>
-      <section>
-        <SNavLink to="/" end>
-          HOME
-        </SNavLink>
-        <span>|</span>
-        <SNavLink to="/rank">RANKING</SNavLink>
-        <span>|</span>
-        <SNavLink to="/write">RECIPE</SNavLink>
-        <span>|</span>
-        <SNavLink to="/mypage">MYPAGE</SNavLink>
-      </section>
-      <section className="right">
-        {!sessionStatus ? (
-          <SNavLink to="/login">
-            <MdOutlineLogin size={25} />
-          </SNavLink>
-        ) : (
-          <SNavLink
-            to="/"
-            end
-            onClick={async () => {
-              await dispatch(userLogout());
-              await persistor.purge(); // persistStore 데이터 초기화
-            }}
-          >
-            <MdOutlineLogout size={25} />
-          </SNavLink>
-        )}
-=======
-  const logoutHandler = () => {
-    dispatch(userLogout());
-    navigate("/");
-  };
->>>>>>> ba5774e0b63f64a4611bab3ae2fa64ce3551de84
 
   return (
     <SOutLine>
@@ -175,7 +131,13 @@ const Header = () => {
                     <SLink to="/mypage">
                       <div>MyPage</div>
                     </SLink>
-                    <SLink to="/" onClick={logoutHandler}>
+                    <SLink
+                      to="/"
+                      onClick={async () => {
+                        await dispatch(userLogout());
+                        await persistor.purge(); // persistStore 데이터 초기화
+                      }}
+                    >
                       Logout
                     </SLink>
                   </SDropContainer>
@@ -191,4 +153,5 @@ const Header = () => {
     </SOutLine>
   );
 };
+
 export default Header;
