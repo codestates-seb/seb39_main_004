@@ -1,16 +1,19 @@
+import { useState } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { Tag } from "../../CommonUI";
-import { AiFillStar } from "react-icons/ai";
+import hot from "../../../assets/icons/hot.svg";
+import bookmark_on from "../../../assets/icons/bookmark-on.svg";
+import bookmark_off from "../../../assets/icons/bookmark-off.svg";
 import { IItemProps } from "../../../types/interface";
 
 const SRecipeLayout = styled.div`
+  position: relative;
   display: flex;
   flex-direction: column;
   width: 400px;
   border: 1px solid var(--pale-gray);
   border-radius: 5px;
-  overflow: hidden;
 `;
 
 const SIemContainer = styled.div`
@@ -31,21 +34,21 @@ const SItemImage = styled.img`
 `;
 
 const SItemWrapper = styled.div`
-  display: flex;
-  justify-content: space-between;
   padding: 30px 0;
 `;
 
 const SItemDetail = styled.div`
   margin: 0 1rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
 `;
 
 const SItemTitle = styled.div`
-  font-size: 1.5rem;
+  width: 85%;
+  margin-top: 0.5rem;
   margin-bottom: 1rem;
+  font-size: 1.5rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 `;
 
 const SItemStar = styled.div`
@@ -58,6 +61,23 @@ const SLink = styled(Link)`
   color: black;
 `;
 
+const HotIcon = styled.img`
+  position: absolute;
+  width: 105px;
+  top: -15px;
+  left: -20px;
+  transform: rotate(-15deg);
+`;
+
+const SBookMark = styled.div`
+  width: 33px;
+  position: absolute;
+  right: 20px;
+  bottom: 55px;
+  z-index: 1;
+  cursor: pointer;
+`;
+
 const RecipeItem = ({
   id,
   title,
@@ -65,6 +85,8 @@ const RecipeItem = ({
   stars,
   tags,
 }: IItemProps) => {
+  const [bookMark, setbookMark] = useState(false);
+
   return (
     <SRecipeLayout>
       <SLink to={`/post/${id}`}>
@@ -85,12 +107,17 @@ const RecipeItem = ({
           </SItemDetail>
           <SItemStar>
             {/* 평점 4 이상 레시피 별표시 */}
-            {Number(stars) >= 4 ? (
-              <AiFillStar size="40px" color="#ff5936" />
-            ) : null}
+            {Number(stars) >= 4 ? <HotIcon src={hot} /> : null}
           </SItemStar>
         </SItemWrapper>
       </SLink>
+      <SBookMark onClick={() => setbookMark(!bookMark)}>
+        {bookMark === true ? (
+          <img src={bookmark_on} alt="bookmark_on" />
+        ) : (
+          <img src={bookmark_off} alt="bookmark_off" />
+        )}
+      </SBookMark>
     </SRecipeLayout>
   );
 };
