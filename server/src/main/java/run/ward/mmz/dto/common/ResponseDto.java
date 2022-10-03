@@ -29,7 +29,7 @@ public class ResponseDto {
         private PageInfo pageInfo;
 
         @Builder
-        public Multi(List<T> data, Page page) {
+        public Multi(List data, Page page) {
             this.data = data;
             this.pageInfo = new PageInfo(page.getNumber() + 1,
                     page.getSize(), page.getTotalElements(), page.getTotalPages());
