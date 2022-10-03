@@ -65,13 +65,13 @@ const CategoryList = styled.div`
 `;
 const CategoryBox = styled.div``;
 
-// const categories = [
-//   { id: 1, img: rice, alt: "밥", text: "밥", link: "/" },
-//   { id: 2, img: noodle, alt: "면", text: "면", link: "/" },
-//   { id: 3, img: dessert, alt: "디저트", text: "디저트", link: "/" },
-//   { id: 4, img: drink, alt: "음료", text: "음료", link: "/" },
-//   { id: 5, img: etc, alt: "기타", text: "기타", link: "/" },
-// ];
+const categories = [
+  { id: 1, img: rice, alt: "밥", text: "밥", link: "/" },
+  { id: 2, img: noodle, alt: "면", text: "면", link: "/" },
+  { id: 3, img: dessert, alt: "디저트", text: "디저트", link: "/" },
+  { id: 4, img: drink, alt: "음료", text: "음료", link: "/" },
+  { id: 5, img: etc, alt: "기타", text: "기타", link: "/" },
+];
 
 const RecipeCategory = ({ setCategory }: ICategoryProps) => {
   const onCategoryClick = (categoryValue: string) => {
@@ -150,7 +150,7 @@ const RecipeCategory = ({ setCategory }: ICategoryProps) => {
           )}
         </CategoryItem>
       </CategoryList>
-      {/* <SCategoryList>
+      <SCategoryList>
         {categories.map((i, idx) => (
           <CategoryIcon
             key={idx}
@@ -161,7 +161,7 @@ const RecipeCategory = ({ setCategory }: ICategoryProps) => {
             clickEvent={onCategoryClick}
           />
         ))}
-      </SCategoryList> */}
+      </SCategoryList>
     </SCategoryLayout>
   );
 };
