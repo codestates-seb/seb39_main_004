@@ -9,6 +9,7 @@ import java.io.Serializable;
 @Data
 public class SessionUser implements Serializable {
 
+    private Long id;
     private String name;
     private String imgProfileUrl;
     private String email;
@@ -18,6 +19,7 @@ public class SessionUser implements Serializable {
 
     @Builder
     public SessionUser(Account user){
+        this.id = user.getId();
         this.name = user.getName();
         this.email = user.getEmail();
         this.bio = user.getBio();
