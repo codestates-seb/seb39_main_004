@@ -64,7 +64,7 @@ const ImgUploader = ({
       const imgThumbNailUrl = `${process.env.PUBLIC_URL}/${imgUrl}`;
       setFileURL(imgThumbNailUrl);
     }
-  }, [fileURL]);
+  }, []);
 
   return (
     <SImgInputContainer>
