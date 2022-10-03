@@ -10,6 +10,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -66,6 +67,7 @@ public class SecurityConfig {
                 .and()
                 .logout()
                 .logoutUrl("/api/v1/auth/logout")
+                .logoutRequestMatcher(new AntPathRequestMatcher("/api/v1/auth/logout"))
                 .logoutSuccessHandler(logoutSuccessHandler)
                 .deleteCookies("JSESSIONID")
         ;
@@ -73,6 +75,7 @@ public class SecurityConfig {
         http
                 .oauth2Login()
                 .successHandler(loginSuccessHandler)
+                .defaultSuccessUrl("/")
                 .failureHandler(loginFailureHandler)
                 .userInfoEndpoint()
                 .userService(oAuth2UserService);

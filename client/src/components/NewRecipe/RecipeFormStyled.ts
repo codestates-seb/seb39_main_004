@@ -12,6 +12,7 @@ const SLable = styled.label`
 `;
 
 const SInput = styled.input`
+  width: 100%;
   font-size: 1.4rem;
   padding: 1.2rem 2.3rem;
   border: 2.5px solid var(--gray);
@@ -22,6 +23,7 @@ const SInput = styled.input`
 `;
 
 const STextarea = styled.textarea`
+  width: 100%;
   font-size: 1.4rem;
   padding: 1.2rem 2.3rem;
   border: 2.5px solid var(--gray);
