@@ -5,7 +5,25 @@ import { TagWithBtn } from "./indexNewRecipe";
 import styled from "styled-components";
 
 const STagsContainer = styled.ul`
+  background-color: white;
+  padding: 1.2rem 2.3rem;
+  border: 2.5px solid var(--gray);
+  border-style: solid none;
   display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  align-content: space-around;
+  gap: 1.3rem;
+`;
+
+const SNoLineInput = styled.input`
+  width: 300px;
+  font-size: 1.5rem;
+  margin-left: 2rem;
+  border: none;
+  &:focus {
+    outline: none;
+  }
 `;
 
 const TagsMaker = ({ setTagsDatas, resTags }: ITagsMakerProps) => {
@@ -28,9 +46,9 @@ const TagsMaker = ({ setTagsDatas, resTags }: ITagsMakerProps) => {
     }
   };
 
-  const tagRemover = (idx: number) => {
+  const tagRemover = (id: number) => {
     const newTags = tags.slice();
-    newTags.splice(idx, 1);
+    newTags.splice(id, 1);
     setTags(newTags);
   };
 
@@ -50,12 +68,12 @@ const TagsMaker = ({ setTagsDatas, resTags }: ITagsMakerProps) => {
             <TagWithBtn
               key={idx}
               tag={tag}
-              idx={idx}
+              id={idx}
               tagRemover={tagRemover}
             ></TagWithBtn>
           );
         })}
-      <input
+      <SNoLineInput
         type="text"
         onKeyUp={inputValueChange}
         placeholder="태그를 추가해주세요."

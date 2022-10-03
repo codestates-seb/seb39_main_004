@@ -34,11 +34,14 @@ const SFormContainer = styled.main`
 `;
 
 const SSection = styled.div`
+  width: 100%;
   background-color: var(--greenish-grey);
   border: 3px solid ${(props) => props.color ?? "var(--pink)"};
   border-style: solid none;
   padding: 4rem;
   margin-bottom: 3rem;
+  display: flex;
+  flex-direction: column;
 `;
 
 const SFieldset = styled.fieldset`
@@ -48,11 +51,16 @@ const SFieldset = styled.fieldset`
 
 const SRecipeInfo = styled.div`
   display: flex;
+  gap: 2.5rem;
 `;
 
 const SRecipeTexts = styled.div`
   display: flex;
   flex-direction: column;
+  flex: 1;
+  & :nth-child(3) {
+    margin-top: 2rem;
+  }
 `;
 
 const SSectionBtn = styled.section`
@@ -217,8 +225,8 @@ const AddPost = () => {
           <SLable htmlFor="ingredients">
             요리 재료
             <RequireMark />
+            <Guide text="필수 재료는 체크표시를 해주세요." />
           </SLable>
-          <Guide text="필수 재료는 체크표시를 해주세요." />
           <AddingIngredients
             setIngredientsDatas={setIngredientsDatas}
             ingredientsDatas={ingredientsDatas}
@@ -229,16 +237,16 @@ const AddPost = () => {
             요리 순서
             <RequireMark />
             <Guide text="중요한 부분은 빠짐없이 적어주세요." />
-            <StepsMaker
-              resDirecttions={
-                editResponse && editMode ? editResponse.directions : undefined
-              }
-              directDatas={directDatas}
-              setDirectDatas={setDirectDatas}
-              stepImgFiles={stepImgFiles}
-              setStepImgFiles={setStepImgFiles}
-            />
           </SLable>
+          <StepsMaker
+            resDirecttions={
+              editResponse && editMode ? editResponse.directions : undefined
+            }
+            directDatas={directDatas}
+            setDirectDatas={setDirectDatas}
+            stepImgFiles={stepImgFiles}
+            setStepImgFiles={setStepImgFiles}
+          />
         </SSection>
         <SSection color={"var(--sky-blue)"}>
           <SLable>태그</SLable>

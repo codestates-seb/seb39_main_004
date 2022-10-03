@@ -14,17 +14,21 @@ const SLable = styled.label`
 const SInput = styled.input`
   font-size: 1.4rem;
   padding: 1.2rem 2.3rem;
-  margin-bottom: 2rem;
   border: 2.5px solid var(--gray);
   border-style: solid none;
+  &:focus {
+    outline: none;
+  }
 `;
 
 const STextarea = styled.textarea`
   font-size: 1.4rem;
   padding: 1.2rem 2.3rem;
-  margin-bottom: 2rem;
   border: 2.5px solid var(--gray);
   border-style: solid none;
+  &:focus {
+    outline: none;
+  }
 `;
 
 export { SLable, SLogoRecipe, SInput, STextarea };
