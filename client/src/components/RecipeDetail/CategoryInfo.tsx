@@ -51,9 +51,7 @@ const PostInfo = ({ stars, views, createDate }: IPostCategoryProps) => {
   const [bookCheck, setBookCheck] = useState(false);
 
   const doBookmark = async () => {
-    console.log(bookCheck);
-    console.log(id);
-    axios.post(`https://www.mmz.today:8080/api/v1/recipe/${id}/bookmark`);
+    axios.post(`/api/v1/recipe/${id}/bookmark`);
     try {
       setBookCheck(true);
     } catch (error) {
@@ -61,9 +59,7 @@ const PostInfo = ({ stars, views, createDate }: IPostCategoryProps) => {
     }
   };
   const undoBookmark = async () => {
-    console.log("ㅇ어", bookCheck);
-    console.log(id);
-    axios.post(`https://www.mmz.today:8080/api/v1/recipe/${id}/bookmark/undo`);
+    axios.post(`/api/v1/recipe/${id}/bookmark/undo`);
     try {
       setBookCheck(false);
     } catch (error) {
