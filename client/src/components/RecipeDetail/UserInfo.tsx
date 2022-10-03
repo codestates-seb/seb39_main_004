@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import axios from "axios";
 import { useNavigate, useParams, Link } from "react-router-dom";
 import styled from "styled-components";
 import { IPostUserProps } from "../../types/interface";
+import { userSession } from "../../redux/slices/userSlice";
+import { useAppSelector, useAppDispatch } from "../../hooks/dispatchHook";
+import Swal from "sweetalert2";
 
 const SContainer = styled.div`
   position: relative;
@@ -50,18 +53,53 @@ const SButtonContaienr = styled.div`
 const PostUserInfo = ({ name, imgProfileUrl }: IPostUserProps) => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const { sessionStatus, userInfo } = useAppSelector((state) => state.user);
+
+  useEffect(() => {
+    if (sessionStatus) dispatch(userSession());
+    console.log("레시피 세션 체크: ", sessionStatus);
+  }, [sessionStatus]);
 
   const DeleteHandler = async () => {
     if (window.confirm("정말로 삭제하시겠습니까?")) {
       try {
-        const res = await axios.delete(`/api/v1/recipe/${id}`);
-        if (res.data.success) {
-          console.log(res.data);
-          alert("레시피가 삭제되었습니다.");
+        await axios.delete(`/api/v1/recipe/${id}/delete`).then(() => {
+          const Toast = Swal.mixin({
+            toast: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+              toast.addEventListener("mouseenter", Swal.stopTimer);
+              toast.addEventListener("mouseleave", Swal.resumeTimer);
+            },
+          });
+
+          Toast.fire({
+            icon: "success",
+            title: "삭제되었습니다.",
+          });
           navigate("/");
-        }
+        });
       } catch (error) {
-        alert("레시피 삭제에 실패했습니다.");
+        const Toast = Swal.mixin({
+          toast: true,
+          position: "top-end",
+          showConfirmButton: false,
+          timer: 3000,
+          timerProgressBar: true,
+          didOpen: (toast) => {
+            toast.addEventListener("mouseenter", Swal.stopTimer);
+            toast.addEventListener("mouseleave", Swal.resumeTimer);
+          },
+        });
+
+        Toast.fire({
+          icon: "error",
+          title: "레시피 삭제에 실패했습니다.",
+        });
       }
     }
   };
@@ -75,12 +113,16 @@ const PostUserInfo = ({ name, imgProfileUrl }: IPostUserProps) => {
           />
           <SUserId>{name}</SUserId>
           <SButtonContaienr>
-            <span>
-              <Link to={`/api/v1/recipe/${id}/edit`}>Edit</Link>
-            </span>
-            <span role="presentation" onClick={DeleteHandler}>
-              Delete
-            </span>
+            {name === userInfo.name ? (
+              <>
+                <span>
+                  <Link to={`/api/v1/recipe/${id}/edit`}>Edit</Link>
+                </span>
+                <span role="presentation" onClick={DeleteHandler}>
+                  Delete
+                </span>
+              </>
+            ) : null}
           </SButtonContaienr>
         </SUserInfo>
       </SContainer>

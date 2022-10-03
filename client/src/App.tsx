@@ -9,6 +9,7 @@ import MyPage from "./pages/Mypage/MyPage";
 import Layout from "./components/Layout";
 import Search from "./pages/Search/Search";
 import PostDetail from "./pages/Recipe/PostDetail";
+import Redirect from "./components/CommonUI/Redirect";
 
 const App = () => {
   return (
@@ -25,8 +26,13 @@ const App = () => {
           <Route path="/mypage" element={<MyPage />}></Route>
           <Route path="/search" element={<Search />}></Route>
           <Route path="/rank" element={<Main />}></Route>
+          <Route path="/redirect" element={<Redirect />} />
+          <Route path="/api/v1/auth/login-success" element={<Main />} />
           {/** 랭킹페이지 완성 후 컴포넌트 변경해주세요 */}
-          <Route path="/post/:id" element={<PostDetail />}></Route>
+          <Route
+            path="/www.mmz.today/post/:id"
+            element={<PostDetail />}
+          ></Route>
         </Route>
       </Routes>
     </BrowserRouter>

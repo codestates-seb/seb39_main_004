@@ -4,6 +4,7 @@ import { RootState } from "../store/store";
 import axios from "axios";
 import qs from "qs";
 import Swal from "sweetalert2";
+import { PURGE } from "redux-persist";
 
 interface UserInfos {
   name: string;
@@ -114,25 +115,22 @@ export const userLogin = createAsyncThunk(
 
       return response;
     } catch (error: any) {
-      if (error.response.data.status === 500) {
-        console.log("로그인 액션 생성자: ", error);
-        const Toast = Swal.mixin({
-          toast: true,
-          position: "top-end",
-          showConfirmButton: false,
-          timer: 3000,
-          timerProgressBar: true,
-          didOpen: (toast) => {
-            toast.addEventListener("mouseenter", Swal.stopTimer);
-            toast.addEventListener("mouseleave", Swal.resumeTimer);
-          },
-        });
+      const Toast = Swal.mixin({
+        toast: true,
+        position: "top-end",
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.addEventListener("mouseenter", Swal.stopTimer);
+          toast.addEventListener("mouseleave", Swal.resumeTimer);
+        },
+      });
 
-        Toast.fire({
-          icon: "error",
-          title: "이메일 또는 비밀번호를 확인해주세요.",
-        });
-      }
+      Toast.fire({
+        icon: "error",
+        title: "로그인에 실패했습니다.",
+      });
     }
   }
 );
@@ -217,7 +215,7 @@ const userSlice = createSlice({
       })
       .addCase(userLogin.fulfilled, (state, { payload }) => {
         state.loading = false;
-        state.userInfo = payload;
+        //state.userInfo = payload;
         console.log("login payload: ", payload);
         //state.success = true;
       })
@@ -244,6 +242,9 @@ const userSlice = createSlice({
         if (payload) state.sessionStatus = true;
         else state.sessionStatus = false;
         state.userInfo = payload.data; // 현재 로그인 된 사용자의 정보 할당
+      })
+      .addCase(PURGE, () => {
+        initialUserState;
       });
   },
 });

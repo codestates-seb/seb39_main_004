@@ -5,6 +5,7 @@ const SLi = styled.li``;
 
 const SLink = styled(Link)`
   font-size: 0.9rem;
+  transition: 0.2s all;
   &:hover {
     color: gray;
   }

@@ -1,10 +1,11 @@
 import styled from "styled-components";
 import { useEffect } from "react";
-import { NavLink, Link, useNavigate } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 import { MdOutlineLogout, MdOutlineLogin } from "react-icons/md";
 import { BiSearchAlt2 } from "react-icons/bi";
 import { userLogout, userSession } from "../../redux/slices/userSlice";
 import { useAppSelector, useAppDispatch } from "../../hooks/dispatchHook";
+import { persistor } from "../..";
 
 const SLogo = styled.img`
   width: 100px;
@@ -33,12 +34,12 @@ const SNavLink = styled(NavLink)`
 `;
 
 const Header = () => {
-  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { sessionStatus } = useAppSelector((state) => state.user);
 
   useEffect(() => {
-    if (sessionStatus) dispatch(userSession); // TODO: 로그인 상태면 유저 정보 가져옴 (나중에 마이페이지에서 필요)
+    if (sessionStatus) dispatch(userSession()); // TODO: 로그인 상태면 유저 정보 가져옴 (나중에 마이페이지에서 필요)
+    console.log("메인페이지 세션상태: ", sessionStatus);
   }, [sessionStatus]);
 
   return (
@@ -66,9 +67,9 @@ const Header = () => {
           <SNavLink
             to="/"
             end
-            onClick={() => {
-              dispatch(userLogout());
-              navigate("/");
+            onClick={async () => {
+              await dispatch(userLogout());
+              await persistor.purge(); // persistStore 데이터 초기화
             }}
           >
             <MdOutlineLogout size={25} />

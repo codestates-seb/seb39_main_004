@@ -35,14 +35,14 @@ type Inputs = {
 const LoginForm = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const { userInfo } = useAppSelector((state) => state.user);
+  const { sessionStatus } = useAppSelector((state) => state.user);
   const {
     register,
     handleSubmit,
     formState: { isSubmitting, errors },
   } = useForm<Inputs>();
 
-  if (userInfo) navigate("/"); // 로그인 성공 시 홈으로 이동
+  if (sessionStatus) navigate("/"); // TODO: 로그인 성공 시 홈으로 이동
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     const loginData = {
