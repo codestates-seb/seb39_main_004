@@ -118,7 +118,7 @@ const PostUserInfo = ({ name, imgProfileUrl }: IPostUserProps) => {
             {userInfo.name && name === userInfo.name ? (
               <>
                 <span>
-                  <Link to={`/api/v1/recipe/${id}/edit`}>Edit</Link>
+                  <Link to={`/edit/${id}`}>Edit</Link>
                 </span>
                 <span role="presentation" onClick={DeleteHandler}>
                   Delete

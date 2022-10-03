@@ -1,10 +1,12 @@
-import React from "react";
+import { useState } from "react";
+import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import share from "../../assets/icons/share.svg";
-import bookmark from "../../assets/icons/bookmark.svg";
+import { BsBookmarkCheckFill, BsBookmarkPlus } from "react-icons/bs";
 import view from "../../assets/icons/view.svg";
 import star from "../../assets/icons/star.svg";
 import { IPostCategoryProps } from "../../types/interface";
+import axios from "axios";
 
 const SCtagoryContainer = styled.div`
   padding: 20px;
@@ -45,6 +47,26 @@ const SHeader = styled.div`
 `;
 
 const PostInfo = ({ stars, views, createDate }: IPostCategoryProps) => {
+  const { id } = useParams();
+  const [bookCheck, setBookCheck] = useState(false);
+
+  const doBookmark = async () => {
+    axios.post(`/api/v1/recipe/${id}/bookmark`);
+    try {
+      setBookCheck(true);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const undoBookmark = async () => {
+    axios.post(`/api/v1/recipe/${id}/bookmark/undo`);
+    try {
+      setBookCheck(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <>
       <SCtagoryContainer>
@@ -52,7 +74,11 @@ const PostInfo = ({ stars, views, createDate }: IPostCategoryProps) => {
           <h1>카테고리</h1>
           <div>
             <img src={share} alt="share" />
-            <img src={bookmark} alt="bookmark" />
+            {bookCheck ? (
+              <BsBookmarkCheckFill onClick={undoBookmark} size={30} />
+            ) : (
+              <BsBookmarkPlus onClick={doBookmark} size={30} />
+            )}
           </div>
         </SHeader>
         <p>
