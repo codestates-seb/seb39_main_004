@@ -14,15 +14,14 @@ const reducers = combineReducers({
 const persistConfig = {
   key: "root", // localStorage에 userReducer 저장
   storage,
+  whitelist: ["user"], // 생략 시 모든 리듀서 저장
 };
 
 const persistedReducer = persistReducer(persistConfig, reducers);
 
 export const store = configureStore({
-  reducer: {
-    persistedReducer,
-    user: userReducer,
-  },
+  reducer: persistedReducer,
+
   // A non-serializable value 에러 방지
   middleware: getDefaultMiddleware({
     serializableCheck: false,
