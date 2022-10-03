@@ -29,10 +29,7 @@ const App = () => {
           <Route path="/redirect" element={<Redirect />} />
           <Route path="/api/v1/auth/login-success" element={<Main />} />
           {/** 랭킹페이지 완성 후 컴포넌트 변경해주세요 */}
-          <Route
-            path="/www.mmz.today/post/:id"
-            element={<PostDetail />}
-          ></Route>
+          <Route path="/post/:id" element={<PostDetail />}></Route>
         </Route>
       </Routes>
     </BrowserRouter>
