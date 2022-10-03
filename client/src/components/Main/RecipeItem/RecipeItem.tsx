@@ -8,27 +8,32 @@ const SRecipeLayout = styled.div`
   display: flex;
   flex-direction: column;
   width: 400px;
-  height: 338px;
   border: 1px solid var(--pale-gray);
   border-radius: 5px;
+  overflow: hidden;
+`;
 
-  &:hover {
-    padding: 10px;
-    transition: 0.4s;
-  }
+const SIemContainer = styled.div`
+  width: 100%;
+  height: 228px;
+  overflow: hidden;
 `;
 
 const SItemImage = styled.img`
   width: 100%;
-  height: 228px;
-  margin-bottom: 1rem;
+  height: 100%;
   object-fit: cover;
   object-position: center;
+  &:hover {
+    transform: scale(1.1);
+    transition: transform 0.5s;
+  }
 `;
 
 const SItemWrapper = styled.div`
   display: flex;
   justify-content: space-between;
+  padding: 30px 0;
 `;
 
 const SItemDetail = styled.div`
@@ -63,10 +68,12 @@ const RecipeItem = ({
   return (
     <SRecipeLayout>
       <SLink to={`/post/${id}`}>
-        <SItemImage
-          src={`${process.env.PUBLIC_URL}/assets/${imgThumbNailUrl}`}
-          alt={title}
-        />
+        <SIemContainer>
+          <SItemImage
+            src={`${process.env.PUBLIC_URL}/assets/${imgThumbNailUrl}`}
+            alt={title}
+          />
+        </SIemContainer>
         <SItemWrapper>
           <SItemDetail>
             <SItemTitle>{title}</SItemTitle>
