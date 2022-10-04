@@ -10,7 +10,6 @@ import drink from "../../../assets/icons/drink.svg";
 import drink_active from "../../../assets/icons/drink_active.svg";
 import etc from "../../../assets/icons/etc.svg";
 import etc_active from "../../../assets/icons/etc-active.svg";
-import CategoryIcon from "./CategoryIcon";
 import { ICategoryProps } from "../../../types/interface";
 
 const SCategoryLayout = styled.div`
@@ -26,14 +25,6 @@ const SH1 = styled.h1`
   font-size: 1.8rem;
   font-weight: bold;
   color: var(--deep-green);
-`;
-
-const SCategoryList = styled.ul`
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  flex-direction: row;
-  flex-flow: row wrap;
 `;
 
 const CategoryItem = styled.div`
@@ -65,14 +56,6 @@ const CategoryList = styled.div`
 `;
 const CategoryBox = styled.div``;
 
-const categories = [
-  { id: 1, img: rice, alt: "밥", text: "밥", link: "/" },
-  { id: 2, img: noodle, alt: "면", text: "면", link: "/" },
-  { id: 3, img: dessert, alt: "디저트", text: "디저트", link: "/" },
-  { id: 4, img: drink, alt: "음료", text: "음료", link: "/" },
-  { id: 5, img: etc, alt: "기타", text: "기타", link: "/" },
-];
-
 const RecipeCategory = ({ setCategory }: ICategoryProps) => {
   const onCategoryClick = (categoryValue: string) => {
     setCategory(categoryValue);
@@ -84,7 +67,12 @@ const RecipeCategory = ({ setCategory }: ICategoryProps) => {
     <SCategoryLayout>
       <SH1>레시피 분류</SH1>
       <CategoryList>
-        <CategoryItem onClick={() => setActive(1)}>
+        <CategoryItem
+          onClick={() => {
+            setActive(1);
+            onCategoryClick("밥");
+          }}
+        >
           {active === 1 ? (
             <CategoryBox>
               <img src={rice_active} alt="rice-active" />
@@ -97,7 +85,12 @@ const RecipeCategory = ({ setCategory }: ICategoryProps) => {
             </CategoryBox>
           )}
         </CategoryItem>
-        <CategoryItem onClick={() => setActive(2)}>
+        <CategoryItem
+          onClick={() => {
+            setActive(2);
+            onCategoryClick("면");
+          }}
+        >
           {active === 2 ? (
             <CategoryBox>
               <img src={noodle_active} alt="noodle_active" />
@@ -110,7 +103,12 @@ const RecipeCategory = ({ setCategory }: ICategoryProps) => {
             </CategoryBox>
           )}
         </CategoryItem>
-        <CategoryItem onClick={() => setActive(3)}>
+        <CategoryItem
+          onClick={() => {
+            setActive(3);
+            onCategoryClick("디저트");
+          }}
+        >
           {active === 3 ? (
             <CategoryBox>
               <img src={dessert_active} alt="dessert_active" />
@@ -123,7 +121,12 @@ const RecipeCategory = ({ setCategory }: ICategoryProps) => {
             </CategoryBox>
           )}
         </CategoryItem>
-        <CategoryItem onClick={() => setActive(4)}>
+        <CategoryItem
+          onClick={() => {
+            setActive(4);
+            onCategoryClick("음료");
+          }}
+        >
           {active === 4 ? (
             <CategoryBox>
               <img src={drink_active} alt="drink_active" />
@@ -136,7 +139,12 @@ const RecipeCategory = ({ setCategory }: ICategoryProps) => {
             </CategoryBox>
           )}
         </CategoryItem>
-        <CategoryItem onClick={() => setActive(5)}>
+        <CategoryItem
+          onClick={() => {
+            setActive(5);
+            onCategoryClick("기타");
+          }}
+        >
           {active === 5 ? (
             <CategoryBox>
               <img src={etc_active} alt="etc_active" />
@@ -150,18 +158,6 @@ const RecipeCategory = ({ setCategory }: ICategoryProps) => {
           )}
         </CategoryItem>
       </CategoryList>
-      <SCategoryList>
-        {categories.map((i, idx) => (
-          <CategoryIcon
-            key={idx}
-            img={i.img}
-            alt={i.alt}
-            text={i.text}
-            link={i.link}
-            clickEvent={onCategoryClick}
-          />
-        ))}
-      </SCategoryList>
     </SCategoryLayout>
   );
 };
