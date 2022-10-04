@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { IFollowProps } from "../../../types/interface";
 
 const SContainer = styled.div`
   display: flex;
@@ -20,7 +21,7 @@ const FollowInfo = styled.div`
   }
 `;
 
-const UserImg = styled.div`
+const UserImg = styled.img`
   width: 35px;
   height: 35px;
   border-radius: 50%;
@@ -35,41 +36,33 @@ const SEmptyContainer = styled.div`
   padding-top: 4rem;
 `;
 
-const SDeleteBtn = styled.div`
-  text-align: center;
-  padding: 7px;
-  background-color: var(--pale-gray);
-  margin-top: 15px;
-  color: black;
-  font-size: 0.7rem;
-`;
+// const SDeleteBtn = styled.div`
+//   text-align: center;
+//   padding: 7px;
+//   background-color: var(--pale-gray);
+//   margin-top: 15px;
+//   color: black;
+//   font-size: 0.7rem;
+// `;
 
-const MyPageFollow = () => {
-  const dummyData = [
-    {
-      id: 1,
-      userId: "유저아이디1",
-    },
-    {
-      id: 2,
-      userId: "유저아이디2",
-    },
-  ];
+const MyPageFollow = ({ followData }: IFollowProps) => {
   return (
     <>
-      {dummyData.length > 0 ? (
-        dummyData.map((data) => (
+      {followData.length > 0 ? (
+        followData.map((data) => (
           <SContainer key={data.id}>
             <FollowInfo>
-              <UserImg />
-              <h2> {data.userId}</h2>
+              <UserImg
+                src={`${process.env.PUBLIC_URL}/assets/${data.imgProfileUrl}`}
+              />
+              <h2> {data.name}</h2>
             </FollowInfo>
-            <SDeleteBtn>Delete</SDeleteBtn>
+            {/* <SDeleteBtn>Delete</SDeleteBtn> */}
           </SContainer>
         ))
       ) : (
         <SEmptyContainer>
-          <div>이웃이 없습니다.</div>
+          <div>팔로워가 없습니다.</div>
         </SEmptyContainer>
       )}
     </>
