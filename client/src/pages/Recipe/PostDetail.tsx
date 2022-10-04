@@ -114,7 +114,6 @@ const RecipeDetail = () => {
     getData();
   }, []);
 
-  console.log("서버 데이터 확인용--------", data[0]);
   const getData = async () => {
     const { data } = await axios.get(`/api/v1/recipe/${id}`);
     setData([data.data]);
