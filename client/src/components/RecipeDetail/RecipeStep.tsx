@@ -12,11 +12,14 @@ const SStepContainer = styled.div`
 const StepInfo = styled.div`
   h2 {
     color: var(--red);
-    font-size: 1.2rem;
+    font-size: 1.5rem;
     padding-bottom: 20px;
   }
   span {
     padding-right: 5px;
+  }
+  p {
+    font-size: 1.2rem;
   }
 `;
 
