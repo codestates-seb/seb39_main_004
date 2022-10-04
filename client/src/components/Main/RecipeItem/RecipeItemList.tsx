@@ -27,6 +27,7 @@ const RecipeItemList = ({ mainData, searchData }: IRecipeDataProps) => {
             imgThumbNailUrl={i.imgThumbNailUrl}
             tags={i.tags}
             stars={i.stars}
+            bookmarked={i.bookmarked}
           />
         ))}
       {searchData &&
@@ -38,6 +39,7 @@ const RecipeItemList = ({ mainData, searchData }: IRecipeDataProps) => {
             imgThumbNailUrl={i.imgThumbNailUrl}
             tags={i.tags}
             stars={i.stars}
+            bookmarked={i.bookmarked}
           />
         ))}
     </SItemListLayout>
