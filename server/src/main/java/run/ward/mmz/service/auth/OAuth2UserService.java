@@ -39,7 +39,7 @@ public class OAuth2UserService implements org.springframework.security.oauth2.cl
 
         OAuthAttributes attributes = OAuthAttributes.of(regId, attributeName, oAuth2User.getAttributes());
         Account user = save(attributes);
-        httpSession.setAttribute("user", new SessionUser(user));
+//        httpSession.setAttribute("user", new SessionUser(user));
         return new PrincipalDetails(user, attributes.getAttributes());
     }
 
