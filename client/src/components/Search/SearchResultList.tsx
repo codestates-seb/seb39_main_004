@@ -10,7 +10,14 @@ const SSortArea = styled.div`
 `;
 
 const SResultTitle = styled.div`
-  font-size: 1.5rem;
+  font-size: 1.3rem;
+  color: var(--deep-green);
+  span {
+    color: var(--red);
+  }
+  @media ${({ theme }) => theme.device.mobile} {
+    font-size: 1rem;
+  }
 `;
 
 const SearchResultList = ({
@@ -31,7 +38,7 @@ const SearchResultList = ({
     <div>
       <SSortArea>
         <SResultTitle>
-          검색 결과 {searchData && searchData.length}개
+          검색 결과 <span>{searchData && searchData.length}</span>개
         </SResultTitle>
         <SortButtons
           sortValues={["최신순", "조회순", "평점순"]}

@@ -39,6 +39,13 @@ const SUl = styled.ul`
   display: flex;
   flex-wrap: wrap;
   gap: 1.5rem;
+  @media ${({ theme }) => theme.device.tablet} {
+    padding: 0 1rem;
+  }
+  @media ${({ theme }) => theme.device.mobile} {
+    flex-direction: column;
+    text-align: left;
+  }
 `;
 
 const STeamContainer = styled.li`
