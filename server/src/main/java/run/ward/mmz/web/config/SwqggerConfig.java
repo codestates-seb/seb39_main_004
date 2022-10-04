@@ -12,14 +12,8 @@ import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
-import springfox.documentation.swagger.web.SecurityConfiguration;
-import springfox.documentation.swagger.web.SecurityConfigurationBuilder;
-
 import java.awt.print.Pageable;
-import java.util.List;
-
 import static java.util.Collections.singleton;
-import static java.util.Collections.singletonList;
 
 @EnableWebMvc
 @Configuration

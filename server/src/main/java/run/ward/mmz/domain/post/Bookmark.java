@@ -20,7 +20,7 @@ public class Bookmark extends Auditable {
     @ManyToOne
     @JsonIgnore
     @JoinColumn(name = "ownerId", nullable = false)
-    private Account owner;
+    private Account user;
 
     @ManyToOne
     @JsonIgnore
@@ -28,15 +28,15 @@ public class Bookmark extends Auditable {
     private Recipe recipe;
 
     @Builder
-    public Bookmark(Account owner, Recipe recipe) {
-        this.owner = owner;
+    public Bookmark(Account user, Recipe recipe) {
+        this.user = user;
         this.recipe = recipe;
     }
 
 
     public void setBookmarked(Recipe recipe, Account account) {
         this.setRecipe(recipe);
-        this.setOwner(account);
+        this.setUser(account);
     }
 
     public void removeBookmarked(Recipe recipe, Account account) {
@@ -57,8 +57,8 @@ public class Bookmark extends Auditable {
         recipe.addBookmarks(this);
     }
 
-    public void setOwner(Account owner){
-        this.owner = owner;
+    public void setUser(Account owner){
+        this.user = owner;
         owner.addBookmarks(this);
     }
 

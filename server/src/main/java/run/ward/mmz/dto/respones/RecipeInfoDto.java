@@ -16,6 +16,7 @@ public class RecipeInfoDto {
     private String stars;
     private int views;
     private String createDate;
+    private boolean isBookmarked;
     private List<TagResponseDto> tags;
 
 }

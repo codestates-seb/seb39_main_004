@@ -25,8 +25,6 @@ public class OAuth2UserService implements org.springframework.security.oauth2.cl
     private final AccountMapper accountMapper;
 
 
-
-
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
 
