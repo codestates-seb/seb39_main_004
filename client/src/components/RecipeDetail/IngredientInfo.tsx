@@ -15,6 +15,12 @@ const SIngredientItem = styled.div`
   dd {
     justify-self: end;
   }
+  @media ${({ theme }) => theme.device.mobile} {
+    width: 100%;
+    dl {
+      padding: 15px 0;
+    }
+  }
 `;
 
 const IngredientItem = ({ name, amount, essential }: IPostInGredientProps) => {

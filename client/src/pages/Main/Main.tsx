@@ -19,9 +19,6 @@ const SMainLayout = styled.main`
 
 const SSectionLayout = styled.section`
   margin: 70px 0;
-  @media ${({ theme }) => theme.device.tablet} {
-    margin: 30px 0;
-  }
 `;
 
 const Main = () => {

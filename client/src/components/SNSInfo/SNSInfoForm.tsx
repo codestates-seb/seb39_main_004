@@ -16,13 +16,24 @@ const SForm = styled.form`
   width: 430px;
   padding: 50px 60px;
   background-color: #f2f1ea;
+  @media ${({ theme }) => theme.device.tablet} {
+    width: 320px;
+    padding: 30px 20px;
+  }
 `;
 
 const SSignLogo = styled.div`
   position: absolute;
   top: -45px;
+  @media ${({ theme }) => theme.device.tablet} {
+    width: 180px;
+    top: -32px;
+  }
+  @media ${({ theme }) => theme.device.mobile} {
+    width: 160px;
+    top: -30px;
+  }
 `;
-
 const SErrorMsg = styled.div`
   margin: 10px 0;
 `;

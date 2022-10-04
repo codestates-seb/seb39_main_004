@@ -33,6 +33,11 @@ const SCtagoryContainer = styled.div`
   .share {
     margin-right: 15px;
   }
+  @media ${({ theme }) => theme.device.tablet} {
+    svg {
+      width: 22px;
+    }
+  }
 `;
 
 const SHeader = styled.div`
@@ -48,16 +53,31 @@ const SHeader = styled.div`
   p {
     padding-right: 10px;
   }
+  @media ${({ theme }) => theme.device.tablet} {
+    h1 {
+      font-size: 1.2rem;
+    }
+  }
+`;
+
+const STagContainer = styled.div`
+  margin-bottom: 40px;
+  @media ${({ theme }) => theme.device.mobile} {
+    margin-bottom: 20px;
+  }
 `;
 
 const SIconBox = styled.div`
   display: flex;
   gap: 40px;
   font-size: 1.2rem;
-`;
-
-const STagContainer = styled.div`
-  margin-bottom: 40px;
+  @media ${({ theme }) => theme.device.mobile} {
+    font-size: 0.8rem;
+    img {
+      width: 24px;
+      vertical-align: -7px;
+    }
+  }
 `;
 
 const SBookMark = styled.div`

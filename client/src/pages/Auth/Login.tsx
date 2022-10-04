@@ -8,6 +8,9 @@ const SLoginContainer = styled.div`
   justify-content: center;
   align-items: center;
   padding-top: 200px;
+  @media ${({ theme }) => theme.device.desktop} {
+    padding-top: 100px;
+  }
 `;
 
 const Login = () => {

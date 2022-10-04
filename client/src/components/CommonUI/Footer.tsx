@@ -11,6 +11,10 @@ const SFooter = styled.footer`
   justify-content: center;
   align-items: center;
   gap: 0.4rem;
+  @media ${({ theme }) => theme.device.mobile} {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+  }
 `;
 
 const STitleContainer = styled.a`
@@ -25,6 +29,9 @@ const STitleContainer = styled.a`
   & > img:first-child {
     width: 280px;
     margin-bottom: 0.6rem;
+    @media ${({ theme }) => theme.device.mobile} {
+      width: 160px;
+    }
   }
 `;
 
@@ -57,6 +64,9 @@ const STeamContainer = styled.li`
   & :nth-child(2) {
     font-size: 1rem;
     margin-right: 1rem;
+    @media ${({ theme }) => theme.device.mobile} {
+      font-size: 0.7rem;
+    }
   }
 `;
 
@@ -84,8 +94,7 @@ const Footer = () => {
         </STeamContainer>
         <STeamContainer>
           <div>DESIGN |</div>
-          <div>탁나현</div>
-          <div>하태경</div>
+          <div>탁나현 하태경</div>
         </STeamContainer>
       </SUl>
     </SFooter>
