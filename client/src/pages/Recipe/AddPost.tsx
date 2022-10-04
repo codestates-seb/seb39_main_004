@@ -26,6 +26,7 @@ import styled from "styled-components";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
 import recipeLogo from "../../assets/images/Recipe/recipeLogo.svg";
+import useMessage from "../../hooks/useMessage";
 
 const SFormContainer = styled.main`
   max-width: 1280px;
@@ -83,7 +84,9 @@ const SFormBtn = styled.button`
 `;
 
 const AddPost = () => {
+  const message = useMessage(3000);
   const navigate = useNavigate();
+
   // 수정페이지 관련
   const [editMode, setEditMode] = useState(false);
   const { recipeId } = useParams();
@@ -104,6 +107,7 @@ const AddPost = () => {
   const {
     register,
     handleSubmit,
+    setValue,
     // formState: { errors },
   } = useForm<TypeOfFormData>(
     // editMode && editResponse ? { defaultValues: editResponse } :
@@ -121,11 +125,17 @@ const AddPost = () => {
     /** 이미지 누락 체크 */
     const emptyIndex = stepImgFiles.findIndex((el) => el === undefined);
     if (emptyIndex >= 0) {
-      alert(`요리 순서의 ${emptyIndex + 1} 번째 이미지를 추가해주세요`);
+      message.fire({
+        icon: "error",
+        title: `요리 순서의 ${emptyIndex + 1}번째 이미지를 \n추가해주세요`,
+      });
       return;
     }
     if (!thumbNail || stepImgFiles.length === 0) {
-      alert("등록하려면 사진을 추가해주세요.");
+      message.fire({
+        icon: "error",
+        title: `등록하려면 \n이미지를 추가해주세요.`,
+      });
       return;
     }
 
@@ -157,26 +167,36 @@ const AddPost = () => {
       const newId = response.data.data.id;
       navigate(`/post/${newId}/`);
     } catch (error) {
-      alert("레시피 등록에 실패했습니다.");
-      // console.log(error);
+      message.fire({
+        icon: "error",
+        title:
+          "레시피 등록에 실패했습니다.\n 누락된 정보가 있는지 \n확인해주세요.",
+      });
     }
   };
 
   useEffect(() => {
-    if (recipeId) {
+    if (recipeId && !editResponse) {
       axios
         .get(`/api/v1/recipe/${recipeId}/edit/test`)
         .then((res) => {
-          setEditResponse(res.data.data);
+          const resData = res.data.data;
+          console.log(resData);
+          setEditResponse(resData);
           setEditMode(true);
-          setCheckedCateg(res.data.data.category);
-          console.log(res);
+          setCheckedCateg(resData.category);
+          setValue("title", resData.title);
+          setValue("body", resData.body);
+          setDirectDatas(resData.directions);
+          setThumbNail(resData.imgThumbNailUrl);
+          // setTagsDatas(resData.tags);
         })
         .catch((err) => {
           console.log("수정에러", err);
         });
     }
-  }, []);
+  }, [thumbNail]);
+  // console.log(editResponse);
 
   return (
     <SFormContainer>
