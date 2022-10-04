@@ -19,6 +19,9 @@ const SUserInfo = styled.div`
   left: 0;
   text-align: center;
   height: 130px;
+  @media ${({ theme }) => theme.device.mobile} {
+    bottom: -10px;
+  }
 `;
 
 const ProfileImg = styled.img`
@@ -28,6 +31,10 @@ const ProfileImg = styled.img`
   border: 1px solid var(--pale-gray);
   display: block;
   margin: 0 auto 5px;
+  @media ${({ theme }) => theme.device.mobile} {
+    width: 80px;
+    height: 80px;
+  }
 `;
 
 const SUserId = styled.div`
@@ -35,6 +42,9 @@ const SUserId = styled.div`
   color: #333;
   margin-top: 15px;
   font-size: 1.7rem;
+  @media ${({ theme }) => theme.device.mobile} {
+    font-size: 1.3rem;
+  }
 `;
 
 const SFollowBtn = styled.div`
@@ -47,17 +57,23 @@ const SFollowBtn = styled.div`
   font-size: 0.6rem;
   border-radius: 20px;
   vertical-align: 6px;
+  @media ${({ theme }) => theme.device.mobile} {
+    vertical-align: 3px;
+  }
 `;
 
 const SButtonContaienr = styled.div`
   position: absolute;
   right: 0;
   bottom: 40px;
-  margin-top: 15px;
   font-size: 0.8rem;
   cursor: pointer;
   > :first-child {
     margin-right: 10px;
+  }
+  @media ${({ theme }) => theme.device.mobile} {
+    bottom: 60px;
+    font-size: 0.7rem;
   }
 `;
 

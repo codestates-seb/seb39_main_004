@@ -13,6 +13,9 @@ const SItemListLayout = styled.div`
   @media ${({ theme }) => theme.device.desktop} {
     grid-gap: 25px 20px;
     margin-top: 2rem;
+    @media ${({ theme }) => theme.device.mobile} {
+      margin-top: 1rem;
+    }
   }
 `;
 

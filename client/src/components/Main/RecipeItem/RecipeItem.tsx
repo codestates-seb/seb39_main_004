@@ -22,6 +22,9 @@ const SIemContainer = styled.div`
   width: 100%;
   height: 228px;
   overflow: hidden;
+  @media ${({ theme }) => theme.device.mobile} {
+    height: 200px;
+  }
 `;
 
 const SItemImage = styled.img`
@@ -36,7 +39,10 @@ const SItemImage = styled.img`
 `;
 
 const SItemWrapper = styled.div`
-  padding: 30px 0;
+  padding: 25px 0;
+  @media ${({ theme }) => theme.device.mobile} {
+    padding: 15px 0;
+  }
 `;
 
 const SItemDetail = styled.div`
@@ -45,7 +51,6 @@ const SItemDetail = styled.div`
 
 const SItemTitle = styled.div`
   width: 85%;
-  margin-top: 0.5rem;
   margin-bottom: 1rem;
   font-size: 1.4rem;
   line-height: 1.5rem;
@@ -73,15 +78,24 @@ const HotIcon = styled.img`
   top: -15px;
   left: -20px;
   transform: rotate(-15deg);
+  @media ${({ theme }) => theme.device.mobile} {
+    width: 85px;
+    top: -12px;
+    left: -12px;
+  }
 `;
 
 const SBookMark = styled.div`
   width: 33px;
   position: absolute;
   right: 20px;
-  bottom: 55px;
+  bottom: 48px;
   z-index: 1;
   cursor: pointer;
+  @media ${({ theme }) => theme.device.mobile} {
+    bottom: 42px;
+    width: 28px;
+  }
 `;
 
 const RecipeItem = ({
