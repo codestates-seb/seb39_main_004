@@ -1,10 +1,14 @@
 package run.ward.mmz.dto.respones;
 
-import lombok.Builder;
-import lombok.Data;
+import io.swagger.annotations.ApiParam;
+import lombok.*;
+
+import java.io.Serializable;
 
 @Data
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class AccountInfoDto {
 
     private Long id;

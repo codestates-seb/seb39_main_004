@@ -111,6 +111,7 @@ public class Account extends Auditable {
         return this.provider;
     }
 
+    @JsonIgnore
     public Account updateInfo(AccountInfoDto accountInfoDto) {
         this.name = accountInfoDto.getName();
         this.bio = accountInfoDto.getBio();

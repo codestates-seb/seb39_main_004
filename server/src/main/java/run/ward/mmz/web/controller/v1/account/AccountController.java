@@ -60,7 +60,7 @@ public class AccountController {
 
 
 
-    @Operation(summary = "유저 정보 수정 페이지", description = "유저를 수정하기 위해 현재 유저의 데이터를 조회합니다." , tags = "userInfo")
+    @Operation(summary = "회원 정보 수정 페이지", description = "유저를 수정하기 위해 현재 회원 데이터를 조회합니다." , tags = "회원 정보 관련")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "정상적인 응답입니다."),
             @ApiResponse(responseCode = "401", description = "로그인 상태가 아닙니다."),
@@ -79,7 +79,7 @@ public class AccountController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @Operation(summary = "유저 정보 수정 페이지", description = "현재 로그인 한 유저를 수정하기 위한 데이터를 조회합니다.")
+    @Operation(summary = "회원 정보 수정", description = "현재 로그인 한 유저의 정보를 수정합니다.", tags = "회원 정보 관련")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "정상적인 응답입니다."),
             @ApiResponse(responseCode = "401",  description = "로그인 상태가 아닙니다."),
