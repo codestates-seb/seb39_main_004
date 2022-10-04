@@ -21,7 +21,7 @@ const StepsMaker = ({
   useEffect(() => {
     const newSteps = steps.slice();
     newSteps.forEach((steps, idx) => {
-      steps.index = idx;
+      steps.index = idx + 1;
     });
     setDirectDatas(newSteps);
   }, [steps]);
@@ -48,7 +48,6 @@ const StepsMaker = ({
       </div>
       <PlusBtn
         addHandler={() => {
-          // console.log("lastStep", steps.slice(-1)[0]);
           const lastStep = steps.slice(-1)[0];
           if (lastStep) {
             basicForm.index = lastStep.index + 1;

@@ -114,7 +114,7 @@ const RecipeDetail = () => {
     getData();
   }, []);
 
-  console.log(data);
+  console.log("서버 데이터 확인용--------", data[0]);
   const getData = async () => {
     const { data } = await axios.get(`/api/v1/recipe/${id}`);
     setData([data.data]);
@@ -165,6 +165,7 @@ const RecipeDetail = () => {
             </SHeaderContainer>
             <SRecipeInfoContainer>
               <CategoryInfo
+                bookmarked={data[0].bookmarked}
                 stars={data[0].stars}
                 views={data[0].views}
                 createDate={data[0].createDate}
