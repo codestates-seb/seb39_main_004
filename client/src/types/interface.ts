@@ -155,16 +155,18 @@ interface IPostUserProps {
 }
 
 interface IPostCategoryProps {
+  category: string;
   stars: string;
   views: number;
   createDate: string;
+  tags: ITagProps[];
 }
 
 interface IPostInGredientProps {
   index: number;
   name: string;
   amount: string;
-  isEssential: boolean;
+  essential: boolean;
 }
 
 interface IPostDirectionsProps {

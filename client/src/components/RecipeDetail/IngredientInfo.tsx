@@ -17,17 +17,13 @@ const SIngredientItem = styled.div`
   }
 `;
 
-const IngredientItem = ({
-  name,
-  amount,
-  isEssential,
-}: IPostInGredientProps) => {
+const IngredientItem = ({ name, amount, essential }: IPostInGredientProps) => {
   return (
     <>
       <SIngredientItem>
         <dl>
           <dt>
-            <input type="checkbox" checked={isEssential} />
+            <input type="checkbox" checked={essential} />
             {name}
           </dt>
           <dd>{amount}</dd>
