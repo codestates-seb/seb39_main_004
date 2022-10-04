@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import Rating from "../../../components/RecipeDetail/Rating";
+import SimpleRating from "../../../components/RecipeDetail/SimpleRating";
 import { IReviewProps } from "../../../types/interface";
 
 const SContainer = styled.div`
@@ -35,7 +35,7 @@ const MyPageReview = ({ reviewData }: IReviewProps) => {
             <ReviewInfo>
               <h2> {data.body}</h2>
             </ReviewInfo>
-            <Rating />
+            <SimpleRating stars={data.stars} />
           </SContainer>
         ))
       ) : (

@@ -212,6 +212,7 @@ interface IReviewData {
   body: string;
   createDate: string;
   id: number;
+  stars: number;
 }
 
 interface IReviewProps {
@@ -241,6 +242,11 @@ interface IFollowData {
 
 interface IFollowingProps {
   followingData: IFollowData[];
+}
+
+interface IStarProps {
+  starClicked?: boolean[];
+  setStarClicked?: React.Dispatch<React.SetStateAction<boolean[]>>;
 }
 
 export type {
@@ -274,4 +280,5 @@ export type {
   IBookMarkProps,
   IFollowProps,
   IFollowingProps,
+  IStarProps,
 };
