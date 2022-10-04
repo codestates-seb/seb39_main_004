@@ -92,26 +92,25 @@ const RecipeItem = ({
   const [bookCheck, setBookCheck] = useState(bookmarked);
 
   const doBookmark = async () => {
-    await axios.post(`/api/v1/recipe/${id}/bookmark/`);
-
     try {
+      await axios.post(`/api/v1/recipe/${id}/bookmark/`);
       setBookCheck(true);
     } catch (error) {
       message.fire({
         icon: "error",
-        title: `북마크 추가를 실패했습니다.`,
+        title: "북마크 추가에 실패했습니다. \n 로그인을 해주세요.",
       });
     }
   };
 
   const undoBookmark = async () => {
-    axios.post(`/api/v1/recipe/${id}/bookmark/undo/`);
     try {
+      await axios.post(`/api/v1/recipe/${id}/bookmark/undo/`);
       setBookCheck(false);
     } catch (error) {
       message.fire({
         icon: "error",
-        title: `북마크 제거를 실패했습니다.`,
+        title: "북마크 해제에 실패했습니다.",
       });
     }
   };
@@ -139,7 +138,7 @@ const RecipeItem = ({
             </div>
           </SItemDetail>
           <SItemStar>
-            {/* 평점 4 이상 레시피 별표시 */}
+            {/* 평점 4 이상 레시피 스티커 표시 */}
             {Number(stars) >= 4 ? <HotIcon src={hot} /> : null}
           </SItemStar>
         </SItemWrapper>
