@@ -19,7 +19,7 @@ const App = () => {
         <Route path="/" element={<Layout />}>
           <Route index element={<Main />}></Route>
           <Route path="/login" element={<Login />}></Route>
-          <Route path="/write" element={<AddPost />}></Route>
+          <Route path="/recipe" element={<AddPost />}></Route>
           <Route path="/edit/:recipeId" element={<AddPost />}></Route>
           <Route path="/signup" element={<SignUp />}></Route>
           <Route path="/snsinfo" element={<SNSInfo />}></Route>

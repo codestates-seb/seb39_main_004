@@ -24,7 +24,7 @@ import { useState, useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import styled from "styled-components";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import recipeLogo from "../../assets/images/Recipe/recipeLogo.svg";
 
 const SFormContainer = styled.main`
@@ -83,6 +83,7 @@ const SFormBtn = styled.button`
 `;
 
 const AddPost = () => {
+  const navigate = useNavigate();
   // 수정페이지 관련
   const [editMode, setEditMode] = useState(false);
   const { recipeId } = useParams();
@@ -153,8 +154,8 @@ const AddPost = () => {
       const response = await axios.post("/api/v1/recipe/add", formData, {
         headers: { "content-type": "multipart/form-data" },
       });
-      console.log(response);
-      // 등록된 페이지로 이동
+      const newId = response.data.data.id;
+      navigate(`/post/${newId}/`);
     } catch (error) {
       alert("레시피 등록에 실패했습니다.");
       // console.log(error);
