@@ -19,6 +19,9 @@ const SSortContainer = styled.section`
       color: #fff;
       transition: 0.1s;
     }
+    @media ${({ theme }) => theme.device.mobile} {
+      font-size: 0.6rem;
+    }
   }
 
   div:last-child:after {

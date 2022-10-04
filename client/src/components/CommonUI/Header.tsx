@@ -10,8 +10,12 @@ import logo from "../../assets/logos/logo.svg";
 import { persistor } from "../..";
 
 const SLogo = styled.img`
-  width: 190px;
+  width: 145px;
   margin-right: 1.6rem;
+  @media ${({ theme }) => theme.device.tablet} {
+    width: 100px;
+    margin-right: 0.5rem;
+  }
 `;
 
 const SOutLine = styled.div`
@@ -20,7 +24,7 @@ const SOutLine = styled.div`
 
 const SHeader = styled.header`
   max-width: 1280px;
-  height: 95px;
+  height: 80px;
   margin: 0 auto;
   padding: 0 1rem;
   display: flex;
@@ -30,6 +34,9 @@ const SHeader = styled.header`
     font-size: 1.2rem;
     font-weight: lighter;
     color: var(--gray);
+  }
+  @media ${({ theme }) => theme.device.mobile} {
+    height: 55px;
   }
 `;
 
@@ -44,34 +51,60 @@ const SDash = styled.span`
 
 const SNavLink = styled(NavLink)`
   color: var(--gray);
-  font-size: 1.5rem;
+  font-size: 1.1rem;
   padding: 0 1.2rem;
   &.active {
     color: var(--red);
+  }
+  @media ${({ theme }) => theme.device.tablet} {
+    font-size: 0.9rem;
+    padding: 0 0.5rem;
+    svg {
+      width: 25px;
+    }
+  }
+  @media ${({ theme }) => theme.device.mobile} {
+    font-size: 0.8rem;
+    padding: 0.4rem;
+    svg {
+      width: 23px;
+    }
   }
 `;
 
 const SDropContainer = styled.div`
   background-color: var(--deep-green);
-  width: 220px;
+  width: 180px;
   color: white;
   position: absolute;
-  transform: translate(-89px, 24px);
+  transform: translate(-75px, 23px);
   z-index: 1;
   display: flex;
   flex-direction: column;
+  @media ${({ theme }) => theme.device.tablet} {
+    width: 120px;
+    transform: translate(-39px, 10px);
+  }
+  @media ${({ theme }) => theme.device.mobile} {
+    width: 100px;
+    transform: translate(-39px, 10px);
+  }
 `;
 
 const SLink = styled(Link)`
   font-size: 1.5rem;
   color: white;
+  font-size: 1rem;
   width: 100%;
-  padding: 1.4rem;
+  padding: 1.2rem;
   text-align: center;
   outline: none;
-
   &:hover {
     color: var(--yellow);
+  }
+  @media ${({ theme }) => theme.device.tablet} {
+    font-size: 0.6rem;
+    padding: 0.8rem;
   }
 `;
 
@@ -81,6 +114,12 @@ const SProfile = styled.div`
   cursor: pointer;
   .actived {
     color: var(--red);
+  }
+  @media ${({ theme }) => theme.device.tablet} {
+    padding: 0.2rem;
+    svg {
+      width: 23px;
+    }
   }
 `;
 
@@ -109,15 +148,15 @@ const Header = () => {
         </SSection>
         <SSection>
           {sessionStatus && (
-            <SNavLink to="/recipe">
-              <MdOutlineNoteAlt size={47} />
+            <SNavLink to="/write">
+              <MdOutlineNoteAlt size={32} />
             </SNavLink>
           )}
 
           <section>
             {!sessionStatus ? (
               <SNavLink to="/login">
-                <MdOutlineLogin size={45} />
+                <MdOutlineLogin size={32} />
               </SNavLink>
             ) : (
               <SProfile
@@ -126,7 +165,7 @@ const Header = () => {
                 }}
               >
                 <CgProfile
-                  size={43}
+                  size={32}
                   className={isClicked ? "actived" : undefined}
                 />
                 {isClicked && (
@@ -149,7 +188,7 @@ const Header = () => {
             )}
           </section>
           <SNavLink to="/search">
-            <BiSearchAlt2 size={45} />
+            <BiSearchAlt2 size={33} />
           </SNavLink>
         </SSection>
       </SHeader>

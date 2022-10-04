@@ -1,23 +1,24 @@
 import styled from "styled-components";
 import RecipeItem from "./RecipeItem";
 import { IRecipeDataProps } from "../../../types/interface";
+import theme from "../../../styles/Theme";
 
 const SItemListLayout = styled.div`
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-gap: 64px 40px;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-gap: 30px 35px;
   place-items: center;
   margin-top: 3rem;
 
-  // 임시 반응형 작업 (추후 중단점 수정 필요)
-  @media screen and (max-width: 1300px) {
-    grid-template-columns: repeat(2, 1fr);
+  @media ${({ theme }) => theme.device.desktop} {
+    grid-gap: 25px 20px;
+    margin-top: 2rem;
   }
 `;
 
 const RecipeItemList = ({ mainData, searchData }: IRecipeDataProps) => {
   return (
-    <SItemListLayout>
+    <SItemListLayout theme={theme}>
       {mainData &&
         mainData.map((i) => (
           <RecipeItem

@@ -13,7 +13,7 @@ const SRecipeLayout = styled.div`
   position: relative;
   display: flex;
   flex-direction: column;
-  width: 400px;
+  width: 100%;
   border: 1px solid var(--pale-gray);
   border-radius: 5px;
 `;
@@ -47,10 +47,14 @@ const SItemTitle = styled.div`
   width: 85%;
   margin-top: 0.5rem;
   margin-bottom: 1rem;
-  font-size: 1.5rem;
+  font-size: 1.4rem;
+  line-height: 1.5rem;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  @media ${({ theme }) => theme.device.mobile} {
+    font-size: 1rem;
+  }
 `;
 
 const SItemStar = styled.div`

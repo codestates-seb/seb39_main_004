@@ -2,12 +2,15 @@ import styled from "styled-components";
 import { ITagProps } from "../../types/interface";
 
 export const STag = styled.span`
-  margin: 0 4px;
+  margin: 0 7px 0 0;
   color: var(--gray);
 
   ::before {
     color: var(--yellow);
     content: "#";
+  }
+  @media ${({ theme }) => theme.device.mobile} {
+    font-size: 0.9rem;
   }
 `;
 

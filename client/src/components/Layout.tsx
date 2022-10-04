@@ -12,6 +12,10 @@ const SMain = styled.main`
   margin: 0 auto;
   padding-bottom: 200px;
   max-width: 1280px;
+  @media ${({ theme }) => theme.device.desktop} {
+    margin: 0 1rem;
+    padding-bottom: 100px;
+  }
 `;
 
 const Layout = () => {

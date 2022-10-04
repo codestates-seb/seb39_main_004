@@ -37,9 +37,16 @@ const SSearchTagLayout = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   height: 70px;
   background-color: var(--ivory);
+  @media ${({ theme }) => theme.device.tablet} {
+    font-size: 0.9rem;
+    height: 60px;
+  }
+  @media ${({ theme }) => theme.device.mobile} {
+    font-size: 0.9rem;
+  }
 `;
 
 const SSearchWord = styled.div`
