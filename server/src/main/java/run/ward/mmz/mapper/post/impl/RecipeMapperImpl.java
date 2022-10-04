@@ -82,6 +82,7 @@ public class RecipeMapperImpl implements RecipeMapper {
                 .imgThumbNailUrl(recipe.getImgThumbNail().getFileName())
                 .stars(String.format("%.2f", recipe.getStars()))
                 .tags(tagMapper.toResponseDto(recipe.getTagList()))
+                .createDate(recipe.getCreateDate())
                 .build();
     }
 

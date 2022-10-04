@@ -2,11 +2,13 @@ package run.ward.mmz.dto.auth;
 
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import run.ward.mmz.domain.account.Account;
 
 import java.io.Serializable;
 
 @Data
+@NoArgsConstructor
 public class SessionUser implements Serializable {
 
     private Long id;

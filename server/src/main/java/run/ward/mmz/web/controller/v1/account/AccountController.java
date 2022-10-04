@@ -1,5 +1,12 @@
 package run.ward.mmz.web.controller.v1.account;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.Example;
+import io.swagger.annotations.ExampleProperty;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -33,6 +40,7 @@ import run.ward.mmz.service.post.ReviewService;
 import javax.validation.constraints.Positive;
 import java.util.List;
 
+
 @RestController
 @RequestMapping("/api/v1")
 @RequiredArgsConstructor
@@ -51,10 +59,17 @@ public class AccountController {
     private final SubscribeService subscribeService;
 
 
+
+    @Operation(summary = "회원 정보 수정 페이지", description = "유저를 수정하기 위해 현재 회원 데이터를 조회합니다." , tags = "회원 정보 관련")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "정상적인 응답입니다."),
+            @ApiResponse(responseCode = "401", description = "로그인 상태가 아닙니다."),
+            @ApiResponse(responseCode = "500", description = "서버 오류입니다.")
+    })
     @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/auth/signup/user-info")
     public ResponseEntity<?> updateUserInfoPage(
-            @LoginUser Account user) {
+           @LoginUser Account user) {
 
         AccountInfoDto accountInfoDto = accountMapper.toInfoDto(user);
         ResponseDto.Single<?> response = ResponseDto.Single.builder()
@@ -64,6 +79,12 @@ public class AccountController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    @Operation(summary = "회원 정보 수정", description = "현재 로그인 한 유저의 정보를 수정합니다.", tags = "회원 정보 관련")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "정상적인 응답입니다."),
+            @ApiResponse(responseCode = "401",  description = "로그인 상태가 아닙니다."),
+            @ApiResponse(responseCode = "500", description = "서버 오류입니다.")
+    })
     @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping("/auth/signup/user-info/update")
     public ResponseEntity<?> updateUserInfo(

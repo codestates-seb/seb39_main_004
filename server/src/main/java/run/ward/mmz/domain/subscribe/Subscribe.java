@@ -3,13 +3,8 @@ package run.ward.mmz.domain.subscribe;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import run.ward.mmz.domain.account.Account;
-import run.ward.mmz.domain.auditable.Auditable;
-import run.ward.mmz.domain.post.Recipe;
-import run.ward.mmz.domain.post.RecipeTag;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @Getter
 @Entity
@@ -41,7 +36,7 @@ public class Subscribe{
     @JoinColumn(name = "fromUserId")
     @ManyToOne
     @JsonIgnore
-    private Account forUser;
+    private Account fromUser;
 
 
 

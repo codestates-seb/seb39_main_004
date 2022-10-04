@@ -22,6 +22,8 @@ repositories {
     mavenCentral()
 }
 
+
+
 dependencies {
     //Spring web
     implementation 'org.springframework.boot:spring-boot-starter-web'
@@ -61,6 +63,10 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-security'
 
     implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
+
+    implementation 'io.springfox:springfox-boot-starter:3.0.0'
+    implementation 'io.springfox:springfox-swagger-ui:3.0.0'
+    implementation 'io.springfox:springfox-oas:3.0.0'
 }
 
 tasks.named('test') {
