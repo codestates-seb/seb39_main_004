@@ -61,7 +61,7 @@ public class Account extends Auditable {
 
     @OneToMany(mappedBy = "toUser", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<Subscribe> followings = new ArrayList<>();
-    @OneToMany(mappedBy = "forUser", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "fromUser", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<Subscribe> followers = new ArrayList<>();
 
     @Builder
@@ -181,7 +181,7 @@ public class Account extends Auditable {
         List<Account> followingList = new ArrayList<>();
 
         for(Subscribe subscribe : this.followers ) {
-            followingList.add(subscribe.getForUser());
+            followingList.add(subscribe.getFromUser());
         }
 
         return followingList;

@@ -1,14 +1,9 @@
 package run.ward.mmz.service.account.impl;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import run.ward.mmz.domain.account.Account;
-import run.ward.mmz.domain.post.Recipe;
 import run.ward.mmz.domain.subscribe.Subscribe;
 import run.ward.mmz.handler.exception.CustomException;
 import run.ward.mmz.handler.exception.ExceptionCode;
@@ -78,7 +73,7 @@ public class SubscribeServiceImpl implements SubscribeService {
 
         for (Subscribe subscribe : subscribeList) {
             if(subscribe.getToUser().getId().equals(userId))
-                followerUserList.add(subscribe.getForUser());
+                followerUserList.add(subscribe.getFromUser());
         }
 
         return followerUserList.stream()
@@ -91,10 +86,19 @@ public class SubscribeServiceImpl implements SubscribeService {
     @Transactional(readOnly = true)
     public List<Account> findAllFollowingUserByAccount(Long userId) {
 
-        return accountRepository.findById(userId).orElseThrow(
-                () -> new CustomException(ExceptionCode.USER_NOT_FOUND)
-        ).getFollowerUserList()
-                .stream()
+        if(!accountRepository.existsById(userId)) {
+            throw new CustomException(ExceptionCode.USER_NOT_FOUND);
+        }
+
+        List<Account> followingUserList = new ArrayList<>();
+        List<Subscribe> subscribeList = subscribeRepository.findAllByFromUserId(userId);
+
+        for (Subscribe subscribe : subscribeList) {
+            if(subscribe.getFromUser().getId().equals(userId))
+                followingUserList.add(subscribe.getToUser());
+        }
+
+        return followingUserList.stream()
                 .sorted((user1, user2) -> (int) (user1.getId() - user2.getId()))
                 .collect(Collectors.toList());
     }
@@ -122,14 +126,19 @@ public class SubscribeServiceImpl implements SubscribeService {
     @Transactional(readOnly = true)
     public int countFollowingUserByAccount(Long userId) {
 
-        int count = 0 ;
+        int count = 0;
 
-        count = accountRepository.findById(userId).orElseThrow(
-                        () -> new CustomException(ExceptionCode.USER_NOT_FOUND))
-                .getFollowerUserList()
-                .size();
+        if(!accountRepository.existsById(userId)) {
+            throw new CustomException(ExceptionCode.USER_NOT_FOUND);
+        }
+
+        for (Subscribe subscribe : subscribeRepository.findAllByFromUserId(userId)) {
+            if(subscribe.getFromUser().getId().equals(userId))
+                count++;
+        }
 
         return count;
+
     }
 
 
