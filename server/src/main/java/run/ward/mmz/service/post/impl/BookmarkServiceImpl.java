@@ -17,6 +17,7 @@ import run.ward.mmz.service.account.AccountService;
 import run.ward.mmz.service.post.BookmarkService;
 import run.ward.mmz.service.post.RecipeService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -34,7 +35,7 @@ public class BookmarkServiceImpl implements BookmarkService {
         Recipe recipe = recipeService.findById(recipeId);
         Account account = accountService.findById(accountId);
 
-        return bookmarkRepository.existsByOwnerAndRecipe(account, recipe);
+        return bookmarkRepository.existsByUserAndRecipe(account, recipe);
     }
 
     @Override
@@ -45,7 +46,7 @@ public class BookmarkServiceImpl implements BookmarkService {
         Account account = accountService.findById(accountId);
         Bookmark bookmark = Bookmark.builder().build();
 
-        if(bookmarkRepository.existsByOwnerAndRecipe(account, recipe)) {
+        if(bookmarkRepository.existsByUserAndRecipe(account, recipe)) {
             throw new CustomException(ExceptionCode.BOOKMARK_EXISTS);
         }
         else{
@@ -62,9 +63,9 @@ public class BookmarkServiceImpl implements BookmarkService {
         Recipe recipe = recipeService.findById(recipeId);
         Account account = accountService.findById(accountId);
 
-        Bookmark bookmark = bookmarkRepository.findByOwnerAndRecipe(account, recipe);
+        Bookmark bookmark = bookmarkRepository.findByUserAndRecipe(account, recipe);
 
-        if(bookmarkRepository.existsByOwnerAndRecipe(account, recipe)) {
+        if(bookmarkRepository.existsByUserAndRecipe(account, recipe)) {
             bookmark.removeBookmarked(recipe, account);
             bookmarkRepository.delete(bookmark);
         }
@@ -83,7 +84,13 @@ public class BookmarkServiceImpl implements BookmarkService {
         if (!sort.equals("dec"))
             bySort = bySort.ascending();
 
-        List<Recipe> recipeList = accountService.findById(accountId).getRecipeList();
+        List<Recipe> recipeList = new ArrayList<>();
+
+        for(Bookmark bookmark : bookmarkRepository.findAllByUserId(accountId)){
+            recipeList.add(bookmark.getRecipe());
+        }
+
+         accountService.findById(accountId).getRecipeList();
 
         return new PageImpl<>(
                 recipeList,
@@ -91,4 +98,5 @@ public class BookmarkServiceImpl implements BookmarkService {
                 recipeList.size()
         );
     }
+
 }

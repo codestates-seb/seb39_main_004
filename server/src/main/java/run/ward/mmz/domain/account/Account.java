@@ -54,7 +54,7 @@ public class Account extends Auditable {
 
     @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<Recipe> recipes = new ArrayList<>();
-    @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<Bookmark> bookmarks = new ArrayList<>();
     @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<Review> reviews = new ArrayList<>();
@@ -77,7 +77,7 @@ public class Account extends Auditable {
     public void addBookmarks(Bookmark bookmark) {
         if(!bookmarks.contains(bookmark)) {
             bookmarks.add(bookmark);
-            bookmark.setOwner(this);
+            bookmark.setUser(this);
         }
 
     }
