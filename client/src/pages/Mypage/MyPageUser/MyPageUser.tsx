@@ -1,5 +1,10 @@
-import React from "react";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import axios from "axios";
+import { userSession } from "../../../redux/slices/userSlice";
+import { useAppSelector, useAppDispatch } from "../../../hooks/dispatchHook";
+import { IUserData } from "../../../types/interface";
 
 const SContainer = styled.div`
   display: grid;
@@ -11,7 +16,7 @@ const SContainer = styled.div`
   }
 `;
 
-const SUserImg = styled.div`
+const SUserImg = styled.img`
   display: inline-block;
   overflow: hidden;
   position: relative;
@@ -46,14 +51,32 @@ const SButton = styled.div`
 `;
 
 const MyPageUser = () => {
+  const [userData, setUserData] = useState<IUserData | undefined>();
+  const dispatch = useAppDispatch();
+  const { sessionStatus, userInfo } = useAppSelector((state) => state.user);
+
+  const axiosUserData = async (userNum: string) => {
+    const { data } = await axios.get(`/api/v1/user/${userNum}`);
+    setUserData(data);
+  };
+
+  useEffect(() => {
+    if (sessionStatus) dispatch(userSession());
+    axiosUserData(userInfo.id);
+  }, []);
+
   return (
     <SContainer>
-      <SUserImg />
+      <SUserImg
+        src={`${process.env.PUBLIC_URL}/assets/${
+          userData && userData.imgProfileUrl
+        }`}
+      />
       <STextInfo>
-        <h2>닉네임</h2>
-        <p>자기소개가 들어가는 자리입니다.</p>
-        <span>팔로우 0</span>
-        <span>팔로잉 0</span>
+        <h2>{userData && userData.user.name}</h2>
+        <p>{userData && userData.user.bio}</p>
+        <span>팔로우 {userData && userData.followerCount}</span>
+        <span>팔로잉 {userData && userData.followingCount}</span>
         <SButton>회원정보수정</SButton>
       </STextInfo>
     </SContainer>

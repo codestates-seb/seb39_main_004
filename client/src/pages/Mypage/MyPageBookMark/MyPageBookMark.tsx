@@ -1,5 +1,7 @@
 import React from "react";
 import styled from "styled-components";
+import { IBookMarkProps } from "../../../types/interface";
+import { Link } from "react-router-dom";
 
 const SContainer = styled.div`
   display: grid;
@@ -9,7 +11,7 @@ const SContainer = styled.div`
   padding: 20px 0;
   border-bottom: 1px solid var(--pale-gray);
 `;
-const RecipeImg = styled.div`
+const RecipeImg = styled.img`
   display: inline-block;
   overflow: hidden;
   position: relative;
@@ -44,37 +46,27 @@ const SEmptyContainer = styled.div`
   padding-top: 4rem;
 `;
 
-const MyPageBookMark = () => {
-  const dummyData = [
-    {
-      id: 1,
-      userId: "아이디1",
-      title: "타이틀이 들어가는 자리입니다.",
-      createdDate: "2022-03-28",
-    },
-    {
-      id: 2,
-      userId: "아이디2",
-      title: "타이틀이 들어가는 자리입니다.",
-      createdDate: "2022-03-28",
-    },
-  ];
+const MyPageBookMark = ({ bookMarkData }: IBookMarkProps) => {
   return (
     <>
-      {dummyData.length > 0 ? (
-        dummyData.map((data) => (
-          <SContainer key={data.id}>
-            <RecipeImg />
-            <BookMarkInfo>
-              <h2> {data.title}</h2>
-              <p>{data.createdDate}</p>
-              <span>{data.userId}</span>
-            </BookMarkInfo>
-          </SContainer>
+      {bookMarkData.length > 0 ? (
+        bookMarkData.map((data) => (
+          <Link to={`/post/${data.id}`} key={data.id}>
+            <SContainer>
+              <RecipeImg
+                src={`${process.env.PUBLIC_URL}/assets/${data.imgThumbNailUrl}`}
+              />
+              <BookMarkInfo>
+                <h2> {data.title}</h2>
+                <p>{data.createDate}</p>
+                {/* <span>{data.userId}</span> */}
+              </BookMarkInfo>
+            </SContainer>
+          </Link>
         ))
       ) : (
         <SEmptyContainer>
-          <div>북마크가 없습니다.</div>
+          <div>북마크한 레시피가 없습니다.</div>
         </SEmptyContainer>
       )}
     </>

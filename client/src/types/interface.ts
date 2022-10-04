@@ -61,6 +61,7 @@ interface IItemProps {
   imgThumbNailUrl: string;
   stars: string;
   tags: ITagProps[];
+  createDate?: string;
   bookmarked: boolean;
 }
 
@@ -188,6 +189,60 @@ interface IEditResponseData {
   tags: ITagProps[];
 }
 
+interface IUser {
+  id: number;
+  name: string;
+  bio: string;
+  email: string;
+  imgProfileUrl: string;
+}
+
+interface IUserData {
+  user: IUser;
+  followerCount: number;
+  followingCount: number;
+  imgProfileUrl: string;
+}
+
+interface IMyRecipeData {
+  recipeData: IItemProps[];
+}
+
+interface IReviewData {
+  body: string;
+  createDate: string;
+  id: number;
+}
+
+interface IReviewProps {
+  reviewData: IReviewData[];
+}
+
+interface IBookMarkProps {
+  bookMarkData: IBookMarkData[];
+}
+
+interface IBookMarkData {
+  id: number;
+  title: string;
+  imgThumbNailUrl: string;
+  createDate: string;
+}
+
+interface IFollowProps {
+  followData: IFollowData[];
+}
+
+interface IFollowData {
+  id: number;
+  name: string;
+  imgProfileUrl: string;
+}
+
+interface IFollowingProps {
+  followingData: IFollowData[];
+}
+
 export type {
   IImgUploaderProps,
   IStepMakerProps,
@@ -213,4 +268,10 @@ export type {
   IPostUserProps,
   IPostCategoryProps,
   IEditResponseData,
+  IUserData,
+  IMyRecipeData,
+  IReviewProps,
+  IBookMarkProps,
+  IFollowProps,
+  IFollowingProps,
 };

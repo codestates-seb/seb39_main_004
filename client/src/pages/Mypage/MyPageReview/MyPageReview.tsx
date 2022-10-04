@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import Rating from "../../../components/RecipeDetail/Rating";
+import { IReviewProps } from "../../../types/interface";
 
 const SContainer = styled.div`
   display: flex;
@@ -25,31 +26,21 @@ const SEmptyContainer = styled.div`
   padding-top: 4rem;
 `;
 
-const MyPageReview = () => {
-  const dummyData = [
-    {
-      id: 1,
-      title: "내 후기가 들어가는 자리입니다.",
-    },
-    {
-      id: 2,
-      title: "내 후기가 들어가는 자리입니다.",
-    },
-  ];
+const MyPageReview = ({ reviewData }: IReviewProps) => {
   return (
     <>
-      {dummyData.length > 0 ? (
-        dummyData.map((data) => (
+      {reviewData.length > 0 ? (
+        reviewData.map((data) => (
           <SContainer key={data.id}>
             <ReviewInfo>
-              <h2> {data.title}</h2>
+              <h2> {data.body}</h2>
             </ReviewInfo>
             <Rating />
           </SContainer>
         ))
       ) : (
         <SEmptyContainer>
-          <div>요리후기가 없습니다.</div>
+          <div>요리 후기가 없습니다.</div>
         </SEmptyContainer>
       )}
     </>

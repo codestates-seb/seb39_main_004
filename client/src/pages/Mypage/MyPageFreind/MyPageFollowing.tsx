@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { IFollowingProps } from "../../../types/interface";
 
 const SContainer = styled.div`
   display: flex;
@@ -20,7 +21,7 @@ const FollowingInfo = styled.div`
   }
 `;
 
-const UserImg = styled.div`
+const UserImg = styled.img`
   width: 35px;
   height: 35px;
   border-radius: 50%;
@@ -44,32 +45,24 @@ const SDeleteBtn = styled.div`
   font-size: 0.7rem;
 `;
 
-const MyPageFollwing = () => {
-  const dummyData = [
-    {
-      id: 1,
-      userId: "유저아이디1",
-    },
-    {
-      id: 2,
-      userId: "유저아이디2",
-    },
-  ];
+const MyPageFollwing = ({ followingData }: IFollowingProps) => {
   return (
     <>
-      {dummyData.length > 0 ? (
-        dummyData.map((data) => (
+      {followingData.length > 0 ? (
+        followingData.map((data) => (
           <SContainer key={data.id}>
             <FollowingInfo>
-              <UserImg />
-              <h2> {data.userId}</h2>
+              <UserImg
+                src={`${process.env.PUBLIC_URL}/assets/${data.imgProfileUrl}`}
+              />
+              <h2> {data.name}</h2>
             </FollowingInfo>
             <SDeleteBtn>Delete</SDeleteBtn>
           </SContainer>
         ))
       ) : (
         <SEmptyContainer>
-          <div>이웃이 없습니다.</div>
+          <div>팔로잉이 없습니다.</div>
         </SEmptyContainer>
       )}
     </>
