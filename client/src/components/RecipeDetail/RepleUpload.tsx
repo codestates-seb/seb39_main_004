@@ -1,7 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Rating from "./Rating";
 import { Button } from "../CommonUI";
+import axios from "axios";
+import useMessage from "../../hooks/useMessage";
+import { useParams } from "react-router-dom";
 
 const SContainer = styled.div`
   h2 {
@@ -42,17 +45,53 @@ const SReplyContainer = styled.div`
 
 const RepleUpload = () => {
   const [reple, setReple] = useState("");
+  const [starClicked, setStarClicked] = useState([
+    false,
+    false,
+    false,
+    false,
+    false,
+  ]);
+  const score = starClicked.filter(Boolean).length;
+  const { id } = useParams();
+  const message = useMessage(2000);
 
-  const onSubmitHandler = (e: React.FormEvent<HTMLFormElement>) => {
+  const onSubmitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    try {
+      if (reple !== "") {
+        await axios.post(`/api/v1/recipe/${id}/review/add`, {
+          body: reple,
+          stars: score,
+        });
+      } else {
+        message.fire({
+          icon: "error",
+          title: "후기 내용을 작성해주세요.",
+        });
+      }
+    } catch {
+      message.fire({
+        icon: "error",
+        title: "로그인 후 시도해주세요.",
+      });
+    }
+    // 후기 등록 후 상태 초기화
+    setReple("");
+    setStarClicked([false, false, false, false, false]);
   };
+
+  useEffect(() => {
+    //
+  }, [starClicked]);
 
   return (
     <SContainer>
       <h2>후기 남기기</h2>
       <SReplyContainer>
         <form onSubmit={onSubmitHandler}>
-          <Rating />
+          <Rating starClicked={starClicked} setStarClicked={setStarClicked} />
+
           <input
             type="text"
             value={reple}
