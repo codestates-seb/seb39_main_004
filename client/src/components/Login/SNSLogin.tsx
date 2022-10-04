@@ -17,13 +17,6 @@ const SSNSLoginContainer = styled.div`
 
 const SH3 = styled.h3``;
 
-const JoinContainer = styled.ul`
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
-  margin-top: 15px;
-`;
-
 const NaverImg = styled.img.attrs({
   src: Naver,
 })`
@@ -59,6 +52,13 @@ const SLogoContainer = styled.div`
   justify-content: center;
   width: 100%;
   gap: 5%;
+`;
+
+const JoinContainer = styled.ul`
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  margin-top: 15px;
 `;
 
 const SNSLogin = () => {

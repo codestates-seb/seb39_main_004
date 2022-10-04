@@ -13,6 +13,10 @@ const SButton = styled.button`
   &:hover {
     background: var(--red);
   }
+  @media ${({ theme }) => theme.device.mobile} {
+    line-height: 40px;
+    font-size: 0.9rem;
+  }
 `;
 
 interface ButtonProps {
