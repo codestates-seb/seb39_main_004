@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { Tag } from "../../CommonUI";
@@ -7,6 +7,7 @@ import bookmark_on from "../../../assets/icons/bookmark-on.svg";
 import bookmark_off from "../../../assets/icons/bookmark-off.svg";
 import { IItemProps } from "../../../types/interface";
 import axios from "axios";
+import useMessage from "../../../hooks/useMessage";
 
 const SRecipeLayout = styled.div`
   position: relative;
@@ -85,26 +86,39 @@ const RecipeItem = ({
   imgThumbNailUrl,
   stars,
   tags,
+  bookmarked,
 }: IItemProps) => {
-  const [bookCheck, setBookCheck] = useState(false);
+  const message = useMessage(2000);
+  const [bookCheck, setBookCheck] = useState(bookmarked);
 
   const doBookmark = async () => {
-    await axios.post(`/api/v1/recipe/${id}/bookmark`);
+    await axios.post(`/api/v1/recipe/${id}/bookmark/`);
+
     try {
       setBookCheck(true);
     } catch (error) {
-      console.log(error);
+      message.fire({
+        icon: "error",
+        title: `북마크 추가를 실패했습니다.`,
+      });
     }
   };
 
   const undoBookmark = async () => {
-    await axios.post(`/api/v1/recipe/${id}/bookmark/undo`);
+    axios.post(`/api/v1/recipe/${id}/bookmark/undo/`);
     try {
       setBookCheck(false);
     } catch (error) {
-      console.log(error);
+      message.fire({
+        icon: "error",
+        title: `북마크 제거를 실패했습니다.`,
+      });
     }
   };
+
+  useEffect(() => {
+    // console.log("");
+  }, [bookCheck]);
 
   return (
     <SRecipeLayout>

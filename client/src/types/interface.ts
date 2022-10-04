@@ -61,6 +61,7 @@ interface IItemProps {
   imgThumbNailUrl: string;
   stars: string;
   tags: ITagProps[];
+  bookmarked: boolean;
 }
 
 interface IRecipeDataProps {
@@ -135,6 +136,7 @@ interface IRemoveBtnProps {
 interface IPostResponceProps {
   id: number;
   title: string;
+  bookmarked: boolean;
   body: string;
   imgThumbNailUrl?: string;
   category: string;
@@ -159,6 +161,7 @@ interface IPostCategoryProps {
   stars: string;
   views: number;
   createDate: string;
+  bookmarked: boolean;
   tags: ITagProps[];
 }
 
