@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
-import share from "../../assets/icons/share.svg";
-import { BsBookmarkCheckFill, BsBookmarkPlus } from "react-icons/bs";
+import { PostTag } from "../../components/CommonUI";
+import { BsFillBookmarkCheckFill, BsBookmark } from "react-icons/bs";
+import { FiDownload } from "react-icons/fi";
 import view from "../../assets/icons/view.svg";
 import star from "../../assets/icons/star.svg";
 import { IPostCategoryProps } from "../../types/interface";
@@ -16,8 +17,8 @@ const SCtagoryContainer = styled.div`
     margin-bottom: 10px;
   }
   img {
-    width: 27px;
-    vertical-align: middle;
+    width: 28px;
+    vertical-align: -8px;
     :first-child {
       margin-right: 10px;
     }
@@ -29,6 +30,9 @@ const SCtagoryContainer = styled.div`
       padding-right: 10px;
     }
   }
+  .share {
+    margin-right: 15px;
+  }
 `;
 
 const SHeader = styled.div`
@@ -39,14 +43,30 @@ const SHeader = styled.div`
   align-items: center;
   padding-bottom: 20px;
   h1 {
-    font-size: 1.3rem;
+    font-size: 1.6rem;
   }
   p {
     padding-right: 10px;
   }
 `;
 
-const PostInfo = ({ stars, views, createDate }: IPostCategoryProps) => {
+const SIconBox = styled.div`
+  display: flex;
+  gap: 40px;
+  font-size: 1.2rem;
+`;
+
+const STagContainer = styled.div`
+  margin-bottom: 40px;
+`;
+
+const PostInfo = ({
+  category,
+  tags,
+  stars,
+  views,
+  createDate,
+}: IPostCategoryProps) => {
   const { id } = useParams();
   const [bookCheck, setBookCheck] = useState(false);
 
@@ -71,24 +91,31 @@ const PostInfo = ({ stars, views, createDate }: IPostCategoryProps) => {
     <>
       <SCtagoryContainer>
         <SHeader>
-          <h1>카테고리</h1>
+          <h1>#{category}</h1>
           <div>
-            <img src={share} alt="share" />
+            <FiDownload size={25} className="share" />
             {bookCheck ? (
-              <BsBookmarkCheckFill onClick={undoBookmark} size={30} />
+              <BsFillBookmarkCheckFill onClick={undoBookmark} size={24} />
             ) : (
-              <BsBookmarkPlus onClick={doBookmark} size={30} />
+              <BsBookmark onClick={doBookmark} size={24} />
             )}
           </div>
         </SHeader>
-        <p>
-          <img src={view} alt="view" />
-          {views}
-        </p>
-        <p>
-          <img src={star} alt="stastarr" />
-          {stars}
-        </p>
+        <STagContainer>
+          {tags.map((i) => (
+            <PostTag key={i.id} name={i.name} />
+          ))}
+        </STagContainer>
+        <SIconBox>
+          <div>
+            <img src={view} alt="view" />
+            {views}
+          </div>
+          <div>
+            <img src={star} alt="stastarr" />
+            {stars}
+          </div>
+        </SIconBox>
         <p className="date">
           <span>등록일</span>
           {createDate}

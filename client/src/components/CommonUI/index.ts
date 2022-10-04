@@ -7,4 +7,5 @@ export { default as SortButtons } from "./SortButtons";
 export { default as TextareaWithLabel } from "./TextareaWithLabel";
 export { default as SelectButton } from "./SeletButton";
 export { default as Tag } from "./Tag";
+export { default as PostTag } from "./PostTag";
 export { StyledInput } from "./StyledInput";

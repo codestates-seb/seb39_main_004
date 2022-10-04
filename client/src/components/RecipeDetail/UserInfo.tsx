@@ -31,12 +31,22 @@ const ProfileImg = styled.img`
 `;
 
 const SUserId = styled.div`
-  display: flex;
-  justify-content: center;
-  align-content: center;
+  display: inline-block;
   color: #333;
   margin-top: 15px;
-  font-size: 1.3rem;
+  font-size: 1.7rem;
+`;
+
+const SFollowBtn = styled.div`
+  display: inline-block;
+  text-align: center;
+  margin-left: 15px;
+  padding: 8px 10px;
+  background-color: var(--greenish-grey);
+  color: var(--red);
+  font-size: 0.6rem;
+  border-radius: 20px;
+  vertical-align: 6px;
 `;
 
 const SButtonContaienr = styled.div`
@@ -114,6 +124,7 @@ const PostUserInfo = ({ name, imgProfileUrl }: IPostUserProps) => {
             src={`${process.env.PUBLIC_URL}/assets/${imgProfileUrl}`}
           />
           <SUserId>{name}</SUserId>
+          <SFollowBtn>Follow</SFollowBtn>
           <SButtonContaienr>
             {userInfo.name && name === userInfo.name ? (
               <>
