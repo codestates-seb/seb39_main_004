@@ -90,7 +90,7 @@ const MyPageUser = () => {
     <SContainer>
       <SUserImg
         src={`${process.env.PUBLIC_URL}/assets/${
-          userData && userData.imgProfileUrl
+          userData && userData.user.imgProfileUrl
         }`}
       />
       <STextInfo>
