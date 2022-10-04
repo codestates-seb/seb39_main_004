@@ -22,7 +22,7 @@ const STabContainer = styled.div`
   -webkit-box-pack: justify;
   justify-content: space-between;
   margin-bottom: 30px;
-  border-bottom: 1px solid var(--pale-gray);
+  border-bottom: 3px solid var(--pale-green);
 `;
 
 const STabMenu = styled.ul`
@@ -31,15 +31,38 @@ const STabMenu = styled.ul`
   flex-direction: row;
   justify-items: center;
   align-items: center;
-  list-style: none;
+  @media ${({ theme }) => theme.device.desktop} {
+    width: 100%;
+    align-items: center;
+    display: inline-grid;
+    grid-auto-flow: column;
+  }
   .submenu {
-    padding: 16px 30px;
+    padding: 10px 30px;
+    font-size: 1.1rem;
+    text-align: center;
     cursor: pointer;
+    @media ${({ theme }) => theme.device.desktop} {
+      width: 100%;
+      font-size: 1rem;
+      padding: 10px;
+    }
+    @media ${({ theme }) => theme.device.mobile} {
+      font-size: 0.8rem;
+      padding: 10px 10px;
+    }
   }
   .focused {
-    border-top: 3px solid var(--deep-gray);
-    border-right: 1px solid var(--pale-gray);
-    border-left: 1px solid var(--pale-gray);
+    position: relative;
+    :after {
+      content: "";
+      position: absolute;
+      right: 0;
+      left: 0;
+      bottom: -3px;
+      display: block;
+      border-bottom: 3px solid var(--red);
+    }
   }
 `;
 

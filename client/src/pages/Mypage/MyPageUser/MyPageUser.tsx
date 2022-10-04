@@ -14,6 +14,9 @@ const SContainer = styled.div`
   h2 {
     font-size: 1.5rem;
   }
+  @media ${({ theme }) => theme.device.mobile} {
+    grid-template-columns: 100px 1fr;
+  }
 `;
 
 const SUserImg = styled.img`
@@ -24,23 +27,36 @@ const SUserImg = styled.img`
   background-color: var(--pale-gray);
   width: 150px;
   height: 150px;
+  @media ${({ theme }) => theme.device.mobile} {
+    width: 100px;
+    height: 100px;
+  }
 `;
 
 const STextInfo = styled.div`
   position: relative;
   h2 {
     padding-bottom: 30px;
+    @media ${({ theme }) => theme.device.mobile} {
+      font-size: 1.2rem;
+    }
   }
   p {
     padding-bottom: 40px;
+    @media ${({ theme }) => theme.device.mobile} {
+      padding-bottom: 15px;
+    }
   }
   span {
-    color: var(--deep-gray);
+    color: var(--deep-green);
     font-size: 0.9rem;
     display: inline-grid;
     place-items: center;
     grid-template-columns: auto auto;
     column-gap: 20px;
+    @media ${({ theme }) => theme.device.mobile} {
+      font-size: 0.8rem;
+    }
   }
 `;
 
@@ -48,6 +64,11 @@ const SButton = styled.div`
   position: absolute;
   right: 0;
   top: 0;
+  color: var(--deep-gray);
+  font-size: 0.9rem;
+  @media ${({ theme }) => theme.device.mobile} {
+    font-size: 0.7rem;
+  }
 `;
 
 const MyPageUser = () => {

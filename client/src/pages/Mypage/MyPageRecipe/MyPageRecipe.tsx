@@ -9,8 +9,14 @@ const SContainer = styled.div`
   grid-template-columns: 130px auto;
   -webkit-column-gap: 20px;
   column-gap: 20px;
-  padding: 20px 0;
-  border-bottom: 1px solid var(--pale-gray);
+  padding: 20px;
+  margin: 20px 0;
+  background-color: var(--greenish-grey);
+  @media ${({ theme }) => theme.device.mobile} {
+    grid-template-columns: 100px auto;
+    padding: 10px;
+    margin: 10px 0;
+  }
 `;
 const RecipeImg = styled.img`
   display: inline-block;
@@ -20,6 +26,10 @@ const RecipeImg = styled.img`
   background-color: var(--pale-gray);
   width: 130px;
   height: 130px;
+  @media ${({ theme }) => theme.device.mobile} {
+    width: 100px;
+    height: 100px;
+  }
 `;
 
 const RecipeInfo = styled.div`
@@ -31,6 +41,15 @@ const RecipeInfo = styled.div`
   p {
     color: var(--deep-gray);
     font-size: 0.9rem;
+  }
+  @media ${({ theme }) => theme.device.mobile} {
+    padding-top: 20px;
+    h2 {
+      font-size: 1rem;
+    }
+    p {
+      font-size: 0.8rem;
+    }
   }
 `;
 

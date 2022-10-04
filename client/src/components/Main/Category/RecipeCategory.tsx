@@ -17,14 +17,24 @@ const SCategoryLayout = styled.div`
   flex-direction: column;
   align-items: center;
   margin-bottom: 5rem;
+  @media ${({ theme }) => theme.device.tablet} {
+    margin-bottom: 2rem;
+  }
 `;
 
 const SH1 = styled.h1`
   width: 100%;
   margin-bottom: 30px;
-  font-size: 1.8rem;
+  font-size: 1.6rem;
   font-weight: bold;
   color: var(--deep-green);
+  @media ${({ theme }) => theme.device.tablet} {
+    font-size: 1.2rem;
+  }
+  @media ${({ theme }) => theme.device.mobile} {
+    font-size: 1rem;
+    margin-bottom: 15px;
+  }
 `;
 
 const CategoryItem = styled.div`
@@ -38,8 +48,20 @@ const CategoryItem = styled.div`
     bottom: 25px;
     right: 0;
     left: 0;
+    padding: 1rem 0;
     font-size: 1.1rem;
-    margin: 1rem 0;
+    @media ${({ theme }) => theme.device.desktop} {
+      bottom: 10px;
+      font-size: 0.9rem;
+    }
+    @media ${({ theme }) => theme.device.tablet} {
+      bottom: 5px;
+      font-size: 0.8rem;
+    }
+    @media ${({ theme }) => theme.device.mobile} {
+      bottom: -10px;
+      font-size: 0.6rem;
+    }
   }
   .f_green {
     color: var(--deep-green);
@@ -53,6 +75,12 @@ const CategoryList = styled.div`
   display: flex;
   justify-content: space-between;
   gap: 40px;
+  @media ${({ theme }) => theme.device.desktop} {
+    gap: 30px;
+  }
+  @media ${({ theme }) => theme.device.tablet} {
+    gap: 3px;
+  }
 `;
 const CategoryBox = styled.div``;
 

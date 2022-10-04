@@ -14,10 +14,8 @@ const SSearchLayout = styled.section`
 const SSearchResult = styled.div`
   width: 100%;
   margin: 70px 0;
-
-  // 임시 반응형 작업 (추후 중단점 수정 필요)
-  @media screen and (max-width: 1000px) {
-    padding: 0 20px;
+  @media ${({ theme }) => theme.device.tablet} {
+    margin: 30px 0;
   }
 `;
 
