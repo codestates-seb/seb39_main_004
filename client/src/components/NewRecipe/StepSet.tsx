@@ -25,6 +25,8 @@ const StepSet = ({
   setDirectDatas,
   steps,
   setSteps,
+  booleanArr,
+  setBooleanArr,
 }: IStepSetProps) => {
   const [textValue, setTextValue] = useState<string>(text ?? "");
   const [imgName, setImgName] = useState<string>("");
@@ -51,6 +53,7 @@ const StepSet = ({
     newStepImgFiles.splice(currentIndex, 1);
     setStepImgFiles(newStepImgFiles);
   };
+  console.log(stepImgFiles);
 
   useEffect(() => {
     const originData = steps.slice();
@@ -61,8 +64,8 @@ const StepSet = ({
     }
   }, [textValue, imgName]);
 
-  console.log("directDatas", directDatas); // 빌드에러용 임시 추가
-  console.log("setDirectDatas", setDirectDatas); // 빌드에러용 임시 추가
+  // console.log("directDatas", directDatas); // 빌드에러용 임시 추가
+  // console.log("setDirectDatas", setDirectDatas); // 빌드에러용 임시 추가
 
   return (
     <SStepsContainer>
@@ -90,6 +93,8 @@ const StepSet = ({
         stepImgFiles={stepImgFiles}
         setStepImgFiles={setStepImgFiles}
         setImgName={setImgName}
+        booleanArr={booleanArr}
+        setBooleanArr={setBooleanArr}
       ></ImgUploader>
     </SStepsContainer>
   );

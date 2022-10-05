@@ -104,16 +104,10 @@ const AddPost = () => {
     []
   );
   const [tagsDatas, setTagsDatas] = useState<TypeOfTags[]>([]);
+  const [fake, setFake] = useState(false);
 
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    // formState: { errors },
-  } = useForm<TypeOfFormData>(
-    // editMode && editResponse ? { defaultValues: editResponse } :
-    undefined
-  );
+  const { register, handleSubmit, setValue } =
+    useForm<TypeOfFormData>(undefined);
 
   // console.log("불리언", booleanArr);
   const submitHandler: SubmitHandler<TypeOfFormData> = async (data) => {
@@ -125,14 +119,14 @@ const AddPost = () => {
     // console.log("카테", checkedCateg);
 
     /** 이미지 누락 체크 */
-    const emptyIndex = stepImgFiles.findIndex((el) => el === undefined);
-    if (emptyIndex >= 0) {
-      message.fire({
-        icon: "error",
-        title: `요리 순서의 ${emptyIndex + 1}번째 이미지를 \n추가해주세요`,
-      });
-      return;
-    }
+    // const emptyIndex = stepImgFiles.findIndex((el) => el === undefined);
+    // if (emptyIndex >= 0) {
+    //   message.fire({
+    //     icon: "error",
+    //     title: `요리 순서의 ${emptyIndex + 1}번째 이미지를 \n추가해주세요`,
+    //   });
+    //   return;
+    // }
     if (!thumbNail || stepImgFiles.length === 0) {
       message.fire({
         icon: "error",
@@ -149,7 +143,18 @@ const AddPost = () => {
         formData.append("imgDirection", file);
       }
     });
+    console.log(booleanArr, stepImgFiles);
 
+    booleanArr.forEach((el, idx) => {
+      const newFile = new File([], "temp.mmz");
+      if (stepImgFiles[idx]) {
+        console.log("타입", typeof stepImgFiles[idx]);
+        formData.append("imgDirection", stepImgFiles[idx]);
+      } else {
+        console.log("빈값", newFile);
+        formData.append("imgDirection", newFile);
+      }
+    });
     const recipeDatas = {
       ...data,
       category: checkedCateg,
@@ -164,13 +169,18 @@ const AddPost = () => {
 
     /** 서버 요청 */
     try {
-      const response = await axios.post("/api/v1/recipe/add", formData, {
-        headers: { "content-type": "multipart/form-data" },
-      });
-      const newId = response.data.data.id;
-      navigate(`/post/${newId}/`);
+      if (fake) {
+        const response = await axios.delete(`/api/v1/recipe/${id}/delete`);
+        response.status ? setFake(!fake) : undefined;
+      } else {
+        const response = await axios.post("/api/v1/recipe/add", formData, {
+          headers: { "content-type": "multipart/form-data" },
+        });
+        const newId = response.data.data.id;
+        navigate(`/post/${newId}/`);
+      }
     } catch (error) {
-      // console.log(error);
+      console.log(error);
       message.fire({
         icon: "error",
         title:
@@ -200,7 +210,7 @@ const AddPost = () => {
         });
     }
   }, [thumbNail]);
-  // console.log(editResponse);
+  console.log(editResponse);
 
   return (
     <SFormContainer>

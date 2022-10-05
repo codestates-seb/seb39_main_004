@@ -8,6 +8,8 @@ const StepsMaker = ({
   setDirectDatas,
   stepImgFiles,
   setStepImgFiles,
+  booleanArr,
+  setBooleanArr,
 }: IStepMakerProps) => {
   const basicForm = {
     index: 0,
@@ -42,6 +44,8 @@ const StepsMaker = ({
               setStepImgFiles={setStepImgFiles}
               directDatas={directDatas}
               setDirectDatas={setDirectDatas}
+              booleanArr={booleanArr}
+              setBooleanArr={setBooleanArr}
             />
           );
         })}
@@ -53,6 +57,7 @@ const StepsMaker = ({
             basicForm.index = lastStep.index + 1;
           }
           setSteps([...steps, basicForm]);
+          setBooleanArr([...booleanArr, false]);
         }}
       />
     </>

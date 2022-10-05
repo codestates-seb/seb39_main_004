@@ -16,6 +16,8 @@ interface IImgUploaderProps {
   stepImgFiles?: TypeOfFileList[];
   setStepImgFiles?: Dispatch<SetStateAction<TypeOfFileList[]>>;
   setImgName?: Dispatch<SetStateAction<string>>;
+  setBooleanArr: Dispatch<SetStateAction<boolean[]>>;
+  booleanArr: boolean[];
 }
 
 interface IStepMakerProps {
@@ -24,6 +26,8 @@ interface IStepMakerProps {
   setDirectDatas: Dispatch<SetStateAction<IStepValues[]>>;
   stepImgFiles: TypeOfFileList[];
   setStepImgFiles: Dispatch<SetStateAction<TypeOfFileList[]>>;
+  setBooleanArr: Dispatch<SetStateAction<boolean[]>>;
+  booleanArr: boolean[];
   // clickEvent?: (orderValue: string) => Promise<void> | void;
 }
 
@@ -43,6 +47,8 @@ interface IStepSetProps {
   setStepImgFiles: Dispatch<SetStateAction<TypeOfFileList[]>>;
   directDatas: IStepValues[];
   setDirectDatas: Dispatch<SetStateAction<IStepValues[]>>;
+  setBooleanArr: Dispatch<SetStateAction<boolean[]>>;
+  booleanArr: boolean[];
 }
 
 interface IResponseImgProps {

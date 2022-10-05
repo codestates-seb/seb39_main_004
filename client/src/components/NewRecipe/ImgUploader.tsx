@@ -28,6 +28,8 @@ const ImgUploader = ({
   setStepImgFiles,
   stepImgFiles,
   setImgName,
+  setBooleanArr,
+  booleanArr,
 }: IImgUploaderProps) => {
   const [fileURL, setFileURL] = useState<string>("");
   const imgUploadInput = useRef<HTMLInputElement | null>(null);
@@ -38,19 +40,24 @@ const ImgUploader = ({
         currentIndex !== undefined &&
         stepImgFiles &&
         setStepImgFiles &&
-        setImgName
+        setImgName &&
+        setBooleanArr &&
+        booleanArr !== undefined
       ) {
-        const newImgFile = stepImgFiles;
+        const newImgFile = stepImgFiles.slice();
+        const newBooleanList = booleanArr.slice();
         newImgFile[currentIndex] = event.target.files[0];
-        // console.log("값 전체", newImgFile);
+        newBooleanList[currentIndex] = true;
+
+        console.log("값 전체", newImgFile);
         // console.log("파일이름", event.target.files[0]);
         setStepImgFiles(newImgFile);
         setImgName(event.target.files[0].name);
+        setBooleanArr(newBooleanList);
       }
       if (setThumbNail) {
         setThumbNail(event.target.files[0]);
       }
-
       const newFileURL = URL.createObjectURL(event.target.files[0]);
       setFileURL(newFileURL);
       // console.log("event.target.files", event.target.files);

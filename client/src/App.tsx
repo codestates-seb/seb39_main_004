@@ -2,7 +2,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import GlobalStyle from "./styles/GlobalStyle";
 import Main from "./pages/Main/Main";
 import Login from "./pages/Auth/Login";
-import AddPost from "./pages/Recipe/AddPost";
+import AddPost from "./pages/Recipe/EditPost";
 import SignUp from "./pages/Auth/SignUp";
 import SNSInfo from "./pages/Auth/SNSInfo";
 import MyPage from "./pages/Mypage/MyPage";
@@ -10,6 +10,7 @@ import Layout from "./components/Layout";
 import Search from "./pages/Search/Search";
 import PostDetail from "./pages/Recipe/PostDetail";
 import Redirect from "./components/CommonUI/Redirect";
+import EditPost from "./pages/Recipe/save";
 
 const App = () => {
   return (
@@ -20,7 +21,7 @@ const App = () => {
           <Route index element={<Main />}></Route>
           <Route path="/login" element={<Login />}></Route>
           <Route path="/recipe" element={<AddPost />}></Route>
-          <Route path="/edit/:recipeId" element={<AddPost />}></Route>
+          <Route path="/edit/:recipeId" element={<EditPost />}></Route>
           <Route path="/signup" element={<SignUp />}></Route>
           <Route path="/snsinfo" element={<SNSInfo />}></Route>
           <Route path="/mypage" element={<MyPage />}></Route>
