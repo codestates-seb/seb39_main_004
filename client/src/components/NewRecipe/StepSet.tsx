@@ -28,7 +28,6 @@ const StepSet = ({
   booleanArr,
   setBooleanArr,
 }: IStepSetProps) => {
-  const [textValue, setTextValue] = useState<string>(text ?? "");
   const [imgName, setImgName] = useState<string>("");
   const currentIndex = steps.findIndex((step) => {
     return step.index === idx;
@@ -38,10 +37,9 @@ const StepSet = ({
     event: React.ChangeEvent<HTMLTextAreaElement>,
     currentIndex: number
   ) => {
-    setTextValue(event.target.value);
-    const newStepsValue = steps.slice();
+    const newStepsValue = directDatas.slice();
     newStepsValue[currentIndex].body = event.target.value;
-    setSteps(newStepsValue);
+    setDirectDatas(newStepsValue);
   };
 
   const removeHandler = (currentIndex: number) => {
@@ -53,29 +51,26 @@ const StepSet = ({
     newStepImgFiles.splice(currentIndex, 1);
     setStepImgFiles(newStepImgFiles);
   };
-  console.log(stepImgFiles);
+  // console.log(stepImgFiles);
 
   useEffect(() => {
-    const originData = steps.slice();
-    // console.log("originData", originData);
+    const originData = directDatas.slice();
     if (originData[currentIndex].imgDirectionUrl !== undefined) {
       originData[currentIndex].imgDirectionUrl = imgName;
-      setSteps(originData);
+      setDirectDatas(originData);
     }
-  }, [textValue, imgName]);
+  }, [imgName]);
 
-  // console.log("directDatas", directDatas); // 빌드에러용 임시 추가
   // console.log("setDirectDatas", setDirectDatas); // 빌드에러용 임시 추가
 
   return (
     <SStepsContainer>
       <SStepBox>
         <STextarea
-          name="directionBody"
-          // cols={70}
+          name="body"
           rows={8}
+          value={text}
           placeholder="요리 과정을 입력해주세요."
-          value={textValue}
           onChange={(e) => {
             textHandler(e, currentIndex);
           }}

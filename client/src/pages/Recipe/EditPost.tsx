@@ -90,9 +90,7 @@ const EditPost = () => {
   // 수정페이지 관련
   const [editMode, setEditMode] = useState(false);
   const { recipeId } = useParams();
-  const [editResponse, setEditResponse] = useState<
-    IEditResponseData | undefined
-  >();
+  const [editResponse, setEditResponse] = useState<IEditResponseData>();
 
   // 등록페이지 관련
   const [thumbNail, setThumbNail] = useState<TypeOfFileList>();
@@ -209,7 +207,8 @@ const EditPost = () => {
         console.log("수정에러", err);
       });
   }, []);
-  console.log("editResponse", editResponse);
+  // console.log("editResponse 에디트 포스트", editResponse);
+  console.log("변경", directDatas);
 
   return (
     <SFormContainer>
@@ -276,9 +275,8 @@ const EditPost = () => {
             <Guide text="중요한 부분은 빠짐없이 적어주세요." />
           </SLable>
           <StepsMaker
-            resDirecttions={
-              editResponse && editMode ? editResponse.directions : undefined
-            }
+            // editResponse={editResponse ? editResponse : undefined}
+            // setEditResponse={setEditResponse}
             booleanArr={booleanArr}
             setBooleanArr={setBooleanArr}
             directDatas={directDatas}

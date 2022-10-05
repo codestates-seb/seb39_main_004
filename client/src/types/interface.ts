@@ -25,7 +25,8 @@ interface IImgUploaderProps {
 }
 
 interface IStepMakerProps {
-  resDirecttions?: IStepValues[] | undefined;
+  // setEditResponse?: Dispatch<SetStateAction<IEditResponseData | undefined>>;
+  // editResponse?: IEditResponseData | undefined;
   directDatas: IStepValues[];
   setDirectDatas: Dispatch<SetStateAction<IStepValues[]>>;
   stepImgFiles: TypeOfFileList[];
