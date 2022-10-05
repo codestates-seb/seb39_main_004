@@ -14,6 +14,9 @@ const SThumbNailContainer = styled.img`
   width: 100%;
   height: 400px;
   object-fit: cover;
+  @media ${({ theme }) => theme.device.mobile} {
+    height: 270px;
+  }
 `;
 
 const SUserContainer = styled.div``;
@@ -25,6 +28,14 @@ const SLogoRecipe = styled.img`
   left: 0;
   margin: 0 auto;
   display: block;
+  @media ${({ theme }) => theme.device.tablet} {
+    width: 200px;
+    top: -35px;
+  }
+  @media ${({ theme }) => theme.device.mobile} {
+    width: 130px;
+    top: -23px;
+  }
 `;
 
 const STopContainer = styled.div`
@@ -33,6 +44,13 @@ const STopContainer = styled.div`
   padding: 30px;
   margin-top: 8rem;
   margin-bottom: 30px;
+  @media ${({ theme }) => theme.device.tablet} {
+    margin-top: 6rem;
+  }
+  @media ${({ theme }) => theme.device.mobile} {
+    padding: 20px;
+    margin-top: 4rem;
+  }
 `;
 
 const SHeaderContainer = styled.div`
@@ -44,6 +62,14 @@ const SHeaderContainer = styled.div`
     padding-top: 30px;
     display: inline-block;
   }
+  @media ${({ theme }) => theme.device.mobile} {
+    margin-top: 0;
+    padding-bottom: 10px;
+    h1 {
+      font-size: 1.2rem;
+      padding-top: 20px;
+    }
+  }
 `;
 
 const SDesc = styled.p`
@@ -51,6 +77,10 @@ const SDesc = styled.p`
   padding-top: 15px;
   color: var(--gray);
   font-size: 1.1rem;
+  @media ${({ theme }) => theme.device.mobile} {
+    font-size: 0.8rem;
+    line-height: 1.3rem;
+  }
 `;
 
 const IngredientContainer = styled.div`
@@ -61,6 +91,14 @@ const IngredientContainer = styled.div`
     font-weight: bold;
     padding-bottom: 20px;
     padding-left: 20px;
+  }
+  @media ${({ theme }) => theme.device.tablet} {
+    margin-top: 30px;
+    h4 {
+      font-size: 1.2rem;
+      padding-bottom: 0;
+      padding-left: 0;
+    }
   }
 `;
 
@@ -76,7 +114,7 @@ const STabMenu = styled.ul`
   .submenu {
     width: 150px;
     padding: 10px 30px;
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     text-align: center;
     cursor: pointer;
   }
@@ -93,6 +131,19 @@ const STabMenu = styled.ul`
       border-bottom: 3px solid var(--red);
     }
   }
+  @media ${({ theme }) => theme.device.mobile} {
+    margin-bottom: 30px;
+    .submenu {
+      width: 100%;
+      padding: 10px 30px;
+      font-size: 0.9rem;
+    }
+    .focused {
+      :after {
+        width: 100%;
+      }
+    }
+  }
 `;
 
 const SRecipeInfoContainer = styled.div`
@@ -101,6 +152,13 @@ const SRecipeInfoContainer = styled.div`
   column-gap: 70px;
   flex-grow: 1;
   padding: 50px 0 30px;
+  @media ${({ theme }) => theme.device.desktop} {
+    column-gap: 20px;
+    padding: 10px 0;
+  }
+  @media ${({ theme }) => theme.device.tablet} {
+    display: block;
+  }
 `;
 
 const SRecipeStepContainer = styled.div``;
@@ -114,7 +172,6 @@ const RecipeDetail = () => {
     getData();
   }, []);
 
-  console.log("서버 데이터 확인용--------", data[0]);
   const getData = async () => {
     const { data } = await axios.get(`/api/v1/recipe/${id}`);
     setData([data.data]);

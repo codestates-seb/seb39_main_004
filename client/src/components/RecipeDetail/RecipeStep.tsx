@@ -7,6 +7,15 @@ const SStepContainer = styled.div`
   grid-template-columns: 730px auto;
   column-gap: 20px;
   margin-bottom: 30px;
+  @media ${({ theme }) => theme.device.desktop} {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr;
+    row-gap: 20px;
+  }
+  @media ${({ theme }) => theme.device.mobile} {
+    row-gap: 15px;
+  }
 `;
 
 const StepInfo = styled.div`
@@ -21,6 +30,15 @@ const StepInfo = styled.div`
   p {
     font-size: 1.2rem;
   }
+  @media ${({ theme }) => theme.device.mobile} {
+    h2 {
+      font-size: 1.2rem;
+      padding-bottom: 10px;
+    }
+    p {
+      font-size: 0.9rem;
+    }
+  }
 `;
 
 const SStepImg = styled.img`
@@ -31,6 +49,9 @@ const SStepImg = styled.img`
   width: 100%;
   height: 300px;
   object-fit: cover;
+  @media ${({ theme }) => theme.device.mobile} {
+    height: 270px;
+  }
 `;
 
 const PostStep = ({ index, imgDirectionUrl, body }: IPostDirectionsProps) => {

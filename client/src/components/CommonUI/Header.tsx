@@ -35,7 +35,7 @@ const SHeader = styled.header`
     font-weight: lighter;
     color: var(--gray);
   }
-  @media ${({ theme }) => theme.device.mobile} {
+  @media ${({ theme }) => theme.device.tablet} {
     height: 55px;
   }
 `;

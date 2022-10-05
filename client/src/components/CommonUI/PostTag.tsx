@@ -14,6 +14,9 @@ export const STag = styled.span`
     color: var(--deep-green);
     content: "#";
   }
+  @media ${({ theme }) => theme.device.mobile} {
+    font-size: 0.7rem;
+  }
 `;
 
 const Tag = ({ name }: ITagProps) => {

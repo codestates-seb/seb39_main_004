@@ -3,7 +3,6 @@ import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import { PostTag } from "../../components/CommonUI";
 import { BsFillBookmarkCheckFill, BsBookmark } from "react-icons/bs";
-import { FiDownload } from "react-icons/fi";
 import view from "../../assets/icons/view.svg";
 import star from "../../assets/icons/star.svg";
 import { IPostCategoryProps } from "../../types/interface";
@@ -34,6 +33,11 @@ const SCtagoryContainer = styled.div`
   .share {
     margin-right: 15px;
   }
+  @media ${({ theme }) => theme.device.tablet} {
+    svg {
+      width: 22px;
+    }
+  }
 `;
 
 const SHeader = styled.div`
@@ -49,16 +53,35 @@ const SHeader = styled.div`
   p {
     padding-right: 10px;
   }
+  @media ${({ theme }) => theme.device.tablet} {
+    h1 {
+      font-size: 1.2rem;
+    }
+  }
+`;
+
+const STagContainer = styled.div`
+  margin-bottom: 40px;
+  @media ${({ theme }) => theme.device.mobile} {
+    margin-bottom: 20px;
+  }
 `;
 
 const SIconBox = styled.div`
   display: flex;
   gap: 40px;
   font-size: 1.2rem;
+  @media ${({ theme }) => theme.device.mobile} {
+    font-size: 0.8rem;
+    img {
+      width: 24px;
+      vertical-align: -7px;
+    }
+  }
 `;
 
-const STagContainer = styled.div`
-  margin-bottom: 40px;
+const SBookMark = styled.div`
+  cursor: pointer;
 `;
 
 const PostInfo = ({
@@ -74,26 +97,25 @@ const PostInfo = ({
   const message = useMessage(2000);
 
   const doBookmark = async () => {
-    await axios.post(`/api/v1/recipe/${id}/bookmark/`);
-
     try {
+      await axios.post(`/api/v1/recipe/${id}/bookmark/`);
       setBookCheck(true);
     } catch (error) {
       message.fire({
         icon: "error",
-        title: `북마크 추가를 실패했습니다.`,
+        title: "북마크 추가에 실패했습니다. \n 로그인을 해주세요.",
       });
     }
   };
 
   const undoBookmark = async () => {
-    axios.post(`/api/v1/recipe/${id}/bookmark/undo/`);
     try {
+      axios.post(`/api/v1/recipe/${id}/bookmark/undo/`);
       setBookCheck(false);
     } catch (error) {
       message.fire({
         icon: "error",
-        title: `북마크 제거를 실패했습니다.`,
+        title: "북마크 해제에 실패했습니다.",
       });
     }
   };
@@ -106,14 +128,15 @@ const PostInfo = ({
       <SCtagoryContainer>
         <SHeader>
           <h1>#{category}</h1>
-          <div>
-            <FiDownload size={25} className="share" />
+          <SBookMark>
+            {/* TODO: 추후 공유 기능 구현 */}
+            {/* <FiDownload size={25} className="share" /> */}
             {bookCheck ? (
               <BsFillBookmarkCheckFill onClick={undoBookmark} size={24} />
             ) : (
               <BsBookmark onClick={doBookmark} size={24} />
             )}
-          </div>
+          </SBookMark>
         </SHeader>
         <STagContainer>
           {tags.map((i) => (

@@ -23,6 +23,10 @@ export const StyledInput = styled.div`
     ::placeholder {
       color: #bbb;
     }
+    @media ${({ theme }) => theme.device.mobile} {
+      height: 40px;
+      font-size: 0.9rem;
+    }
   }
 
   input:focus {
