@@ -63,7 +63,7 @@ const ImgUploader = ({
 
   useEffect(() => {
     if (imgUrl) {
-      const newFileURL = `${process.env.PUBLIC_URL}/${imgUrl}`;
+      const newFileURL = `${process.env.PUBLIC_URL}/assets/${imgUrl}`;
       setFileURL(newFileURL);
     }
   }, []);
