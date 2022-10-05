@@ -9,3 +9,4 @@ export { default as SelectButton } from "./SeletButton";
 export { default as Tag } from "./Tag";
 export { default as PostTag } from "./PostTag";
 export { StyledInput } from "./StyledInput";
+export { default as Loading } from "./Loading";
