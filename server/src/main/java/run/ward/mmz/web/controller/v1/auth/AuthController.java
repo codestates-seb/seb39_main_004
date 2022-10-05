@@ -72,6 +72,7 @@ public class AuthController {
     public ResponseEntity<?> sessionStatus(
             @LoginUser Account user) {
 
+
         SessionUser sessionUser = SessionUser.builder()
                 .user(user)
                 .build();
@@ -87,6 +88,9 @@ public class AuthController {
     @GetMapping("/auth/login-success")
     public ResponseEntity<?> loginSuccess(
             @LoginUser Account user) {
+
+        user.setNew(false);
+        accountService.save(user);
 
         SessionUser sessionUser = SessionUser.builder()
                 .user(user)

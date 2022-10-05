@@ -24,6 +24,11 @@ public class AccountServiceImpl implements AccountService {
     String defaultProfileUrl = "default_thumbnail.png";
 
     @Override
+    public Account save(Account user) {
+        return accountRepository.save(user);
+    }
+
+    @Override
     @Transactional
     public Account signUp(Account user) {
 
