@@ -215,7 +215,6 @@ const AddPost = () => {
                 id="title"
                 placeholder="레시피 제목을 적어주세요."
               />
-              {/* {errors.recipeTitle && <p>{errors.recipeTitle.message}</p>} */}
               <SLable htmlFor="body">
                 요리 소개
                 <RequireMark />

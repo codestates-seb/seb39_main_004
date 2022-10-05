@@ -43,6 +43,12 @@ const SSection = styled.div`
   margin-bottom: 3rem;
   display: flex;
   flex-direction: column;
+  @media ${({ theme }) => theme.device.desktop} {
+    padding: 2rem;
+  }
+  @media ${({ theme }) => theme.device.mobile} {
+    padding: 1rem;
+  }
 `;
 
 const SFieldset = styled.fieldset`
@@ -51,11 +57,19 @@ const SFieldset = styled.fieldset`
   & > :first-child {
     margin-top: 3rem;
   }
+  @media ${({ theme }) => theme.device.mobile} {
+    & > :first-child {
+      margin-top: 1rem;
+    }
+  }
 `;
 
 const SRecipeInfo = styled.div`
   display: flex;
   gap: 2.5rem;
+  @media ${({ theme }) => theme.device.tablet} {
+    display: block;
+  }
 `;
 
 const SRecipeTexts = styled.div`
@@ -65,6 +79,11 @@ const SRecipeTexts = styled.div`
   & > :nth-child(3) {
     margin-top: 2rem;
   }
+  @media ${({ theme }) => theme.device.desktop} {
+    & > :nth-child(3) {
+      margin-top: 1rem;
+    }
+  }
 `;
 
 const SSectionBtn = styled.section`
@@ -72,6 +91,9 @@ const SSectionBtn = styled.section`
   justify-content: center;
   gap: 3rem;
   padding-top: 2rem;
+  @media ${({ theme }) => theme.device.tablet} {
+    gap: 1rem;
+  }
 `;
 
 const SFormBtn = styled.button`
@@ -81,6 +103,13 @@ const SFormBtn = styled.button`
   font-size: 1.6rem;
   padding: 1rem;
   border-radius: 3px;
+  @media ${({ theme }) => theme.device.tablet} {
+    font-size: 1.3rem;
+  }
+  @media ${({ theme }) => theme.device.mobile} {
+    width: 50%;
+    font-size: 1rem;
+  }
 `;
 
 const EditPost = () => {
@@ -276,8 +305,6 @@ const EditPost = () => {
             <Guide text="중요한 부분은 빠짐없이 적어주세요." />
           </SLable>
           <StepsMaker
-            // editResponse={editResponse ? editResponse : undefined}
-            // setEditResponse={setEditResponse}
             booleanArr={booleanArr}
             setBooleanArr={setBooleanArr}
             directDatas={directDatas}
