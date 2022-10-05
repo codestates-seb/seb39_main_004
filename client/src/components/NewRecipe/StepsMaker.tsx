@@ -1,5 +1,5 @@
-import { IStepMakerProps, IStepValues } from "../../types/interface";
-import { useEffect, useState } from "react";
+import { IStepMakerProps } from "../../types/interface";
+import { useEffect } from "react";
 import { StepSet, PlusBtn } from "./indexNewRecipe";
 
 const StepsMaker = ({
@@ -11,18 +11,18 @@ const StepsMaker = ({
   setBooleanArr,
 }: IStepMakerProps) => {
   const basicForm = {
-    index: 0,
+    index: 1,
     imgDirectionUrl: "",
     body: "",
   };
 
-  let initialValue;
-  directDatas === undefined
-    ? (initialValue = [basicForm])
-    : (initialValue = directDatas);
-  const [steps, setSteps] = useState<IStepValues[]>(initialValue);
+  // let initialValue;
+  // directDatas === undefined
+  //   ? (initialValue = [basicForm])
+  //   : (initialValue = directDatas);
+  // const [steps, setSteps] = useState<IStepValues[]>(initialValue);
 
-  console.log(steps);
+  // console.log(steps);
 
   // const addDirectionsHander = () => {
   //   if (setEditResponse && editResponse) {
@@ -56,6 +56,14 @@ const StepsMaker = ({
   //   console.log("요소", editResponse.directions);
   //   // });
   // }
+  const addDirectionsHander = () => {
+    const lastStep = directDatas.slice(-1)[0];
+    if (lastStep) {
+      basicForm.index = lastStep.index + 1;
+    }
+    setDirectDatas([...directDatas, basicForm]);
+    setBooleanArr([...booleanArr, false]);
+  };
 
   useEffect(() => {
     // console.log("resDirecttions", editResponse);
@@ -76,7 +84,6 @@ const StepsMaker = ({
                 text={step.body}
                 imgUrl={step.imgDirectionUrl}
                 steps={directDatas}
-                setSteps={setSteps}
                 stepImgFiles={stepImgFiles}
                 setStepImgFiles={setStepImgFiles}
                 directDatas={directDatas}
@@ -87,17 +94,7 @@ const StepsMaker = ({
             );
           })}
       </div>
-      <PlusBtn
-        addHandler={() => {
-          const lastStep = directDatas.slice(-1)[0];
-          if (lastStep) {
-            basicForm.index = lastStep.index + 1;
-          }
-          setDirectDatas([...directDatas, basicForm]);
-          setBooleanArr([...booleanArr, false]);
-        }}
-        // addHandler={addDirectionsHander}
-      />
+      <PlusBtn addHandler={addDirectionsHander} />
     </>
   );
 };

@@ -23,12 +23,11 @@ const StepSet = ({
   imgUrl,
   directDatas,
   setDirectDatas,
-  steps,
   booleanArr,
   setBooleanArr,
 }: IStepSetProps) => {
   const [imgName, setImgName] = useState<string>("");
-  const currentIndex = steps.findIndex((step) => {
+  const currentIndex = directDatas.findIndex((step) => {
     return step.index === idx;
   });
 
@@ -79,7 +78,7 @@ const StepSet = ({
         />
       </SStepBox>
       <ImgUploader
-        steps={steps}
+        // steps={steps}
         imgName={imgName}
         currentIndex={currentIndex}
         imgUrl={imgUrl}

@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { IIngredientSetProps } from "../../types/interface";
 import { RemoveBtn } from "./indexNewRecipe";
 import { SInput } from "./RecipeFormStyled";
@@ -11,9 +11,10 @@ const SIngredientContainer = styled.li`
   margin-bottom: 20px;
 `;
 const SCheckInput = styled.input`
+  transform: scale(1.8);
   position: absolute;
-  right: 10px;
-  top: 23px;
+  right: 25px;
+  top: 25px;
   background-color: beige;
   border: none;
 `;
@@ -27,39 +28,43 @@ const SIngredientAmout = styled.div`
 `;
 
 const IngredientsSet = ({
-  setIngredientsDatas,
   idx,
+  ingredient,
   ingredientsDatas,
+  setIngredientsDatas,
 }: IIngredientSetProps) => {
-  const [nameValue, setNameValue] = useState("");
-  const [isEssential, setIsEssential] = useState(false);
-  const [amount, setAmonut] = useState("");
+  const currentIndex = ingredientsDatas.findIndex((el) => el.index === idx);
+  const [inputs, setInputs] = useState({
+    index: ingredient.index,
+    name: ingredient.name,
+    essential: ingredient.essential,
+    amount: ingredient.amount,
+  });
 
   const removeHandler = () => {
-    console.log("IngredientsSet제거 idx", idx);
+    setIngredientsDatas(ingredientsDatas.filter((el) => el.index !== idx));
+  };
+
+  const inputHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    setInputs({ ...inputs, [e.target.name]: e.target.value });
   };
 
   useEffect(() => {
-    const originData = ingredientsDatas;
-    originData[idx] = {
-      index: idx,
-      name: nameValue,
-      amount,
-      isEssential,
-    };
+    const originData = ingredientsDatas.slice();
+    originData[currentIndex] = inputs;
     setIngredientsDatas(originData);
-  }, [nameValue, isEssential, amount]);
+  }, [inputs]);
 
   return (
     <SIngredientContainer>
       <SIngredientName>
         <SInput
           placeholder="재료를 입력해주세요."
-          name="ingredientName"
+          name="name"
           required
-          value={nameValue}
-          onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-            setNameValue(event.target.value);
+          value={inputs.name}
+          onChange={(e) => {
+            inputHandler(e);
           }}
         />
         <RemoveBtn removeHandler={removeHandler} idx={idx} />
@@ -67,19 +72,19 @@ const IngredientsSet = ({
       <SIngredientAmout>
         <SInput
           placeholder="양을 입력해주세요"
-          name="ingredientAmount"
+          name="amount"
           required
-          value={amount}
-          onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-            setAmonut(event.target.value);
+          value={inputs.amount}
+          onChange={(e) => {
+            inputHandler(e);
           }}
         />
         <SCheckInput
           type="checkbox"
-          // checked={isEssential}
-          name="isEssential"
-          onChange={() => {
-            setIsEssential(!isEssential);
+          name="essential"
+          defaultChecked={inputs.essential}
+          onChange={(e) => {
+            inputHandler(e);
           }}
         />
       </SIngredientAmout>
