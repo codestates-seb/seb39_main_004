@@ -1,10 +1,11 @@
 <p align="middle" >
-  <img width="400px;" src="https://user-images.githubusercontent.com/59650985/190901547-5a807f79-1f35-4570-9a27-758a88a53882.png"/>
+  <img width="400px;" src="https://user-images.githubusercontent.com/104341003/194118080-1ac35ea1-46a3-4a13-8433-b82f0f257c1e.gif"/>
 </p>
 <h1 align="middle">MMZ (뭐먹지?)</h1>
 <p align="middle">오늘부터는 뭐먹지? 고민 끝! MZ세대를 위한 간편 레시피 플랫폼 🥳</p>
 
 <br/>
+
 
 ## 📑 프로젝트 소개
 > 젊은 1인 가구가 늘어난 요즘, 항상 뭐 먹을지 고민하는 우리..
