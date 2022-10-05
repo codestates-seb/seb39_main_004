@@ -7,23 +7,32 @@ import {
 } from "./type";
 import { UseFormRegister } from "react-hook-form";
 
+interface IThumbNailProps {
+  resThumbNailImgUrl?: string;
+  setThumbNail: Dispatch<SetStateAction<TypeOfFileList>>;
+}
+
 interface IImgUploaderProps {
   steps?: IStepValues[];
-  imgName?: string;
+  imgName: string;
   currentIndex?: number;
-  imgUrl?: string;
-  setThumbNail?: Dispatch<SetStateAction<TypeOfFileList>>;
+  imgUrl: string;
   stepImgFiles?: TypeOfFileList[];
   setStepImgFiles?: Dispatch<SetStateAction<TypeOfFileList[]>>;
   setImgName?: Dispatch<SetStateAction<string>>;
+  booleanArr: boolean[];
+  setBooleanArr: Dispatch<SetStateAction<boolean[]>>;
 }
 
 interface IStepMakerProps {
-  resDirecttions?: IStepValues[] | undefined;
+  // setEditResponse?: Dispatch<SetStateAction<IEditResponseData | undefined>>;
+  // editResponse?: IEditResponseData | undefined;
   directDatas: IStepValues[];
   setDirectDatas: Dispatch<SetStateAction<IStepValues[]>>;
   stepImgFiles: TypeOfFileList[];
   setStepImgFiles: Dispatch<SetStateAction<TypeOfFileList[]>>;
+  setBooleanArr: Dispatch<SetStateAction<boolean[]>>;
+  booleanArr: boolean[];
   // clickEvent?: (orderValue: string) => Promise<void> | void;
 }
 
@@ -43,6 +52,8 @@ interface IStepSetProps {
   setStepImgFiles: Dispatch<SetStateAction<TypeOfFileList[]>>;
   directDatas: IStepValues[];
   setDirectDatas: Dispatch<SetStateAction<IStepValues[]>>;
+  setBooleanArr: Dispatch<SetStateAction<boolean[]>>;
+  booleanArr: boolean[];
 }
 
 interface IResponseImgProps {
@@ -87,7 +98,7 @@ interface IIngredientSetProps extends IAddIngredientsProps {
 }
 
 interface ITagsMakerProps {
-  resTags: TypeOfTags[] | undefined;
+  resTags?: TypeOfTags[] | undefined;
   setTagsDatas: Dispatch<SetStateAction<TypeOfTags[]>>;
 }
 
@@ -250,6 +261,7 @@ interface IStarProps {
 }
 
 export type {
+  IThumbNailProps,
   IImgUploaderProps,
   IStepMakerProps,
   IResponseImgProps,

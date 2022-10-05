@@ -1,8 +1,8 @@
 import { useState, useRef, useEffect } from "react";
-import { SLable } from "./RecipeFormStyled";
+// import { SLable } from "./RecipeFormStyled";
 import { IImgUploaderProps } from "../../types/interface";
 import styled from "styled-components";
-import { RequireMark } from "./indexNewRecipe";
+// import { RequireMark } from "./indexNewRecipe";
 import defaultImg from "../../assets/images/Recipe/defaultIMG.svg";
 
 const SImgInputContainer = styled.div`
@@ -24,10 +24,11 @@ const SImgInput = styled.input`
 const ImgUploader = ({
   currentIndex,
   imgUrl,
-  setThumbNail,
   setStepImgFiles,
   stepImgFiles,
   setImgName,
+  setBooleanArr,
+  booleanArr,
 }: IImgUploaderProps) => {
   const [fileURL, setFileURL] = useState<string>("");
   const imgUploadInput = useRef<HTMLInputElement | null>(null);
@@ -38,19 +39,21 @@ const ImgUploader = ({
         currentIndex !== undefined &&
         stepImgFiles &&
         setStepImgFiles &&
-        setImgName
+        setImgName &&
+        setBooleanArr &&
+        booleanArr !== undefined
       ) {
-        const newImgFile = stepImgFiles;
+        const newImgFile = stepImgFiles.slice();
+        const newBooleanList = booleanArr.slice();
         newImgFile[currentIndex] = event.target.files[0];
-        // console.log("값 전체", newImgFile);
+        newBooleanList[currentIndex] = true;
+
+        console.log("값 전체", newImgFile);
         // console.log("파일이름", event.target.files[0]);
         setStepImgFiles(newImgFile);
         setImgName(event.target.files[0].name);
+        setBooleanArr(newBooleanList);
       }
-      if (setThumbNail) {
-        setThumbNail(event.target.files[0]);
-      }
-
       const newFileURL = URL.createObjectURL(event.target.files[0]);
       setFileURL(newFileURL);
       // console.log("event.target.files", event.target.files);
@@ -60,23 +63,17 @@ const ImgUploader = ({
 
   useEffect(() => {
     if (imgUrl) {
-      const imgThumbNailUrl = `${process.env.PUBLIC_URL}/${imgUrl}`;
-      setFileURL(imgThumbNailUrl);
+      const newFileURL = `${process.env.PUBLIC_URL}/assets/${imgUrl}`;
+      setFileURL(newFileURL);
     }
   }, []);
 
   return (
     <SImgInputContainer>
-      {currentIndex === undefined && (
-        <SLable htmlFor="img">
-          썸네일
-          <RequireMark />
-        </SLable>
-      )}
       <SImg
         height={currentIndex === undefined ? "323px" : undefined}
         src={fileURL ? fileURL : defaultImg}
-        alt=""
+        alt={fileURL}
         onClick={() => {
           if (imgUploadInput.current) {
             imgUploadInput.current.click();

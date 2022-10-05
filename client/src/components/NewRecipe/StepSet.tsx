@@ -24,9 +24,9 @@ const StepSet = ({
   directDatas,
   setDirectDatas,
   steps,
-  setSteps,
+  booleanArr,
+  setBooleanArr,
 }: IStepSetProps) => {
-  const [textValue, setTextValue] = useState<string>(text ?? "");
   const [imgName, setImgName] = useState<string>("");
   const currentIndex = steps.findIndex((step) => {
     return step.index === idx;
@@ -36,16 +36,13 @@ const StepSet = ({
     event: React.ChangeEvent<HTMLTextAreaElement>,
     currentIndex: number
   ) => {
-    setTextValue(event.target.value);
-    const newStepsValue = steps.slice();
+    const newStepsValue = directDatas.slice();
     newStepsValue[currentIndex].body = event.target.value;
-    setSteps(newStepsValue);
+    setDirectDatas(newStepsValue);
   };
 
   const removeHandler = (currentIndex: number) => {
-    const newSteps = steps.slice();
-    newSteps.splice(currentIndex, 1);
-    setSteps(newSteps);
+    setDirectDatas(directDatas.filter((el, idx) => idx !== currentIndex));
     // 이미지파일 제거
     const newStepImgFiles = stepImgFiles.slice();
     newStepImgFiles.splice(currentIndex, 1);
@@ -53,26 +50,25 @@ const StepSet = ({
   };
 
   useEffect(() => {
-    const originData = steps.slice();
-    // console.log("originData", originData);
+    const originData = directDatas.slice();
     if (originData[currentIndex].imgDirectionUrl !== undefined) {
       originData[currentIndex].imgDirectionUrl = imgName;
-      setSteps(originData);
+      setDirectDatas(originData);
     }
-  }, [textValue, imgName]);
-
-  console.log("directDatas", directDatas); // 빌드에러용 임시 추가
-  console.log("setDirectDatas", setDirectDatas); // 빌드에러용 임시 추가
+    if (!originData[currentIndex].imgDirectionUrl) {
+      originData[currentIndex].imgDirectionUrl = imgUrl;
+      setDirectDatas(originData);
+    }
+  }, [imgName]);
 
   return (
     <SStepsContainer>
       <SStepBox>
         <STextarea
-          name="directionBody"
-          // cols={70}
+          name="body"
           rows={8}
+          value={text}
           placeholder="요리 과정을 입력해주세요."
-          value={textValue}
           onChange={(e) => {
             textHandler(e, currentIndex);
           }}
@@ -90,6 +86,8 @@ const StepSet = ({
         stepImgFiles={stepImgFiles}
         setStepImgFiles={setStepImgFiles}
         setImgName={setImgName}
+        booleanArr={booleanArr}
+        setBooleanArr={setBooleanArr}
       ></ImgUploader>
     </SStepsContainer>
   );

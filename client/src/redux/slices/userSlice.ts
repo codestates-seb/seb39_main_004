@@ -108,7 +108,7 @@ export const userLogin = createAsyncThunk(
         }
       );
       if (response.status === 200) {
-        console.log("로그인 액션 생성자: ", response);
+        // console.log("로그인 액션 생성자: ", response);
       }
 
       return response;
@@ -205,7 +205,7 @@ export const userLogout = createAsyncThunk(
   async () => {
     try {
       const response = await axios.post("/api/v1/auth/logout");
-      console.log("로그아웃 액션 생성자: ", response);
+      // console.log("로그아웃 액션 생성자: ", response);
       if (response.status === 200) {
         localStorage.clear();
 
@@ -270,7 +270,7 @@ const userSlice = createSlice({
       })
       // 세션 체크
       .addCase(userSession.fulfilled, (state, { payload }) => {
-        console.log("session payload: ", payload);
+        // console.log("session payload: ", payload);
         if (payload) {
           state.sessionStatus = true;
           state.userInfo = payload.data; // 현재 로그인 된 사용자의 정보 할당};
