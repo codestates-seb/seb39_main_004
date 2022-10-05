@@ -47,7 +47,6 @@ interface IStepSetProps {
   text: string;
   imgUrl: string;
   steps: IStepValues[];
-  setSteps: Dispatch<SetStateAction<IStepValues[]>>;
   stepImgFiles: TypeOfFileList[];
   setStepImgFiles: Dispatch<SetStateAction<TypeOfFileList[]>>;
   directDatas: IStepValues[];
@@ -93,8 +92,11 @@ interface IAddIngredientsProps {
   setIngredientsDatas: Dispatch<SetStateAction<TypeOfIngredients[]>>;
 }
 
-interface IIngredientSetProps extends IAddIngredientsProps {
+interface IIngredientSetProps {
   idx: number;
+  ingredient: TypeOfIngredients;
+  ingredientsDatas: TypeOfIngredients[];
+  setIngredientsDatas: Dispatch<SetStateAction<TypeOfIngredients[]>>;
 }
 
 interface ITagsMakerProps {

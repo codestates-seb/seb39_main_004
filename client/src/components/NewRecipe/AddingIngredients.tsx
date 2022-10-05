@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { IAddIngredientsProps } from "../../types/interface";
 import { IngredientsSet, PlusBtn } from "./indexNewRecipe";
 import styled from "styled-components";
@@ -9,29 +8,46 @@ const SIngredientsGroups = styled.div`
 `;
 
 const AddIngredients = ({
-  setIngredientsDatas,
   ingredientsDatas,
+  setIngredientsDatas,
 }: IAddIngredientsProps) => {
-  const initialArray = new Array<number>(2).fill(0);
-  const [ingrediStage, setIngrediStage] = useState<number[]>(initialArray);
+  const basicForm = {
+    index: 0,
+    name: "",
+    amount: "",
+    essential: false,
+  };
+  // let initialValue;
+  // ingredientsDatas === undefined
+  //   ? (initialValue = [basicForm])
+  //   : (initialValue = ingredientsDatas);
+
+  // const [ingrediStage, setIngrediStage] =
+  //   useState<TypeOfIngredients[]>(initialValue);
 
   const addHandler = () => {
-    setIngrediStage([...ingrediStage, 0]);
+    const lastInputs = ingredientsDatas.slice(-1)[0];
+    if (lastInputs) {
+      basicForm.index = lastInputs.index + 1;
+    }
+    setIngredientsDatas([...ingredientsDatas, basicForm]);
   };
 
   return (
     <>
       <SIngredientsGroups>
-        {ingrediStage.map((ingredient, idx) => {
-          return (
-            <IngredientsSet
-              key={idx}
-              idx={idx}
-              ingredientsDatas={ingredientsDatas}
-              setIngredientsDatas={setIngredientsDatas}
-            ></IngredientsSet>
-          );
-        })}
+        {ingredientsDatas &&
+          ingredientsDatas.map((ingredient) => {
+            return (
+              <IngredientsSet
+                key={ingredient.index}
+                idx={ingredient.index}
+                ingredient={ingredient}
+                ingredientsDatas={ingredientsDatas}
+                setIngredientsDatas={setIngredientsDatas}
+              ></IngredientsSet>
+            );
+          })}
       </SIngredientsGroups>
       <PlusBtn addHandler={addHandler} />
     </>

@@ -106,7 +106,6 @@ const EditPost = () => {
 
   const { register, handleSubmit, setValue } =
     useForm<TypeOfFormData>(undefined);
-
   // console.log("불리언", booleanArr);
   const submitHandler: SubmitHandler<TypeOfFormData> = async (data) => {
     // console.log("onSubmitData", data);
@@ -201,14 +200,16 @@ const EditPost = () => {
         setValue("body", resData.body);
         setDirectDatas(resData.directions);
         setThumbNail(resData.imgThumbNailUrl);
+        setIngredientsDatas(resData.ingredients);
+        // console.log(resData);
         // setTagsDatas(resData.tags);
       })
       .catch((err) => {
         console.log("수정에러", err);
       });
   }, []);
-  // console.log("editResponse 에디트 포스트", editResponse);
-  console.log("변경", directDatas);
+  console.log("변경", tagsDatas);
+  console.log("ddddd", directDatas);
 
   return (
     <SFormContainer>
