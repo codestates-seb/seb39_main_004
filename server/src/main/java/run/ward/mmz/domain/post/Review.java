@@ -36,13 +36,13 @@ public class Review extends Auditable {
     // 연관관계 메서드
     public void setOwner(Account owner) {
         this.owner = owner;
-        if(owner.getReviews().contains(this))
+        if(!owner.getReviews().contains(this))
             owner.getReviews().add(this);
     }
 
-    protected void setRecipe(Recipe recipe){
+    public void setRecipe(Recipe recipe){
         this.recipe = recipe;
-        if(recipe.getReviews().contains(this))
+        if(!recipe.getReviews().contains(this))
             recipe.getReviews().add(this);
     }
 
