@@ -17,9 +17,13 @@ import {
   TypeOfFileList,
   TypeOfFormData,
   TypeOfIngredients,
-  TypeOfTags,
 } from "../../types/type";
-import { IStepValues, IEditResponseData } from "../../types/interface";
+import {
+  IStepValues,
+  IEditResponseData,
+  ITagsData,
+  ITagProps,
+} from "../../types/interface";
 import { useState, useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import styled from "styled-components";
@@ -117,7 +121,6 @@ const EditPost = () => {
   const navigate = useNavigate();
 
   // 수정페이지 관련
-  const [editMode, setEditMode] = useState(false);
   const { recipeId } = useParams();
   const [editResponse, setEditResponse] = useState<IEditResponseData>();
 
@@ -130,13 +133,13 @@ const EditPost = () => {
   const [ingredientsDatas, setIngredientsDatas] = useState<TypeOfIngredients[]>(
     []
   );
-  const [tagsDatas, setTagsDatas] = useState<TypeOfTags[]>([]);
+  const [tagsDatas, setTagsDatas] = useState<ITagsData[]>([]);
   const [fake, setFake] = useState(false);
 
   const { register, handleSubmit, setValue } =
     useForm<TypeOfFormData>(undefined);
-  // console.log("불리언", booleanArr);
   const submitHandler: SubmitHandler<TypeOfFormData> = async (data) => {
+    // console.log("불리언", booleanArr);
     // console.log("onSubmitData", data);
     // console.log("재료", ingredientsDatas);
     // console.log("d이미지 순서", stepImgFiles);
@@ -223,22 +226,24 @@ const EditPost = () => {
       .then((res) => {
         const resData = res.data.data;
         setEditResponse(resData);
-        setEditMode(true);
         setCheckedCateg(resData.category);
         setValue("title", resData.title);
         setValue("body", resData.body);
         setDirectDatas(resData.directions);
         setThumbNail(resData.imgThumbNailUrl);
         setIngredientsDatas(resData.ingredients);
-        // console.log(resData);
-        // setTagsDatas(resData.tags);
+        const tagList: { name: string }[] = [];
+        resData.tags.forEach((el: ITagProps) => {
+          tagList.push({ name: el.name });
+        });
+        setTagsDatas([...tagList]);
       })
       .catch((err) => {
         console.log("수정에러", err);
       });
   }, []);
-  console.log("변경", tagsDatas);
-  console.log("ddddd", directDatas);
+  // console.log("변경", tagsDatas);
+  // console.log(recipeId, "recipeId");
 
   return (
     <SFormContainer>
@@ -256,7 +261,6 @@ const EditPost = () => {
                 id="title"
                 placeholder="레시피 제목을 적어주세요."
               />
-              {/* {errors.recipeTitle && <p>{errors.recipeTitle.message}</p>} */}
               <SLable htmlFor="body">
                 요리 소개
                 <RequireMark />
@@ -315,10 +319,7 @@ const EditPost = () => {
         </SSection>
         <SSection color={"var(--sky-blue)"}>
           <SLable>태그</SLable>
-          <TagsMaker
-            setTagsDatas={setTagsDatas}
-            resTags={editResponse && editMode ? editResponse.tags : undefined}
-          />
+          <TagsMaker setTagsDatas={setTagsDatas} tagsDatas={tagsDatas} />
         </SSection>
         <SSectionBtn>
           <SFormBtn color={"var(--deep-green)"} type="reset">

@@ -17,9 +17,8 @@ import {
   TypeOfFileList,
   TypeOfFormData,
   TypeOfIngredients,
-  TypeOfTags,
 } from "../../types/type";
-import { IStepValues } from "../../types/interface";
+import { IStepValues, ITagsData } from "../../types/interface";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import styled from "styled-components";
@@ -125,7 +124,7 @@ const AddPost = () => {
   const [ingredientsDatas, setIngredientsDatas] = useState<TypeOfIngredients[]>(
     []
   );
-  const [tagsDatas, setTagsDatas] = useState<TypeOfTags[]>([]);
+  const [tagsDatas, setTagsDatas] = useState<ITagsData[]>([]);
 
   const {
     register,
@@ -268,7 +267,7 @@ const AddPost = () => {
         </SSection>
         <SSection color={"var(--sky-blue)"}>
           <SLable>태그</SLable>
-          <TagsMaker setTagsDatas={setTagsDatas} />
+          <TagsMaker setTagsDatas={setTagsDatas} tagsDatas={tagsDatas} />
         </SSection>
         <SSectionBtn>
           <SFormBtn color={"var(--deep-green)"} type="reset">
