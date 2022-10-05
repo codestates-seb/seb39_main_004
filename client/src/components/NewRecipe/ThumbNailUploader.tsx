@@ -39,7 +39,7 @@ const ThumbNailUploader = ({
 
   useEffect(() => {
     if (resThumbNailImgUrl) {
-      const imgThumbNailUrl = `${process.env.PUBLIC_URL}/${resThumbNailImgUrl}`;
+      const imgThumbNailUrl = `${process.env.PUBLIC_URL}/assets/${resThumbNailImgUrl}`;
       setFileURL(imgThumbNailUrl);
     }
   }, []);
