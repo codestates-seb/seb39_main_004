@@ -91,6 +91,7 @@ public class RecipeServiceImpl implements RecipeService {
     @Override
     @Transactional
     public void updateStars(Long id) {
+
         findVerifiedEntity(id).updateStars();
     }
 
