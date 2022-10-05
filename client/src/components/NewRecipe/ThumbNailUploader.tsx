@@ -15,6 +15,11 @@ const SImg = styled.img`
   height: 258px;
   object-fit: cover; // 비율 조정
   border: 2.5px solid var(--gray);
+  @media ${({ theme }) => theme.device.tablet} {
+    width: 100%;
+    height: 257px;
+    margin-top: 10px;
+  }
 `;
 
 const SImgInput = styled.input`
@@ -53,7 +58,7 @@ const ThumbNailUploader = ({
         <RequireMark />
       </SLable>
       <SImg
-        src={fileURL ? fileURL : resThumbNailImgUrl ?? defaultImg}
+        src={fileURL ? fileURL : defaultImg}
         alt={resThumbNailImgUrl}
         onClick={() => {
           if (imgUploadInput.current) {
