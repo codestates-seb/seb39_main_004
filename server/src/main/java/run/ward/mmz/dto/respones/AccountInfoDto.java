@@ -1,10 +1,7 @@
 package run.ward.mmz.dto.respones;
 
-import io.swagger.annotations.ApiParam;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
-
-import java.io.Serializable;
 
 @Data
 @Builder
@@ -13,7 +10,7 @@ import java.io.Serializable;
 @Schema(name = "유저 정보 응답", title = "유저 정보 API JSON DATA 입니다.")
 public class AccountInfoDto {
     @Schema(description = "유저 ID", example = "1")
-    private Long id;
+    private Long userId;
     @Schema(description = "유저 닉네임", example = "ward")
     private String name;
     @Schema(description = "자기소개", example = "안녕하세요 김와드입니다.")
