@@ -245,7 +245,7 @@ public class RecipeController {
             recipeResponseDto.setBookmarked(bookmarkService.isBookmarkedByUser(recipeId, user.getId()));
         }
 
-        boolean isFollowed = subscribeService.existSubscribeByUserAndSessionUser(recipe.getOwner().getId(), user.getId());
+        boolean isFollowed = subscribeService.existSubscribeByUserAndSessionUser(recipe.getOwner(), user);
         recipeResponseDto.getOwner().setFollowed(isFollowed);
 
         ResponseDto.Single<?> response = ResponseDto.Single.builder()

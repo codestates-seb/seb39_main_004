@@ -142,14 +142,9 @@ public class SubscribeServiceImpl implements SubscribeService {
     }
 
     @Override
-    public boolean existSubscribeByUserAndSessionUser(Long userId, Long sessionId) {
+    public boolean existSubscribeByUserAndSessionUser(Account user, Account sessionUser) {
 
-        Boolean isFollowed = subscribeRepository.existsByToUserIdAndFromUserId(userId, sessionId);
-
-        if(isFollowed != null)
-            return isFollowed;
-        else
-            return false;
+        return subscribeRepository.findByToUserAndFromUser(user, sessionUser) != null;
     }
 
 

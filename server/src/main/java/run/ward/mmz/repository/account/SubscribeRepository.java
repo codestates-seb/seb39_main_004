@@ -7,6 +7,7 @@ import run.ward.mmz.domain.account.Account;
 import run.ward.mmz.domain.subscribe.Subscribe;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface SubscribeRepository extends JpaRepository<Subscribe, Long> {
 
@@ -24,7 +25,6 @@ public interface SubscribeRepository extends JpaRepository<Subscribe, Long> {
     @Query("select s from Subscribe s where s.fromUser.id =:id order by s.id desc")
     List<Subscribe> findAllByFromUserId(Long id);
 
-    @Query("select s from Subscribe s where s.toUser.id = :toUserId and s.fromUser.id = :fromUserId")
-    Boolean existsByToUserIdAndFromUserId(Long toUserId, Long fromUserId);
+    Subscribe findByToUserAndFromUser(Account toUser, Account fromUser);
 
 }
