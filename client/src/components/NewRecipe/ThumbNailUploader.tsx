@@ -30,16 +30,18 @@ const ThumbNailUploader = ({
 
   const onImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
-      console.log("파일이름", event.target.files[0]);
+      // console.log("파일이름", event.target.files[0]);
       setThumbNail(event.target.files[0]);
       const newFileURL = URL.createObjectURL(event.target.files[0]);
       setFileURL(newFileURL);
     }
   };
+  console.log(resThumbNailImgUrl);
 
   useEffect(() => {
     if (resThumbNailImgUrl) {
       const imgThumbNailUrl = `${process.env.PUBLIC_URL}/assets/${resThumbNailImgUrl}`;
+      console.log("썸네일 주소", imgThumbNailUrl);
       setFileURL(imgThumbNailUrl);
     }
   }, []);
