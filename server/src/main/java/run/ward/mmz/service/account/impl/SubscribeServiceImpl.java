@@ -141,5 +141,11 @@ public class SubscribeServiceImpl implements SubscribeService {
 
     }
 
+    @Override
+    public boolean existSubscribeByUserAndSessionUser(Account user, Account sessionUser) {
+
+        return subscribeRepository.findByToUserAndFromUser(user, sessionUser) != null;
+    }
+
 
 }

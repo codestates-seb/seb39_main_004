@@ -14,5 +14,6 @@ public interface SubscribeService {
 
     int countFollowUserByAccount(Long userId);
     int countFollowingUserByAccount(Long userId);
+    boolean existSubscribeByUserAndSessionUser(Account user, Account sessionUser);
 
 }

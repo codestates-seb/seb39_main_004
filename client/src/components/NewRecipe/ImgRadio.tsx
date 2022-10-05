@@ -71,6 +71,13 @@ const categoryImgsLink = [
 const SCategoryContainer = styled.div`
   display: flex;
   justify-content: space-between;
+  @media ${({ theme }) => theme.device.desktop} {
+    gap: 15px;
+  }
+  @media ${({ theme }) => theme.device.mobile} {
+    gap: 5px;
+    padding-bottom: 1rem;
+  }
 `;
 
 const ImgRadio = ({ setCheckedCateg, checkedCateg }: IImgRadioProps) => {

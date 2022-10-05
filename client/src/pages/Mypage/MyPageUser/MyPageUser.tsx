@@ -49,7 +49,7 @@ const STextInfo = styled.div`
   }
   span {
     color: var(--deep-green);
-    font-size: 0.9rem;
+    font-size: 1rem;
     display: inline-grid;
     place-items: center;
     grid-template-columns: auto auto;

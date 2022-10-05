@@ -32,7 +32,7 @@ public class SubscribeController {
             @LoginUser Account user) {
 
         subscribeService.follow(followId, user.getId());
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>( HttpStatus.OK);
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")

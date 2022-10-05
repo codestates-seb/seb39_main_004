@@ -9,6 +9,9 @@ const SIngredientContainer = styled.li`
   grid-template-columns: 3.3fr 2fr;
   column-gap: 2.5rem;
   margin-bottom: 20px;
+  @media ${({ theme }) => theme.device.tablet} {
+    display: block;
+  }
 `;
 const SCheckInput = styled.input`
   transform: scale(1.8);
@@ -21,6 +24,9 @@ const SCheckInput = styled.input`
 
 const SIngredientName = styled.div`
   position: relative;
+  @media ${({ theme }) => theme.device.tablet} {
+    margin-bottom: 5px;
+  }
 `;
 
 const SIngredientAmout = styled.div`

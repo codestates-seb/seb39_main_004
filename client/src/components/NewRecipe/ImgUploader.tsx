@@ -12,9 +12,14 @@ const SImgInputContainer = styled.div`
 
 const SImg = styled.img`
   width: 430px;
-  height: ${(props) => props.height ?? "252px"};
+  height: ${(props) => props.height ?? "257px"};
   object-fit: cover; // 비율 조정
   border: 2.5px solid var(--gray);
+  @media ${({ theme }) => theme.device.tablet} {
+    width: 100%;
+    height: 257px;
+    margin-top: 10px;
+  }
 `;
 
 const SImgInput = styled.input`
@@ -71,7 +76,7 @@ const ImgUploader = ({
   return (
     <SImgInputContainer>
       <SImg
-        height={currentIndex === undefined ? "323px" : undefined}
+        height={currentIndex === undefined ? "277px" : undefined}
         src={fileURL ? fileURL : defaultImg}
         alt={fileURL}
         onClick={() => {

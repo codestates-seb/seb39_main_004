@@ -22,4 +22,6 @@ public class AccountInfoDto {
     private String email;
     @Schema(description = "유저 프로필 사진 경로", example = "profile.png")
     private String imgProfileUrl;
+    @Schema(description = "팔로워 상태(로그인 되어있어야 활성화됨)", example = "true")
+    private boolean isFollowed;
 }

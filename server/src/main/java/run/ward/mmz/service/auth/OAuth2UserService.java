@@ -47,29 +47,25 @@ public class OAuth2UserService implements org.springframework.security.oauth2.cl
     @Transactional
     public Account save(OAuthAttributes attributes) {
 
-        String userName = attributes.getName();
-        long tail = 1;
+        String userName = attributes.getName() != null ? attributes.getName() : "유저";
         //유저 이름이 있으면, 이름 변경, 없으면 회원가입
+        String tmp = userName;
 
-        if(accountRepository.existsByName(userName)){
-
-            attributes.setNew(true);
+        while (accountRepository.existsByName(tmp)) {
+            if (!attributes.isNew()) {
+                tmp = tmp + ((int) (Math.random() * 990) + 10);
+            } else
+                break;
         }
 
-        while (accountRepository.existsByName(userName)) {
-            userName = userName + tail++;
-        }
+        attributes.setNew(false);
+        String finalUserName = tmp;
 
-        String finalUserName = userName;
-
-        Account findUser = accountRepository.findByEmail(attributes.getEmail())
-                .map(user -> user.updateName(finalUserName))
+        Account account = accountRepository.findByEmail(attributes.getEmail())
                 .orElse(accountMapper.toEntity(attributes));
 
-
-        return accountRepository.save(findUser);
+        return accountRepository.save(account.updateName(finalUserName));
 
     }
-
 
 }

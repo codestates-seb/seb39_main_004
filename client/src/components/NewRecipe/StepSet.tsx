@@ -8,6 +8,9 @@ const SStepsContainer = styled.div`
   display: flex;
   gap: 2.5rem;
   margin-bottom: 20px;
+  @media ${({ theme }) => theme.device.tablet} {
+    display: block;
+  }
 `;
 
 const SStepBox = styled.div`
@@ -65,7 +68,7 @@ const StepSet = ({
       <SStepBox>
         <STextarea
           name="body"
-          rows={8}
+          rows={11}
           value={text}
           placeholder="요리 과정을 입력해주세요."
           onChange={(e) => {

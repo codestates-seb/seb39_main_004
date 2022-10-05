@@ -14,15 +14,22 @@ const STagsContainer = styled.ul`
   flex-wrap: wrap;
   align-content: space-around;
   gap: 1.3rem;
+  @media ${({ theme }) => theme.device.tablet} {
+    padding: 1.2rem;
+  }
 `;
 
 const SNoLineInput = styled.input`
   width: 300px;
-  font-size: 1.5rem;
+  font-size: 1.1rem;
   margin-left: 2rem;
   border: none;
   &:focus {
     outline: none;
+  }
+  @media ${({ theme }) => theme.device.desktop} {
+    font-size: 1rem;
+    margin-left: 0;
   }
 `;
 
