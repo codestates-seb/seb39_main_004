@@ -12,8 +12,10 @@ const SRepleHeader = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-top: 30px;
-  font-size: 1.2rem;
+  margin-top: 50px;
+  margin-bottom: 20px;
+  font-size: 1rem;
+  color: var(--deep-gray);
 `;
 
 const RepleContainer = () => {
@@ -51,7 +53,7 @@ const RepleContainer = () => {
           key={i.id}
           replyId={i.id}
           replyBody={i.body}
-          createdAt={i.creatDate}
+          createDate={i.createDate}
           user={i.owner}
           stars={i.stars}
         />

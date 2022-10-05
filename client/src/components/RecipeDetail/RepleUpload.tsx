@@ -11,6 +11,12 @@ const SContainer = styled.div`
     font-size: 1.5rem;
     margin-top: 40px;
   }
+  @media ${({ theme }) => theme.device.mobile} {
+    h2 {
+      font-size: 1.1rem;
+      margin-top: 20px;
+    }
+  }
 `;
 
 const SReplyContainer = styled.div`
@@ -39,6 +45,19 @@ const SReplyContainer = styled.div`
       color: #fff;
       font-size: 1rem;
       background: var(--red);
+    }
+  }
+  @media ${({ theme }) => theme.device.tablet} {
+    form {
+      display: block;
+      margin-top: 10px;
+      input {
+        width: 100%;
+        margin-bottom: 10px;
+      }
+      button {
+        font-size: 0.9rem;
+      }
     }
   }
 `;
@@ -91,7 +110,6 @@ const RepleUpload = () => {
       <SReplyContainer>
         <form onSubmit={onSubmitHandler}>
           <Rating starClicked={starClicked} setStarClicked={setStarClicked} />
-
           <input
             type="text"
             value={reple}

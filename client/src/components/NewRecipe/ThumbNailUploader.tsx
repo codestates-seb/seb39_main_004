@@ -12,7 +12,7 @@ const SImgInputContainer = styled.div`
 
 const SImg = styled.img`
   width: 430px;
-  height: 252px;
+  height: 258px;
   object-fit: cover; // 비율 조정
   border: 2.5px solid var(--gray);
 `;

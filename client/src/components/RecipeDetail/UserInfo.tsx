@@ -1,11 +1,12 @@
-import React, { useEffect } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
-import { useNavigate, useParams, Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import styled from "styled-components";
 import { IPostUserProps } from "../../types/interface";
 import { userSession } from "../../redux/slices/userSlice";
 import { useAppSelector, useAppDispatch } from "../../hooks/dispatchHook";
 import Swal from "sweetalert2";
+import useMessage from "../../hooks/useMessage";
 
 const SContainer = styled.div`
   position: relative;
@@ -47,8 +48,15 @@ const SUserId = styled.div`
   }
 `;
 
-const SFollowBtn = styled.div`
+const SFollowContainer = styled.div`
   display: inline-block;
+  vertical-align: 6px;
+  @media ${({ theme }) => theme.device.mobile} {
+    vertical-align: 4px;
+  }
+`;
+
+const SFollowBtn = styled.div`
   text-align: center;
   margin-left: 15px;
   padding: 8px 10px;
@@ -56,10 +64,18 @@ const SFollowBtn = styled.div`
   color: var(--red);
   font-size: 0.6rem;
   border-radius: 20px;
-  vertical-align: 6px;
-  @media ${({ theme }) => theme.device.mobile} {
-    vertical-align: 3px;
-  }
+  cursor: pointer;
+`;
+
+const SUnFollowBtn = styled.div`
+  text-align: center;
+  margin-left: 15px;
+  padding: 8px 10px;
+  background-color: var(--red);
+  color: var(--greenish-grey);
+  font-size: 0.6rem;
+  border-radius: 20px;
+  cursor: pointer;
 `;
 
 const SButtonContaienr = styled.div`
@@ -77,16 +93,46 @@ const SButtonContaienr = styled.div`
   }
 `;
 
-const PostUserInfo = ({ name, imgProfileUrl }: IPostUserProps) => {
-  const { id } = useParams();
+const PostUserInfo = ({
+  id,
+  name,
+  imgProfileUrl,
+  followed,
+}: IPostUserProps) => {
+  const message = useMessage(2000);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { sessionStatus, userInfo } = useAppSelector((state) => state.user);
+  const [follow, setFollow] = useState(followed);
 
   useEffect(() => {
     if (sessionStatus) dispatch(userSession());
     console.log("레시피 세션 체크: ", sessionStatus);
-  }, [sessionStatus]);
+  }, [sessionStatus, follow]);
+
+  const doFollow = async () => {
+    try {
+      await axios.post(`/api/v1/follow/${id}`);
+      setFollow(true);
+    } catch (error) {
+      message.fire({
+        icon: "error",
+        title: "팔로우 추가에 실패했습니다.  \n 로그인을 해주세요.",
+      });
+    }
+  };
+
+  const undoFollow = async () => {
+    try {
+      await axios.post(`/api/v1/follow/undo/${id}`);
+      setFollow(false);
+    } catch (error) {
+      message.fire({
+        icon: "error",
+        title: "팔로우 해제에 실패했습니다.",
+      });
+    }
+  };
 
   const DeleteHandler = async () => {
     if (window.confirm("정말로 삭제하시겠습니까?")) {
@@ -140,7 +186,19 @@ const PostUserInfo = ({ name, imgProfileUrl }: IPostUserProps) => {
             src={`${process.env.PUBLIC_URL}/assets/${imgProfileUrl}`}
           />
           <SUserId>{name}</SUserId>
-          <SFollowBtn>Follow</SFollowBtn>
+
+          <SFollowContainer>
+            {follow ? (
+              <SUnFollowBtn onClick={undoFollow} role="presentation">
+                Follow
+              </SUnFollowBtn>
+            ) : (
+              <SFollowBtn onClick={doFollow} role="presentation">
+                Follow
+              </SFollowBtn>
+            )}
+          </SFollowContainer>
+
           <SButtonContaienr>
             {userInfo.name && name === userInfo.name ? (
               <>

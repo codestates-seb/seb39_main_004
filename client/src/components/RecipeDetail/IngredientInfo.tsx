@@ -11,6 +11,7 @@ const SIngredientItem = styled.div`
     grid-template-columns: 1fr 1fr;
     padding: 12px 20px;
     min-height: 30px;
+    font-size: 1.1rem;
   }
   dd {
     justify-self: end;
@@ -19,6 +20,7 @@ const SIngredientItem = styled.div`
     width: 100%;
     dl {
       padding: 15px 0;
+      font-size: 0.9rem;
     }
   }
 `;
