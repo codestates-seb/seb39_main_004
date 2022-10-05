@@ -24,4 +24,7 @@ public interface SubscribeRepository extends JpaRepository<Subscribe, Long> {
     @Query("select s from Subscribe s where s.fromUser.id =:id order by s.id desc")
     List<Subscribe> findAllByFromUserId(Long id);
 
+    @Query("select s from Subscribe s where s.toUser.id = :toUserId and s.fromUser.id = :fromUserId")
+    Boolean existsByToUserIdAndFromUserId(Long toUserId, Long fromUserId);
+
 }

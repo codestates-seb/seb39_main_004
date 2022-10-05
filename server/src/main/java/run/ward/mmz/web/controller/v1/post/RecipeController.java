@@ -25,6 +25,7 @@ import run.ward.mmz.mapper.post.IngredientMapper;
 import run.ward.mmz.mapper.post.RecipeMapper;
 import run.ward.mmz.mapper.post.TagMapper;
 import run.ward.mmz.service.account.AccountService;
+import run.ward.mmz.service.account.SubscribeService;
 import run.ward.mmz.service.post.BookmarkService;
 import run.ward.mmz.service.post.RecipeService;
 import run.ward.mmz.service.post.RecipeTagService;
@@ -57,6 +58,7 @@ public class RecipeController {
     private final RecipeTagService recipeTagService;
     private final BookmarkService bookmarkService;
     private final AccountService accountService;
+    private final SubscribeService subscribeService;
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping("/recipe/add")
@@ -98,6 +100,7 @@ public class RecipeController {
         recipeService.verifyExistsId(recipeId); //레시피가 있는 지 예외 처리
         Recipe recipe = recipeService.findById(recipeId);
         recipeService.addViews(recipeId);
+
 
         return getRecipeResponse(user, recipeId, recipe);
     }
@@ -242,9 +245,14 @@ public class RecipeController {
             recipeResponseDto.setBookmarked(bookmarkService.isBookmarkedByUser(recipeId, user.getId()));
         }
 
+        boolean isFollowed = subscribeService.existSubscribeByUserAndSessionUser(recipe.getOwner().getId(), user.getId());
+        recipeResponseDto.getOwner().setFollowed(isFollowed);
+
         ResponseDto.Single<?> response = ResponseDto.Single.builder()
                 .data(recipeResponseDto)
                 .build();
+
+
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
