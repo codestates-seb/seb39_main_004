@@ -1,8 +1,8 @@
 import { useState, useRef, useEffect } from "react";
-import { SLable } from "./RecipeFormStyled";
+// import { SLable } from "./RecipeFormStyled";
 import { IImgUploaderProps } from "../../types/interface";
 import styled from "styled-components";
-import { RequireMark } from "./indexNewRecipe";
+// import { RequireMark } from "./indexNewRecipe";
 import defaultImg from "../../assets/images/Recipe/defaultIMG.svg";
 
 const SImgInputContainer = styled.div`

@@ -19,12 +19,12 @@ import {
   TypeOfIngredients,
   TypeOfTags,
 } from "../../types/type";
-import { IStepValues, IEditResponseData } from "../../types/interface";
-import { useState, useEffect } from "react";
+import { IStepValues } from "../../types/interface";
+import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import styled from "styled-components";
 import axios from "axios";
-import { useParams, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import recipeLogo from "../../assets/images/Recipe/recipeLogo.svg";
 import useMessage from "../../hooks/useMessage";
 

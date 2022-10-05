@@ -1,8 +1,4 @@
-import {
-  IStepMakerProps,
-  IStepValues,
-  IEditResponseData,
-} from "../../types/interface";
+import { IStepMakerProps, IStepValues } from "../../types/interface";
 import { useEffect, useState } from "react";
 import { StepSet, PlusBtn } from "./indexNewRecipe";
 
@@ -25,6 +21,8 @@ const StepsMaker = ({
     ? (initialValue = [basicForm])
     : (initialValue = directDatas);
   const [steps, setSteps] = useState<IStepValues[]>(initialValue);
+
+  console.log(steps);
 
   // const addDirectionsHander = () => {
   //   if (setEditResponse && editResponse) {
