@@ -7,17 +7,21 @@ import {
 } from "./type";
 import { UseFormRegister } from "react-hook-form";
 
+interface IThumbNailProps {
+  resThumbNailImgUrl?: string;
+  setThumbNail: Dispatch<SetStateAction<TypeOfFileList>>;
+}
+
 interface IImgUploaderProps {
   steps?: IStepValues[];
-  imgName?: string;
+  imgName: string;
   currentIndex?: number;
-  imgUrl?: string;
-  setThumbNail?: Dispatch<SetStateAction<TypeOfFileList>>;
+  imgUrl: string;
   stepImgFiles?: TypeOfFileList[];
   setStepImgFiles?: Dispatch<SetStateAction<TypeOfFileList[]>>;
   setImgName?: Dispatch<SetStateAction<string>>;
-  setBooleanArr: Dispatch<SetStateAction<boolean[]>>;
   booleanArr: boolean[];
+  setBooleanArr: Dispatch<SetStateAction<boolean[]>>;
 }
 
 interface IStepMakerProps {
@@ -93,7 +97,7 @@ interface IIngredientSetProps extends IAddIngredientsProps {
 }
 
 interface ITagsMakerProps {
-  resTags: TypeOfTags[] | undefined;
+  resTags?: TypeOfTags[] | undefined;
   setTagsDatas: Dispatch<SetStateAction<TypeOfTags[]>>;
 }
 
@@ -250,6 +254,7 @@ interface IFollowingProps {
 }
 
 export type {
+  IThumbNailProps,
   IImgUploaderProps,
   IStepMakerProps,
   IResponseImgProps,

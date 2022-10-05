@@ -5,7 +5,7 @@ import {
   STextarea,
 } from "../../components/NewRecipe/RecipeFormStyled";
 import {
-  ImgUploader,
+  ThumbNailUploader,
   TagsMaker,
   Guide,
   AddingIngredients,
@@ -83,7 +83,7 @@ const SFormBtn = styled.button`
   border-radius: 3px;
 `;
 
-const AddPost = () => {
+const EditPost = () => {
   const message = useMessage(3000);
   const navigate = useNavigate();
 
@@ -149,7 +149,7 @@ const AddPost = () => {
       const newFile = new File([], "temp.mmz");
       if (stepImgFiles[idx]) {
         console.log("타입", typeof stepImgFiles[idx]);
-        formData.append("imgDirection", stepImgFiles[idx]);
+        // formData.append("imgDirection", stepImgFiles[idx]);
       } else {
         console.log("빈값", newFile);
         formData.append("imgDirection", newFile);
@@ -170,7 +170,9 @@ const AddPost = () => {
     /** 서버 요청 */
     try {
       if (fake) {
-        const response = await axios.delete(`/api/v1/recipe/${id}/delete`);
+        const response = await axios.delete(
+          `/api/v1/recipe/${recipeId}/delete`
+        );
         response.status ? setFake(!fake) : undefined;
       } else {
         const response = await axios.post("/api/v1/recipe/add", formData, {
@@ -190,27 +192,24 @@ const AddPost = () => {
   };
 
   useEffect(() => {
-    if (recipeId && !editResponse) {
-      axios
-        .get(`/api/v1/recipe/${recipeId}/edit/test`)
-        .then((res) => {
-          const resData = res.data.data;
-          console.log(resData);
-          setEditResponse(resData);
-          setEditMode(true);
-          setCheckedCateg(resData.category);
-          setValue("title", resData.title);
-          setValue("body", resData.body);
-          setDirectDatas(resData.directions);
-          setThumbNail(resData.imgThumbNailUrl);
-          // setTagsDatas(resData.tags);
-        })
-        .catch((err) => {
-          console.log("수정에러", err);
-        });
-    }
-  }, [thumbNail]);
-  console.log(editResponse);
+    axios
+      .get(`/api/v1/recipe/${recipeId}/edit/test`)
+      .then((res) => {
+        const resData = res.data.data;
+        setEditResponse(resData);
+        setEditMode(true);
+        setCheckedCateg(resData.category);
+        setValue("title", resData.title);
+        setValue("body", resData.body);
+        setDirectDatas(resData.directions);
+        setThumbNail(resData.imgThumbNailUrl);
+        // setTagsDatas(resData.tags);
+      })
+      .catch((err) => {
+        console.log("수정에러", err);
+      });
+  }, []);
+  console.log("editResponse", editResponse);
 
   return (
     <SFormContainer>
@@ -241,10 +240,10 @@ const AddPost = () => {
                 placeholder="레시피를 소개해주세요."
               ></STextarea>
             </SRecipeTexts>
-            <ImgUploader
+            <ThumbNailUploader
               setThumbNail={setThumbNail}
-              imgUrl={
-                editResponse && editMode ? editResponse.imgThumbNailUrl : ""
+              resThumbNailImgUrl={
+                editResponse ? editResponse.imgThumbNailUrl : ""
               }
             />
           </SRecipeInfo>
@@ -302,10 +301,9 @@ const AddPost = () => {
           <SFormBtn type="button" onClick={handleSubmit(submitHandler)}>
             등록
           </SFormBtn>
-          {/* <button >임시저장</button> */}
         </SSectionBtn>
       </form>
     </SFormContainer>
   );
 };
-export default AddPost;
+export default EditPost;

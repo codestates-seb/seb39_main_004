@@ -5,7 +5,7 @@ import {
   STextarea,
 } from "../../components/NewRecipe/RecipeFormStyled";
 import {
-  ImgUploader,
+  ThumbNailUploader,
   TagsMaker,
   Guide,
   AddingIngredients,
@@ -87,13 +87,6 @@ const AddPost = () => {
   const message = useMessage(3000);
   const navigate = useNavigate();
 
-  // 수정페이지 관련
-  const [editMode, setEditMode] = useState(false);
-  const { recipeId } = useParams();
-  const [editResponse, setEditResponse] = useState<
-    IEditResponseData | undefined
-  >();
-
   // 등록페이지 관련
   const [thumbNail, setThumbNail] = useState<TypeOfFileList>();
   const [stepImgFiles, setStepImgFiles] = useState<TypeOfFileList[]>([]);
@@ -108,12 +101,8 @@ const AddPost = () => {
   const {
     register,
     handleSubmit,
-    setValue,
     // formState: { errors },
-  } = useForm<TypeOfFormData>(
-    // editMode && editResponse ? { defaultValues: editResponse } :
-    undefined
-  );
+  } = useForm<TypeOfFormData>(undefined);
 
   // console.log("불리언", booleanArr);
   const submitHandler: SubmitHandler<TypeOfFormData> = async (data) => {
@@ -179,27 +168,6 @@ const AddPost = () => {
     }
   };
 
-  useEffect(() => {
-    if (recipeId && !editResponse) {
-      axios
-        .get(`/api/v1/recipe/${recipeId}/edit/test`)
-        .then((res) => {
-          const resData = res.data.data;
-          console.log(resData);
-          setEditResponse(resData);
-          setEditMode(true);
-          setCheckedCateg(resData.category);
-          setValue("title", resData.title);
-          setValue("body", resData.body);
-          setDirectDatas(resData.directions);
-          setThumbNail(resData.imgThumbNailUrl);
-          // setTagsDatas(resData.tags);
-        })
-        .catch((err) => {
-          console.log("수정에러", err);
-        });
-    }
-  }, [thumbNail]);
   // console.log(editResponse);
 
   return (
@@ -231,12 +199,7 @@ const AddPost = () => {
                 placeholder="레시피를 소개해주세요."
               ></STextarea>
             </SRecipeTexts>
-            <ImgUploader
-              setThumbNail={setThumbNail}
-              imgUrl={
-                editResponse && editMode ? editResponse.imgThumbNailUrl : ""
-              }
-            />
+            <ThumbNailUploader setThumbNail={setThumbNail} />
           </SRecipeInfo>
           <SFieldset>
             <SLable htmlFor="category">
@@ -267,9 +230,6 @@ const AddPost = () => {
             <Guide text="중요한 부분은 빠짐없이 적어주세요." />
           </SLable>
           <StepsMaker
-            resDirecttions={
-              editResponse && editMode ? editResponse.directions : undefined
-            }
             booleanArr={booleanArr}
             setBooleanArr={setBooleanArr}
             directDatas={directDatas}
@@ -280,10 +240,7 @@ const AddPost = () => {
         </SSection>
         <SSection color={"var(--sky-blue)"}>
           <SLable>태그</SLable>
-          <TagsMaker
-            setTagsDatas={setTagsDatas}
-            resTags={editResponse && editMode ? editResponse.tags : undefined}
-          />
+          <TagsMaker setTagsDatas={setTagsDatas} />
         </SSection>
         <SSectionBtn>
           <SFormBtn color={"var(--deep-green)"} type="reset">
