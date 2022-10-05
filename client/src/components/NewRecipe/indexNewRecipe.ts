@@ -11,3 +11,4 @@ export { default as TagWithBtn } from "./TagWithBtn";
 export { default as RemoveBtn } from "./buttons/RemoveBtn";
 export { default as PlusBtn } from "./buttons/PlusBtn";
 export { default as RequireMark } from "./RequireMark";
+export { default as ThumbNailUploader } from "./ThumbNailUploader";

@@ -1,9 +1,12 @@
-import React from "react";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import { SortButtons } from "../../components/CommonUI";
 import RepleUpload from "./RepleUpload";
 import RepleList from "./RepleList";
-import { detailData } from "../../pages/Recipe/data";
+import useMessage from "../../hooks/useMessage";
+import axios from "axios";
 
 const SRepleHeader = styled.div`
   display: flex;
@@ -14,24 +17,43 @@ const SRepleHeader = styled.div`
 `;
 
 const RepleContainer = () => {
-  const data = detailData;
   const sortValues = ["최신순", "평점순"];
+  const [reple, setReple] = useState<any[]>([]);
+  const { id } = useParams();
+  const message = useMessage(2000);
+
+  const getAllComment = async () => {
+    try {
+      const { data } = await axios.get(`/api/v1/recipe/${id}/review`);
+      setReple(data.data);
+    } catch {
+      message.fire({
+        icon: "error",
+        title: "후기 로딩에 실패했습니다.",
+      });
+    }
+  };
+
+  useEffect(() => {
+    getAllComment();
+  }, [reple]);
 
   return (
     <>
       <RepleUpload />
       <SRepleHeader>
-        총 {data.replyList.length}개의 리뷰가 있습니다.
+        총 {reple.length}개의 리뷰가 있습니다.
         <SortButtons sortValues={sortValues} />
       </SRepleHeader>
 
-      {data.replyList.map((i) => (
+      {reple.map((i) => (
         <RepleList
-          key={i.replyId}
-          replyId={i.replyId}
-          replyBody={i.replyBody}
-          createdAt={i.createdAt}
-          user={i.user}
+          key={i.id}
+          replyId={i.id}
+          replyBody={i.body}
+          createdAt={i.creatDate}
+          user={i.owner}
+          stars={i.stars}
         />
       ))}
     </>

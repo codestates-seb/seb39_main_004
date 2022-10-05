@@ -19,12 +19,12 @@ import {
   TypeOfIngredients,
   TypeOfTags,
 } from "../../types/type";
-import { IStepValues } from "../../types/interface";
-import { useState } from "react";
+import { IStepValues, IEditResponseData } from "../../types/interface";
+import { useState, useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import styled from "styled-components";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import recipeLogo from "../../assets/images/Recipe/recipeLogo.svg";
 import useMessage from "../../hooks/useMessage";
 
@@ -83,9 +83,14 @@ const SFormBtn = styled.button`
   border-radius: 3px;
 `;
 
-const AddPost = () => {
+const EditPost = () => {
   const message = useMessage(3000);
   const navigate = useNavigate();
+
+  // 수정페이지 관련
+  const [editMode, setEditMode] = useState(false);
+  const { recipeId } = useParams();
+  const [editResponse, setEditResponse] = useState<IEditResponseData>();
 
   // 등록페이지 관련
   const [thumbNail, setThumbNail] = useState<TypeOfFileList>();
@@ -97,12 +102,10 @@ const AddPost = () => {
     []
   );
   const [tagsDatas, setTagsDatas] = useState<TypeOfTags[]>([]);
+  const [fake, setFake] = useState(false);
 
-  const {
-    register,
-    handleSubmit,
-    // formState: { errors },
-  } = useForm<TypeOfFormData>(undefined);
+  const { register, handleSubmit, setValue } =
+    useForm<TypeOfFormData>(undefined);
 
   // console.log("불리언", booleanArr);
   const submitHandler: SubmitHandler<TypeOfFormData> = async (data) => {
@@ -114,14 +117,14 @@ const AddPost = () => {
     // console.log("카테", checkedCateg);
 
     /** 이미지 누락 체크 */
-    const emptyIndex = stepImgFiles.findIndex((el) => el === undefined);
-    if (emptyIndex >= 0) {
-      message.fire({
-        icon: "error",
-        title: `요리 순서의 ${emptyIndex + 1}번째 이미지를 \n추가해주세요`,
-      });
-      return;
-    }
+    // const emptyIndex = stepImgFiles.findIndex((el) => el === undefined);
+    // if (emptyIndex >= 0) {
+    //   message.fire({
+    //     icon: "error",
+    //     title: `요리 순서의 ${emptyIndex + 1}번째 이미지를 \n추가해주세요`,
+    //   });
+    //   return;
+    // }
     if (!thumbNail || stepImgFiles.length === 0) {
       message.fire({
         icon: "error",
@@ -138,7 +141,18 @@ const AddPost = () => {
         formData.append("imgDirection", file);
       }
     });
+    console.log(booleanArr, stepImgFiles);
 
+    booleanArr.forEach((el, idx) => {
+      const newFile = new File([], "temp.mmz");
+      if (stepImgFiles[idx]) {
+        console.log("타입", typeof stepImgFiles[idx]);
+        // formData.append("imgDirection", stepImgFiles[idx]);
+      } else {
+        console.log("빈값", newFile);
+        formData.append("imgDirection", newFile);
+      }
+    });
     const recipeDatas = {
       ...data,
       category: checkedCateg,
@@ -153,13 +167,20 @@ const AddPost = () => {
 
     /** 서버 요청 */
     try {
-      const response = await axios.post("/api/v1/recipe/add", formData, {
-        headers: { "content-type": "multipart/form-data" },
-      });
-      const newId = response.data.data.id;
-      navigate(`/post/${newId}/`);
+      if (fake) {
+        const response = await axios.delete(
+          `/api/v1/recipe/${recipeId}/delete`
+        );
+        response.status ? setFake(!fake) : undefined;
+      } else {
+        const response = await axios.post("/api/v1/recipe/add", formData, {
+          headers: { "content-type": "multipart/form-data" },
+        });
+        const newId = response.data.data.id;
+        navigate(`/post/${newId}/`);
+      }
     } catch (error) {
-      // console.log(error);
+      console.log(error);
       message.fire({
         icon: "error",
         title:
@@ -168,7 +189,26 @@ const AddPost = () => {
     }
   };
 
-  // console.log(editResponse);
+  useEffect(() => {
+    axios
+      .get(`/api/v1/recipe/${recipeId}/edit/test`)
+      .then((res) => {
+        const resData = res.data.data;
+        setEditResponse(resData);
+        setEditMode(true);
+        setCheckedCateg(resData.category);
+        setValue("title", resData.title);
+        setValue("body", resData.body);
+        setDirectDatas(resData.directions);
+        setThumbNail(resData.imgThumbNailUrl);
+        // setTagsDatas(resData.tags);
+      })
+      .catch((err) => {
+        console.log("수정에러", err);
+      });
+  }, []);
+  // console.log("editResponse 에디트 포스트", editResponse);
+  console.log("변경", directDatas);
 
   return (
     <SFormContainer>
@@ -199,7 +239,12 @@ const AddPost = () => {
                 placeholder="레시피를 소개해주세요."
               ></STextarea>
             </SRecipeTexts>
-            <ThumbNailUploader setThumbNail={setThumbNail} />
+            <ThumbNailUploader
+              setThumbNail={setThumbNail}
+              resThumbNailImgUrl={
+                editResponse ? editResponse.imgThumbNailUrl : ""
+              }
+            />
           </SRecipeInfo>
           <SFieldset>
             <SLable htmlFor="category">
@@ -230,6 +275,8 @@ const AddPost = () => {
             <Guide text="중요한 부분은 빠짐없이 적어주세요." />
           </SLable>
           <StepsMaker
+            // editResponse={editResponse ? editResponse : undefined}
+            // setEditResponse={setEditResponse}
             booleanArr={booleanArr}
             setBooleanArr={setBooleanArr}
             directDatas={directDatas}
@@ -240,7 +287,10 @@ const AddPost = () => {
         </SSection>
         <SSection color={"var(--sky-blue)"}>
           <SLable>태그</SLable>
-          <TagsMaker setTagsDatas={setTagsDatas} />
+          <TagsMaker
+            setTagsDatas={setTagsDatas}
+            resTags={editResponse && editMode ? editResponse.tags : undefined}
+          />
         </SSection>
         <SSectionBtn>
           <SFormBtn color={"var(--deep-green)"} type="reset">
@@ -249,10 +299,9 @@ const AddPost = () => {
           <SFormBtn type="button" onClick={handleSubmit(submitHandler)}>
             등록
           </SFormBtn>
-          {/* <button >임시저장</button> */}
         </SSectionBtn>
       </form>
     </SFormContainer>
   );
 };
-export default AddPost;
+export default EditPost;

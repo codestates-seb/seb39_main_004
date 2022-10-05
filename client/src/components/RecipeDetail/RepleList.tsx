@@ -1,6 +1,10 @@
 import React from "react";
 import styled from "styled-components";
-import Rating from "./Rating";
+import axios from "axios";
+import useMessage from "../../hooks/useMessage";
+import { useParams } from "react-router-dom";
+import SimpleRating from "./SimpleRating";
+import { useAppSelector } from "../../hooks/dispatchHook";
 
 const SContainer = styled.div`
   padding: 20px 0;
@@ -50,28 +54,60 @@ const SReplyContainer = styled.div`
   margin-top: 20px;
 `;
 
-interface Prop {
+interface RepleDataProps {
   replyId: number;
   replyBody: string;
   createdAt: string;
+  stars: number;
   user: {
-    ninkname: string;
+    name: string;
     email: string;
-    userImage: string;
+    imgProfileUrl: string;
   };
 }
 
-const RepleContent = ({ replyBody, createdAt, user }: Prop) => {
+const RepleContent = ({
+  replyId,
+  replyBody,
+  createdAt,
+  user,
+  stars,
+}: RepleDataProps) => {
+  const message = useMessage(2000);
+  const { id } = useParams();
+  const { userInfo } = useAppSelector((state) => state.user);
+
+  const onDeleteComment = async () => {
+    try {
+      await axios.delete(`/api/v1/recipe/${id}/review/${replyId}/delete`);
+      message.fire({
+        icon: "success",
+        title: "후기가 삭제되었습니다.",
+      });
+    } catch {
+      message.fire({
+        icon: "error",
+        title: "후기 삭제에 실패했습니다.",
+      });
+    }
+  };
+
   return (
     <SContainer>
       <SUserBody>
         <SUserInfo>
-          <img className="user-image" src={user.userImage} alt="profile" />
-          <span className="info-name">{user.ninkname} </span>
+          <img
+            className="user-image"
+            src={`${process.env.PUBLIC_URL}/assets/${user.imgProfileUrl}`}
+            alt="profile"
+          />
+          <span className="info-name">{user.name} </span>
           <span className="time">{createdAt}</span>
-          <Rating />
+          <SimpleRating stars={stars} />
         </SUserInfo>
-        <SDeleteButton>Delete</SDeleteButton>
+        {userInfo.name === user.name ? (
+          <SDeleteButton onClick={onDeleteComment}>Delete</SDeleteButton>
+        ) : null}
       </SUserBody>
       <SReplyContainer>{replyBody}</SReplyContainer>
     </SContainer>
