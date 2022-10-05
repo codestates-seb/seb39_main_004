@@ -24,7 +24,6 @@ const StepSet = ({
   directDatas,
   setDirectDatas,
   steps,
-  setSteps,
   booleanArr,
   setBooleanArr,
 }: IStepSetProps) => {
@@ -43,15 +42,12 @@ const StepSet = ({
   };
 
   const removeHandler = (currentIndex: number) => {
-    const newSteps = steps.slice();
-    newSteps.splice(currentIndex, 1);
-    setSteps(newSteps);
+    setDirectDatas(directDatas.filter((el, idx) => idx !== currentIndex));
     // 이미지파일 제거
     const newStepImgFiles = stepImgFiles.slice();
     newStepImgFiles.splice(currentIndex, 1);
     setStepImgFiles(newStepImgFiles);
   };
-  // console.log(stepImgFiles);
 
   useEffect(() => {
     const originData = directDatas.slice();
@@ -59,9 +55,11 @@ const StepSet = ({
       originData[currentIndex].imgDirectionUrl = imgName;
       setDirectDatas(originData);
     }
+    if (!originData[currentIndex].imgDirectionUrl) {
+      originData[currentIndex].imgDirectionUrl = imgUrl;
+      setDirectDatas(originData);
+    }
   }, [imgName]);
-
-  // console.log("setDirectDatas", setDirectDatas); // 빌드에러용 임시 추가
 
   return (
     <SStepsContainer>
