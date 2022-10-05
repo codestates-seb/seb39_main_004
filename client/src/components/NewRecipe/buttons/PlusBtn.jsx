@@ -3,6 +3,11 @@ import { HiPlusCircle } from "react-icons/hi";
 
 const SBtn = styled.button`
   color: var(--deep-green);
+  @media ${({ theme }) => theme.device.tablet} {
+    svg {
+      width: 35px;
+    }
+  }
 `;
 
 const PlusBtn = ({ addHandler }) => {

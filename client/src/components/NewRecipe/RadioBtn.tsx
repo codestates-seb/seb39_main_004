@@ -19,6 +19,11 @@ const SLabel = styled.label`
   img {
     width: 200px;
   }
+  @media ${({ theme }) => theme.device.mobile} {
+    input:checked + img {
+      filter: drop-shadow(0.1rem 0.2rem 0 var(--pink));
+    }
+  }
 `;
 
 const RadioBtn = ({

@@ -163,9 +163,10 @@ interface IPostResponceProps {
 }
 
 interface IPostUserProps {
-  id?: number;
+  id: number;
   name: string;
   imgProfileUrl?: null;
+  followed: boolean;
 }
 
 interface IPostCategoryProps {

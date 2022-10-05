@@ -21,6 +21,10 @@ const SRating = styled.div`
   .starColor {
     color: var(--red);
   }
+  @media ${({ theme }) => theme.device.tablet} {
+    width: 100%;
+    text-align: center;
+  }
 `;
 
 const Rating = ({ starClicked, setStarClicked }: IStarProps) => {

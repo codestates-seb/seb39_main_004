@@ -7,7 +7,10 @@ import SimpleRating from "./SimpleRating";
 import { useAppSelector } from "../../hooks/dispatchHook";
 
 const SContainer = styled.div`
-  padding: 20px 0;
+  position: relative;
+  padding: 20px;
+  background-color: var(--greenish-grey);
+  margin-bottom: 15px;
 `;
 
 const SUserBody = styled.div`
@@ -22,42 +25,57 @@ const SUserInfo = styled.div`
   display: flex;
   -webkit-box-align: center;
   align-items: center;
+  gap: 20px;
   .user-image {
-    width: 50px;
-    height: 50px;
+    width: 70px;
+    height: 70px;
     border-radius: 50%;
     display: inline-block;
     border: 1px solid var(--pale-gray);
   }
   .info-name {
-    font-size: 17px;
-    margin-right: 10px;
-    margin-left: 10px;
-    font-weight: normal;
-    color: var(--red);
+    display: flex;
+    gap: 0.8rem;
+    font-size: 1.1rem;
+    color: #000;
   }
   .time {
     font-size: 0.8rem;
     color: var(--deep-gray);
     padding-right: 10px;
   }
+  @media ${({ theme }) => theme.device.mobile} {
+    .user-image {
+      width: 60px;
+      height: 60px;
+    }
+    .info-name {
+      display: -webkit-box;
+      font-size: 1rem;
+    }
+  }
 `;
 
 const SDeleteButton = styled.div`
-  display: grid;
-  align-items: flex-start;
+  position: absolute;
+  right: 20px;
+  top: 50px;
   font-size: 0.8rem;
   cursor: pointer;
 `;
 
 const SReplyContainer = styled.div`
-  margin-top: 20px;
+  margin-top: 14px;
+  @media ${({ theme }) => theme.device.mobile} {
+    font-size: 0.9rem;
+    line-height: 1.5rem;
+  }
 `;
 
 interface RepleDataProps {
   replyId: number;
   replyBody: string;
-  createdAt: string;
+  createDate: string;
   stars: number;
   user: {
     name: string;
@@ -69,7 +87,7 @@ interface RepleDataProps {
 const RepleContent = ({
   replyId,
   replyBody,
-  createdAt,
+  createDate,
   user,
   stars,
 }: RepleDataProps) => {
@@ -96,20 +114,26 @@ const RepleContent = ({
     <SContainer>
       <SUserBody>
         <SUserInfo>
-          <img
-            className="user-image"
-            src={`${process.env.PUBLIC_URL}/assets/${user.imgProfileUrl}`}
-            alt="profile"
-          />
-          <span className="info-name">{user.name} </span>
-          <span className="time">{createdAt}</span>
-          <SimpleRating stars={stars} />
+          <div>
+            <img
+              className="user-image"
+              src={`${process.env.PUBLIC_URL}/assets/${user.imgProfileUrl}`}
+              alt="profile"
+            />
+          </div>
+          <div>
+            <p className="info-name">
+              <span>{user.name}</span>
+              <SimpleRating stars={stars} />
+              <span className="time">{createDate.slice(0, 16)}</span>
+            </p>
+            <SReplyContainer>{replyBody}</SReplyContainer>
+          </div>
         </SUserInfo>
         {userInfo.name === user.name ? (
           <SDeleteButton onClick={onDeleteComment}>Delete</SDeleteButton>
         ) : null}
       </SUserBody>
-      <SReplyContainer>{replyBody}</SReplyContainer>
     </SContainer>
   );
 };

@@ -9,17 +9,23 @@ const SIngredientContainer = styled.li`
   grid-template-columns: 3.3fr 2fr;
   column-gap: 2.5rem;
   margin-bottom: 20px;
+  @media ${({ theme }) => theme.device.tablet} {
+    display: block;
+  }
 `;
 const SCheckInput = styled.input`
   position: absolute;
   right: 10px;
-  top: 23px;
+  top: 18px;
   background-color: beige;
   border: none;
 `;
 
 const SIngredientName = styled.div`
   position: relative;
+  @media ${({ theme }) => theme.device.tablet} {
+    margin-bottom: 5px;
+  }
 `;
 
 const SIngredientAmout = styled.div`

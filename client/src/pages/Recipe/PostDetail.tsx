@@ -175,6 +175,7 @@ const RecipeDetail = () => {
   const getData = async () => {
     const { data } = await axios.get(`/api/v1/recipe/${id}`);
     setData([data.data]);
+    console.log(data);
   };
 
   const menuArr = [
@@ -210,8 +211,10 @@ const RecipeDetail = () => {
           />
           <SUserContainer>
             <UserInfo
+              id={data[0].owner.id}
               name={data[0].owner.name}
               imgProfileUrl={data[0].owner.imgProfileUrl}
+              followed={data[0].owner.followed}
             />
           </SUserContainer>
           <STopContainer>
