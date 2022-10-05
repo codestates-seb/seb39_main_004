@@ -165,7 +165,7 @@ interface IPostResponceProps {
 }
 
 interface IPostUserProps {
-  id: number;
+  userId: number;
   name: string;
   imgProfileUrl?: null;
   followed: boolean;

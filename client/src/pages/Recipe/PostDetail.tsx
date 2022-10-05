@@ -211,7 +211,7 @@ const RecipeDetail = () => {
           />
           <SUserContainer>
             <UserInfo
-              id={data[0].owner.id}
+              userId={data[0].owner.userId}
               name={data[0].owner.name}
               imgProfileUrl={data[0].owner.imgProfileUrl}
               followed={data[0].owner.followed}
