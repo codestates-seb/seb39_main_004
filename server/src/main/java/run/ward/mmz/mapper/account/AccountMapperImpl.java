@@ -1,6 +1,5 @@
 package run.ward.mmz.mapper.account;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import run.ward.mmz.domain.account.Account;
 import run.ward.mmz.domain.account.Role;
@@ -9,7 +8,6 @@ import run.ward.mmz.dto.request.account.SignUpDto;
 import run.ward.mmz.dto.respones.AccountInfoDto;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 @Component
@@ -40,7 +38,7 @@ public class AccountMapperImpl implements AccountMapper{
         }
 
         return AccountInfoDto.builder()
-                .id(account.getId())
+                .userId(account.getId())
                 .name(account.getName())
                 .email(account.getEmail())
                 .imgProfileUrl(account.getImgProfileUrl())

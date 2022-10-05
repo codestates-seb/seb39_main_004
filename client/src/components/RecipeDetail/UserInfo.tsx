@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { IPostUserProps } from "../../types/interface";
 import { userSession } from "../../redux/slices/userSlice";
@@ -94,7 +94,7 @@ const SButtonContaienr = styled.div`
 `;
 
 const PostUserInfo = ({
-  id,
+  userId,
   name,
   imgProfileUrl,
   followed,
@@ -104,6 +104,7 @@ const PostUserInfo = ({
   const dispatch = useAppDispatch();
   const { sessionStatus, userInfo } = useAppSelector((state) => state.user);
   const [follow, setFollow] = useState(followed);
+  const { id } = useParams();
 
   useEffect(() => {
     if (sessionStatus) dispatch(userSession());
@@ -112,7 +113,7 @@ const PostUserInfo = ({
 
   const doFollow = async () => {
     try {
-      await axios.post(`/api/v1/follow/${id}`);
+      await axios.post(`/api/v1/follow/${userId}`);
       setFollow(true);
     } catch (error) {
       message.fire({
@@ -124,7 +125,7 @@ const PostUserInfo = ({
 
   const undoFollow = async () => {
     try {
-      await axios.post(`/api/v1/follow/undo/${id}`);
+      await axios.post(`/api/v1/follow/undo/${userId}`);
       setFollow(false);
     } catch (error) {
       message.fire({
@@ -187,17 +188,19 @@ const PostUserInfo = ({
           />
           <SUserId>{name}</SUserId>
 
-          <SFollowContainer>
-            {follow ? (
-              <SUnFollowBtn onClick={undoFollow} role="presentation">
-                Follow
-              </SUnFollowBtn>
-            ) : (
-              <SFollowBtn onClick={doFollow} role="presentation">
-                Follow
-              </SFollowBtn>
-            )}
-          </SFollowContainer>
+          {userInfo.name && name === userInfo.name ? null : (
+            <SFollowContainer>
+              {follow ? (
+                <SUnFollowBtn onClick={undoFollow} role="presentation">
+                  UnFollow
+                </SUnFollowBtn>
+              ) : (
+                <SFollowBtn onClick={doFollow} role="presentation">
+                  Follow
+                </SFollowBtn>
+              )}
+            </SFollowContainer>
+          )}
 
           <SButtonContaienr>
             {userInfo.name && name === userInfo.name ? (
