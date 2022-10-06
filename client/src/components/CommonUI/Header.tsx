@@ -6,7 +6,7 @@ import { BiSearchAlt2 } from "react-icons/bi";
 import { userLogout } from "../../redux/slices/userSlice";
 import { useAppSelector, useAppDispatch } from "../../hooks/dispatchHook";
 import { CgProfile } from "react-icons/cg";
-import logo from "../../assets/logos/logo.svg";
+import logo from "../../assets/logos/logo_move.gif";
 import { persistor } from "../..";
 
 const SLogo = styled.img`

@@ -40,6 +40,7 @@ out/
 application-outh.properties
 
 application.properties
+application-oauth.properties
 application-image.properties
 application-db.properties
 application-db2.properties

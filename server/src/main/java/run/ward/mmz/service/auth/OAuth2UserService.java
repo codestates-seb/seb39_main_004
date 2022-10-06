@@ -21,7 +21,6 @@ import javax.servlet.http.HttpSession;
 public class OAuth2UserService implements org.springframework.security.oauth2.client.userinfo.OAuth2UserService<OAuth2UserRequest, OAuth2User> {
 
     private final AccountRepository accountRepository;
-    private final HttpSession httpSession;
     private final AccountMapper accountMapper;
 
 
@@ -39,7 +38,6 @@ public class OAuth2UserService implements org.springframework.security.oauth2.cl
 
         OAuthAttributes attributes = OAuthAttributes.of(regId, attributeName, oAuth2User.getAttributes());
         Account user = save(attributes);
-//        httpSession.setAttribute("user", new SessionUser(user));
         return new PrincipalDetails(user, attributes.getAttributes());
     }
 
@@ -48,14 +46,18 @@ public class OAuth2UserService implements org.springframework.security.oauth2.cl
     public Account save(OAuthAttributes attributes) {
 
         String userName = attributes.getName() != null ? attributes.getName() : "유저";
+        String userEmail = attributes.getEmail() != null ? attributes.getEmail() : "";
         //유저 이름이 있으면, 이름 변경, 없으면 회원가입
         String tmp = userName;
 
-        while (accountRepository.existsByName(tmp)) {
-            if (!attributes.isNew()) {
+        if (!accountRepository.existsByEmail(userEmail)) {
+            while (accountRepository.existsByName(tmp)) {
                 tmp = tmp + ((int) (Math.random() * 990) + 10);
-            } else
-                break;
+            }
+        }else{
+            tmp = accountRepository.findByEmail(userEmail)
+                    .orElseThrow()
+                    .getName();
         }
 
         attributes.setNew(false);
