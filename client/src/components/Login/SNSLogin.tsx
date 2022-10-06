@@ -5,7 +5,6 @@ import Google from "../../assets/images/snsLogin/google.png";
 import { StyledLink } from "../CommonUI";
 import { userSession } from "../../redux/slices/userSlice";
 import { useAppSelector, useAppDispatch } from "../../hooks/dispatchHook";
-import React, { useEffect } from "react";
 
 const SSNSLoginContainer = styled.div`
   display: flex;
