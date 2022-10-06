@@ -32,13 +32,18 @@ const SLoadingLayout = styled.div`
 `;
 
 const STopBtn = styled.img`
-  width: 70px;
+  width: 65px;
   position: fixed;
   right: 45px;
-  bottom: 60px;
+  bottom: 50px;
   cursor: pointer;
-  @media ${({ theme }) => theme.device.mobile} {
+  @media ${({ theme }) => theme.device.tablet} {
     width: 50px;
+    right: 20px;
+    bottom: 30px;
+  }
+  @media ${({ theme }) => theme.device.mobile} {
+    width: 40px;
     right: 10px;
     bottom: 30px;
   }
@@ -53,6 +58,7 @@ const Main = () => {
   const { sessionStatus } = useAppSelector((state) => state.user);
 
   const [page, setPage] = useState(1); // 현재 페이지
+  const [showButton, setShowButton] = useState<boolean>(false); //스크롤 탑버튼
   const [load, setLoad] = useState<boolean>(true); // 로딩 스피너 상태
   const preventRef = useRef(true); // 옵저버 중복 실행 방지
   const obsRef = useRef(null); //observer Element
@@ -82,6 +88,20 @@ const Main = () => {
       setPage((prev) => prev + 1); // 페이지 값 증가
     }
   };
+
+  useEffect(() => {
+    const ShowButtonClick = () => {
+      if (window.scrollY > 800) {
+        setShowButton(true);
+      } else {
+        setShowButton(false);
+      }
+    };
+    window.addEventListener("scroll", ShowButtonClick);
+    return () => {
+      window.removeEventListener("scroll", ShowButtonClick);
+    };
+  }, []);
 
   const getRecipePost = useCallback(
     async (mainSortBy: string) => {
@@ -152,7 +172,9 @@ const Main = () => {
           {/* 옵저버 Element */}
           <div ref={obsRef}></div>
         </SLoadingLayout>
-        <STopBtn onClick={scrollToTop} src={topbtn} alt="topbtn" />
+        {showButton && (
+          <STopBtn onClick={scrollToTop} src={topbtn} alt="topbtn" />
+        )}
       </SSectionLayout>
     </SMainLayout>
   );
