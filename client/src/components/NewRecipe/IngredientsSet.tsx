@@ -17,11 +17,7 @@ const SCheckInput = styled.input`
   transform: scale(1.8);
   position: absolute;
   right: 25px;
-<<<<<<< HEAD
   top: 18px;
-=======
-  top: 19px;
->>>>>>> ae95d9d7dae3550f830eeb1cbe1bb511d6bca1ca
   background-color: beige;
   border: none;
   @media ${({ theme }) => theme.device.tablet} {
