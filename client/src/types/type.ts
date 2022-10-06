@@ -6,7 +6,7 @@ type TypeOfIngredients = {
   index: number;
   name: string;
   amount: string;
-  essential: boolean;
+  isEssential: boolean;
 };
 
 type TypeOfTags = {

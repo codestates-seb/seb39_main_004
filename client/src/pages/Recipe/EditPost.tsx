@@ -5,7 +5,7 @@ import {
   STextarea,
 } from "../../components/NewRecipe/RecipeFormStyled";
 import {
-  ThumbNailUploader,
+  // ThumbNailUploader,
   TagsMaker,
   Guide,
   AddingIngredients,
@@ -13,13 +13,14 @@ import {
   ImgRadio,
   RequireMark,
 } from "../../components/NewRecipe/indexNewRecipe";
+import ThumbNailUploadeEdit from "../../components/NewRecipe/ThumbNailUploadeEdit";
+
 import {
   TypeOfFileList,
   TypeOfFormData,
   TypeOfIngredients,
-  TypeOfTags,
 } from "../../types/type";
-import { IStepValues, IEditResponseData } from "../../types/interface";
+import { IStepValues, ITagsData, ITagProps } from "../../types/interface";
 import { useState, useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import styled from "styled-components";
@@ -43,6 +44,12 @@ const SSection = styled.div`
   margin-bottom: 3rem;
   display: flex;
   flex-direction: column;
+  @media ${({ theme }) => theme.device.desktop} {
+    padding: 2rem;
+  }
+  @media ${({ theme }) => theme.device.mobile} {
+    padding: 1rem;
+  }
 `;
 
 const SFieldset = styled.fieldset`
@@ -51,11 +58,19 @@ const SFieldset = styled.fieldset`
   & > :first-child {
     margin-top: 3rem;
   }
+  @media ${({ theme }) => theme.device.mobile} {
+    & > :first-child {
+      margin-top: 1rem;
+    }
+  }
 `;
 
 const SRecipeInfo = styled.div`
   display: flex;
   gap: 2.5rem;
+  @media ${({ theme }) => theme.device.tablet} {
+    display: block;
+  }
 `;
 
 const SRecipeTexts = styled.div`
@@ -65,6 +80,11 @@ const SRecipeTexts = styled.div`
   & > :nth-child(3) {
     margin-top: 2rem;
   }
+  @media ${({ theme }) => theme.device.desktop} {
+    & > :nth-child(3) {
+      margin-top: 1rem;
+    }
+  }
 `;
 
 const SSectionBtn = styled.section`
@@ -72,6 +92,9 @@ const SSectionBtn = styled.section`
   justify-content: center;
   gap: 3rem;
   padding-top: 2rem;
+  @media ${({ theme }) => theme.device.tablet} {
+    gap: 1rem;
+  }
 `;
 
 const SFormBtn = styled.button`
@@ -81,6 +104,13 @@ const SFormBtn = styled.button`
   font-size: 1.6rem;
   padding: 1rem;
   border-radius: 3px;
+  @media ${({ theme }) => theme.device.tablet} {
+    font-size: 1.3rem;
+  }
+  @media ${({ theme }) => theme.device.mobile} {
+    width: 50%;
+    font-size: 1rem;
+  }
 `;
 
 const EditPost = () => {
@@ -88,11 +118,10 @@ const EditPost = () => {
   const navigate = useNavigate();
 
   // 수정페이지 관련
-  const [editMode, setEditMode] = useState(false);
   const { recipeId } = useParams();
-  const [editResponse, setEditResponse] = useState<IEditResponseData>();
 
   // 등록페이지 관련
+  const [thumbNailUrl, setThumbNailUrl] = useState<string>();
   const [thumbNail, setThumbNail] = useState<TypeOfFileList>();
   const [stepImgFiles, setStepImgFiles] = useState<TypeOfFileList[]>([]);
   const [booleanArr, setBooleanArr] = useState<boolean[]>([]);
@@ -101,13 +130,13 @@ const EditPost = () => {
   const [ingredientsDatas, setIngredientsDatas] = useState<TypeOfIngredients[]>(
     []
   );
-  const [tagsDatas, setTagsDatas] = useState<TypeOfTags[]>([]);
+  const [tagsDatas, setTagsDatas] = useState<ITagsData[]>([]);
   const [fake, setFake] = useState(false);
 
   const { register, handleSubmit, setValue } =
     useForm<TypeOfFormData>(undefined);
-  // console.log("불리언", booleanArr);
   const submitHandler: SubmitHandler<TypeOfFormData> = async (data) => {
+    // console.log("불리언", booleanArr);
     // console.log("onSubmitData", data);
     // console.log("재료", ingredientsDatas);
     // console.log("d이미지 순서", stepImgFiles);
@@ -140,16 +169,16 @@ const EditPost = () => {
         formData.append("imgDirection", file);
       }
     });
-    console.log(booleanArr, stepImgFiles);
+    // console.log(booleanArr, stepImgFiles);
 
     booleanArr.forEach((el, idx) => {
       const newFile = new File([], "temp.mmz");
       if (stepImgFiles[idx]) {
-        console.log("타입", typeof stepImgFiles[idx]);
+        // console.log("타입", typeof stepImgFiles[idx]);
         // formData.append("imgDirection", stepImgFiles[idx]);
       } else {
         console.log("빈값", newFile);
-        formData.append("imgDirection", newFile);
+        // formData.append("imgDirection", newFile);
       }
     });
     const recipeDatas = {
@@ -190,26 +219,30 @@ const EditPost = () => {
 
   useEffect(() => {
     axios
-      .get(`/api/v1/recipe/${recipeId}/edit/test`)
+      .get(`/api/v1/recipe/${recipeId}/edit/`)
       .then((res) => {
         const resData = res.data.data;
-        setEditResponse(resData);
-        setEditMode(true);
+        // console.log("resData", resData);
         setCheckedCateg(resData.category);
         setValue("title", resData.title);
         setValue("body", resData.body);
         setDirectDatas(resData.directions);
-        setThumbNail(resData.imgThumbNailUrl);
+        setThumbNailUrl(resData.imgThumbNailUrl);
         setIngredientsDatas(resData.ingredients);
-        // console.log(resData);
-        // setTagsDatas(resData.tags);
+        const tagList: { name: string }[] = [];
+        resData.tags.forEach((el: ITagProps) => {
+          tagList.push({ name: el.name });
+        });
+        setTagsDatas([...tagList]);
       })
       .catch((err) => {
         console.log("수정에러", err);
       });
   }, []);
-  console.log("변경", tagsDatas);
-  console.log("ddddd", directDatas);
+  // console.log("변경", tagsDatas);
+  // console.log(recipeId, "recipeId");
+
+  // console.log("썸네일 최상위", thumbNailUrl);
 
   return (
     <SFormContainer>
@@ -227,7 +260,6 @@ const EditPost = () => {
                 id="title"
                 placeholder="레시피 제목을 적어주세요."
               />
-              {/* {errors.recipeTitle && <p>{errors.recipeTitle.message}</p>} */}
               <SLable htmlFor="body">
                 요리 소개
                 <RequireMark />
@@ -240,12 +272,12 @@ const EditPost = () => {
                 placeholder="레시피를 소개해주세요."
               ></STextarea>
             </SRecipeTexts>
-            <ThumbNailUploader
-              setThumbNail={setThumbNail}
-              resThumbNailImgUrl={
-                editResponse ? editResponse.imgThumbNailUrl : ""
-              }
-            />
+            {thumbNailUrl && (
+              <ThumbNailUploadeEdit
+                setThumbNail={setThumbNail}
+                resThumbNailImgUrl={thumbNailUrl}
+              />
+            )}
           </SRecipeInfo>
           <SFieldset>
             <SLable htmlFor="category">
@@ -276,8 +308,6 @@ const EditPost = () => {
             <Guide text="중요한 부분은 빠짐없이 적어주세요." />
           </SLable>
           <StepsMaker
-            // editResponse={editResponse ? editResponse : undefined}
-            // setEditResponse={setEditResponse}
             booleanArr={booleanArr}
             setBooleanArr={setBooleanArr}
             directDatas={directDatas}
@@ -288,10 +318,7 @@ const EditPost = () => {
         </SSection>
         <SSection color={"var(--sky-blue)"}>
           <SLable>태그</SLable>
-          <TagsMaker
-            setTagsDatas={setTagsDatas}
-            resTags={editResponse && editMode ? editResponse.tags : undefined}
-          />
+          <TagsMaker setTagsDatas={setTagsDatas} tagsDatas={tagsDatas} />
         </SSection>
         <SSectionBtn>
           <SFormBtn color={"var(--deep-green)"} type="reset">

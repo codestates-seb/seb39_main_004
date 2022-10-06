@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { ITagsMakerProps } from "../../types/interface";
-import { TypeOfTags } from "../../types/type";
 import { TagWithBtn } from "./indexNewRecipe";
 import styled from "styled-components";
 
@@ -33,55 +32,41 @@ const SNoLineInput = styled.input`
   }
 `;
 
-const TagsMaker = ({ setTagsDatas, resTags }: ITagsMakerProps) => {
-  const initialValue: string[] = [];
-  if (resTags) {
-    resTags.forEach((tag) => {
-      const el = Object.values(tag)[0];
-      initialValue.push(el);
-    });
-  }
-  const [tags, setTags] = useState<string[]>(initialValue);
-
+const TagsMaker = ({ setTagsDatas, tagsDatas }: ITagsMakerProps) => {
   const inputValueChange = (
     event: React.KeyboardEvent<HTMLInputElement>
   ): void => {
-    const target = event.target as HTMLInputElement;
-    if (event.key === "Enter") {
-      setTags([...tags, target.value]);
-      target.value = "";
+    if (tagsDatas) {
+      const target = event.target as HTMLInputElement;
+      if (event.key === "Enter") {
+        const newTag = { name: target.value };
+        setTagsDatas([...tagsDatas, newTag]);
+        target.value = "";
+      }
     }
   };
 
   const tagRemover = (id: number) => {
-    const newTags = tags.slice();
+    const newTags = tagsDatas.slice();
     newTags.splice(id, 1);
-    setTags(newTags);
+    setTagsDatas(newTags);
   };
-
-  useEffect(() => {
-    const newData: TypeOfTags[] = [];
-    tags.forEach((tags) => {
-      newData.push({ name: tags });
-    });
-    setTagsDatas(newData);
-  }, [tags]);
 
   return (
     <STagsContainer>
-      {tags.length > 0 &&
-        tags.map((tag, idx) => {
+      {tagsDatas &&
+        tagsDatas.map((taginfo, idx) => {
           return (
             <TagWithBtn
               key={idx}
-              tag={tag}
+              tag={taginfo.name}
               id={idx}
               tagRemover={tagRemover}
             ></TagWithBtn>
           );
         })}
       <SNoLineInput
-        type="text"
+        name="name"
         onKeyUp={inputValueChange}
         placeholder="태그를 추가해주세요."
       />
