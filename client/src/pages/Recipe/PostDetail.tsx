@@ -11,8 +11,13 @@ import { IPostResponceProps } from "../../types/interface";
 import recipeLogo from "../../assets/images/Recipe/recipeLogo.svg";
 
 const SThumbNailContainer = styled.img`
-  width: 100%;
+  width: 100vw;
   height: 400px;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
   object-fit: cover;
   @media ${({ theme }) => theme.device.mobile} {
     height: 270px;
