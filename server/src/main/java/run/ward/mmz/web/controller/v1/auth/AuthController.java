@@ -72,10 +72,13 @@ public class AuthController {
     public ResponseEntity<?> sessionStatus(
             @LoginUser Account user) {
 
-
         SessionUser sessionUser = SessionUser.builder()
                 .user(user)
                 .build();
+
+        if(sessionUser != null) {
+            sessionUser.setName("");
+        }
 
         ResponseDto.Single<?> response = ResponseDto.Single.builder()
                 .data(sessionUser)

@@ -40,7 +40,6 @@ const STopBtn = styled.img`
   @media ${({ theme }) => theme.device.tablet} {
     width: 50px;
     right: 20px;
-    bottom: 30px;
   }
   @media ${({ theme }) => theme.device.mobile} {
     width: 40px;
