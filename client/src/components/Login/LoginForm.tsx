@@ -8,7 +8,7 @@ import SNSLogin from "../../components/Login/SNSLogin";
 import loginlogo from "../../assets/icons/loginlogo.svg";
 import { useEffect } from "react";
 
-const SForm = styled.form`
+const SLoginLayout = styled.div`
   position: relative;
   display: flex;
   flex-flow: column wrap;
@@ -22,6 +22,8 @@ const SForm = styled.form`
     padding: 30px 20px;
   }
 `;
+
+const SForm = styled.form``;
 
 const SLoginLogo = styled.div`
   position: absolute;
@@ -70,51 +72,53 @@ const LoginForm = () => {
   };
 
   return (
-    <SForm onSubmit={handleSubmit(onSubmit)}>
-      <SLoginLogo>
-        <img src={loginlogo} alt="loginlogo" />
-      </SLoginLogo>
-      <StyledInput>
-        <label htmlFor="email">EMAIL</label>
-        <input
-          id="email"
-          type="text"
-          {...register("email", {
-            required: "이메일을 입력해주세요.",
-            pattern: {
-              value: /^\S+@\S+\.\S+/,
-              message: "이메일 형식을 확인해주세요.",
-            },
-          })}
-        />
-        <SErrorMsg>
-          {errors.email && <small role="alert">{errors.email.message}</small>}
-        </SErrorMsg>
-      </StyledInput>
-      <StyledInput>
-        <label htmlFor="password">PASSWORD</label>
-        <input
-          id="password"
-          type="password"
-          {...register("password", {
-            required: "비밀번호를 입력해주세요.",
-            minLength: {
-              value: 8,
-              message: "8자리 이상을 입력해주세요.",
-            },
-          })}
-        />
-        <SErrorMsg>
-          {errors.password && (
-            <small role="alert">{errors.password.message}</small>
-          )}
-        </SErrorMsg>
-      </StyledInput>
-      <Button type="submit" disabled={isSubmitting}>
-        로그인
-      </Button>
+    <SLoginLayout>
+      <SForm onSubmit={handleSubmit(onSubmit)}>
+        <SLoginLogo>
+          <img src={loginlogo} alt="loginlogo" />
+        </SLoginLogo>
+        <StyledInput>
+          <label htmlFor="email">EMAIL</label>
+          <input
+            id="email"
+            type="text"
+            {...register("email", {
+              required: "이메일을 입력해주세요.",
+              pattern: {
+                value: /^\S+@\S+\.\S+/,
+                message: "이메일 형식을 확인해주세요.",
+              },
+            })}
+          />
+          <SErrorMsg>
+            {errors.email && <small role="alert">{errors.email.message}</small>}
+          </SErrorMsg>
+        </StyledInput>
+        <StyledInput>
+          <label htmlFor="password">PASSWORD</label>
+          <input
+            id="password"
+            type="password"
+            {...register("password", {
+              required: "비밀번호를 입력해주세요.",
+              minLength: {
+                value: 8,
+                message: "8자리 이상을 입력해주세요.",
+              },
+            })}
+          />
+          <SErrorMsg>
+            {errors.password && (
+              <small role="alert">{errors.password.message}</small>
+            )}
+          </SErrorMsg>
+        </StyledInput>
+        <Button type="submit" disabled={isSubmitting}>
+          로그인
+        </Button>
+      </SForm>
       <SNSLogin />
-    </SForm>
+    </SLoginLayout>
   );
 };
 
