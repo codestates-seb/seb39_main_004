@@ -52,7 +52,11 @@ const IngredientsSet = ({
   };
 
   const inputHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    setInputs({ ...inputs, [e.target.name]: e.target.value });
+    if (e.target.type === "checkbox") {
+      setInputs({ ...inputs, essential: e.target.checked });
+    } else {
+      setInputs({ ...inputs, [e.target.name]: e.target.value });
+    }
   };
 
   useEffect(() => {
