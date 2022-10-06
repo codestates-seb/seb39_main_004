@@ -53,7 +53,6 @@ const Main = () => {
   const { sessionStatus } = useAppSelector((state) => state.user);
 
   const [page, setPage] = useState(1); // 현재 페이지
-  const [showButton, setShowButton] = useState<boolean>(false); // 탑버튼
   const [load, setLoad] = useState<boolean>(true); // 로딩 스피너 상태
   const preventRef = useRef(true); // 옵저버 중복 실행 방지
   const obsRef = useRef(null); //observer Element
@@ -73,20 +72,6 @@ const Main = () => {
   useEffect(() => {
     getRecipePost(mainSortBy);
   }, [page, category, mainSortBy]);
-
-  useEffect(() => {
-    const ShowButtonClick = () => {
-      if (window.scrollY > 800) {
-        setShowButton(true);
-      } else {
-        setShowButton(false);
-      }
-    };
-    window.addEventListener("scroll", ShowButtonClick);
-    return () => {
-      window.removeEventListener("scroll", ShowButtonClick);
-    };
-  }, []);
 
   const obsHandler = (entries: any) => {
     //옵저버 콜백함수
@@ -167,9 +152,7 @@ const Main = () => {
           {/* 옵저버 Element */}
           <div ref={obsRef}></div>
         </SLoadingLayout>
-        {showButton && (
-          <STopBtn onClick={scrollToTop} src={topbtn} alt="topbtn" />
-        )}
+        <STopBtn onClick={scrollToTop} src={topbtn} alt="topbtn" />
       </SSectionLayout>
     </SMainLayout>
   );
