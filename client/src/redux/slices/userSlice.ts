@@ -70,24 +70,7 @@ export const userSession = createAsyncThunk(
 
       return response.data;
     } catch (error: any) {
-      if (error.response.data.status === 500) {
-        const Toast = Swal.mixin({
-          toast: true,
-          position: "top-end",
-          showConfirmButton: false,
-          timer: 3000,
-          timerProgressBar: true,
-          didOpen: (toast) => {
-            toast.addEventListener("mouseenter", Swal.stopTimer);
-            toast.addEventListener("mouseleave", Swal.resumeTimer);
-          },
-        });
-
-        Toast.fire({
-          icon: "error",
-          title: "서버 에러입니다.\n 관리자에게 문의해주세요.",
-        });
-      }
+      console.log(error);
     }
   }
 );
