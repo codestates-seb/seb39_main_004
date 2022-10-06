@@ -12,9 +12,15 @@ const SImgInputContainer = styled.div`
 
 const SImg = styled.img`
   width: 430px;
-  height: 258px;
+  height: 275px;
   object-fit: cover; // 비율 조정
   border: 2.5px solid var(--gray);
+  @media ${({ theme }) => theme.device.desktop} {
+    height: 260px;
+  }
+  @media ${({ theme }) => theme.device.tablet} {
+    width: 100%;
+  }
 `;
 
 const SImgInput = styled.input`
