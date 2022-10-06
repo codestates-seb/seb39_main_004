@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import { SLable } from "./RecipeFormStyled";
 import { IThumbNailProps } from "../../types/interface";
 import styled from "styled-components";
@@ -15,6 +15,11 @@ const SImg = styled.img`
   height: 258px;
   object-fit: cover; // 비율 조정
   border: 2.5px solid var(--gray);
+  @media ${({ theme }) => theme.device.tablet} {
+    width: 100%;
+    height: 257px;
+    margin-top: 10px;
+  }
 `;
 
 const SImgInput = styled.input`
@@ -30,19 +35,19 @@ const ThumbNailUploader = ({
 
   const onImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
-      console.log("파일이름", event.target.files[0]);
+      // console.log("파일이름", event.target.files[0]);
       setThumbNail(event.target.files[0]);
       const newFileURL = URL.createObjectURL(event.target.files[0]);
       setFileURL(newFileURL);
     }
   };
-
-  useEffect(() => {
-    if (resThumbNailImgUrl) {
-      const imgThumbNailUrl = `${process.env.PUBLIC_URL}/assets/${resThumbNailImgUrl}`;
-      setFileURL(imgThumbNailUrl);
-    }
-  }, []);
+  console.log(fileURL);
+  // useEffect(() => {
+  //   if (resThumbNailImgUrl) {
+  //     const imgThumbNailUrl = `${process.env.PUBLIC_URL}/assets/${resThumbNailImgUrl}`;
+  //     setFileURL(imgThumbNailUrl);
+  //   }
+  // }, []);
 
   return (
     <SImgInputContainer>
@@ -51,7 +56,11 @@ const ThumbNailUploader = ({
         <RequireMark />
       </SLable>
       <SImg
-        src={fileURL ? fileURL : resThumbNailImgUrl ?? defaultImg}
+        src={
+          resThumbNailImgUrl
+            ? `${process.env.PUBLIC_URL}/assets/${resThumbNailImgUrl}`
+            : defaultImg
+        }
         alt={resThumbNailImgUrl}
         onClick={() => {
           if (imgUploadInput.current) {

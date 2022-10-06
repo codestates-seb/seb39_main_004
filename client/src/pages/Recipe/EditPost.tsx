@@ -5,7 +5,7 @@ import {
   STextarea,
 } from "../../components/NewRecipe/RecipeFormStyled";
 import {
-  ThumbNailUploader,
+  // ThumbNailUploader,
   TagsMaker,
   Guide,
   AddingIngredients,
@@ -13,6 +13,8 @@ import {
   ImgRadio,
   RequireMark,
 } from "../../components/NewRecipe/indexNewRecipe";
+import ThumbNailUploadeEdit from "../../components/NewRecipe/ThumbNailUploadeEdit";
+
 import {
   TypeOfFileList,
   TypeOfFormData,
@@ -271,7 +273,7 @@ const EditPost = () => {
               ></STextarea>
             </SRecipeTexts>
             {thumbNailUrl && (
-              <ThumbNailUploader
+              <ThumbNailUploadeEdit
                 setThumbNail={setThumbNail}
                 resThumbNailImgUrl={thumbNailUrl}
               />
