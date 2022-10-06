@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import { SLable } from "./RecipeFormStyled";
 import { IThumbNailProps } from "../../types/interface";
 import styled from "styled-components";
@@ -41,15 +41,14 @@ const ThumbNailUploader = ({
       setFileURL(newFileURL);
     }
   };
-  console.log(resThumbNailImgUrl);
 
-  useEffect(() => {
-    if (resThumbNailImgUrl) {
-      const imgThumbNailUrl = `${process.env.PUBLIC_URL}/assets/${resThumbNailImgUrl}`;
-      console.log("썸네일 주소", imgThumbNailUrl);
-      setFileURL(imgThumbNailUrl);
-    }
-  }, []);
+  console.log("fileURL", fileURL);
+  // useEffect(() => {
+  //   if (resThumbNailImgUrl) {
+  //     const imgThumbNailUrl = `${process.env.PUBLIC_URL}/assets/${resThumbNailImgUrl}`;
+  //     setFileURL(imgThumbNailUrl);
+  //   }
+  // }, []);
 
   return (
     <SImgInputContainer>
@@ -58,7 +57,11 @@ const ThumbNailUploader = ({
         <RequireMark />
       </SLable>
       <SImg
-        src={fileURL ? fileURL : defaultImg}
+        src={
+          resThumbNailImgUrl
+            ? `${process.env.PUBLIC_URL}/assets/${resThumbNailImgUrl}`
+            : defaultImg
+        }
         alt={resThumbNailImgUrl}
         onClick={() => {
           if (imgUploadInput.current) {

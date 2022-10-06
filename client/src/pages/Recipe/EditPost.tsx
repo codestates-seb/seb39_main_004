@@ -18,12 +18,7 @@ import {
   TypeOfFormData,
   TypeOfIngredients,
 } from "../../types/type";
-import {
-  IStepValues,
-  IEditResponseData,
-  ITagsData,
-  ITagProps,
-} from "../../types/interface";
+import { IStepValues, ITagsData, ITagProps } from "../../types/interface";
 import { useState, useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import styled from "styled-components";
@@ -122,9 +117,9 @@ const EditPost = () => {
 
   // 수정페이지 관련
   const { recipeId } = useParams();
-  const [editResponse, setEditResponse] = useState<IEditResponseData>();
 
   // 등록페이지 관련
+  const [thumbNailUrl, setThumbNailUrl] = useState<string>();
   const [thumbNail, setThumbNail] = useState<TypeOfFileList>();
   const [stepImgFiles, setStepImgFiles] = useState<TypeOfFileList[]>([]);
   const [booleanArr, setBooleanArr] = useState<boolean[]>([]);
@@ -172,16 +167,16 @@ const EditPost = () => {
         formData.append("imgDirection", file);
       }
     });
-    console.log(booleanArr, stepImgFiles);
+    // console.log(booleanArr, stepImgFiles);
 
     booleanArr.forEach((el, idx) => {
       const newFile = new File([], "temp.mmz");
       if (stepImgFiles[idx]) {
-        console.log("타입", typeof stepImgFiles[idx]);
+        // console.log("타입", typeof stepImgFiles[idx]);
         // formData.append("imgDirection", stepImgFiles[idx]);
       } else {
         console.log("빈값", newFile);
-        formData.append("imgDirection", newFile);
+        // formData.append("imgDirection", newFile);
       }
     });
     const recipeDatas = {
@@ -222,15 +217,15 @@ const EditPost = () => {
 
   useEffect(() => {
     axios
-      .get(`/api/v1/recipe/${recipeId}/edit/test`)
+      .get(`/api/v1/recipe/${recipeId}/edit/`)
       .then((res) => {
         const resData = res.data.data;
-        setEditResponse(resData);
+        // console.log("resData", resData);
         setCheckedCateg(resData.category);
         setValue("title", resData.title);
         setValue("body", resData.body);
         setDirectDatas(resData.directions);
-        setThumbNail(resData.imgThumbNailUrl);
+        setThumbNailUrl(resData.imgThumbNailUrl);
         setIngredientsDatas(resData.ingredients);
         const tagList: { name: string }[] = [];
         resData.tags.forEach((el: ITagProps) => {
@@ -244,6 +239,8 @@ const EditPost = () => {
   }, []);
   // console.log("변경", tagsDatas);
   // console.log(recipeId, "recipeId");
+
+  // console.log("썸네일 최상위", thumbNailUrl);
 
   return (
     <SFormContainer>
@@ -273,12 +270,12 @@ const EditPost = () => {
                 placeholder="레시피를 소개해주세요."
               ></STextarea>
             </SRecipeTexts>
-            <ThumbNailUploader
-              setThumbNail={setThumbNail}
-              resThumbNailImgUrl={
-                editResponse ? editResponse.imgThumbNailUrl : ""
-              }
-            />
+            {thumbNailUrl && (
+              <ThumbNailUploader
+                setThumbNail={setThumbNail}
+                resThumbNailImgUrl={thumbNailUrl}
+              />
+            )}
           </SRecipeInfo>
           <SFieldset>
             <SLable htmlFor="category">
