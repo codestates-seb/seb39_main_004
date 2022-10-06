@@ -17,9 +17,13 @@ const SCheckInput = styled.input`
   transform: scale(1.8);
   position: absolute;
   right: 25px;
-  top: 25px;
+  top: 18px;
   background-color: beige;
   border: none;
+  @media ${({ theme }) => theme.device.tablet} {
+    transform: scale(1.3);
+    right: 15px;
+  }
 `;
 
 const SIngredientName = styled.div`

@@ -10,6 +10,7 @@ import {
   RecipeItemList,
 } from "../../components/Main";
 import axios from "axios";
+import topbtn from "../../assets/images/main/topbtn.png";
 
 const SMainLayout = styled.main`
   display: flex;
@@ -28,6 +29,13 @@ const SLoadingLayout = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+`;
+
+const STopBtn = styled.img`
+  width: 70px;
+  position: fixed;
+  right: 45px;
+  bottom: 60px;
 `;
 
 const Main = () => {
@@ -119,6 +127,13 @@ const Main = () => {
     }
   };
 
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+
   return (
     <SMainLayout>
       <Carousel />
@@ -131,6 +146,7 @@ const Main = () => {
           {/* 옵저버 Element */}
           <div ref={obsRef}></div>
         </SLoadingLayout>
+        <STopBtn onClick={scrollToTop} src={topbtn} alt="topbtn" />
       </SSectionLayout>
     </SMainLayout>
   );

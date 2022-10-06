@@ -9,11 +9,6 @@ import loginlogo from "../../assets/icons/loginlogo.svg";
 import { useEffect } from "react";
 
 const SLoginLayout = styled.div`
-  position: relative;
-  display: flex;
-  flex-flow: column wrap;
-  justify-content: center;
-  align-items: center;
   width: 430px;
   padding: 50px 60px;
   background-color: #f2f1ea;
@@ -23,18 +18,28 @@ const SLoginLayout = styled.div`
   }
 `;
 
-const SForm = styled.form``;
+const SForm = styled.form`
+  width: 100%;
+  position: relative;
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: center;
+  align-items: center;
+  @media ${({ theme }) => theme.device.tablet} {
+    padding: 10px 0;
+  }
+`;
 
 const SLoginLogo = styled.div`
   position: absolute;
-  top: -45px;
+  top: -93px;
   @media ${({ theme }) => theme.device.tablet} {
     width: 180px;
-    top: -32px;
+    top: -65px;
   }
   @media ${({ theme }) => theme.device.mobile} {
     width: 160px;
-    top: -30px;
+    top: -58px;
   }
 `;
 

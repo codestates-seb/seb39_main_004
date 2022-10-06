@@ -8,7 +8,7 @@ const SIngredientItem = styled.div`
   dl {
     width: 100%;
     display: inline-grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 3fr 1fr;
     padding: 12px 20px;
     min-height: 30px;
     font-size: 1.1rem;
