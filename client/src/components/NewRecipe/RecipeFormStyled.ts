@@ -27,6 +27,7 @@ const SInput = styled.input`
   width: 100%;
   font-size: 1.1rem;
   padding: 1rem;
+  padding-right: 4rem;
   border: 2.5px solid var(--gray);
   border-style: solid none;
   &:focus {
@@ -47,6 +48,7 @@ const STextarea = styled.textarea`
   width: 100%;
   font-size: 1.1rem;
   padding: 1rem;
+  padding-right: 4rem;
   border: 2.5px solid var(--gray);
   border-style: solid none;
   &:focus {
