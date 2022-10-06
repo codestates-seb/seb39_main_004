@@ -1,10 +1,5 @@
 import { Dispatch, SetStateAction } from "react";
-import {
-  TypeOfFileList,
-  TypeOfFormData,
-  TypeOfIngredients,
-  TypeOfTags,
-} from "./type";
+import { TypeOfFileList, TypeOfFormData, TypeOfIngredients } from "./type";
 import { UseFormRegister } from "react-hook-form";
 
 interface IThumbNailProps {
@@ -99,9 +94,14 @@ interface IIngredientSetProps {
   setIngredientsDatas: Dispatch<SetStateAction<TypeOfIngredients[]>>;
 }
 
+interface ITagsData {
+  id?: number;
+  name: string;
+}
+
 interface ITagsMakerProps {
-  resTags?: TypeOfTags[] | undefined;
-  setTagsDatas: Dispatch<SetStateAction<TypeOfTags[]>>;
+  tagsDatas: ITagsData[];
+  setTagsDatas: Dispatch<SetStateAction<ITagsData[]>>;
 }
 
 interface IImgRadioProps {
@@ -184,7 +184,7 @@ interface IPostInGredientProps {
   index: number;
   name: string;
   amount: string;
-  essential: boolean;
+  isEssential: boolean;
 }
 
 interface IPostDirectionsProps {
@@ -271,6 +271,7 @@ export type {
   IAddIngredientsProps,
   IIngredientSetProps,
   IStepSetProps,
+  ITagsData,
   ITagsMakerProps,
   IItemProps,
   ITagProps,

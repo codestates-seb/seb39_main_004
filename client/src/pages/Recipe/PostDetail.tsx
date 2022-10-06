@@ -180,7 +180,7 @@ const RecipeDetail = () => {
   const getData = async () => {
     const { data } = await axios.get(`/api/v1/recipe/${id}`);
     setData([data.data]);
-    console.log(data);
+    // console.log(data);
   };
 
   const menuArr = [
@@ -245,7 +245,7 @@ const RecipeDetail = () => {
                     index={i.index}
                     name={i.name}
                     amount={i.amount}
-                    essential={i.essential}
+                    isEssential={i.isEssential}
                   />
                 ))}
               </IngredientContainer>

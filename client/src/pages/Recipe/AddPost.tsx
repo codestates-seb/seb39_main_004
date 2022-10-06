@@ -17,9 +17,8 @@ import {
   TypeOfFileList,
   TypeOfFormData,
   TypeOfIngredients,
-  TypeOfTags,
 } from "../../types/type";
-import { IStepValues } from "../../types/interface";
+import { IStepValues, ITagsData } from "../../types/interface";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import styled from "styled-components";
@@ -125,7 +124,7 @@ const AddPost = () => {
   const [ingredientsDatas, setIngredientsDatas] = useState<TypeOfIngredients[]>(
     []
   );
-  const [tagsDatas, setTagsDatas] = useState<TypeOfTags[]>([]);
+  const [tagsDatas, setTagsDatas] = useState<ITagsData[]>([]);
 
   const {
     register,
@@ -134,9 +133,9 @@ const AddPost = () => {
   } = useForm<TypeOfFormData>(undefined);
 
   // console.log("불리언", booleanArr);
+  // console.log("재료", ingredientsDatas);
   const submitHandler: SubmitHandler<TypeOfFormData> = async (data) => {
     // console.log("onSubmitData", data);
-    // console.log("재료", ingredientsDatas);
     // console.log("d이미지 순서", stepImgFiles);
     // console.log("순서", directDatas);
     // console.log("태그", tagsDatas);
@@ -175,6 +174,7 @@ const AddPost = () => {
       directions: directDatas,
       tags: tagsDatas,
     };
+
     formData.append(
       "recipe",
       new Blob([JSON.stringify(recipeDatas)], { type: "application/json" })
@@ -215,7 +215,6 @@ const AddPost = () => {
                 id="title"
                 placeholder="레시피 제목을 적어주세요."
               />
-              {/* {errors.recipeTitle && <p>{errors.recipeTitle.message}</p>} */}
               <SLable htmlFor="body">
                 요리 소개
                 <RequireMark />
@@ -269,7 +268,7 @@ const AddPost = () => {
         </SSection>
         <SSection color={"var(--sky-blue)"}>
           <SLable>태그</SLable>
-          <TagsMaker setTagsDatas={setTagsDatas} />
+          <TagsMaker setTagsDatas={setTagsDatas} tagsDatas={tagsDatas} />
         </SSection>
         <SSectionBtn>
           <SFormBtn color={"var(--deep-green)"} type="reset">
