@@ -17,7 +17,7 @@ const SCheckInput = styled.input`
   transform: scale(1.8);
   position: absolute;
   right: 25px;
-  top: 25px;
+  top: 19px;
   background-color: beige;
   border: none;
 `;
@@ -43,7 +43,7 @@ const IngredientsSet = ({
   const [inputs, setInputs] = useState({
     index: ingredient.index,
     name: ingredient.name,
-    essential: ingredient.essential,
+    isEssential: ingredient.isEssential,
     amount: ingredient.amount,
   });
 
@@ -52,7 +52,11 @@ const IngredientsSet = ({
   };
 
   const inputHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    setInputs({ ...inputs, [e.target.name]: e.target.value });
+    if (e.target.type === "checkbox") {
+      setInputs({ ...inputs, isEssential: e.target.checked });
+    } else {
+      setInputs({ ...inputs, [e.target.name]: e.target.value });
+    }
   };
 
   useEffect(() => {
@@ -87,8 +91,8 @@ const IngredientsSet = ({
         />
         <SCheckInput
           type="checkbox"
-          name="essential"
-          defaultChecked={inputs.essential}
+          name="isEssential"
+          defaultChecked={inputs.isEssential}
           onChange={(e) => {
             inputHandler(e);
           }}
