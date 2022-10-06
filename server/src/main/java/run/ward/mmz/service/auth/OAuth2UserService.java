@@ -53,8 +53,11 @@ public class OAuth2UserService implements org.springframework.security.oauth2.cl
         if (!accountRepository.existsByEmail(userEmail)) {
             while (accountRepository.existsByName(tmp)) {
                 tmp = tmp + ((int) (Math.random() * 990) + 10);
-
             }
+        }else{
+            tmp = accountRepository.findByEmail(userEmail)
+                    .orElseThrow()
+                    .getName();
         }
 
         attributes.setNew(false);
