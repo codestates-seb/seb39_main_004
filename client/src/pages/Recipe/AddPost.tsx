@@ -133,9 +133,9 @@ const AddPost = () => {
   } = useForm<TypeOfFormData>(undefined);
 
   // console.log("불리언", booleanArr);
+  // console.log("재료", ingredientsDatas);
   const submitHandler: SubmitHandler<TypeOfFormData> = async (data) => {
     // console.log("onSubmitData", data);
-    // console.log("재료", ingredientsDatas);
     // console.log("d이미지 순서", stepImgFiles);
     // console.log("순서", directDatas);
     // console.log("태그", tagsDatas);
@@ -174,6 +174,7 @@ const AddPost = () => {
       directions: directDatas,
       tags: tagsDatas,
     };
+
     formData.append(
       "recipe",
       new Blob([JSON.stringify(recipeDatas)], { type: "application/json" })

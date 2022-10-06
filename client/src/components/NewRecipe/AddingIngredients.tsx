@@ -15,7 +15,7 @@ const AddIngredients = ({
     index: 0,
     name: "",
     amount: "",
-    essential: false,
+    isEssential: false,
   };
   // let initialValue;
   // ingredientsDatas === undefined

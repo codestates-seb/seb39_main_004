@@ -184,7 +184,7 @@ interface IPostInGredientProps {
   index: number;
   name: string;
   amount: string;
-  essential: boolean;
+  isEssential: boolean;
 }
 
 interface IPostDirectionsProps {
