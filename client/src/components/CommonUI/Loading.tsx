@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import logo from "../../assets/logos/logo_move.gif";
+import logo from "../../assets/logos/logo_move2.gif";
 
 const LogingLayout = styled.div`
   width: 100px;
