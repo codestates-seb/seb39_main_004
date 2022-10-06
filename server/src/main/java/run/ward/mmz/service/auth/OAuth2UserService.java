@@ -21,7 +21,6 @@ import javax.servlet.http.HttpSession;
 public class OAuth2UserService implements org.springframework.security.oauth2.client.userinfo.OAuth2UserService<OAuth2UserRequest, OAuth2User> {
 
     private final AccountRepository accountRepository;
-    private final HttpSession httpSession;
     private final AccountMapper accountMapper;
 
 
@@ -39,7 +38,6 @@ public class OAuth2UserService implements org.springframework.security.oauth2.cl
 
         OAuthAttributes attributes = OAuthAttributes.of(regId, attributeName, oAuth2User.getAttributes());
         Account user = save(attributes);
-//        httpSession.setAttribute("user", new SessionUser(user));
         return new PrincipalDetails(user, attributes.getAttributes());
     }
 
@@ -51,11 +49,9 @@ public class OAuth2UserService implements org.springframework.security.oauth2.cl
         //유저 이름이 있으면, 이름 변경, 없으면 회원가입
         String tmp = userName;
 
+
         while (accountRepository.existsByName(tmp)) {
-            if (!attributes.isNew()) {
-                tmp = tmp + ((int) (Math.random() * 990) + 10);
-            } else
-                break;
+            tmp = tmp + ((int) (Math.random() * 990) + 10);
         }
 
         attributes.setNew(false);
