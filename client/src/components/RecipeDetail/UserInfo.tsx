@@ -202,18 +202,20 @@ const PostUserInfo = ({
             </SFollowContainer>
           )}
 
-          <SButtonContaienr>
-            {userInfo.name && name === userInfo.name ? (
-              <>
-                <span>
-                  <Link to={`/edit/${id}`}>Edit</Link>
-                </span>
-                <span role="presentation" onClick={DeleteHandler}>
-                  Delete
-                </span>
-              </>
-            ) : null}
-          </SButtonContaienr>
+          {sessionStatus && (
+            <SButtonContaienr>
+              {userInfo.name && name === userInfo.name ? (
+                <>
+                  <span>
+                    <Link to={`/edit/${id}`}>Edit</Link>
+                  </span>
+                  <span role="presentation" onClick={DeleteHandler}>
+                    Delete
+                  </span>
+                </>
+              ) : null}
+            </SButtonContaienr>
+          )}
         </SUserInfo>
       </SContainer>
     </>

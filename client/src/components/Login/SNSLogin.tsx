@@ -5,7 +5,6 @@ import Google from "../../assets/images/snsLogin/google.png";
 import { StyledLink } from "../CommonUI";
 import { userSession } from "../../redux/slices/userSlice";
 import { useAppSelector, useAppDispatch } from "../../hooks/dispatchHook";
-import { useNavigate } from "react-router-dom";
 
 const SSNSLoginContainer = styled.div`
   display: flex;
@@ -62,19 +61,19 @@ const JoinContainer = styled.ul`
 `;
 
 const SNSLogin = () => {
-  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { sessionStatus } = useAppSelector((state) => state.user);
 
   const onGoogleLoginHandler = () => {
-    navigate("/redirect", {
-      state: {
-        url: "https://www.mmz.today/oauth2/authorization/google",
-      },
-    });
+    window.location.href = "https://www.mmz.today/oauth2/authorization/google";
     dispatch(userSession());
-    console.log("SNSLogin 세션 상태: ", sessionStatus);
-    // navigate("/");
+    console.log("구글 로그인 세션 상태: ", sessionStatus);
+  };
+
+  const onKakaoLoginHandler = () => {
+    window.location.href = "https://www.mmz.today/oauth2/authorization/kakao";
+    dispatch(userSession());
+    console.log("카카오 로그인 세션 상태: ", sessionStatus);
   };
 
   return (
@@ -84,7 +83,7 @@ const SNSLogin = () => {
         <SButton>
           <NaverImg />
         </SButton>
-        <SButton>
+        <SButton onClick={onKakaoLoginHandler}>
           <KakaoImg />
         </SButton>
         <SButton onClick={onGoogleLoginHandler}>
