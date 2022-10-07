@@ -186,8 +186,7 @@ const PostUserInfo = ({
           <ProfileImg
             src={`${process.env.PUBLIC_URL}/assets/${imgProfileUrl}`}
           />
-          <SUserId>{name}</SUserId>
-
+          {name ? <SUserId>{name}</SUserId> : null}
           {userInfo.name && name === userInfo.name ? null : (
             <SFollowContainer>
               {follow ? (
