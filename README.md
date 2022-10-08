@@ -2,7 +2,7 @@
   <img width="400px;" src="https://user-images.githubusercontent.com/104341003/194118080-1ac35ea1-46a3-4a13-8433-b82f0f257c1e.gif"/>
 </p>
 <h1 align="middle">MMZ (뭐먹지?)</h1>
-<p align="middle">오늘부터는 뭐먹지? 고민 끝! MZ세대를 위한 간편 레시피 플랫폼 🥳</p>
+<h3 align="middle">오늘부터는 뭐먹지? 고민 끝! MZ세대를 위한 간편 레시피 플랫폼 🥳</h3>
 
 <br/>
 
@@ -20,16 +20,54 @@
 
 |                                     Frontend (팀장)                                      |                                         Frontend                                         |                                         Frontend                                         |                                          Backend                                          |                                         Backend                                          |
 | :--------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------: |
-| <img src="https://avatars.githubusercontent.com/u/59650985?v=4" width=150px alt="현주"/> | <img src="https://avatars.githubusercontent.com/u/56382387?v=4" width=150px alt="다현"/> | <img src="https://avatars.githubusercontent.com/u/90553688?v=4" width=150px alt="은진"/> | <img src="https://avatars.githubusercontent.com/u/104341003?v=4" width=150px alt="원용"/> | <img src="https://avatars.githubusercontent.com/u/73704053?v=4" width=150px alt="효준"/> |
+| <img src="https://user-images.githubusercontent.com/59650985/194706934-9869538f-f059-466c-bd96-ebefb128f072.png" width=150px alt="현주"/> | <img src="https://user-images.githubusercontent.com/59650985/194707015-99a64ee1-dcd7-40cb-a59f-984786d87432.png" width=150px alt="다현"/> | <img src="https://user-images.githubusercontent.com/59650985/194707019-96230c89-9af7-405a-a5aa-bce96a35142f.png" width=150px alt="은진"/> | <img src="https://user-images.githubusercontent.com/59650985/194707245-cc4eb871-f740-45ee-935e-5468dd4951d8.png" width=150px alt="원용"/> | <img src="https://user-images.githubusercontent.com/59650985/194707042-ea4817a0-0bf5-40e1-bdb3-a15f735b0fac.png" width=150px alt="효준"/> |
 |                          [유현주](https://github.com/yoohyunju)                          |                           [윤다현](https://github.com/dulce04)                           |                          [조은진](https://github.com/JoeunNAL)                           |                           [이원용](https://github.com/ItsWard)                            |                          [왕효준](https://github.com/gywns0417)                          |
 
 <br/>
 
 ## 🛠️ 프로젝트 기술 스택
+### Frontend
+<div width="80%">
+ <img alt="TypeScript" src="https://img.shields.io/badge/TypeScript-2F74C0.svg?&style=for-the-badge&logo=TypeScript&logoColor=white"/>
+ <img alt="React" src="https://img.shields.io/badge/React-2A2C2E.svg?&style=for-the-badge&logo=React&logoColor=61DBFB"/>
+ <img alt="Redux-Toolkit" src="https://img.shields.io/badge/Redux&#x2012;Toolkit-7649BB.svg?&style=for-the-badge&logo=Redux&logoColor=white"/>
+ <img alt="Styled-Components" src="https://img.shields.io/badge/Styled&#x2012;Components-E37E86.svg?&style=for-the-badge&logo=Styled-Components&logoColor=white"/>
+ <img alt="Axios" src="https://img.shields.io/badge/Axios-5630C8.svg?&style=for-the-badge&logo=Axios&logoColor=white"/>
+ <img alt="ESLint" src="https://img.shields.io/badge/ESLint-4B32C3.svg?&style=for-the-badge&logo=ESLint&logoColor=white"/>
+ <img alt="Prettier" src="https://img.shields.io/badge/Prettier-F7B93E.svg?&style=for-the-badge&logo=Prettier&logoColor=white"/>
+</div>
+
+<br/>
+
+### Backend
+<div width="80%">
+ <img alt="Spring Boot" src="https://img.shields.io/badge/Spring%20Boot-6DB33F.svg?&style=for-the-badge&logo=Spring-Boot&logoColor=white"/>
+ <img alt="Spring Security" src="https://img.shields.io/badge/Spring%20Security-6DB33F.svg?&style=for-the-badge&logo=Spring Security&logoColor=white"/>
+ <img alt="Spring Data JPA" src="https://img.shields.io/badge/Spring%20Data%20JPA-6DB33F.svg?&style=for-the-badge&logo=Spring&logoColor=white"/>
+ <img alt="MariaDB" src="https://img.shields.io/badge/Maria%20DB-003545.svg?&style=for-the-badge&logo=MariaDB&logoColor=white"/>
+ <img src="https://img.shields.io/badge/gradle-02303A?style=for-the-badge&logo=gradle&logoColor=white">
+</div>
+
+<br/>
+
+### Infra
+<div width="80%">
+ <img alt="Elasticsearch" src="https://img.shields.io/badge/Elastic search-005571.svg?&style=for-the-badge&logo=Elasticsearch&logoColor=white"/>
+ <img alt="Logstash" src="https://img.shields.io/badge/Logstash-005571.svg?&style=for-the-badge&logo=Logstash&logoColor=white"/>
+ <img alt="Kibana" src="https://img.shields.io/badge/Kibana-005571.svg?&style=for-the-badge&logo=Kibana&logoColor=white"/>
+ <img alt="GithubActions" src="https://img.shields.io/badge/Github Actions-2088FF.svg?&style=for-the-badge&logo=GithubActions&logoColor=white"/>
+ <img alt="NGINX" src="https://img.shields.io/badge/NGINX-009639.svg?&style=for-the-badge&logo=NGINX&logoColor=white"/>
+</div>
 
 <br/>
 
 ## 📜 프로젝트 아키텍쳐
+![MMZ Architecture](https://user-images.githubusercontent.com/59650985/194707399-8693271d-016b-4b7e-b0c8-6030fbf85d64.png)
+
+<br/>
+
+## ☺️ 사용자 흐름도
+<img width="5431" alt="user flow1" src="https://user-images.githubusercontent.com/59650985/194708235-cbe2296e-ae53-4fa4-97d9-f614852b1d18.png">
 
 <br/>
 
