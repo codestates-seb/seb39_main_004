@@ -27,7 +27,7 @@
 
 ## 🛠️ 프로젝트 기술 스택
 ### Frontend
-<div width="80%">
+<div width="80%" align="center">
  <img alt="TypeScript" src="https://img.shields.io/badge/TypeScript-2F74C0.svg?&style=for-the-badge&logo=TypeScript&logoColor=white"/>
  <img alt="React" src="https://img.shields.io/badge/React-2A2C2E.svg?&style=for-the-badge&logo=React&logoColor=61DBFB"/>
  <img alt="Redux-Toolkit" src="https://img.shields.io/badge/Redux&#x2012;Toolkit-7649BB.svg?&style=for-the-badge&logo=Redux&logoColor=white"/>
@@ -41,7 +41,7 @@
 <br/>
 
 ### Backend
-<div width="80%">
+<div width="80%" align="center">
  <img alt="Spring Boot" src="https://img.shields.io/badge/Spring%20Boot-6DB33F.svg?&style=for-the-badge&logo=Spring-Boot&logoColor=white"/>
  <img alt="Spring Security" src="https://img.shields.io/badge/Spring%20Security-6DB33F.svg?&style=for-the-badge&logo=Spring Security&logoColor=white"/>
  <img alt="Spring Data JPA" src="https://img.shields.io/badge/Spring%20Data%20JPA-6DB33F.svg?&style=for-the-badge&logo=Spring&logoColor=white"/>
@@ -52,7 +52,7 @@
 <br/>
 
 ### Infra
-<div width="80%">
+<div width="80%" align="center">
  <img alt="Elasticsearch" src="https://img.shields.io/badge/Elastic search-005571.svg?&style=for-the-badge&logo=Elasticsearch&logoColor=white"/>
  <img alt="Logstash" src="https://img.shields.io/badge/Logstash-005571.svg?&style=for-the-badge&logo=Logstash&logoColor=white"/>
  <img alt="Kibana" src="https://img.shields.io/badge/Kibana-005571.svg?&style=for-the-badge&logo=Kibana&logoColor=white"/>
