@@ -187,6 +187,8 @@ const PostUserInfo = ({
             src={`${process.env.PUBLIC_URL}/assets/${imgProfileUrl}`}
           />
           {name ? <SUserId>{name}</SUserId> : null}
+          {/* 임시 주석처리 */}
+          {/* {name ? <SUserId>{name}</SUserId> : null} */}
           {userInfo.name && name === userInfo.name ? null : (
             <SFollowContainer>
               {follow ? (
@@ -201,20 +203,20 @@ const PostUserInfo = ({
             </SFollowContainer>
           )}
 
-          {sessionStatus && (
-            <SButtonContaienr>
-              {userInfo.name && name === userInfo.name ? (
-                <>
-                  <span>
-                    <Link to={`/edit/${id}`}>Edit</Link>
-                  </span>
-                  <span role="presentation" onClick={DeleteHandler}>
-                    Delete
-                  </span>
-                </>
-              ) : null}
-            </SButtonContaienr>
-          )}
+          {/* {sessionStatus && ( */}
+          <SButtonContaienr>
+            {/* {userInfo.name && name === userInfo.name ? ( */}
+            <>
+              <span>
+                <Link to={`/edit/${id}`}>Edit</Link>
+              </span>
+              <span role="presentation" onClick={DeleteHandler}>
+                Delete
+              </span>
+            </>
+            {/* ) : null} */}
+          </SButtonContaienr>
+          {/* )} */}
         </SUserInfo>
       </SContainer>
     </>
