@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import { SLable } from "./RecipeFormStyled";
 import { IThumbNailProps } from "../../types/interface";
 import styled from "styled-components";
@@ -31,24 +31,18 @@ const ThumbNailUploader = ({
   resThumbNailImgUrl,
   setThumbNail,
 }: IThumbNailProps) => {
-  const [fileURL, setFileURL] = useState<string>("");
+  const [fileURL, setFileURL] = useState<string | undefined>(
+    `${process.env.PUBLIC_URL}/assets/${resThumbNailImgUrl}`
+  );
   const imgUploadInput = useRef<HTMLInputElement | null>(null);
 
   const onImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
-      console.log("파일이름", event.target.files[0]);
       setThumbNail(event.target.files[0]);
       const newFileURL = URL.createObjectURL(event.target.files[0]);
       setFileURL(newFileURL);
     }
   };
-
-  useEffect(() => {
-    if (resThumbNailImgUrl) {
-      const imgThumbNailUrl = `${process.env.PUBLIC_URL}/assets/${resThumbNailImgUrl}`;
-      setFileURL(imgThumbNailUrl);
-    }
-  }, []);
 
   return (
     <SImgInputContainer>
@@ -57,8 +51,11 @@ const ThumbNailUploader = ({
         <RequireMark />
       </SLable>
       <SImg
-        src={fileURL ? fileURL : resThumbNailImgUrl ?? defaultImg}
-        alt={resThumbNailImgUrl}
+        src={
+          fileURL !== `${process.env.PUBLIC_URL}/assets/${undefined}`
+            ? fileURL
+            : defaultImg
+        }
         onClick={() => {
           if (imgUploadInput.current) {
             imgUploadInput.current.click();
