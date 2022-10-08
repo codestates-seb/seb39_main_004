@@ -56,6 +56,7 @@ const ThumbNailUploader = ({
             ? fileURL
             : defaultImg
         }
+        alt={fileURL ? fileURL.slice(8) : "undefined"}
         onClick={() => {
           if (imgUploadInput.current) {
             imgUploadInput.current.click();
