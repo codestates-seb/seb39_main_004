@@ -32,6 +32,7 @@
  <img alt="React" src="https://img.shields.io/badge/React-2A2C2E.svg?&style=for-the-badge&logo=React&logoColor=61DBFB"/>
  <img alt="Redux-Toolkit" src="https://img.shields.io/badge/Redux&#x2012;Toolkit-7649BB.svg?&style=for-the-badge&logo=Redux&logoColor=white"/>
  <img alt="Styled-Components" src="https://img.shields.io/badge/Styled&#x2012;Components-E37E86.svg?&style=for-the-badge&logo=Styled-Components&logoColor=white"/>
+ <br/>
  <img alt="Axios" src="https://img.shields.io/badge/Axios-5630C8.svg?&style=for-the-badge&logo=Axios&logoColor=white"/>
  <img alt="ESLint" src="https://img.shields.io/badge/ESLint-4B32C3.svg?&style=for-the-badge&logo=ESLint&logoColor=white"/>
  <img alt="Prettier" src="https://img.shields.io/badge/Prettier-F7B93E.svg?&style=for-the-badge&logo=Prettier&logoColor=white"/>
