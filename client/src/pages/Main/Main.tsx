@@ -56,7 +56,9 @@ const Main = () => {
   }, [sessionStatus]);
 
   useEffect(() => {
-    getRecipePost(mainSortBy);
+    setTimeout(() => {
+      getRecipePost(mainSortBy);
+    }, 1500);
   }, [page, category, mainSortBy]);
 
   const obsHandler = (entries: any) => {
