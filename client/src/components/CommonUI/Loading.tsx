@@ -2,8 +2,8 @@ import styled from "styled-components";
 import logo from "../../assets/logos/logo_move2.gif";
 
 const LogingLayout = styled.div`
-  width: 100px;
-  margin: 40px;
+  width: 300px;
+  margin-top: 100px;
 `;
 
 const Spinner = styled.img``;

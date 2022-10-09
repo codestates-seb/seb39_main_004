@@ -78,7 +78,7 @@ const ImgUploader = ({
       <SImg
         height={currentIndex === undefined ? "277px" : undefined}
         src={fileURL ? fileURL : defaultImg}
-        alt={fileURL}
+        alt={fileURL ? fileURL.slice(8) : "undefined"}
         onClick={() => {
           if (imgUploadInput.current) {
             imgUploadInput.current.click();
