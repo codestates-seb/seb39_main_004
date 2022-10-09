@@ -1,6 +1,8 @@
 import { Footer, Header } from "./CommonUI";
 import { Outlet } from "react-router-dom";
+import { useState, useEffect } from "react";
 import styled from "styled-components";
+import topbtn from "../assets/images/main/topbtn.png";
 
 const SContainer = styled.div`
   width: 100%;
@@ -18,7 +20,47 @@ const SMain = styled.main`
   }
 `;
 
+const STopBtn = styled.img`
+  width: 65px;
+  position: fixed;
+  right: 45px;
+  bottom: 50px;
+  cursor: pointer;
+  @media ${({ theme }) => theme.device.tablet} {
+    width: 50px;
+    right: 20px;
+  }
+  @media ${({ theme }) => theme.device.mobile} {
+    width: 40px;
+    right: 10px;
+    bottom: 30px;
+  }
+`;
+
 const Layout = () => {
+  const [showButton, setShowButton] = useState<boolean>(false); //스크롤 탑버튼
+
+  const scrollToTop = () => {
+    window.scroll({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+
+  useEffect(() => {
+    const ShowButtonClick = () => {
+      if (window.scrollY > 500) {
+        setShowButton(true);
+      } else {
+        setShowButton(false);
+      }
+    };
+    window.addEventListener("scroll", ShowButtonClick);
+    return () => {
+      window.removeEventListener("scroll", ShowButtonClick);
+    };
+  }, []);
+
   return (
     <SContainer>
       <Header />
@@ -26,6 +68,9 @@ const Layout = () => {
         <Outlet />
       </SMain>
       <Footer />
+      {showButton && (
+        <STopBtn onClick={scrollToTop} src={topbtn} alt="topbtn" />
+      )}
     </SContainer>
   );
 };
