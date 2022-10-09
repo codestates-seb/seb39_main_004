@@ -263,6 +263,12 @@ interface IStarProps {
   setStarClicked?: React.Dispatch<React.SetStateAction<boolean[]>>;
 }
 
+// 리펙토링 전 임시 사용
+interface IRecipeTemp {
+  body: string;
+  title: string;
+}
+
 export type {
   IThumbNailProps,
   IImgUploaderProps,
@@ -297,4 +303,5 @@ export type {
   IFollowProps,
   IFollowingProps,
   IStarProps,
+  IRecipeTemp,
 };
