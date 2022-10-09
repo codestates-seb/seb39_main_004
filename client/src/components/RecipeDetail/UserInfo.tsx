@@ -186,34 +186,35 @@ const PostUserInfo = ({
           <ProfileImg
             src={`${process.env.PUBLIC_URL}/assets/${imgProfileUrl}`}
           />
-          <SUserId>{name}</SUserId>
-
-          {userInfo.name && name === userInfo.name ? null : (
-            <SFollowContainer>
-              {follow ? (
-                <SUnFollowBtn onClick={undoFollow} role="presentation">
-                  UnFollow
-                </SUnFollowBtn>
-              ) : (
-                <SFollowBtn onClick={doFollow} role="presentation">
-                  Follow
-                </SFollowBtn>
-              )}
-            </SFollowContainer>
-          )}
+          {name && <SUserId>{name}</SUserId>}
+          {userInfo &&
+            (name === userInfo.name ? null : (
+              <SFollowContainer>
+                {follow ? (
+                  <SUnFollowBtn onClick={undoFollow} role="presentation">
+                    UnFollow
+                  </SUnFollowBtn>
+                ) : (
+                  <SFollowBtn onClick={doFollow} role="presentation">
+                    Follow
+                  </SFollowBtn>
+                )}
+              </SFollowContainer>
+            ))}
 
           {sessionStatus && (
             <SButtonContaienr>
-              {userInfo.name && name === userInfo.name ? (
-                <>
-                  <span>
-                    <Link to={`/edit/${id}`}>Edit</Link>
-                  </span>
-                  <span role="presentation" onClick={DeleteHandler}>
-                    Delete
-                  </span>
-                </>
-              ) : null}
+              {userInfo &&
+                (name === userInfo.name ? (
+                  <>
+                    <span>
+                      <Link to={`/edit/${id}`}>Edit</Link>
+                    </span>
+                    <span role="presentation" onClick={DeleteHandler}>
+                      Delete
+                    </span>
+                  </>
+                ) : null)}
             </SButtonContaienr>
           )}
         </SUserInfo>

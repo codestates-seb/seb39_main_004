@@ -35,7 +35,7 @@ const IngredientItem = ({
       <SIngredientItem>
         <dl>
           <dt>
-            <input type="checkbox" checked={isEssential} />
+            <input type="checkbox" defaultChecked={isEssential} />
             {name}
           </dt>
           <dd>{amount}</dd>
