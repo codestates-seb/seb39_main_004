@@ -85,7 +85,7 @@ const Main = () => {
     setTimeout(() => {
       getRecipePost();
     }, 1000);
-  }, [category]);
+  }, [category, mainSortBy]);
 
   const obsHandler = (entries: any) => {
     //옵저버 콜백함수
