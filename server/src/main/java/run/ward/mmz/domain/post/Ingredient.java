@@ -42,6 +42,10 @@ public class Ingredient {
             recipe.getIngredients().add(this);
     }
 
+    public void deleteRecipe(){
+        this.recipe = null;
+    }
+
     @Builder
     public Ingredient(int index, String name, String amount, boolean isEssential, Recipe recipe) {
         this.idx = index;

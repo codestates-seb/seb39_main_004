@@ -1,5 +1,6 @@
 package run.ward.mmz.dto.request.post;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
 import java.util.List;

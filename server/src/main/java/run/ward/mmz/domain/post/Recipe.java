@@ -116,6 +116,29 @@ public class Recipe extends Auditable {
             this.recipeTags.add(recipeTag);
     }
 
+    public void removeAllDirection(){
+        for(Direction direction : directions){
+            direction.deleteRecipe();
+        }
+        directions = new ArrayList<>();
+    }
+
+    public void removeAllIngredients(){
+        for(Ingredient ingredient : ingredients){
+            ingredient.deleteRecipe();
+        }
+        ingredients = new ArrayList<>();
+    }
+
+    public void removeAllRecipeTag(){
+        for(RecipeTag recipeTag : recipeTags){
+            recipeTag.deleteRecipe();
+        }
+        recipeTags = new ArrayList<>();
+    }
+
+
+
     public void removeBookmarks(Bookmark bookmark) {
         bookmarks.remove(bookmark);
         isBookmarked = false;
@@ -182,6 +205,29 @@ public class Recipe extends Auditable {
 
         return recipe;
     }
+
+    @JsonIgnore
+    public Recipe updateRecipe(String title, String body, String category, Files imgThumbNail, List<Ingredient> ingredients, List<Direction> directions) {
+
+
+        this.title = title;
+        this.body = body;
+        this.category = category;
+
+        this.setThumbnail(imgThumbNail);
+
+        for (Ingredient ingredient : ingredients) {
+            this.addIngredients(ingredient);
+        }
+
+        for (Direction direction : directions) {
+            this.addDirections(direction);
+        }
+
+
+        return this;
+    }
+
 
 
     /**

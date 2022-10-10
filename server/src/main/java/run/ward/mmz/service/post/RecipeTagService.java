@@ -10,5 +10,6 @@ public interface RecipeTagService {
     List<Tag> findAllByRecipeId(Long recipeId);
     List<Recipe> findAllByTagName(String tagName);
     void deleteAllByRecipe(Recipe recipe);
+    void deleteAllByRecipeId(Long recipeId);
 
 }

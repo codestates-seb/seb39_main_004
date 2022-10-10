@@ -35,7 +35,7 @@
  <br/>
  <img alt="Axios" src="https://img.shields.io/badge/Axios-5630C8.svg?&style=for-the-badge&logo=Axios&logoColor=white"/>
  <img alt="ESLint" src="https://img.shields.io/badge/ESLint-4B32C3.svg?&style=for-the-badge&logo=ESLint&logoColor=white"/>
- <img alt="Prettier" src="https://img.shields.io/badge/Prettier-F7B93E.svg?&style=for-the-badge&logo=Prettier&logoColor=white"/>
+ <img alt="Prettier" src="https://img.shields.io/badge/Prettier-1A2B34.svg?&style=for-the-badge&logo=Prettier&logoColor=F7B93E"/>
 </div>
 
 <br/>
@@ -58,6 +58,7 @@
  <img alt="Kibana" src="https://img.shields.io/badge/Kibana-005571.svg?&style=for-the-badge&logo=Kibana&logoColor=white"/>
  <img alt="GithubActions" src="https://img.shields.io/badge/Github Actions-2088FF.svg?&style=for-the-badge&logo=GithubActions&logoColor=white"/>
  <img alt="NGINX" src="https://img.shields.io/badge/NGINX-009639.svg?&style=for-the-badge&logo=NGINX&logoColor=white"/>
+ <img alt="Linux" src="https://img.shields.io/badge/Linux-FCC624.svg?&style=for-the-badge&logo=Linux&logoColor=black"/>
 </div>
 
 <br/>

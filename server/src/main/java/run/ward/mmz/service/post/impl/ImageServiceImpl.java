@@ -6,6 +6,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import run.ward.mmz.domain.file.Files;
 import run.ward.mmz.domain.file.Image.ImageType;
+import run.ward.mmz.handler.exception.CustomException;
+import run.ward.mmz.handler.exception.ExceptionCode;
 import run.ward.mmz.handler.file.FileHandler;
 import run.ward.mmz.mapper.file.FilesMapper;
 import run.ward.mmz.repository.post.FileRepository;
@@ -20,6 +22,13 @@ public class ImageServiceImpl implements ImageService {
     private final FileHandler fileHandler;
     private final FilesMapper filesMapper;
     private final FileRepository fileRepository;
+
+    @Override
+    public Files findByName(String fileName) {
+        return fileRepository.findByFileName(fileName).orElseThrow(
+                () ->  new CustomException(ExceptionCode.FILE_NOT_FOUND)
+        );
+    }
 
     @Override
     public List<Files> saveAll(List<MultipartFile> multipartFiles) {

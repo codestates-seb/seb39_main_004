@@ -21,7 +21,7 @@ public class Tag {
     private String name;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "tag", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "tag", fetch = FetchType.LAZY)
     private List<RecipeTag> recipeTags = new ArrayList<>();
 
     protected void mappingRecipeTag(RecipeTag recipeTag) {

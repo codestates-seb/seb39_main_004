@@ -76,10 +76,6 @@ public class AuthController {
                 .user(user)
                 .build();
 
-        if(sessionUser != null) {
-            sessionUser.setName("");
-        }
-
         ResponseDto.Single<?> response = ResponseDto.Single.builder()
                 .data(sessionUser)
                 .build();

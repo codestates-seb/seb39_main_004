@@ -13,6 +13,8 @@ import run.ward.mmz.domain.account.Account;
 import run.ward.mmz.domain.file.Files;
 import run.ward.mmz.domain.file.Image.ImageType;
 import run.ward.mmz.domain.post.*;
+import run.ward.mmz.dto.common.FilesDto;
+import run.ward.mmz.dto.request.post.DirectionPostDto;
 import run.ward.mmz.dto.request.post.patch.RecipePatchDto;
 import run.ward.mmz.dto.request.post.RecipePostDto;
 import run.ward.mmz.dto.common.ResponseDto;
@@ -26,10 +28,7 @@ import run.ward.mmz.mapper.post.RecipeMapper;
 import run.ward.mmz.mapper.post.TagMapper;
 import run.ward.mmz.service.account.AccountService;
 import run.ward.mmz.service.account.SubscribeService;
-import run.ward.mmz.service.post.BookmarkService;
-import run.ward.mmz.service.post.RecipeService;
-import run.ward.mmz.service.post.RecipeTagService;
-import run.ward.mmz.service.post.TagService;
+import run.ward.mmz.service.post.*;
 import run.ward.mmz.handler.auth.LoginUser;
 
 import javax.validation.constraints.Positive;
@@ -45,11 +44,10 @@ public class RecipeController {
 
     private static final int PAGE_SIZE = 12;
 
-    private final DirectionMapper directionMapper;
     private final IngredientMapper ingredientMapper;
     private final TagMapper tagMapper;
     private final RecipeMapper recipeMapper;
-
+    private final DirectionService directionService;
 
     private final FileHandler fileHandler;
     private final FilesMapper filesMapper;
@@ -70,15 +68,14 @@ public class RecipeController {
 
         Account findUser = accountService.findById(user.getId());
         //Controller Code
-
+        List<FilesDto> filesDtoList = fileHandler.parseFileInfo(imgDirectionList, ImageType.EXTENSIONS);
+        List<DirectionPostDto> directionPostDtoList = recipePostDto.getDirections();
+        List<Direction> directionList = directionService.saveAll(directionPostDtoList, filesDtoList);
         Files imgThumbNailFile = filesMapper.fileDtoToImage(fileHandler.parseFileInfo(imgThumbNail, ImageType.EXTENSIONS));
-        List<Files> imgDirections = filesMapper.fileDtoListToImageList(fileHandler.parseFileInfo(imgDirectionList, ImageType.EXTENSIONS));
-
-        List<Direction> directions = directionMapper.toEntity(recipePostDto.getDirections(), imgDirections);
         List<Ingredient> ingredients = ingredientMapper.toEntity(recipePostDto.getIngredients());
         List<Tag> tags = tagMapper.toEntity(recipePostDto.getTags());
 
-        Recipe recipe = recipeMapper.toEntity(findUser, recipePostDto, imgThumbNailFile, ingredients, directions);
+        Recipe recipe = recipeMapper.toEntity(findUser, recipePostDto, imgThumbNailFile, ingredients, directionList);
         recipe = recipeService.save(recipe);
         tagService.saveAll(tags);
         recipeTagService.save(tags, recipe);
@@ -137,20 +134,40 @@ public class RecipeController {
 
 
     @PreAuthorize("hasRole('ROLE_USER')")
-    @PatchMapping("/recipe/{recipeId}/edit")
+    @PostMapping("/recipe/{recipeId}/edit")
     public ResponseEntity<?> updateRecipePage(
             @LoginUser Account user,
             @PathVariable Long recipeId,
             @RequestPart(value = "imgThumbNail", required = false) MultipartFile imgThumbNail,
             @RequestPart(value = "imgDirection", required = false) List<MultipartFile> imgDirectionList,
-            @RequestPart(value = "recipe") RecipePatchDto recipePatchDto) {
+            @RequestPart(value = "recipe") RecipePostDto recipePostDto) {
 
+        Account findUser = accountService.findById(user.getId());
         recipeService.verifyAccessOwner(recipeId, user.getId());
 
-        filesMapper.fileDtoToImage(fileHandler.parseFileInfo(imgThumbNail, ImageType.EXTENSIONS));
-        filesMapper.fileDtoListToImageList(fileHandler.parseFileInfo(imgDirectionList, ImageType.EXTENSIONS));
 
-        return new ResponseEntity<>(HttpStatus.OK);
+        List<FilesDto> filesDtoList = fileHandler.parseFileInfo(imgDirectionList, ImageType.EXTENSIONS);
+        List<DirectionPostDto> directionPostDtoList = recipePostDto.getDirections();
+        List<Direction> directionList = directionService.updateAll(directionPostDtoList, filesDtoList, recipeId);
+        recipeService.deleteAllDirection(recipeId);
+
+        Files imgThumbNailFile = filesMapper.fileDtoToImage(fileHandler.parseFileInfo(imgThumbNail, ImageType.EXTENSIONS));
+        List<Ingredient> ingredients = ingredientMapper.toEntity(recipePostDto.getIngredients());
+        List<Tag> tags = tagMapper.toEntity(recipePostDto.getTags());
+        recipeService.deleteAllIngredient(recipeId);
+
+        Recipe recipe = recipeMapper.toEntity(findUser, recipePostDto, imgThumbNailFile, ingredients, directionList);
+        recipe = recipeService.update(recipeId, recipe);
+        recipeService.deleteAllRecipeTag(recipeId);
+        tagService.saveAll(tags);
+        recipeTagService.save(tags, recipe);
+
+        RecipeInfoDto infoDto = recipeMapper.toInfoDto(recipe);
+        ResponseDto.Single<?> response = ResponseDto.Single.builder()
+                .data(infoDto)
+                .build();
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
