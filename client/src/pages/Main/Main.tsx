@@ -52,13 +52,13 @@ const Main = () => {
   const [page, setPage] = useState(0); // 현재 페이지
   const [load, setLoad] = useState<boolean>(true); // 로딩 스피너 상태
   const preventRef = useRef(true); // 옵저버 중복 실행 방지
-  const obsRef = useRef(null); // observer Element
+  const obsRef = useRef(null); // Observer Target Element
   const endRef = useRef(false); // 모든 글 로드 확인
 
   useEffect(() => {
-    console.log("1. 옵저버 핸들러", page);
     if (sessionStatus) dispatch(userSession());
 
+    // const observer = new IntersectionObserver(callback, options)
     const observer = new IntersectionObserver(obsHandler, { threshold: 0.5 });
     if (obsRef.current) observer.observe(obsRef.current);
     return () => {
@@ -67,11 +67,11 @@ const Main = () => {
   }, []);
 
   // 페이지 변경될 때 실행
-  // TODO: 여기가 두 번 불리는게 문제인 듯..
   useEffect(() => {
-    console.log("2. page 변경", page);
     setTimeout(() => {
-      getRecipePost();
+      if (page !== 0) {
+        getRecipePost();
+      }
     }, 1000);
   }, [page]);
 
@@ -81,19 +81,16 @@ const Main = () => {
     setPage(0);
     setMainData([]);
     console.log("3. 카테고리, 정렬 변경:", page, category, mainSortBy);
-
-    setTimeout(() => {
-      getRecipePost();
-    }, 1000);
   }, [category, mainSortBy]);
 
   const obsHandler = (entries: any) => {
-    //옵저버 콜백함수
+    // 옵저버 콜백함수
     const target = entries[0];
 
     if (target.isIntersecting && preventRef.current) {
       preventRef.current = false; // 옵저버 중복 실행 방지
       setPage((prev) => prev + 1); // 페이지 값 증가
+      console.log("옵저버 핸들러:", page);
     }
   };
 
@@ -109,7 +106,7 @@ const Main = () => {
       );
 
       if (data.data) {
-        if (data.pageInfo.totalPages) {
+        if (data.pageInfo.totalPages <= page) {
           //마지막 페이지일 경우
           endRef.current = true;
         }
@@ -122,7 +119,7 @@ const Main = () => {
       );
 
       if (data.data) {
-        if (data.pageInfo.totalPages) {
+        if (data.pageInfo.totalPages <= page) {
           //마지막 페이지일 경우
           endRef.current = true;
         }
@@ -155,7 +152,7 @@ const Main = () => {
         </SResultTitle>
         <RecipeItemList mainData={mainData} />
         <SLoadingLayout>
-          {load && <Loading />}
+          {endRef.current === true ? null : load && <Loading />}
           {/* 옵저버 Element */}
           <div ref={obsRef}></div>
         </SLoadingLayout>
