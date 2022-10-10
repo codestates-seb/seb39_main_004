@@ -10,6 +10,7 @@ import java.util.List;
 
 public interface DirectionService extends RecipeElementService<Direction> {
 
+    void deleteByRecipeId(Long recipeId);
     List<Direction> saveAll(List<DirectionPostDto> directionPostDtoList, List<FilesDto> filesDtoList);
-
+    List<Direction> updateAll(List<DirectionPostDto> directionPostDtoList, List<FilesDto> filesDtoList, Long recipeId);
 }

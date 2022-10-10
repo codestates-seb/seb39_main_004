@@ -14,6 +14,7 @@ import javax.validation.constraints.NotBlank;
 public class DirectionPostDto {
 
     private int index;
+    private String imgDirectionUrl;
     @JsonProperty("isUploaded")
     private boolean isUploaded;
     private String body;

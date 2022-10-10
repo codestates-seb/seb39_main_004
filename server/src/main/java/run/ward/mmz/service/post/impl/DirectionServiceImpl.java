@@ -12,9 +12,12 @@ import run.ward.mmz.dto.request.post.DirectionPostDto;
 import run.ward.mmz.handler.exception.CustomException;
 import run.ward.mmz.handler.exception.ExceptionCode;
 import run.ward.mmz.mapper.file.FilesMapper;
+import run.ward.mmz.mapper.post.DirectionMapper;
 import run.ward.mmz.repository.post.DirectionRepository;
+import run.ward.mmz.repository.post.RecipeRepository;
 import run.ward.mmz.service.post.DirectionService;
 import run.ward.mmz.service.post.ImageService;
+import run.ward.mmz.service.post.RecipeService;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -25,6 +28,7 @@ import java.util.List;
 public class DirectionServiceImpl implements DirectionService {
 
     private final DirectionRepository directionRepository;
+    private final DirectionMapper directionMapper;
     private final ImageService imageService;
     private final FilesMapper filesMapper;
 
@@ -34,7 +38,7 @@ public class DirectionServiceImpl implements DirectionService {
     @Override
     public List<Direction> saveAll(List<Direction> directionList) {
 
-        for(Direction direction : directionList){
+        for (Direction direction : directionList) {
             imageService.save(direction.getFiles());
         }
 
@@ -67,7 +71,7 @@ public class DirectionServiceImpl implements DirectionService {
     @Override
     @Transactional(readOnly = true)
     public void verifyExistsId(Long id) {
-        if(!directionRepository.existsById(id))
+        if (!directionRepository.existsById(id))
             throw new CustomException(ExceptionCode.DIRECTION_NOT_FOUND);
     }
 
@@ -94,21 +98,44 @@ public class DirectionServiceImpl implements DirectionService {
 
     @Override
     @Transactional
+    public void deleteByRecipeId(Long recipeId) {
+        directionRepository.deleteAllByRecipeId(recipeId);
+    }
+
+    @Override
+    @Transactional
     public List<Direction> saveAll(List<DirectionPostDto> directionPostDtoList, List<FilesDto> filesDtoList) {
 
-        List<String> imgExtension = ImageType.EXTENSIONS;
-//        List<FilesDto> imgFileDtoList =
-//
-//        for (DirectionPostDto directionPostDto : directionPostDtoList){
-//            if(directionPostDto.isUploaded()){
-//
-//            }
-//            else {
-//
-//            }
-//        }
+        int idx = 0;
+        List<Files> imgDirections = new ArrayList<>();
+
+        for (DirectionPostDto directionPostDto : directionPostDtoList) {
+            if (directionPostDto.isUploaded()) {
+                imgDirections.add(directionPostDto.getIndex() - 1, filesMapper.fileDtoToImage(filesDtoList.get(idx++)));
+            } else {
+                imgDirections.add(directionPostDto.getIndex() - 1, imageService.findByName(directionPostDto.getImgDirectionUrl()));
+            }
+        }
 
 
-        return null;
+        return directionMapper.toEntity(directionPostDtoList, imgDirections);
+    }
+
+    @Override
+    public List<Direction> updateAll(List<DirectionPostDto> directionPostDtoList, List<FilesDto> filesDtoList, Long recipeId) {
+
+        int idx = 0;
+        List<Files> imgDirections = new ArrayList<>();
+
+        for (DirectionPostDto directionPostDto : directionPostDtoList) {
+            if (directionPostDto.isUploaded()) {
+                imgDirections.add(directionPostDto.getIndex() - 1, filesMapper.fileDtoToImage(filesDtoList.get(idx++)));
+            } else {
+                imgDirections.add(directionPostDto.getIndex() - 1, imageService.findByName(directionPostDto.getImgDirectionUrl()));
+            }
+        }
+
+        return directionMapper.toEntity(directionPostDtoList, imgDirections);
     }
 }
+
