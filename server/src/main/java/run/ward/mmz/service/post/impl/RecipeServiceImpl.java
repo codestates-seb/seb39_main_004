@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import run.ward.mmz.domain.file.Files;
 import run.ward.mmz.domain.post.Direction;
 import run.ward.mmz.domain.post.Recipe;
 import run.ward.mmz.handler.exception.CustomException;
@@ -54,11 +55,22 @@ public class RecipeServiceImpl implements RecipeService {
     public Recipe update(Long id, Recipe recipe) {
 
         Recipe updateRecipe = findById(id);
+
+        Files imgThumbNail = new Files();
+
+        if(recipe.getImgThumbNail() != null){
+            imgThumbNail = recipe.getImgThumbNail();
+        }
+        else{
+            imgThumbNail = updateRecipe.getImgThumbNail();
+        }
+
+
         updateRecipe.updateRecipe(
                 recipe.getTitle(),
                 recipe.getBody(),
                 recipe.getCategory(),
-                recipe.getImgThumbNail(),
+                imgThumbNail,
                 ingredientService.saveAll(recipe.getIngredients()),
                 directionService.saveAll(recipe.getDirections())
         );
