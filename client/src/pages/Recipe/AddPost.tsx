@@ -118,7 +118,6 @@ const AddPost = () => {
   // 등록페이지 관련
   const [thumbNail, setThumbNail] = useState<TypeOfFileList>();
   const [stepImgFiles, setStepImgFiles] = useState<TypeOfFileList[]>([]);
-  const [booleanArr, setBooleanArr] = useState<boolean[]>([]);
   const [directDatas, setDirectDatas] = useState<IStepValues[]>([]);
   const [checkedCateg, setCheckedCateg] = useState("");
   const [ingredientsDatas, setIngredientsDatas] = useState<TypeOfIngredients[]>(
@@ -132,9 +131,8 @@ const AddPost = () => {
     // formState: { errors },
   } = useForm<TypeOfFormData>(undefined);
 
-  // console.log("불리언", booleanArr);
-  // console.log("재료", ingredientsDatas);
   const submitHandler: SubmitHandler<TypeOfFormData> = async (data) => {
+    // console.log("재료", ingredientsDatas);
     // console.log("onSubmitData", data);
     // console.log("d이미지 순서", stepImgFiles);
     // console.log("순서", directDatas);
@@ -197,7 +195,7 @@ const AddPost = () => {
     }
   };
 
-  // console.log(editResponse);
+  console.log("directDatas", directDatas);
 
   return (
     <SFormContainer>
@@ -258,8 +256,6 @@ const AddPost = () => {
             <Guide text="중요한 부분은 빠짐없이 적어주세요." />
           </SLable>
           <StepsMaker
-            booleanArr={booleanArr}
-            setBooleanArr={setBooleanArr}
             directDatas={directDatas}
             setDirectDatas={setDirectDatas}
             stepImgFiles={stepImgFiles}

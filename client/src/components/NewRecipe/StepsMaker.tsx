@@ -7,13 +7,12 @@ const StepsMaker = ({
   setDirectDatas,
   stepImgFiles,
   setStepImgFiles,
-  booleanArr,
-  setBooleanArr,
 }: IStepMakerProps) => {
   const basicForm = {
     index: 1,
     imgDirectionUrl: "",
     body: "",
+    isUpdated: false,
   };
 
   // let initialValue;
@@ -46,7 +45,6 @@ const StepsMaker = ({
   //     basicForm.index = lastStep.index + 1;
   //   }
   //   setSteps([...steps, basicForm]);
-  //   setBooleanArr([...booleanArr, false]);
 
   // const initialValue = resDirecttions ? resDirecttions : [basicForm];
   // console.log("directDatas", directDatas);
@@ -62,15 +60,7 @@ const StepsMaker = ({
       basicForm.index = lastStep.index + 1;
     }
     setDirectDatas([...directDatas, basicForm]);
-    setBooleanArr([...booleanArr, false]);
   };
-
-  useEffect(() => {
-    // console.log("resDirecttions", editResponse);
-    // if (resDirecttions) {
-    //   setSteps(resDirecttions);
-    // }
-  }, [directDatas]);
 
   return (
     <>
@@ -88,8 +78,6 @@ const StepsMaker = ({
                 setStepImgFiles={setStepImgFiles}
                 directDatas={directDatas}
                 setDirectDatas={setDirectDatas}
-                booleanArr={booleanArr}
-                setBooleanArr={setBooleanArr}
               />
             );
           })}

@@ -26,8 +26,6 @@ const StepSet = ({
   imgUrl,
   directDatas,
   setDirectDatas,
-  booleanArr,
-  setBooleanArr,
 }: IStepSetProps) => {
   const [imgName, setImgName] = useState<string>("");
   const currentIndex = directDatas.findIndex((step) => {
@@ -55,10 +53,13 @@ const StepSet = ({
     const originData = directDatas.slice();
     if (originData[currentIndex].imgDirectionUrl !== undefined) {
       originData[currentIndex].imgDirectionUrl = imgName;
+      originData[currentIndex].isUpdated = true;
       setDirectDatas(originData);
     }
+    // 수정 없을 때
     if (!originData[currentIndex].imgDirectionUrl) {
       originData[currentIndex].imgDirectionUrl = imgUrl;
+      originData[currentIndex].isUpdated = false;
       setDirectDatas(originData);
     }
   }, [imgName]);
@@ -88,10 +89,9 @@ const StepSet = ({
         stepImgFiles={stepImgFiles}
         setStepImgFiles={setStepImgFiles}
         setImgName={setImgName}
-        booleanArr={booleanArr}
-        setBooleanArr={setBooleanArr}
       ></ImgUploader>
     </SStepsContainer>
   );
 };
+
 export default StepSet;

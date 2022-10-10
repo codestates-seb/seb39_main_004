@@ -13,16 +13,13 @@ import {
   ImgRadio,
   RequireMark,
 } from "../../components/NewRecipe/indexNewRecipe";
-import {
-  TypeOfFileList,
-  TypeOfFormData,
-  TypeOfIngredients,
-} from "../../types/type";
+import { TypeOfFileList, TypeOfIngredients } from "../../types/type";
 import {
   IStepValues,
   ITagsData,
   ITagProps,
   IEditResponseData,
+  IPostInGredientProps,
   IRecipeTemp,
 } from "../../types/interface";
 import { useState, useEffect } from "react";
@@ -130,7 +127,6 @@ const EditPost = () => {
   const [thumbNailUrl, setThumbNailUrl] = useState<string>();
   const [thumbNail, setThumbNail] = useState<TypeOfFileList>();
   const [stepImgFiles, setStepImgFiles] = useState<TypeOfFileList[]>([]);
-  const [booleanArr, setBooleanArr] = useState<boolean[]>([]);
   const [directDatas, setDirectDatas] = useState<IStepValues[]>([]);
   const [checkedCateg, setCheckedCateg] = useState("");
   const [ingredientsDatas, setIngredientsDatas] = useState<TypeOfIngredients[]>(
@@ -164,22 +160,35 @@ const EditPost = () => {
     // console.log("불리언", booleanArr);
     // console.log("d이미지 순서", stepImgFiles);
 
+    // if (!data.body || !data.title) {
+    //   setIsEmpty(true);
+    //   // return true;
+    // }
+
+    // ingredientsDatas.forEach((ingredient: IPostInGredientProps) => {
+    //   if (!ingredient.amount || !ingredient.name) {
+    //     setIsEmpty(true);
+    //     // return true;
+    //   }
+    // });
+
+    // directDatas.forEach((directInfo: IStepValues) => {
+    //   if (!directInfo.body) {
+    //     setIsEmpty(true);
+    //     // return true;
+    //   }
+    // });
+
+    // tagsDatas.forEach((tag: ITagProps) => {
+    //   // console.log(tag);
+    //   if (!tag.name) {
+    //     setIsEmpty(true);
+    //     // return true;
+    //   }
+    // });
+
     // console.log("setIsEmpty", isEmpty);
 
-    // if (isEmpty) {
-    //   // console.log("빈 조건문", isEmpty);
-    //   message.fire({
-    //     icon: "error",
-    //     title:
-    //       "레시피 등록에 실패했습니다.\n 누락된 정보가 있는지 \n확인해주세요.",
-    //   });
-    //   // setIsEmpty(() => false);
-    //   return;
-    // }
-    // if()
-    // else {
-    //   setIsEmpty(true);
-    // }
     /** 서버 요청 데이터 구축 */
     const formData = new FormData();
 
@@ -193,16 +202,6 @@ const EditPost = () => {
       }
     });
 
-    booleanArr.forEach((el, idx) => {
-      const newFile = new File([], "temp.mmz");
-      if (stepImgFiles[idx]) {
-        // console.log("타입", typeof stepImgFiles[idx]);
-        // formData.append("imgDirection", stepImgFiles[idx]);
-      } else {
-        console.log("빈값", newFile);
-        // formData.append("imgDirection", newFile);
-      }
-    });
     const recipeDatas = {
       ...data,
       category: checkedCateg,
@@ -210,6 +209,7 @@ const EditPost = () => {
       directions: directDatas,
       tags: tagsDatas,
     };
+    console.log("수정페이지recipeDatas", recipeDatas);
 
     formData.append(
       "recipe",
@@ -217,28 +217,28 @@ const EditPost = () => {
     );
 
     /** 서버 요청 */
-    if (!isEmpty) {
-      const response = await axios.post(`/recipe/{recipeId}/edit`, formData, {
-        headers: { "content-type": "multipart/form-data" },
-      });
-      try {
-        // if(respones.status ===200){}
-        const newId = response.data.data.id;
-        navigate(`/post/${newId}/`);
-      } catch (error) {
-        console.log(error);
-        message.fire({
-          icon: "error",
-          title: "레시피 등록에 실패했습니다.\n 다시 시도해주세요.",
-        });
-      }
-    } else {
-      message.fire({
-        icon: "error",
-        title:
-          "레시피 등록에 실패했습니다.\n 누락된 정보가 있는지 \n확인해주세요.",
-      });
-    }
+    // if (!isEmpty) {
+    //   const response = await axios.post(`/recipe/{recipeId}/edit`, formData, {
+    //     headers: { "content-type": "multipart/form-data" },
+    //   });
+    //   try {
+    //     // if(respones.status ===200){}
+    //     const newId = response.data.data.id;
+    //     navigate(`/post/${newId}/`);
+    //   } catch (error) {
+    //     console.log(error);
+    //     message.fire({
+    //       icon: "error",
+    //       title: "레시피 등록에 실패했습니다.\n 다시 시도해주세요.",
+    //     });
+    //   }
+    // } else {
+    //   message.fire({
+    //     icon: "error",
+    //     title:
+    //       "레시피 등록에 실패했습니다.\n 누락된 정보가 있는지 \n확인해주세요.",
+    //   });
+    // }
   };
 
   useEffect(() => {
@@ -261,6 +261,8 @@ const EditPost = () => {
         console.log("수정에러", err);
       });
   }, []);
+  console.log("수정페이지 순서", directDatas);
+
   // console.log(data, "data");
 
   return (
@@ -338,8 +340,6 @@ const EditPost = () => {
             <Guide text="중요한 부분은 빠짐없이 적어주세요." />
           </SLable>
           <StepsMaker
-            booleanArr={booleanArr}
-            setBooleanArr={setBooleanArr}
             directDatas={directDatas}
             setDirectDatas={setDirectDatas}
             stepImgFiles={stepImgFiles}
