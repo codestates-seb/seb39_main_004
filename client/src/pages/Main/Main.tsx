@@ -30,17 +30,6 @@ const SLoadingLayout = styled.div`
   align-items: center;
 `;
 
-const SResultTitle = styled.div`
-  font-size: 1.3rem;
-  color: var(--deep-green);
-  span {
-    color: var(--red);
-  }
-  @media ${({ theme }) => theme.device.mobile} {
-    font-size: 1rem;
-  }
-`;
-
 const Main = () => {
   const sortValues = ["최신순", "조회순", "평점순"];
   const [mainData, setMainData] = useState<any[]>([]);
@@ -80,7 +69,6 @@ const Main = () => {
     // 카테고리 변경 시 이전 데이터 초기화
     setPage(0);
     setMainData([]);
-    console.log("3. 카테고리, 정렬 변경:", page, category, mainSortBy);
   }, [category, mainSortBy]);
 
   const obsHandler = (entries: any) => {
@@ -90,14 +78,11 @@ const Main = () => {
     if (target.isIntersecting && preventRef.current) {
       preventRef.current = false; // 옵저버 중복 실행 방지
       setPage((prev) => prev + 1); // 페이지 값 증가
-      console.log("옵저버 핸들러:", page);
     }
   };
 
   const getRecipePost = useCallback(async () => {
-    // console.log("레시피 글 불러오기");
     setLoad(true); //로딩 시작
-    console.log("getRecipePost 페이지", page);
 
     // 카테고리 미선택 시 전체 데이터 조회
     if (category === "") {
@@ -147,9 +132,6 @@ const Main = () => {
       <SSectionLayout>
         <RecipeCategory setCategory={setCategory} />
         <SortButtons sortValues={sortValues} clickEvent={onSortClick} />
-        <SResultTitle>
-          검색 결과 <span>{mainData && mainData.length}</span>개
-        </SResultTitle>
         <RecipeItemList mainData={mainData} />
         <SLoadingLayout>
           {endRef.current === true ? null : load && <Loading />}
