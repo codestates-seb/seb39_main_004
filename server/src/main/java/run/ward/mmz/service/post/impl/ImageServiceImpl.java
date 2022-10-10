@@ -32,7 +32,8 @@ public class ImageServiceImpl implements ImageService {
 
     @Override
     public List<Files> saveAll(List<MultipartFile> multipartFiles) {
-
+        if(multipartFiles == null)
+            return null;
         List<String> imgExtension = ImageType.EXTENSIONS;
         List<Files> files = filesMapper.fileDtoListToImageList(fileHandler.parseFileInfo(multipartFiles, imgExtension));
 
@@ -43,6 +44,8 @@ public class ImageServiceImpl implements ImageService {
     public Files save(MultipartFile multipartFile) {
 
         List<String> imgExtension = ImageType.EXTENSIONS;
+        if(multipartFile == null)
+            return null;
         Files file = filesMapper.fileDtoToImage(fileHandler.parseFileInfo(multipartFile, imgExtension));
 
         return fileRepository.save(file);
