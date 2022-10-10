@@ -143,9 +143,15 @@ public class RecipeController {
             @PathVariable Long recipeId,
             @RequestPart(value = "imgThumbNail", required = false) MultipartFile imgThumbNail,
             @RequestPart(value = "imgDirection", required = false) List<MultipartFile> imgDirectionList,
-            @RequestPart(value = "recipe") RecipePatchDto recipePatchDto) {
+            @RequestPart(value = "recipe") RecipePostDto recipePostDto) {
 
         recipeService.verifyAccessOwner(recipeId, user.getId());
+
+        Recipe recipe = recipeService.findById(recipeId);
+        List<Direction> directionList = recipe.getDirections();
+
+
+
 
         filesMapper.fileDtoToImage(fileHandler.parseFileInfo(imgThumbNail, ImageType.EXTENSIONS));
         filesMapper.fileDtoListToImageList(fileHandler.parseFileInfo(imgDirectionList, ImageType.EXTENSIONS));

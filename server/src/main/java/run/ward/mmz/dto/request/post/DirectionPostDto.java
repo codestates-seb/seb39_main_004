@@ -1,5 +1,6 @@
 package run.ward.mmz.dto.request.post;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import run.ward.mmz.domain.file.Files;
 
@@ -13,6 +14,8 @@ import javax.validation.constraints.NotBlank;
 public class DirectionPostDto {
 
     private int index;
+    @JsonProperty("isUploaded")
+    private boolean isUploaded;
     private String body;
 
 }

@@ -46,6 +46,9 @@ public class DirectionMapperImpl implements DirectionMapper {
 
         for (DirectionPostDto directionPostDto : directionPostDtos) {
             directions.add(toEntity(directionPostDto, imgs.get(idx++)));
+//            if(directionPostDto.isUploaded()){
+//
+//            }
         }
 
         return directions;
