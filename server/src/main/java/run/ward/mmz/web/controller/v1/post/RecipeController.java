@@ -13,6 +13,7 @@ import run.ward.mmz.domain.account.Account;
 import run.ward.mmz.domain.file.Files;
 import run.ward.mmz.domain.file.Image.ImageType;
 import run.ward.mmz.domain.post.*;
+import run.ward.mmz.dto.request.post.DirectionPostDto;
 import run.ward.mmz.dto.request.post.patch.RecipePatchDto;
 import run.ward.mmz.dto.request.post.RecipePostDto;
 import run.ward.mmz.dto.common.ResponseDto;
@@ -71,24 +72,11 @@ public class RecipeController {
         Account findUser = accountService.findById(user.getId());
         //Controller Code
 
-        Files imgThumbNailFile = filesMapper.fileDtoToImage(fileHandler.parseFileInfo(imgThumbNail, ImageType.EXTENSIONS));
-        List<Files> imgDirections = filesMapper.fileDtoListToImageList(fileHandler.parseFileInfo(imgDirectionList, ImageType.EXTENSIONS));
+        List<DirectionPostDto> directionPostDtoList = recipePostDto.getDirections();
 
-        List<Direction> directions = directionMapper.toEntity(recipePostDto.getDirections(), imgDirections);
-        List<Ingredient> ingredients = ingredientMapper.toEntity(recipePostDto.getIngredients());
-        List<Tag> tags = tagMapper.toEntity(recipePostDto.getTags());
 
-        Recipe recipe = recipeMapper.toEntity(findUser, recipePostDto, imgThumbNailFile, ingredients, directions);
-        recipe = recipeService.save(recipe);
-        tagService.saveAll(tags);
-        recipeTagService.save(tags, recipe);
 
-        RecipeInfoDto infoDto = recipeMapper.toInfoDto(recipe);
-        ResponseDto.Single<?> response = ResponseDto.Single.builder()
-                .data(infoDto)
-                .build();
-
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 

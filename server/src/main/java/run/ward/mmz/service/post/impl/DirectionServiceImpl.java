@@ -3,13 +3,21 @@ package run.ward.mmz.service.post.impl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+import run.ward.mmz.domain.file.Files;
+import run.ward.mmz.domain.file.Image.ImageType;
 import run.ward.mmz.domain.post.Direction;
+import run.ward.mmz.dto.common.FilesDto;
+import run.ward.mmz.dto.request.post.DirectionPostDto;
 import run.ward.mmz.handler.exception.CustomException;
 import run.ward.mmz.handler.exception.ExceptionCode;
+import run.ward.mmz.mapper.file.FilesMapper;
 import run.ward.mmz.repository.post.DirectionRepository;
 import run.ward.mmz.service.post.DirectionService;
 import run.ward.mmz.service.post.ImageService;
 
+import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -18,6 +26,8 @@ public class DirectionServiceImpl implements DirectionService {
 
     private final DirectionRepository directionRepository;
     private final ImageService imageService;
+    private final FilesMapper filesMapper;
+
 
     //Crud Service
 
@@ -82,4 +92,23 @@ public class DirectionServiceImpl implements DirectionService {
         return directionRepository.findAllByRecipeId(recipeId);
     }
 
+    @Override
+    @Transactional
+    public List<Direction> saveAll(List<DirectionPostDto> directionPostDtoList, List<FilesDto> filesDtoList) {
+
+        List<String> imgExtension = ImageType.EXTENSIONS;
+//        List<FilesDto> imgFileDtoList =
+//
+//        for (DirectionPostDto directionPostDto : directionPostDtoList){
+//            if(directionPostDto.isUploaded()){
+//
+//            }
+//            else {
+//
+//            }
+//        }
+
+
+        return null;
+    }
 }
