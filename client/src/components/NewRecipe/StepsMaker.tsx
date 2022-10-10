@@ -1,5 +1,4 @@
 import { IStepMakerProps } from "../../types/interface";
-import { useEffect } from "react";
 import { StepSet, PlusBtn } from "./indexNewRecipe";
 
 const StepsMaker = ({
@@ -12,7 +11,7 @@ const StepsMaker = ({
     index: 1,
     imgDirectionUrl: "",
     body: "",
-    isUpdated: false,
+    isUploaded: false,
   };
 
   // let initialValue;
@@ -54,6 +53,7 @@ const StepsMaker = ({
   //   console.log("요소", editResponse.directions);
   //   // });
   // }
+
   const addDirectionsHander = () => {
     const lastStep = directDatas.slice(-1)[0];
     if (lastStep) {

@@ -28,7 +28,7 @@ import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
 import recipeLogo from "../../assets/images/Recipe/recipeLogo.svg";
 import useMessage from "../../hooks/useMessage";
-// import useRecipeValidation from "../../hooks/useRecipeValidation";
+import useRecipeValidation from "../../hooks/useRecipeValidation";
 
 const SFormContainer = styled.main`
   max-width: 1280px;
@@ -133,15 +133,14 @@ const EditPost = () => {
     []
   );
   const [tagsDatas, setTagsDatas] = useState<ITagsData[]>([]);
-  const [isEmpty, setIsEmpty] = useState<boolean>(false);
 
   // 빈 값 체크
-  // const isEmpty = useRecipeValidation(
-  //   data,
-  //   ingredientsDatas,
-  //   directDatas,
-  //   tagsDatas
-  // );
+  const isEmpty = useRecipeValidation(
+    data,
+    ingredientsDatas,
+    directDatas,
+    tagsDatas
+  );
 
   const inputHandler = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -151,6 +150,14 @@ const EditPost = () => {
   };
 
   const submitHandler = async () => {
+    if (isEmpty === true) {
+      message.fire({
+        icon: "error",
+        title:
+          "레시피 등록에 실패했습니다.\n 누락된 정보가 있는지 \n확인해주세요.",
+      });
+      return;
+    }
     // console.log(isEmpty);
     // console.log("카테", checkedCateg); // 수정시 null X
     // console.log("onSubmitData", data);
@@ -159,34 +166,6 @@ const EditPost = () => {
     // console.log("태그", tagsDatas);
     // console.log("불리언", booleanArr);
     // console.log("d이미지 순서", stepImgFiles);
-
-    // if (!data.body || !data.title) {
-    //   setIsEmpty(true);
-    //   // return true;
-    // }
-
-    // ingredientsDatas.forEach((ingredient: IPostInGredientProps) => {
-    //   if (!ingredient.amount || !ingredient.name) {
-    //     setIsEmpty(true);
-    //     // return true;
-    //   }
-    // });
-
-    // directDatas.forEach((directInfo: IStepValues) => {
-    //   if (!directInfo.body) {
-    //     setIsEmpty(true);
-    //     // return true;
-    //   }
-    // });
-
-    // tagsDatas.forEach((tag: ITagProps) => {
-    //   // console.log(tag);
-    //   if (!tag.name) {
-    //     setIsEmpty(true);
-    //     // return true;
-    //   }
-    // });
-
     // console.log("setIsEmpty", isEmpty);
 
     /** 서버 요청 데이터 구축 */
@@ -209,36 +188,39 @@ const EditPost = () => {
       directions: directDatas,
       tags: tagsDatas,
     };
-    console.log("수정페이지recipeDatas", recipeDatas);
 
     formData.append(
       "recipe",
       new Blob([JSON.stringify(recipeDatas)], { type: "application/json" })
     );
 
+    // console.log("수정페이지 버튼 recipeDatas", recipeDatas);
+    // console.log(formData.get("recipe"));
+
     /** 서버 요청 */
-    // if (!isEmpty) {
-    //   const response = await axios.post(`/recipe/{recipeId}/edit`, formData, {
-    //     headers: { "content-type": "multipart/form-data" },
-    //   });
-    //   try {
-    //     // if(respones.status ===200){}
-    //     const newId = response.data.data.id;
-    //     navigate(`/post/${newId}/`);
-    //   } catch (error) {
-    //     console.log(error);
-    //     message.fire({
-    //       icon: "error",
-    //       title: "레시피 등록에 실패했습니다.\n 다시 시도해주세요.",
-    //     });
-    //   }
-    // } else {
-    //   message.fire({
-    //     icon: "error",
-    //     title:
-    //       "레시피 등록에 실패했습니다.\n 누락된 정보가 있는지 \n확인해주세요.",
-    //   });
-    // }
+    const response = await axios.post(
+      `/api/v1/recipe/${recipeId}/edit`,
+      formData,
+      {
+        headers: { "content-type": "multipart/form-data" },
+      }
+    );
+
+    try {
+      console.log(response);
+
+      // if(respones.status ===200){
+
+      // }
+      // const newId = response.data.data.id;
+      // navigate(`/post/${newId}/`);
+    } catch (error) {
+      console.log(error);
+      message.fire({
+        icon: "error",
+        title: "레시피 등록에 실패했습니다.\n 다시 시도해주세요.",
+      });
+    }
   };
 
   useEffect(() => {
@@ -246,6 +228,7 @@ const EditPost = () => {
       .get(`/api/v1/recipe/${recipeId}/edit/`)
       .then((res) => {
         const resData = res.data.data;
+        // console.log("resData", resData);
         setData({ body: resData.body, title: resData.title });
         setCheckedCateg(resData.category);
         setDirectDatas(resData.directions);
@@ -261,9 +244,7 @@ const EditPost = () => {
         console.log("수정에러", err);
       });
   }, []);
-  console.log("수정페이지 순서", directDatas);
-
-  // console.log(data, "data");
+  console.log("순서", directDatas);
 
   return (
     <SFormContainer>

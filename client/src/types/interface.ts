@@ -31,7 +31,7 @@ interface IStepValues {
   imgDirectionUrl: string;
   body: string;
   index: number;
-  isUpdated: boolean;
+  isUploaded: boolean;
 }
 
 interface IStepSetProps {

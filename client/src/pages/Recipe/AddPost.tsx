@@ -179,10 +179,11 @@ const AddPost = () => {
     );
 
     /** 서버 요청 */
+    const response = await axios.post("/api/v1/recipe/add", formData, {
+      headers: { "content-type": "multipart/form-data" },
+    });
+
     try {
-      const response = await axios.post("/api/v1/recipe/add", formData, {
-        headers: { "content-type": "multipart/form-data" },
-      });
       const newId = response.data.data.id;
       navigate(`/post/${newId}/`);
     } catch (error) {
