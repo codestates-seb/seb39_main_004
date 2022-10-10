@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import run.ward.mmz.domain.post.Direction;
 import run.ward.mmz.domain.post.Recipe;
 import run.ward.mmz.handler.exception.CustomException;
 import run.ward.mmz.handler.exception.ExceptionCode;
@@ -52,10 +53,18 @@ public class RecipeServiceImpl implements RecipeService {
     @Transactional
     public Recipe update(Long id, Recipe recipe) {
 
-        Recipe updateRecipe = recipeRepository.getReferenceById(id);
+        Recipe updateRecipe = findById(id);
+        updateRecipe.updateRecipe(
+                recipe.getTitle(),
+                recipe.getBody(),
+                recipe.getCategory(),
+                recipe.getImgThumbNail(),
+                ingredientService.saveAll(recipe.getIngredients()),
+                directionService.saveAll(recipe.getDirections())
+        );
 
 
-        return null;
+        return updateRecipe;
     }
 
     @Override
@@ -183,6 +192,24 @@ public class RecipeServiceImpl implements RecipeService {
                 accountId,
                 PageRequest.of(page - 1, size, bySort)
         );
+    }
+
+    @Override
+    @Transactional
+    public void deleteAllDirection(Long id) {
+        findById(id).removeAllDirection();
+    }
+
+    @Override
+    @Transactional
+    public void deleteAllIngredient(Long id) {
+        findById(id).removeAllIngredients();
+    }
+
+    @Override
+    @Transactional
+    public void deleteAllRecipeTag(Long id) {
+        findById(id).removeAllRecipeTag();
     }
 
 

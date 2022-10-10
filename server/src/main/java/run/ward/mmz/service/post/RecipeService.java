@@ -17,5 +17,9 @@ public interface RecipeService extends CrudService<Recipe> {
     Page<Recipe> findAllByCategory(int page, int size, String category, String orderBy, String sort);
     Page<Recipe> findAllBySearch(int page, int size, String search, String orderBy, String sort);
     Page<Recipe> findAllByOwnerId(int page, int size, Long ownerId, String orderBy, String sort);
+    void deleteAllDirection(Long id);
+    void deleteAllIngredient(Long id);
+
+    void deleteAllRecipeTag(Long id);
 
 }

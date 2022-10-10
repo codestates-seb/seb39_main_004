@@ -48,6 +48,10 @@ public class Direction {
             recipe.getDirections().add(this);
     }
 
+    public void deleteRecipe(){
+        this.recipe = null;
+    }
+
 
 
     @Builder

@@ -28,6 +28,13 @@ public class RecipeTag {
     @JoinColumn(name = "recipeId")
     private Recipe recipe;
 
+
+    public void deleteRecipe( ) {
+        this.recipe = null;
+        this.tag = null;
+    }
+
+
     public void mappingRecipe(Recipe recipe){
         this.recipe = recipe;
         recipe.mappingRecipeTag(this);
