@@ -58,7 +58,12 @@ public class RecipeTagServiceImpl implements RecipeTagService {
 
     @Override
     public void deleteAllByRecipe(Recipe recipe) {
-//        recipe.deleteAllRecipeTag();
+//        rec.deleteAllRecipeTag();
+    }
+
+    @Override
+    public void deleteAllByRecipeId(Long recipeId) {
+
     }
 
 
