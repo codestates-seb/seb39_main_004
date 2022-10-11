@@ -158,10 +158,6 @@ const EditPost = () => {
       });
       return;
     }
-    // console.log("카테", checkedCateg); // 수정시 null X
-    // console.log("onSubmitData", data);
-    // console.log("재료", ingredientsDatas);
-    // console.log("순서", directDatas);
 
     /** 서버 요청 데이터 구축 */
     const formdata = new FormData();
@@ -182,11 +178,23 @@ const EditPost = () => {
       }
     });
 
+    // 재료순서 변경 인덱스 정렬
+    const filteredIngredients: TypeOfIngredients[] = [];
+    ingredientsDatas.forEach((oneline, idx) => {
+      filteredIngredients.push({ ...oneline, index: idx + 1 });
+    });
+
+    // 조리순서 변경 인덱스 정렬
+    const filteredDirects: IStepValues[] = [];
+    directDatas.forEach((oneline, idx) => {
+      filteredDirects.push({ ...oneline, index: idx + 1 });
+    });
+
     const recipeDatas = {
       ...data,
       category: checkedCateg,
-      ingredients: ingredientsDatas,
-      directions: directDatas,
+      ingredients: filteredIngredients,
+      directions: filteredDirects,
       tags: tagsDatas,
     };
 
@@ -194,8 +202,6 @@ const EditPost = () => {
       "recipe",
       new Blob([JSON.stringify(recipeDatas)], { type: "application/json" })
     );
-
-    console.log("수정페이지 버튼 recipeDatas", recipeDatas);
 
     /** 서버 요청 */
     const response = await axios.post(
@@ -222,7 +228,6 @@ const EditPost = () => {
       .get(`/api/v1/recipe/${recipeId}/edit/`)
       .then((res) => {
         const resData = res.data.data;
-        // console.log("resData", resData);
         setData({ body: resData.body, title: resData.title });
         setCheckedCateg(resData.category);
         setDirectDatas(resData.directions);
@@ -241,7 +246,6 @@ const EditPost = () => {
         });
       });
   }, []);
-  console.log("순서", directDatas);
 
   return (
     <SFormContainer>
