@@ -3,6 +3,7 @@ import { TypeOfFileList, TypeOfFormData, TypeOfIngredients } from "./type";
 import { UseFormRegister } from "react-hook-form";
 
 interface IThumbNailProps {
+  isMypage?: boolean;
   resThumbNailImgUrl?: string;
   setThumbNail: Dispatch<SetStateAction<TypeOfFileList>>;
 }

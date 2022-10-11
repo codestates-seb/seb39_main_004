@@ -1,10 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import styled from "styled-components";
 import axios from "axios";
 import { userSession } from "../../../redux/slices/userSlice";
 import { useAppSelector, useAppDispatch } from "../../../hooks/dispatchHook";
 import { IUserData } from "../../../types/interface";
+import { TypeOfFileList } from "../../../types/type";
+import { ThumbNailUploader } from "../../../components/NewRecipe/indexNewRecipe";
+import useMessage from "../../../hooks/useMessage";
 
 const SContainer = styled.div`
   display: grid;
@@ -16,20 +19,6 @@ const SContainer = styled.div`
   }
   @media ${({ theme }) => theme.device.mobile} {
     grid-template-columns: 100px 1fr;
-  }
-`;
-
-const SUserImg = styled.img`
-  display: inline-block;
-  overflow: hidden;
-  position: relative;
-  box-sizing: border-box;
-  background-color: var(--pale-gray);
-  width: 150px;
-  height: 150px;
-  @media ${({ theme }) => theme.device.mobile} {
-    width: 100px;
-    height: 100px;
   }
 `;
 
@@ -73,8 +62,40 @@ const SButton = styled.div`
 
 const MyPageUser = () => {
   const [userData, setUserData] = useState<IUserData | undefined>();
+  const [profileFile, setProfileFile] = useState<TypeOfFileList>();
+  const message = useMessage(2000);
   const dispatch = useAppDispatch();
   const { sessionStatus, userInfo } = useAppSelector((state) => state.user);
+
+  const updateProfile = async () => {
+    const formdata = new FormData();
+
+    if (profileFile) {
+      formdata.append("imgProfile", profileFile);
+    } else {
+      message.fire({
+        icon: "question",
+        title: "수정할 이미지를 선택해주세요.",
+      });
+      return;
+    }
+
+    await axios.post(`api/v1/user/upload/profile`, formdata, {
+      headers: { "content-type": "multipart/form-data" },
+    });
+
+    try {
+      message.fire({
+        icon: "success",
+        title: "프로필이 변경 되었습니다.",
+      });
+    } catch (error) {
+      message.fire({
+        icon: "error",
+        title: "프로필 변경이 실패했습니다. \n다시 시도해주세요.",
+      });
+    }
+  };
 
   const axiosUserData = async (userNum: string) => {
     const { data } = await axios.get(`/api/v1/user/${userNum}`);
@@ -88,17 +109,19 @@ const MyPageUser = () => {
 
   return (
     <SContainer>
-      <SUserImg
-        src={`${process.env.PUBLIC_URL}/assets/${
-          userData && userData.user.imgProfileUrl
-        }`}
-      />
+      {userData && (
+        <ThumbNailUploader
+          isMypage={true}
+          resThumbNailImgUrl={userData.user.imgProfileUrl}
+          setThumbNail={setProfileFile}
+        ></ThumbNailUploader>
+      )}
       <STextInfo>
         <h2>{userData && userData.user.name}</h2>
         <p>{userData && userData.user.bio}</p>
         <span>팔로우 {userData && userData.followerCount}</span>
         <span>팔로잉 {userData && userData.followingCount}</span>
-        <SButton>회원정보수정</SButton>
+        <SButton onClick={updateProfile}>프로필 수정</SButton>
       </STextInfo>
     </SContainer>
   );
