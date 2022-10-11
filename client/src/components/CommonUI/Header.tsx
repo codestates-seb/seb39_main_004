@@ -143,8 +143,8 @@ const Header = () => {
           <SNavLink to="/" end>
             HOME
           </SNavLink>
-          <SDash>|</SDash>
-          <SNavLink to="/rank">RANKING</SNavLink>
+          {/* <SDash>|</SDash>
+          <SNavLink to="/rank">RANKING</SNavLink> */}
         </SSection>
         <SSection>
           {sessionStatus && (
