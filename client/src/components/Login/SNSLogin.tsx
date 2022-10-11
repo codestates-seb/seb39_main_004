@@ -1,10 +1,10 @@
 import styled from "styled-components";
 import Kakao from "../../assets/images/snsLogin/kakao.png";
-import Naver from "../../assets/images/snsLogin/naver.png";
+// import Naver from "../../assets/images/snsLogin/naver.png";
 import Google from "../../assets/images/snsLogin/google.png";
 import { StyledLink } from "../CommonUI";
-import { userSession } from "../../redux/slices/userSlice";
-import { useAppSelector, useAppDispatch } from "../../hooks/dispatchHook";
+import axios from "axios";
+axios.defaults.withCredentials = true; // withCredentials 전역 설정
 
 const SSNSLoginContainer = styled.div`
   display: flex;
@@ -16,13 +16,13 @@ const SSNSLoginContainer = styled.div`
 
 const SH3 = styled.h3``;
 
-const NaverImg = styled.img.attrs({
-  src: Naver,
-})`
-  height: 50px;
-  width: 50px;
-  cursor: pointer;
-`;
+// const NaverImg = styled.img.attrs({
+//   src: Naver,
+// })`
+//   height: 50px;
+//   width: 50px;
+//   cursor: pointer;
+// `;
 
 const KakaoImg = styled.img.attrs({
   src: Kakao,
@@ -43,7 +43,7 @@ const GoogleImg = styled.img.attrs({
   cursor: pointer;
 `;
 
-const SButton = styled.button``;
+const SButton = styled.a``;
 
 const SLogoContainer = styled.div`
   margin: 1rem;
@@ -61,32 +61,25 @@ const JoinContainer = styled.ul`
 `;
 
 const SNSLogin = () => {
-  const dispatch = useAppDispatch();
-  const { sessionStatus } = useAppSelector((state) => state.user);
+  // const onGoogleLoginHandler = () => {
+  //   window.location.href = "https://www.mmz.today/oauth2/authorization/google";
+  // };
 
-  const onGoogleLoginHandler = () => {
-    window.location.href = "https://www.mmz.today/oauth2/authorization/google";
-    dispatch(userSession());
-    console.log("구글 로그인 세션 상태: ", sessionStatus);
-  };
-
-  const onKakaoLoginHandler = () => {
-    window.location.href = "https://www.mmz.today/oauth2/authorization/kakao";
-    dispatch(userSession());
-    console.log("카카오 로그인 세션 상태: ", sessionStatus);
-  };
+  // const onKakaoLoginHandler = () => {
+  //   window.location.href = "https://www.mmz.today/oauth2/authorization/kakao";
+  // };
 
   return (
     <SSNSLoginContainer>
       <SH3>SNS로 간편 시작</SH3>
       <SLogoContainer>
-        <SButton>
+        {/* <SButton>
           <NaverImg />
-        </SButton>
-        <SButton onClick={onKakaoLoginHandler}>
+        </SButton> */}
+        <SButton href="https://www.mmz.today/oauth2/authorization/kakao">
           <KakaoImg />
         </SButton>
-        <SButton onClick={onGoogleLoginHandler}>
+        <SButton href="https://www.mmz.today/oauth2/authorization/google">
           <GoogleImg />
         </SButton>
       </SLogoContainer>
