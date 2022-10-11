@@ -76,6 +76,9 @@ public class RecipeMapperImpl implements RecipeMapper {
         }
 
         return RecipeInfoDto.builder()
+                .reviewCount(recipe.getReviews().size())
+                .ownerId(recipe.getOwner().getId())
+                .ownerNickName(recipe.getOwner().getName())
                 .id(recipe.getId())
                 .title(recipe.getTitle())
                 .views(recipe.getViews())
