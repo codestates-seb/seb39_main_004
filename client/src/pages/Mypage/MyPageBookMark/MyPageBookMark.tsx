@@ -2,22 +2,21 @@ import React from "react";
 import styled from "styled-components";
 import { IBookMarkProps } from "../../../types/interface";
 import { Link } from "react-router-dom";
+import emptyLogo from "../../../assets/images/myPage/emptyLogo.png";
 
 const SContainer = styled.div`
   display: grid;
   grid-template-columns: 130px auto;
-  -webkit-column-gap: 20px;
+  align-items: center;
   column-gap: 20px;
-  padding: 20px;
-  margin: 20px 0;
-  background-color: var(--greenish-grey);
+  padding: 30px 0;
+  border-bottom: 1px solid var(--pale-gray);
   @media ${({ theme }) => theme.device.mobile} {
     grid-template-columns: 100px auto;
-    padding: 10px;
-    margin: 10px 0;
+    padding: 20px 0;
   }
 `;
-const RecipeImg = styled.img`
+const SRecipeImg = styled.img`
   display: inline-block;
   overflow: hidden;
   position: relative;
@@ -31,38 +30,56 @@ const RecipeImg = styled.img`
   }
 `;
 
-const BookMarkInfo = styled.div`
-  position: relative;
-  padding-top: 30px;
+const SBookMarkCont = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  @media ${({ theme }) => theme.device.mobile} {
+    display: block;
+    p {
+      font-size: 0.9rem;
+    }
+  }
+`;
+
+const SBookMarkTitle = styled.div`
   h2 {
     font-size: 1.1rem;
     padding-bottom: 15px;
   }
-  p {
+  span {
     color: var(--deep-gray);
     font-size: 0.9rem;
   }
-  span {
-    position: absolute;
-    top: 30px;
-    right: 0;
-  }
   @media ${({ theme }) => theme.device.mobile} {
-    padding-top: 20px;
+    padding-bottom: 10px;
     h2 {
       font-size: 1rem;
+      padding-bottom: 5px;
     }
-    p {
+    span {
       font-size: 0.8rem;
     }
   }
 `;
 
 const SEmptyContainer = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding-top: 4rem;
+  display: table;
+  margin-left: auto;
+  margin-right: auto;
+  padding-top: 5rem;
+  text-align: center;
+  @media ${({ theme }) => theme.device.mobile} {
+    font-size: 0.7rem;
+  }
+`;
+
+const SEmptyLogo = styled.img`
+  width: 100px;
+  padding-bottom: 5px;
+  @media ${({ theme }) => theme.device.mobile} {
+    width: 70px;
+  }
 `;
 
 const MyPageBookMark = ({ bookMarkData }: IBookMarkProps) => {
@@ -72,20 +89,24 @@ const MyPageBookMark = ({ bookMarkData }: IBookMarkProps) => {
         bookMarkData.map((data) => (
           <Link to={`/post/${data.id}`} key={data.id}>
             <SContainer>
-              <RecipeImg
+              <SRecipeImg
                 src={`${process.env.PUBLIC_URL}/assets/${data.imgThumbNailUrl}`}
               />
-              <BookMarkInfo>
-                <h2> {data.title}</h2>
-                <p>{data.createDate}</p>
-                {/* <span>{data.userId}</span> */}
-              </BookMarkInfo>
+
+              <SBookMarkCont>
+                <SBookMarkTitle>
+                  <h2> {data.title}</h2>
+                  <span>{data.createDate}</span>
+                </SBookMarkTitle>
+                <p>{data.ownerNickName}</p>
+              </SBookMarkCont>
             </SContainer>
           </Link>
         ))
       ) : (
         <SEmptyContainer>
-          <div>북마크한 레시피가 없습니다.</div>
+          <SEmptyLogo src={emptyLogo} alt="logo" />
+          <div>북마크가 없습니다.</div>
         </SEmptyContainer>
       )}
     </>

@@ -152,7 +152,12 @@ const MyPage = () => {
     {
       id: 4,
       name: "팔로잉",
-      content: <MyPageFollowing followingData={followingData} />,
+      content: (
+        <MyPageFollowing
+          followingData={followingData}
+          setFollowingData={setFollowingData}
+        />
+      ),
     },
   ];
   return (

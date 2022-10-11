@@ -37,7 +37,7 @@ const STextInfo = styled.div`
     }
   }
   span {
-    color: var(--deep-green);
+    color: var(--deep-gray);
     font-size: 1rem;
     display: inline-grid;
     place-items: center;
