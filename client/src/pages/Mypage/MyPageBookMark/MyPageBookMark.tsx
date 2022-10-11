@@ -96,7 +96,7 @@ const MyPageBookMark = ({ bookMarkData }: IBookMarkProps) => {
               <SBookMarkCont>
                 <SBookMarkTitle>
                   <h2> {data.title}</h2>
-                  <span>{data.createDate}</span>
+                  <span>{data.createDate.slice(0, 16)}</span>
                 </SBookMarkTitle>
                 <p>{data.ownerNickName}</p>
               </SBookMarkCont>

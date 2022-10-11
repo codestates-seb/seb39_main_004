@@ -63,7 +63,7 @@ interface IItemProps {
   imgThumbNailUrl: string;
   stars: string;
   tags: ITagProps[];
-  createDate?: string;
+  createDate: string;
   bookmarked: boolean;
   reviewCount: number;
 }
