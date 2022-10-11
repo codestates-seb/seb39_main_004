@@ -68,7 +68,8 @@ const STabMenu = styled.ul`
 
 const MyPage = () => {
   const dispatch = useAppDispatch();
-  const { sessionStatus, userInfo } = useAppSelector((state) => state.user);
+  const { userInfo } = useAppSelector((state) => state.user);
+  // const { sessionStatus, userInfo } = useAppSelector((state) => state.user);
   const [currentTab, setCurrentTab] = useState(0);
   const [recipeData, setRecipeData] = useState<any[]>([]); // 레시피 데이터
   const [reviewData, setReviewData] = useState<any[]>([]); // 후기 데이터
@@ -125,7 +126,7 @@ const MyPage = () => {
   useEffect(() => {
     dispatch(userSession());
     axiosMyPageData(userInfo.id);
-    console.log("마이페이지 세션 체크: ", sessionStatus);
+    // console.log("마이페이지 세션 체크: ", sessionStatus);
   }, [currentTab]);
 
   const menuArr = [

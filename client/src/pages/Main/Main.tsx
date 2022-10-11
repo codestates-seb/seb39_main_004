@@ -47,7 +47,7 @@ const Main = () => {
   useEffect(() => {
     setTimeout(() => {
       dispatch(userSession());
-      console.log("메인 세션 체크: ", sessionStatus);
+      // console.log("메인 세션 체크: ", sessionStatus);
     }, 500);
 
     // const observer = new IntersectionObserver(callback, options)
