@@ -18,14 +18,14 @@ import {
   IStepValues,
   ITagsData,
   ITagProps,
-  IEditResponseData,
-  IPostInGredientProps,
+  // IEditResponseData,
+  // IPostInGredientProps,
   IRecipeTemp,
 } from "../../types/interface";
 import { useState, useEffect } from "react";
 import styled from "styled-components";
 import axios from "axios";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import recipeLogo from "../../assets/images/Recipe/recipeLogo.svg";
 import useMessage from "../../hooks/useMessage";
 import useRecipeValidation from "../../hooks/useRecipeValidation";
@@ -116,7 +116,7 @@ const SFormBtn = styled.button`
 
 const EditPost = () => {
   const message = useMessage(3000);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   // 수정페이지 관련
   const { recipeId } = useParams();
@@ -173,6 +173,12 @@ const EditPost = () => {
 
     if (thumbNail) {
       formData.append("imgThumbNail", thumbNail);
+    } else {
+      // 썸네일 수정 없을 때 임시 파일 전송(테스트 중)
+      const tempFile = new File(["foo"], "foo.txt", {
+        type: "text/plain",
+      });
+      formData.append("imgThumbNail", tempFile);
     }
 
     stepImgFiles.forEach((file) => {
