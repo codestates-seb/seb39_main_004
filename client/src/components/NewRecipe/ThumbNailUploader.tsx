@@ -11,11 +11,9 @@ const SImgInputContainer = styled.div`
 `;
 
 const SUserImg = styled.img`
-  display: inline-block;
-  overflow: hidden;
-  position: relative;
-  box-sizing: border-box;
   background-color: var(--pale-gray);
+  object-fit: cover; // 비율 조정
+  overflow: hidden;
   width: 150px;
   height: 150px;
   border-radius: 50%;
