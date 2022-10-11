@@ -25,7 +25,7 @@ import {
 import { useState, useEffect } from "react";
 import styled from "styled-components";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import recipeLogo from "../../assets/images/Recipe/recipeLogo.svg";
 import useMessage from "../../hooks/useMessage";
 import useRecipeValidation from "../../hooks/useRecipeValidation";
@@ -116,7 +116,7 @@ const SFormBtn = styled.button`
 
 const EditPost = () => {
   const message = useMessage(3000);
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   // 수정페이지 관련
   const { recipeId } = useParams();
@@ -158,70 +158,64 @@ const EditPost = () => {
       });
       return;
     }
-    // console.log(isEmpty);
-    // console.log("카테", checkedCateg); // 수정시 null X
-    // console.log("onSubmitData", data);
-    // console.log("재료", ingredientsDatas);
-    // console.log("순서", directDatas);
-    // console.log("태그", tagsDatas);
-    // console.log("불리언", booleanArr);
-    // console.log("d이미지 순서", stepImgFiles);
-    // console.log("setIsEmpty", isEmpty);
 
     /** 서버 요청 데이터 구축 */
-    const formData = new FormData();
+    const formdata = new FormData();
 
     if (thumbNail) {
-      formData.append("imgThumbNail", thumbNail);
+      formdata.append("imgThumbNail", thumbNail);
     } else {
-      // 썸네일 수정 없을 때 임시 파일 전송(테스트 중)
+      // 썸네일 수정 없을 때 임의의 파일 전송
       const tempFile = new File(["foo"], "foo.txt", {
         type: "text/plain",
       });
-      formData.append("imgThumbNail", tempFile);
+      formdata.append("imgThumbNail", tempFile);
     }
 
     stepImgFiles.forEach((file) => {
       if (file) {
-        formData.append("imgDirection", file);
+        formdata.append("imgDirection", file);
       }
+    });
+
+    // 재료순서 변경 인덱스 정렬
+    const filteredIngredients: TypeOfIngredients[] = [];
+    ingredientsDatas.forEach((oneline, idx) => {
+      filteredIngredients.push({ ...oneline, index: idx + 1 });
+    });
+
+    // 조리순서 변경 인덱스 정렬
+    const filteredDirects: IStepValues[] = [];
+    directDatas.forEach((oneline, idx) => {
+      filteredDirects.push({ ...oneline, index: idx + 1 });
     });
 
     const recipeDatas = {
       ...data,
       category: checkedCateg,
-      ingredients: ingredientsDatas,
-      directions: directDatas,
+      ingredients: filteredIngredients,
+      directions: filteredDirects,
       tags: tagsDatas,
     };
 
-    formData.append(
+    formdata.append(
       "recipe",
       new Blob([JSON.stringify(recipeDatas)], { type: "application/json" })
     );
 
-    // console.log("수정페이지 버튼 recipeDatas", recipeDatas);
-    // console.log(formData.get("recipe"));
-
     /** 서버 요청 */
     const response = await axios.post(
       `/api/v1/recipe/${recipeId}/edit`,
-      formData,
+      formdata,
       {
         headers: { "content-type": "multipart/form-data" },
       }
     );
 
     try {
-      console.log(response);
-
-      // if(respones.status ===200){
-
-      // }
-      // const newId = response.data.data.id;
-      // navigate(`/post/${newId}/`);
+      const newId = response.data.data.id;
+      navigate(`/post/${newId}/`);
     } catch (error) {
-      console.log(error);
       message.fire({
         icon: "error",
         title: "레시피 등록에 실패했습니다.\n 다시 시도해주세요.",
@@ -234,7 +228,6 @@ const EditPost = () => {
       .get(`/api/v1/recipe/${recipeId}/edit/`)
       .then((res) => {
         const resData = res.data.data;
-        // console.log("resData", resData);
         setData({ body: resData.body, title: resData.title });
         setCheckedCateg(resData.category);
         setDirectDatas(resData.directions);
@@ -246,11 +239,13 @@ const EditPost = () => {
         });
         setTagsDatas([...tagList]);
       })
-      .catch((err) => {
-        console.log("수정에러", err);
+      .catch(() => {
+        message.fire({
+          icon: "error",
+          title: "서버 에러가 발생했습니다. \n 다시 시도해주세요.",
+        });
       });
   }, []);
-  console.log("순서", directDatas);
 
   return (
     <SFormContainer>
