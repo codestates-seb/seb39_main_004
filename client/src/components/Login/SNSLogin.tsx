@@ -56,19 +56,11 @@ const SLogoContainer = styled.div`
 const JoinContainer = styled.ul`
   display: flex;
   width: 100%;
-  justify-content: space-between;
+  justify-content: center;
   margin-top: 15px;
 `;
 
 const SNSLogin = () => {
-  // const onGoogleLoginHandler = () => {
-  //   window.location.href = "https://www.mmz.today/oauth2/authorization/google";
-  // };
-
-  // const onKakaoLoginHandler = () => {
-  //   window.location.href = "https://www.mmz.today/oauth2/authorization/kakao";
-  // };
-
   return (
     <SSNSLoginContainer>
       <SH3>SNS로 간편 시작</SH3>
@@ -84,7 +76,7 @@ const SNSLogin = () => {
         </SButton>
       </SLogoContainer>
       <JoinContainer>
-        <StyledLink to="/findpw">비밀번호 찾기</StyledLink>
+        {/* <StyledLink to="/findpw">비밀번호 찾기</StyledLink> */}
         <StyledLink to="/signup">회원가입</StyledLink>
       </JoinContainer>
     </SSNSLoginContainer>
