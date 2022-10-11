@@ -11,10 +11,13 @@ import java.util.List;
 @Builder
 public class RecipeInfoDto {
 
+    private Long ownerId;
+    private String ownerNickName;
     private Long id;
     private String title;
     private String imgThumbNailUrl;
     private String stars;
+    private int reviewCount;
     private int views;
     private String createDate;
     private boolean isBookmarked;

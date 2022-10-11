@@ -43,6 +43,8 @@ public class ReviewMapperImpl implements ReviewMapper {
         }
 
         return ReviewResponseDto.builder()
+                .recipeImgThumbNail(review.getRecipe().getImgThumbNail().getFileName())
+                .recipeTitle(review.getRecipe().getTitle())
                 .owner(accountMapper.toInfoDto(review.getOwner()))
                 .id(review.getId())
                 .stars(review.getStars())
