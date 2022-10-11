@@ -74,7 +74,7 @@ public class SecurityConfig {
 
         http
                 .oauth2Login()
-                .successHandler(loginSuccessHandler)
+//                .successHandler(loginSuccessHandler)
                 .defaultSuccessUrl("/")
                 .failureHandler(loginFailureHandler)
                 .userInfoEndpoint()

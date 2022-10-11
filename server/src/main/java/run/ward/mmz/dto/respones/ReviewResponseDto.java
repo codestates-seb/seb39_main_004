@@ -9,6 +9,8 @@ import lombok.Getter;
 @Builder
 public class ReviewResponseDto {
 
+    private String recipeImgThumbNail;
+    private String recipeTitle;
     private AccountInfoDto owner;
     private Long id;
     private String body;

@@ -68,7 +68,7 @@ public class ReviewController {
         reviewService.deleteById(reviewId);
 
         Page<Review> reviewPage = reviewService.findAllByRecipeId(1, REIVEW_SIZE, recipeId, "id", "dec");
-
+        recipeService.updateStars(recipeId);
         return getResponseEntity(reviewPage);
     }
 

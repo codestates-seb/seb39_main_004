@@ -1,5 +1,6 @@
 package run.ward.mmz.web.controller.v1.post;
 
+import com.sun.istack.Nullable;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Page;
@@ -145,14 +146,23 @@ public class RecipeController {
         Account findUser = accountService.findById(user.getId());
         recipeService.verifyAccessOwner(recipeId, user.getId());
 
+        List<FilesDto> filesDtoList = new ArrayList<>();
+        if(imgDirectionList != null){
+            filesDtoList = fileHandler.parseFileInfo(imgDirectionList, ImageType.EXTENSIONS);
+        }
 
-        List<FilesDto> filesDtoList = fileHandler.parseFileInfo(imgDirectionList, ImageType.EXTENSIONS);
         List<DirectionPostDto> directionPostDtoList = recipePostDto.getDirections();
         List<Direction> directionList = directionService.updateAll(directionPostDtoList, filesDtoList, recipeId);
         recipeService.deleteAllDirection(recipeId);
 
 
-        Files imgThumbNailFile = filesMapper.fileDtoToImage(fileHandler.parseFileInfo(imgThumbNail, ImageType.EXTENSIONS));
+        Files imgThumbNailFile = new Files();
+        if (imgThumbNail.getContentType().equals("text/plain")) {
+            imgThumbNailFile = recipeService.findById(recipeId).getImgThumbNail();
+        }
+        else{
+            imgThumbNailFile = filesMapper.fileDtoToImage(fileHandler.parseFileInfo(imgThumbNail, ImageType.EXTENSIONS));
+        }
 
         List<Ingredient> ingredients = ingredientMapper.toEntity(recipePostDto.getIngredients());
 
