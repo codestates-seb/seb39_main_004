@@ -95,7 +95,7 @@ const MyPageReview = ({ reviewData }: IReviewProps) => {
               <SReviewCont>
                 <SReviewTitle>
                   <h2> {data.recipeTitle}</h2>
-                  <span> {data.createDate}</span>
+                  <span> {data.createDate.slice(0, 16)}</span>
                 </SReviewTitle>
                 <p> {data.body}</p>
               </SReviewCont>
