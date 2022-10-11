@@ -15,8 +15,6 @@ interface IImgUploaderProps {
   stepImgFiles?: TypeOfFileList[];
   setStepImgFiles?: Dispatch<SetStateAction<TypeOfFileList[]>>;
   setImgName?: Dispatch<SetStateAction<string>>;
-  booleanArr: boolean[];
-  setBooleanArr: Dispatch<SetStateAction<boolean[]>>;
 }
 
 interface IStepMakerProps {
@@ -26,8 +24,6 @@ interface IStepMakerProps {
   setDirectDatas: Dispatch<SetStateAction<IStepValues[]>>;
   stepImgFiles: TypeOfFileList[];
   setStepImgFiles: Dispatch<SetStateAction<TypeOfFileList[]>>;
-  setBooleanArr: Dispatch<SetStateAction<boolean[]>>;
-  booleanArr: boolean[];
   // clickEvent?: (orderValue: string) => Promise<void> | void;
 }
 
@@ -35,6 +31,7 @@ interface IStepValues {
   imgDirectionUrl: string;
   body: string;
   index: number;
+  isUploaded: boolean;
 }
 
 interface IStepSetProps {
@@ -46,8 +43,6 @@ interface IStepSetProps {
   setStepImgFiles: Dispatch<SetStateAction<TypeOfFileList[]>>;
   directDatas: IStepValues[];
   setDirectDatas: Dispatch<SetStateAction<IStepValues[]>>;
-  setBooleanArr: Dispatch<SetStateAction<boolean[]>>;
-  booleanArr: boolean[];
 }
 
 interface IResponseImgProps {
@@ -263,6 +258,12 @@ interface IStarProps {
   setStarClicked?: React.Dispatch<React.SetStateAction<boolean[]>>;
 }
 
+// 리펙토링 전 임시 사용
+interface IRecipeTemp {
+  body: string;
+  title: string;
+}
+
 export type {
   IThumbNailProps,
   IImgUploaderProps,
@@ -297,4 +298,5 @@ export type {
   IFollowProps,
   IFollowingProps,
   IStarProps,
+  IRecipeTemp,
 };
