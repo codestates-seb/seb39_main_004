@@ -152,7 +152,7 @@ public class RecipeController {
         recipeService.deleteAllDirection(recipeId);
 
         Files imgThumbNailFile = new Files();
-        if (imgThumbNail.getSize() > 10) {
+        if (imgThumbNail.getContentType().equals("mmz/plain")) {
             imgThumbNailFile = filesMapper.fileDtoToImage(fileHandler.parseFileInfo(imgThumbNail, ImageType.EXTENSIONS));
         }
         else{
