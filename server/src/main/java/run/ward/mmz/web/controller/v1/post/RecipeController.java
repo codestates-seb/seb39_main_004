@@ -151,6 +151,7 @@ public class RecipeController {
         List<Direction> directionList = directionService.updateAll(directionPostDtoList, filesDtoList, recipeId);
         recipeService.deleteAllDirection(recipeId);
 
+
         Files imgThumbNailFile = new Files();
         if (imgThumbNail.getContentType().equals("mmz/plain")) {
             imgThumbNailFile = filesMapper.fileDtoToImage(fileHandler.parseFileInfo(imgThumbNail, ImageType.EXTENSIONS));
@@ -158,12 +159,15 @@ public class RecipeController {
         else{
             imgThumbNailFile = recipeService.findById(recipeId).getImgThumbNail();
         }
+        
         List<Ingredient> ingredients = ingredientMapper.toEntity(recipePostDto.getIngredients());
+
         List<Tag> tags = tagMapper.toEntity(recipePostDto.getTags());
         recipeService.deleteAllIngredient(recipeId);
 
         Recipe recipe = recipeMapper.toEntity(findUser, recipePostDto, imgThumbNailFile, ingredients, directionList);
         recipe = recipeService.update(recipeId, recipe);
+
         recipeService.deleteAllRecipeTag(recipeId);
         tagService.saveAll(tags);
         recipeTagService.save(tags, recipe);

@@ -12,7 +12,7 @@ const AddIngredients = ({
   setIngredientsDatas,
 }: IAddIngredientsProps) => {
   const basicForm = {
-    index: 0,
+    index: 1,
     name: "",
     amount: "",
     isEssential: false,
