@@ -157,11 +157,11 @@ public class RecipeController {
 
 
         Files imgThumbNailFile = new Files();
-        if (imgThumbNail.getContentType().equals("mmz/plain")) {
-            imgThumbNailFile = filesMapper.fileDtoToImage(fileHandler.parseFileInfo(imgThumbNail, ImageType.EXTENSIONS));
+        if (imgThumbNail.getContentType().equals("text/plain")) {
+            imgThumbNailFile = recipeService.findById(recipeId).getImgThumbNail();
         }
         else{
-            imgThumbNailFile = recipeService.findById(recipeId).getImgThumbNail();
+            imgThumbNailFile = filesMapper.fileDtoToImage(fileHandler.parseFileInfo(imgThumbNail, ImageType.EXTENSIONS));
         }
 
         List<Ingredient> ingredients = ingredientMapper.toEntity(recipePostDto.getIngredients());
