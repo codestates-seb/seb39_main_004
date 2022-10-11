@@ -47,6 +47,11 @@ const SReplyContainer = styled.div`
       background: var(--red);
     }
   }
+  @media ${({ theme }) => theme.device.desktop} {
+    form {
+      grid-template-columns: 2fr 8fr 2fr;
+    }
+  }
   @media ${({ theme }) => theme.device.tablet} {
     form {
       display: block;

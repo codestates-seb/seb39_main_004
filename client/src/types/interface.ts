@@ -1,8 +1,10 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Dispatch, SetStateAction } from "react";
 import { TypeOfFileList, TypeOfFormData, TypeOfIngredients } from "./type";
 import { UseFormRegister } from "react-hook-form";
 
 interface IThumbNailProps {
+  isMypage?: boolean;
   resThumbNailImgUrl?: string;
   setThumbNail: Dispatch<SetStateAction<TypeOfFileList>>;
 }
@@ -61,8 +63,9 @@ interface IItemProps {
   imgThumbNailUrl: string;
   stars: string;
   tags: ITagProps[];
-  createDate?: string;
+  createDate: string;
   bookmarked: boolean;
+  reviewCount: number;
 }
 
 interface IRecipeDataProps {
@@ -222,6 +225,9 @@ interface IReviewData {
   createDate: string;
   id: number;
   stars: number;
+  recipeId: number;
+  recipeTitle: string;
+  recipeImgThumbNail: string;
 }
 
 interface IReviewProps {
@@ -235,8 +241,10 @@ interface IBookMarkProps {
 interface IBookMarkData {
   id: number;
   title: string;
+  ownerNickName: string;
   imgThumbNailUrl: string;
   createDate: string;
+  tags: ITagProps[];
 }
 
 interface IFollowProps {
@@ -247,10 +255,12 @@ interface IFollowData {
   id: number;
   name: string;
   imgProfileUrl: string;
+  userId: number;
 }
 
 interface IFollowingProps {
   followingData: IFollowData[];
+  setFollowingData: React.Dispatch<React.SetStateAction<any[]>>;
 }
 
 interface IStarProps {

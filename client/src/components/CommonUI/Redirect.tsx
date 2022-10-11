@@ -7,7 +7,8 @@ const Redirect = () => {
   //const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useAppDispatch();
-  const { sessionStatus, userInfo } = useAppSelector((state) => state.user);
+  const { sessionStatus } = useAppSelector((state) => state.user);
+  // const { sessionStatus, userInfo } = useAppSelector((state) => state.user);
 
   const { url } = location.state as { url: string };
   if (url) window.location.href = url;
@@ -16,7 +17,7 @@ const Redirect = () => {
 
   useEffect(() => {
     if (sessionStatus) dispatch(userSession());
-    console.log("세션 체크: ", sessionStatus, userInfo.new);
+    // console.log("세션 체크: ", sessionStatus, userInfo.new);
   }, [sessionStatus]);
 
   return null; // TODO: 추후 로딩 컴포넌트 추가

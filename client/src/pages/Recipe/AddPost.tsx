@@ -132,13 +132,6 @@ const AddPost = () => {
   } = useForm<TypeOfFormData>(undefined);
 
   const submitHandler: SubmitHandler<TypeOfFormData> = async (data) => {
-    // console.log("재료", ingredientsDatas);
-    // console.log("onSubmitData", data);
-    // console.log("d이미지 순서", stepImgFiles);
-    // console.log("순서", directDatas);
-    // console.log("태그", tagsDatas);
-    // console.log("카테", checkedCateg);
-
     /** 이미지 누락 체크 */
     const emptyIndex = stepImgFiles.findIndex((el) => el === undefined);
     if (emptyIndex >= 0) {
@@ -187,7 +180,6 @@ const AddPost = () => {
       const newId = response.data.data.id;
       navigate(`/post/${newId}/`);
     } catch (error) {
-      // console.log(error);
       message.fire({
         icon: "error",
         title:
@@ -195,8 +187,6 @@ const AddPost = () => {
       });
     }
   };
-
-  console.log("directDatas", directDatas);
 
   return (
     <SFormContainer>

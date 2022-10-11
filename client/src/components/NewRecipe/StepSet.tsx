@@ -84,7 +84,6 @@ const StepSet = ({
         />
       </SStepBox>
       <ImgUploader
-        // steps={steps}
         imgName={imgName}
         currentIndex={currentIndex}
         imgUrl={imgUrl}

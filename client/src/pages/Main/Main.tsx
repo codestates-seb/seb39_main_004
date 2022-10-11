@@ -45,7 +45,10 @@ const Main = () => {
   const endRef = useRef(false); // 모든 글 로드 확인
 
   useEffect(() => {
-    if (sessionStatus) dispatch(userSession());
+    setTimeout(() => {
+      dispatch(userSession());
+      // console.log("메인 세션 체크: ", sessionStatus);
+    }, 500);
 
     // const observer = new IntersectionObserver(callback, options)
     const observer = new IntersectionObserver(obsHandler, { threshold: 0.5 });
@@ -53,7 +56,7 @@ const Main = () => {
     return () => {
       observer.disconnect();
     };
-  }, []);
+  }, [sessionStatus]);
 
   // 페이지 변경될 때 실행
   useEffect(() => {

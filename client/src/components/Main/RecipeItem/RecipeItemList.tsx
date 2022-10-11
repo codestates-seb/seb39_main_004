@@ -32,6 +32,8 @@ const RecipeItemList = ({ mainData, searchData }: IRecipeDataProps) => {
             tags={i.tags}
             stars={i.stars}
             bookmarked={i.bookmarked}
+            reviewCount={i.reviewCount}
+            createDate={i.createDate}
           />
         ))}
       {searchData &&
@@ -44,6 +46,8 @@ const RecipeItemList = ({ mainData, searchData }: IRecipeDataProps) => {
             tags={i.tags}
             stars={i.stars}
             bookmarked={i.bookmarked}
+            reviewCount={i.reviewCount}
+            createDate={i.createDate}
           />
         ))}
     </SItemListLayout>

@@ -13,40 +13,35 @@ const useRecipeValidation = (
   tagsDatas: TypeOfTags[]
 ): boolean => {
   const [isEmpty, setIsEmpty] = useState<boolean>(false);
-  // console.log("유즈 isEmpty", isEmpty);
-  // console.log("유즈 data", data);
-  // console.log("유즈 재료", ingredientsDatas);
-  // console.log("유즈 순서", directDatas);
-  // console.log("유즈 태그", tagsDatas);
 
   useEffect(() => {
     setIsEmpty(false);
 
     if (!data.body || !data.title) {
-      // console.log(data.body, data.title);
       setIsEmpty(true);
     }
 
     ingredientsDatas.forEach((ingredient: IPostInGredientProps) => {
       if (!ingredient.amount || !ingredient.name) {
-        // console.log(ingredient.amount, ingredient.name);
         setIsEmpty(true);
       }
     });
 
     directDatas.forEach((directInfo: IStepValues) => {
       if (!directInfo.body) {
-        // console.log(directInfo.body);
         setIsEmpty(true);
       }
     });
 
     tagsDatas.forEach((tag: ITagProps) => {
       if (!tag.name) {
-        // console.log(tag.name);
         setIsEmpty(true);
       }
     });
+
+    if (ingredientsDatas.length === 0 || directDatas.length === 0) {
+      setIsEmpty(true);
+    }
   }, [data, ingredientsDatas, directDatas, tagsDatas]);
 
   return isEmpty;
