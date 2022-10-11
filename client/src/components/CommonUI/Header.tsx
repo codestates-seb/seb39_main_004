@@ -45,9 +45,9 @@ const SSection = styled.section`
   align-items: center;
 `;
 
-const SDash = styled.span`
-  padding: 0.5rem;
-`;
+// const SDash = styled.span`
+//   padding: 0.5rem;
+// `;
 
 const SNavLink = styled(NavLink)`
   color: var(--gray);
@@ -143,8 +143,8 @@ const Header = () => {
           <SNavLink to="/" end>
             HOME
           </SNavLink>
-          <SDash>|</SDash>
-          <SNavLink to="/rank">RANKING</SNavLink>
+          {/* <SDash>|</SDash>
+          <SNavLink to="/rank">RANKING</SNavLink> */}
         </SSection>
         <SSection>
           {sessionStatus && (
