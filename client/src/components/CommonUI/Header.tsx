@@ -45,9 +45,9 @@ const SSection = styled.section`
   align-items: center;
 `;
 
-const SDash = styled.span`
-  padding: 0.5rem;
-`;
+// const SDash = styled.span`
+//   padding: 0.5rem;
+// `;
 
 const SNavLink = styled(NavLink)`
   color: var(--gray);
