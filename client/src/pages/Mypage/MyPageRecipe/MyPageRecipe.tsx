@@ -119,7 +119,7 @@ const MyPageRecipe = ({ recipeData }: IMyRecipeData) => {
               <SRecipeCont>
                 <SRecipeTitle>
                   <h2> {data.title}</h2>
-                  <p>{data.createDate}</p>
+                  <p>{data.createDate.slice(0, 16)}</p>
                 </SRecipeTitle>
                 <SRecipeInfo>
                   <span>
