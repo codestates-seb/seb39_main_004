@@ -146,7 +146,11 @@ public class RecipeController {
         Account findUser = accountService.findById(user.getId());
         recipeService.verifyAccessOwner(recipeId, user.getId());
 
-        List<FilesDto> filesDtoList = fileHandler.parseFileInfo(imgDirectionList, ImageType.EXTENSIONS);
+        List<FilesDto> filesDtoList = new ArrayList<>();
+        if(imgDirectionList != null){
+            filesDtoList = fileHandler.parseFileInfo(imgDirectionList, ImageType.EXTENSIONS);
+        }
+
         List<DirectionPostDto> directionPostDtoList = recipePostDto.getDirections();
         List<Direction> directionList = directionService.updateAll(directionPostDtoList, filesDtoList, recipeId);
         recipeService.deleteAllDirection(recipeId);
@@ -159,7 +163,7 @@ public class RecipeController {
         else{
             imgThumbNailFile = recipeService.findById(recipeId).getImgThumbNail();
         }
-        
+
         List<Ingredient> ingredients = ingredientMapper.toEntity(recipePostDto.getIngredients());
 
         List<Tag> tags = tagMapper.toEntity(recipePostDto.getTags());
