@@ -36,7 +36,7 @@ const infiniteScroll = () => {
 
   const getRecipePost = useCallback(async () => {
     //글 불러오기
-    console.log("레시피 글 불러오기");
+    // console.log("레시피 글 불러오기");
     setLoad(true); //로딩 시작
 
     const res = await axios({
@@ -52,7 +52,7 @@ const infiniteScroll = () => {
       setList((prev) => [...prev, ...res.data.list]); //리스트 추가
       preventRef.current = true;
     } else {
-      console.log(res);
+      // console.log(res);
     }
     setLoad(false); //로딩 종료
   }, [page]);

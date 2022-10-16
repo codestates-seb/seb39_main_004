@@ -108,7 +108,7 @@ const PostUserInfo = ({
 
   useEffect(() => {
     if (sessionStatus) dispatch(userSession());
-    console.log("레시피 세션 체크: ", sessionStatus);
+    // console.log("레시피 세션 체크: ", sessionStatus);
   }, [sessionStatus, follow]);
 
   const doFollow = async () => {

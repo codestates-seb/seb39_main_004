@@ -130,7 +130,7 @@ const RepleContent = ({
             <SReplyContainer>{replyBody}</SReplyContainer>
           </div>
         </SUserInfo>
-        {userInfo.name === user.name ? (
+        {userInfo && userInfo.name === user.name ? (
           <SDeleteButton onClick={onDeleteComment}>Delete</SDeleteButton>
         ) : null}
       </SUserBody>

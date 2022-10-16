@@ -50,8 +50,8 @@ const SNSInfoForm = () => {
     formState: { isSubmitting, errors },
   } = useForm<Inputs>();
 
-  const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    console.log(data);
+  const onSubmit: SubmitHandler<Inputs> = async (/*data*/) => {
+    // console.log(data);
   };
 
   return (

@@ -95,7 +95,12 @@ const IngredientContainer = styled.div`
     font-size: 1.5rem;
     font-weight: bold;
     padding-bottom: 20px;
-    padding-left: 20px;
+    padding-left: 50px;
+  }
+  @media ${({ theme }) => theme.device.desktop} {
+    h4 {
+      padding-left: 15px;
+    }
   }
   @media ${({ theme }) => theme.device.tablet} {
     margin-top: 30px;
@@ -154,7 +159,7 @@ const STabMenu = styled.ul`
 const SRecipeInfoContainer = styled.div`
   display: grid;
   grid-template-columns: 300px auto;
-  column-gap: 70px;
+  column-gap: 20px;
   flex-grow: 1;
   padding: 50px 0 30px;
   @media ${({ theme }) => theme.device.desktop} {
@@ -180,7 +185,6 @@ const RecipeDetail = () => {
   const getData = async () => {
     const { data } = await axios.get(`/api/v1/recipe/${id}`);
     setData([data.data]);
-    // console.log(data);
   };
 
   const menuArr = [
