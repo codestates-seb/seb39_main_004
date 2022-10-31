@@ -17,7 +17,6 @@ const StepsMaker = ({
     if (directDatas.length > 0) {
       const lastStep = directDatas.slice(-1)[0].index;
       basicForm.index = lastStep + 1;
-      console.log(basicForm);
     }
     setDirectDatas([...directDatas, basicForm]);
   };

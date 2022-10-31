@@ -195,7 +195,6 @@ const AddPost = () => {
       directions: filteredDirects,
       tags: tagsDatas,
     };
-    console.log("recipeDatas", recipeDatas);
 
     formData.append(
       "recipe",
