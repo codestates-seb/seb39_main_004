@@ -54,14 +54,12 @@ const StepSet = ({
     if (originData[currentIndex].imgDirectionUrl !== undefined) {
       originData[currentIndex].imgDirectionUrl = imgName;
       originData[currentIndex].isUploaded = true;
-      originData[currentIndex].index = currentIndex + 1;
       setDirectDatas(originData);
     }
     // 수정 없을 때
     if (!originData[currentIndex].imgDirectionUrl) {
       originData[currentIndex].imgDirectionUrl = imgUrl;
       originData[currentIndex].isUploaded = false;
-      originData[currentIndex].index = currentIndex + 1;
       setDirectDatas(originData);
     }
   }, [imgName]);

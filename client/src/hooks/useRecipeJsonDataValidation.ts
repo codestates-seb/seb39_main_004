@@ -6,7 +6,7 @@ import {
 } from "../types/interface";
 import { TypeOfIngredients, TypeOfTags } from "../types/type";
 
-const useRecipeValidation = (
+const useRecipeJsonDataValidation = (
   data: { body: string; title: string },
   ingredientsDatas: TypeOfIngredients[],
   directDatas: IStepValues[],
@@ -47,4 +47,4 @@ const useRecipeValidation = (
   return isEmpty;
 };
 
-export default useRecipeValidation;
+export default useRecipeJsonDataValidation;
