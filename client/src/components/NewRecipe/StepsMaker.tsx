@@ -7,18 +7,19 @@ const StepsMaker = ({
   stepImgFiles,
   setStepImgFiles,
 }: IStepMakerProps) => {
-  const basicForm = {
-    index: 1,
-    imgDirectionUrl: "",
-    body: "",
-    isUploaded: false,
-  };
+  const addDirectionStepHandler = () => {
+    const basicForm = {
+      index: 1,
+      imgDirectionUrl: "",
+      body: "",
+      isUploaded: false,
+    };
 
-  const addDirectionsHander = () => {
-    const lastStep = directDatas.slice(-1)[0];
-    if (lastStep) {
-      basicForm.index = lastStep.index + 1;
+    if (directDatas.length > 0) {
+      const lastStepIndex = directDatas.slice(-1)[0].index;
+      basicForm.index = lastStepIndex + 1;
     }
+
     setDirectDatas([...directDatas, basicForm]);
   };
 
@@ -42,7 +43,7 @@ const StepsMaker = ({
             );
           })}
       </div>
-      <PlusBtn addHandler={addDirectionsHander} />
+      <PlusBtn addHandler={addDirectionStepHandler} />
     </>
   );
 };

@@ -13,19 +13,15 @@ import {
   ImgRadio,
   RequireMark,
 } from "../../components/NewRecipe/indexNewRecipe";
-import {
-  TypeOfFileList,
-  TypeOfFormData,
-  TypeOfIngredients,
-} from "../../types/type";
-import { IStepValues, ITagsData } from "../../types/interface";
-import { useState } from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { TypeOfFileList, TypeOfIngredients } from "../../types/type";
+import { IStepValues, ITagsData, IRecipeTemp } from "../../types/interface";
+import { FormEvent, useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import recipeLogo from "../../assets/images/Recipe/recipeLogo.svg";
 import useMessage from "../../hooks/useMessage";
+import useRecipeJsonDataValidation from "../../hooks/useRecipeJsonDataValidation";
 
 const SFormContainer = styled.main`
   max-width: 1280px;
@@ -116,6 +112,7 @@ const AddPost = () => {
   const navigate = useNavigate();
 
   // 등록페이지 관련
+  const [data, setData] = useState<IRecipeTemp>({ body: "", title: "" });
   const [thumbNail, setThumbNail] = useState<TypeOfFileList>();
   const [stepImgFiles, setStepImgFiles] = useState<TypeOfFileList[]>([]);
   const [directDatas, setDirectDatas] = useState<IStepValues[]>([]);
@@ -125,19 +122,40 @@ const AddPost = () => {
   );
   const [tagsDatas, setTagsDatas] = useState<ITagsData[]>([]);
 
-  const {
-    register,
-    handleSubmit,
-    // formState: { errors },
-  } = useForm<TypeOfFormData>(undefined);
+  // 빈 값 체크
+  const isJsonDataEmpty = useRecipeJsonDataValidation(
+    data,
+    ingredientsDatas,
+    directDatas,
+    tagsDatas
+  );
 
-  const submitHandler: SubmitHandler<TypeOfFormData> = async (data) => {
-    /** 이미지 누락 체크 */
-    const emptyIndex = stepImgFiles.findIndex((el) => el === undefined);
-    if (emptyIndex >= 0) {
+  const inputHandler = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const target = e.target;
+    setData({ ...data, [target.name]: target.value });
+  };
+
+  const submitHandler = async (event: FormEvent) => {
+    event.preventDefault();
+
+    /** 텍스트 누락 체크 */
+    if (isJsonDataEmpty === true) {
       message.fire({
         icon: "error",
-        title: `요리 순서의 ${emptyIndex + 1}번째 이미지를 \n추가해주세요`,
+        title:
+          "레시피 등록에 실패했습니다.\n 누락된 정보가 있는지 \n확인해주세요.",
+      });
+      return;
+    }
+
+    /** 이미지 누락 체크 */
+    const emptyImageIndex = stepImgFiles.findIndex((el) => el === undefined);
+    if (emptyImageIndex >= 0) {
+      message.fire({
+        icon: "error",
+        title: `요리 순서의 ${emptyImageIndex + 1}번째 이미지를 \n추가해주세요`,
       });
       return;
     }
@@ -148,6 +166,7 @@ const AddPost = () => {
       });
       return;
     }
+
     /** 서버 요청 데이터 구축 */
     const formData = new FormData();
     formData.append("imgThumbNail", thumbNail);
@@ -158,11 +177,23 @@ const AddPost = () => {
       }
     });
 
+    // 재료순서 변경 인덱스 정렬
+    const filteredIngredients: TypeOfIngredients[] = [];
+    ingredientsDatas.forEach((oneline, idx) => {
+      filteredIngredients.push({ ...oneline, index: idx + 1 });
+    });
+
+    // 조리순서 변경 인덱스 정렬
+    const filteredDirects: IStepValues[] = [];
+    directDatas.forEach((oneline, idx) => {
+      filteredDirects.push({ ...oneline, index: idx + 1 });
+    });
+
     const recipeDatas = {
       ...data,
       category: checkedCateg,
-      ingredients: ingredientsDatas,
-      directions: directDatas,
+      ingredients: filteredIngredients,
+      directions: filteredDirects,
       tags: tagsDatas,
     };
 
@@ -191,7 +222,7 @@ const AddPost = () => {
   return (
     <SFormContainer>
       <SLogoRecipe src={recipeLogo} alt="recipeLogo"></SLogoRecipe>
-      <form action="" method="post" onSubmit={handleSubmit(submitHandler)}>
+      <form action="" method="post" onSubmit={submitHandler}>
         <SSection>
           <SRecipeInfo>
             <SRecipeTexts>
@@ -200,7 +231,9 @@ const AddPost = () => {
                 <RequireMark />
               </SLable>
               <SInput
-                {...register("title", { required: true })}
+                name="title"
+                value={data.title}
+                onChange={inputHandler}
                 id="title"
                 placeholder="레시피 제목을 적어주세요."
               />
@@ -209,9 +242,10 @@ const AddPost = () => {
                 <RequireMark />
               </SLable>
               <STextarea
-                {...register("body", { required: true })}
+                name="body"
                 id="body"
-                // cols={50}
+                value={data.body}
+                onChange={inputHandler}
                 rows={5}
                 placeholder="레시피를 소개해주세요."
               ></STextarea>
@@ -261,7 +295,7 @@ const AddPost = () => {
           <SFormBtn color={"var(--deep-green)"} type="reset">
             취소
           </SFormBtn>
-          <SFormBtn type="button" onClick={handleSubmit(submitHandler)}>
+          <SFormBtn type="button" onClick={submitHandler}>
             등록
           </SFormBtn>
           {/* <button >임시저장</button> */}

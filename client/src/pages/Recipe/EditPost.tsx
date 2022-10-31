@@ -22,13 +22,13 @@ import {
   // IPostInGredientProps,
   IRecipeTemp,
 } from "../../types/interface";
-import { useState, useEffect } from "react";
+import { FormEvent, useState, useEffect } from "react";
 import styled from "styled-components";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
 import recipeLogo from "../../assets/images/Recipe/recipeLogo.svg";
 import useMessage from "../../hooks/useMessage";
-import useRecipeValidation from "../../hooks/useRecipeValidation";
+import useRecipeJsonDataValidation from "../../hooks/useRecipeJsonDataValidation";
 
 const SFormContainer = styled.main`
   max-width: 1280px;
@@ -135,7 +135,7 @@ const EditPost = () => {
   const [tagsDatas, setTagsDatas] = useState<ITagsData[]>([]);
 
   // 빈 값 체크
-  const isEmpty = useRecipeValidation(
+  const isJsonDataEmpty = useRecipeJsonDataValidation(
     data,
     ingredientsDatas,
     directDatas,
@@ -149,8 +149,11 @@ const EditPost = () => {
     setData({ ...data, [target.name]: target.value });
   };
 
-  const submitHandler = async () => {
-    if (isEmpty === true) {
+  const submitHandler = async (event: FormEvent) => {
+    event.preventDefault();
+
+    /** 텍스트 누락 체크 */
+    if (isJsonDataEmpty === true) {
       message.fire({
         icon: "error",
         title:
