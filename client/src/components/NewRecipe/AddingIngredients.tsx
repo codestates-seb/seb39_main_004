@@ -11,21 +11,13 @@ const AddIngredients = ({
   ingredientsDatas,
   setIngredientsDatas,
 }: IAddIngredientsProps) => {
-  const basicForm = {
-    index: 1,
-    name: "",
-    amount: "",
-    isEssential: false,
-  };
-  // let initialValue;
-  // ingredientsDatas === undefined
-  //   ? (initialValue = [basicForm])
-  //   : (initialValue = ingredientsDatas);
-
-  // const [ingrediStage, setIngrediStage] =
-  //   useState<TypeOfIngredients[]>(initialValue);
-
   const addHandler = () => {
+    const basicForm = {
+      index: 1,
+      name: "",
+      amount: "",
+      isEssential: false,
+    };
     const lastInputs = ingredientsDatas.slice(-1)[0];
     if (lastInputs) {
       basicForm.index = lastInputs.index + 1;

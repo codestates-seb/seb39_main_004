@@ -22,7 +22,7 @@ import {
   // IPostInGredientProps,
   IRecipeTemp,
 } from "../../types/interface";
-import { useState, useEffect } from "react";
+import { FormEvent, useState, useEffect } from "react";
 import styled from "styled-components";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
@@ -149,7 +149,9 @@ const EditPost = () => {
     setData({ ...data, [target.name]: target.value });
   };
 
-  const submitHandler = async () => {
+  const submitHandler = async (event: FormEvent) => {
+    event.preventDefault();
+
     if (isEmpty === true) {
       message.fire({
         icon: "error",

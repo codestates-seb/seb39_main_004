@@ -15,7 +15,7 @@ import {
 } from "../../components/NewRecipe/indexNewRecipe";
 import { TypeOfFileList, TypeOfIngredients } from "../../types/type";
 import { IStepValues, ITagsData, IRecipeTemp } from "../../types/interface";
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -137,7 +137,9 @@ const AddPost = () => {
     setData({ ...data, [target.name]: target.value });
   };
 
-  const submitHandler = async () => {
+  const submitHandler = async (event: FormEvent) => {
+    event.preventDefault();
+
     /** 텍스트 누락 체크 */
     if (isEmpty === true) {
       message.fire({
@@ -174,13 +176,26 @@ const AddPost = () => {
       }
     });
 
+    // 재료순서 변경 인덱스 정렬
+    const filteredIngredients: TypeOfIngredients[] = [];
+    ingredientsDatas.forEach((oneline, idx) => {
+      filteredIngredients.push({ ...oneline, index: idx + 1 });
+    });
+
+    // 조리순서 변경 인덱스 정렬
+    const filteredDirects: IStepValues[] = [];
+    directDatas.forEach((oneline, idx) => {
+      filteredDirects.push({ ...oneline, index: idx + 1 });
+    });
+
     const recipeDatas = {
       ...data,
       category: checkedCateg,
-      ingredients: ingredientsDatas,
-      directions: directDatas,
+      ingredients: filteredIngredients,
+      directions: filteredDirects,
       tags: tagsDatas,
     };
+    console.log("recipeDatas", recipeDatas);
 
     formData.append(
       "recipe",
@@ -218,9 +233,7 @@ const AddPost = () => {
               <SInput
                 name="title"
                 value={data.title}
-                onChange={(e) => {
-                  inputHandler(e);
-                }}
+                onChange={inputHandler}
                 id="title"
                 placeholder="레시피 제목을 적어주세요."
               />
@@ -232,10 +245,7 @@ const AddPost = () => {
                 name="body"
                 id="body"
                 value={data.body}
-                onChange={(e) => {
-                  inputHandler(e);
-                }}
-                // cols={50}
+                onChange={inputHandler}
                 rows={5}
                 placeholder="레시피를 소개해주세요."
               ></STextarea>
