@@ -11,16 +11,17 @@ const AddIngredients = ({
   ingredientsDatas,
   setIngredientsDatas,
 }: IAddIngredientsProps) => {
-  const addHandler = () => {
+  const addIngredientInputsHandler = () => {
     const basicForm = {
       index: 1,
       name: "",
       amount: "",
       isEssential: false,
     };
-    const lastInputs = ingredientsDatas.slice(-1)[0];
-    if (lastInputs) {
-      basicForm.index = lastInputs.index + 1;
+
+    if (ingredientsDatas.length > 0) {
+      const lastInputsIndex = ingredientsDatas.slice(-1)[0].index;
+      basicForm.index = lastInputsIndex + 1;
     }
     setIngredientsDatas([...ingredientsDatas, basicForm]);
   };
@@ -41,7 +42,7 @@ const AddIngredients = ({
             );
           })}
       </SIngredientsGroups>
-      <PlusBtn addHandler={addHandler} />
+      <PlusBtn addHandler={addIngredientInputsHandler} />
     </>
   );
 };

@@ -14,10 +14,12 @@ const StepsMaker = ({
       body: "",
       isUploaded: false,
     };
+
     if (directDatas.length > 0) {
-      const lastStep = directDatas.slice(-1)[0].index;
-      basicForm.index = lastStep + 1;
+      const lastStepIndex = directDatas.slice(-1)[0].index;
+      basicForm.index = lastStepIndex + 1;
     }
+
     setDirectDatas([...directDatas, basicForm]);
   };
 

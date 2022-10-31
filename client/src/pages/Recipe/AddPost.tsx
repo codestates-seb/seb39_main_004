@@ -21,7 +21,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import recipeLogo from "../../assets/images/Recipe/recipeLogo.svg";
 import useMessage from "../../hooks/useMessage";
-import useRecipeValidation from "../../hooks/useRecipeValidation";
+import useRecipeJsonDataValidation from "../../hooks/useRecipeJsonDataValidation";
 
 const SFormContainer = styled.main`
   max-width: 1280px;
@@ -123,7 +123,7 @@ const AddPost = () => {
   const [tagsDatas, setTagsDatas] = useState<ITagsData[]>([]);
 
   // 빈 값 체크
-  const isEmpty = useRecipeValidation(
+  const isJsonDataEmpty = useRecipeJsonDataValidation(
     data,
     ingredientsDatas,
     directDatas,
@@ -141,7 +141,7 @@ const AddPost = () => {
     event.preventDefault();
 
     /** 텍스트 누락 체크 */
-    if (isEmpty === true) {
+    if (isJsonDataEmpty === true) {
       message.fire({
         icon: "error",
         title:
@@ -151,11 +151,11 @@ const AddPost = () => {
     }
 
     /** 이미지 누락 체크 */
-    const emptyIndex = stepImgFiles.findIndex((el) => el === undefined);
-    if (emptyIndex >= 0) {
+    const emptyImageIndex = stepImgFiles.findIndex((el) => el === undefined);
+    if (emptyImageIndex >= 0) {
       message.fire({
         icon: "error",
-        title: `요리 순서의 ${emptyIndex + 1}번째 이미지를 \n추가해주세요`,
+        title: `요리 순서의 ${emptyImageIndex + 1}번째 이미지를 \n추가해주세요`,
       });
       return;
     }
@@ -166,6 +166,7 @@ const AddPost = () => {
       });
       return;
     }
+
     /** 서버 요청 데이터 구축 */
     const formData = new FormData();
     formData.append("imgThumbNail", thumbNail);
