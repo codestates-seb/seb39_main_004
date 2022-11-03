@@ -56,11 +56,13 @@ const IngredientsSet = ({
   };
 
   const inputHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.type === "checkbox") {
-      setInputs({ ...inputs, isEssential: e.target.checked });
-    } else {
-      setInputs({ ...inputs, [e.target.name]: e.target.value });
-    }
+    setInputs((prevState) => {
+      return {
+        ...prevState,
+        [e.target.name]:
+          e.target.type === "checkbox" ? e.target.checked : e.target.value,
+      };
+    });
   };
 
   useEffect(() => {
@@ -77,9 +79,7 @@ const IngredientsSet = ({
           name="name"
           required
           value={inputs.name}
-          onChange={(e) => {
-            inputHandler(e);
-          }}
+          onChange={inputHandler}
         />
         <RemoveBtn removeHandler={removeHandler} idx={idx} />
       </SIngredientName>
@@ -89,17 +89,13 @@ const IngredientsSet = ({
           name="amount"
           required
           value={inputs.amount}
-          onChange={(e) => {
-            inputHandler(e);
-          }}
+          onChange={inputHandler}
         />
         <SCheckInput
           type="checkbox"
           name="isEssential"
-          defaultChecked={inputs.isEssential}
-          onChange={(e) => {
-            inputHandler(e);
-          }}
+          checked={inputs.isEssential}
+          onChange={inputHandler}
         />
       </SIngredientAmout>
     </SIngredientContainer>
