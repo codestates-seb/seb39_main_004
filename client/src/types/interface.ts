@@ -191,16 +191,6 @@ interface IPostDirectionsProps {
   body: string;
 }
 
-interface IEditResponseData {
-  title: string;
-  body: string;
-  category: string;
-  directions: IStepValues[];
-  imgThumbNailUrl: string;
-  ingredients: IStepValues[];
-  tags: ITagProps[];
-}
-
 interface IUser {
   id: number;
   name: string;
@@ -268,12 +258,28 @@ interface IStarProps {
   setStarClicked?: React.Dispatch<React.SetStateAction<boolean[]>>;
 }
 
-// 리펙토링 전 임시 사용
+// Recipe 등록 수정 관련 interface
+interface IRecipeData {
+  inputTexts: IEditResponseData;
+  thumbNail: TypeOfFileList;
+  stepImgFiles: TypeOfFileList;
+}
+
+interface IEditResponseData {
+  title: string;
+  body: string;
+  imgThumbNailUrl: string;
+  category: string;
+  ingredients: IStepValues[];
+  directions: IStepValues[];
+  tags: ITagProps[];
+}
+
+// 삭제예정
 interface IRecipeTemp {
   body: string;
   title: string;
 }
-
 export type {
   IThumbNailProps,
   IImgUploaderProps,
@@ -308,5 +314,6 @@ export type {
   IFollowProps,
   IFollowingProps,
   IStarProps,
-  IRecipeTemp,
+  IRecipeData,
+  IRecipeTemp, // 삭제예정
 };
