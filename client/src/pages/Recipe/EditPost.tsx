@@ -18,8 +18,6 @@ import {
   IStepValues,
   ITagsData,
   ITagProps,
-  // IEditResponseData,
-  // IPostInGredientProps,
   IRecipeTemp,
 } from "../../types/interface";
 import { FormEvent, useState, useEffect } from "react";
@@ -122,7 +120,6 @@ const EditPost = () => {
   const { recipeId } = useParams();
 
   // 등록페이지 관련
-  // const [data, setData] = useState<IEditResponseData>();
   const [data, setData] = useState<IRecipeTemp>({ body: "", title: "" });
   const [thumbNailUrl, setThumbNailUrl] = useState<string>();
   const [thumbNail, setThumbNail] = useState<TypeOfFileList>();
@@ -134,97 +131,97 @@ const EditPost = () => {
   );
   const [tagsDatas, setTagsDatas] = useState<ITagsData[]>([]);
 
-  // 빈 값 체크
-  const isJsonDataEmpty = useRecipeJsonDataValidation(
-    data,
-    ingredientsDatas,
-    directDatas,
-    tagsDatas
-  );
+  // // 빈 값 체크
+  // const isJsonDataEmpty = useRecipeJsonDataValidation(
+  //   // data,
+  //   // ingredientsDatas,
+  //   // directDatas,
+  //   // tagsDatas
+  // );
 
-  const inputHandler = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const target = e.target;
-    setData({ ...data, [target.name]: target.value });
-  };
+  // const inputHandler = (
+  //   e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  // ) => {
+  //   const target = e.target;
+  //   setData({ ...data, [target.name]: target.value });
+  // };
 
-  const submitHandler = async (event: FormEvent) => {
-    event.preventDefault();
+  // const submitHandler = async (event: FormEvent) => {
+  //   event.preventDefault();
 
-    /** 텍스트 누락 체크 */
-    if (isJsonDataEmpty === true) {
-      message.fire({
-        icon: "error",
-        title:
-          "레시피 등록에 실패했습니다.\n 누락된 정보가 있는지 \n확인해주세요.",
-      });
-      return;
-    }
+  //   /** 텍스트 누락 체크 */
+  //   if (isJsonDataEmpty === true) {
+  //     message.fire({
+  //       icon: "error",
+  //       title:
+  //         "레시피 등록에 실패했습니다.\n 누락된 정보가 있는지 \n확인해주세요.",
+  //     });
+  //     return;
+  //   }
 
-    /** 서버 요청 데이터 구축 */
-    const formdata = new FormData();
+  //   /** 서버 요청 데이터 구축 */
+  //   const formdata = new FormData();
 
-    if (thumbNail) {
-      formdata.append("imgThumbNail", thumbNail);
-    } else {
-      // 썸네일 수정 없을 때 임의의 파일 전송
-      const tempFile = new File(["foo"], "foo.txt", {
-        type: "text/plain",
-      });
-      formdata.append("imgThumbNail", tempFile);
-    }
+  //   if (thumbNail) {
+  //     formdata.append("imgThumbNail", thumbNail);
+  //   } else {
+  //     // 썸네일 수정 없을 때 임의의 파일 전송
+  //     const tempFile = new File(["foo"], "foo.txt", {
+  //       type: "text/plain",
+  //     });
+  //     formdata.append("imgThumbNail", tempFile);
+  //   }
 
-    stepImgFiles.forEach((file) => {
-      if (file) {
-        formdata.append("imgDirection", file);
-      }
-    });
+  //   stepImgFiles.forEach((file) => {
+  //     if (file) {
+  //       formdata.append("imgDirection", file);
+  //     }
+  //   });
 
-    // 재료순서 변경 인덱스 정렬
-    const filteredIngredients: TypeOfIngredients[] = [];
-    ingredientsDatas.forEach((oneline, idx) => {
-      filteredIngredients.push({ ...oneline, index: idx + 1 });
-    });
+  //   // 재료순서 변경 인덱스 정렬
+  //   const filteredIngredients: TypeOfIngredients[] = [];
+  //   ingredientsDatas.forEach((oneline, idx) => {
+  //     filteredIngredients.push({ ...oneline, index: idx + 1 });
+  //   });
 
-    // 조리순서 변경 인덱스 정렬
-    const filteredDirects: IStepValues[] = [];
-    directDatas.forEach((oneline, idx) => {
-      filteredDirects.push({ ...oneline, index: idx + 1 });
-    });
+  //   // 조리순서 변경 인덱스 정렬
+  //   const filteredDirects: IStepValues[] = [];
+  //   directDatas.forEach((oneline, idx) => {
+  //     filteredDirects.push({ ...oneline, index: idx + 1 });
+  //   });
 
-    const recipeDatas = {
-      ...data,
-      category: checkedCateg,
-      ingredients: filteredIngredients,
-      directions: filteredDirects,
-      tags: tagsDatas,
-    };
+  //   const recipeDatas = {
+  //     ...data,
+  //     category: checkedCateg,
+  //     ingredients: filteredIngredients,
+  //     directions: filteredDirects,
+  //     tags: tagsDatas,
+  //   };
 
-    formdata.append(
-      "recipe",
-      new Blob([JSON.stringify(recipeDatas)], { type: "application/json" })
-    );
+  //   formdata.append(
+  //     "recipe",
+  //     new Blob([JSON.stringify(recipeDatas)], { type: "application/json" })
+  //   );
 
-    /** 서버 요청 */
-    const response = await axios.post(
-      `/api/v1/recipe/${recipeId}/edit`,
-      formdata,
-      {
-        headers: { "content-type": "multipart/form-data" },
-      }
-    );
+  //   /** 서버 요청 */
+  //   const response = await axios.post(
+  //     `/api/v1/recipe/${recipeId}/edit`,
+  //     formdata,
+  //     {
+  //       headers: { "content-type": "multipart/form-data" },
+  //     }
+  //   );
 
-    try {
-      const newId = response.data.data.id;
-      navigate(`/post/${newId}/`);
-    } catch (error) {
-      message.fire({
-        icon: "error",
-        title: "레시피 등록에 실패했습니다.\n 다시 시도해주세요.",
-      });
-    }
-  };
+  //   try {
+  //     const newId = response.data.data.id;
+  //     navigate(`/post/${newId}/`);
+  //   } catch (error) {
+  //     message.fire({
+  //       icon: "error",
+  //       title: "레시피 등록에 실패했습니다.\n 다시 시도해주세요.",
+  //     });
+  //   }
+  // };
 
   useEffect(() => {
     axios
@@ -253,7 +250,7 @@ const EditPost = () => {
   return (
     <SFormContainer>
       <SLogoRecipe src={recipeLogo} alt="recipeLogo"></SLogoRecipe>
-      <form action="" method="post" onSubmit={submitHandler}>
+      {/* <form>
         <SSection>
           <SRecipeInfo>
             <SRecipeTexts>
@@ -342,8 +339,8 @@ const EditPost = () => {
           <SFormBtn type="button" onClick={submitHandler}>
             등록
           </SFormBtn>
-        </SSectionBtn>
-      </form>
+        </SSectionBtn> 
+      </form>*/}
     </SFormContainer>
   );
 };

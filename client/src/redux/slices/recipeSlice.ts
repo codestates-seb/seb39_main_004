@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { IRecipeData } from "../../types/interface";
 
-const initialForm = {
+const initialForm: IRecipeData = {
   inputTexts: {
     title: "",
     body: "",

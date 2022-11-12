@@ -29,13 +29,6 @@ interface IStepMakerProps {
   // clickEvent?: (orderValue: string) => Promise<void> | void;
 }
 
-interface IStepValues {
-  imgDirectionUrl: string;
-  body: string;
-  index: number;
-  isUploaded: boolean;
-}
-
 interface IStepSetProps {
   idx: number;
   text: string;
@@ -178,13 +171,6 @@ interface IPostCategoryProps {
   tags: ITagProps[];
 }
 
-interface IPostInGredientProps {
-  index: number;
-  name: string;
-  amount: string;
-  isEssential: boolean;
-}
-
 interface IPostDirectionsProps {
   index?: number;
   imgDirectionUrl?: string;
@@ -258,11 +244,11 @@ interface IStarProps {
   setStarClicked?: React.Dispatch<React.SetStateAction<boolean[]>>;
 }
 
-// Recipe 등록 수정 관련 interface
+// ----------------- Recipe 등록 수정 관련 interface -----------------
 interface IRecipeData {
   inputTexts: IEditResponseData;
   thumbNail: TypeOfFileList;
-  stepImgFiles: TypeOfFileList;
+  stepImgFiles: TypeOfFileList | [];
 }
 
 interface IEditResponseData {
@@ -270,9 +256,23 @@ interface IEditResponseData {
   body: string;
   imgThumbNailUrl: string;
   category: string;
-  ingredients: IStepValues[];
+  ingredients: IPostInGredientProps[];
   directions: IStepValues[];
   tags: ITagProps[];
+}
+
+interface IStepValues {
+  imgDirectionUrl: string;
+  body: string;
+  index: number;
+  isUploaded: boolean;
+}
+
+interface IPostInGredientProps {
+  index: number;
+  name: string;
+  amount: string;
+  isEssential: boolean;
 }
 
 // 삭제예정
@@ -280,6 +280,7 @@ interface IRecipeTemp {
   body: string;
   title: string;
 }
+
 export type {
   IThumbNailProps,
   IImgUploaderProps,
