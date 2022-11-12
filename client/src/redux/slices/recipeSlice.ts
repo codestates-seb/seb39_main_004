@@ -23,7 +23,7 @@ const recipeSlice = createSlice({
       state.inputTexts = { ...state.inputTexts, ...action.payload };
     },
     setCategory: (state, action) => {
-      // state.inputTexts.category = action.payload;
+      state.inputTexts.category = action.payload;
     },
   },
 });

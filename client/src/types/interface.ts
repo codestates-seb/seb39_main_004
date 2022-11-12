@@ -95,18 +95,6 @@ interface ITagsMakerProps {
   setTagsDatas: Dispatch<SetStateAction<ITagsData[]>>;
 }
 
-interface IImgRadioProps {
-  checkedCateg: string;
-  setCheckedCateg: Dispatch<SetStateAction<string>>;
-}
-
-interface IRadioBtnProps extends Omit<IImgRadioProps, "checkedCateg"> {
-  name: string;
-  data: string;
-  icon: string;
-  checked: boolean;
-}
-
 interface ICategory {
   rice?: string;
   noddle?: string;
@@ -244,7 +232,7 @@ interface IStarProps {
   setStarClicked?: React.Dispatch<React.SetStateAction<boolean[]>>;
 }
 
-// ----------------- Recipe 등록 수정 관련 interface -----------------
+/** ----------------- Recipe 등록 / 수정 페이지 관련 interface ----------------- */
 interface IRecipeData {
   inputTexts: IEditResponseData;
   thumbNail: TypeOfFileList;
@@ -261,6 +249,23 @@ interface IEditResponseData {
   tags: ITagProps[];
 }
 
+// 첫번째 영역 관련
+interface IRadioBtnProps {
+  name: string;
+  data: string;
+  icon: string;
+  checked: boolean;
+}
+
+// 두번째 영역 관련(재료)
+interface IPostInGredientProps {
+  index: number;
+  name: string;
+  amount: string;
+  isEssential: boolean;
+}
+
+// 세번째 영역 관련(순서)
 interface IStepValues {
   imgDirectionUrl: string;
   body: string;
@@ -268,12 +273,7 @@ interface IStepValues {
   isUploaded: boolean;
 }
 
-interface IPostInGredientProps {
-  index: number;
-  name: string;
-  amount: string;
-  isEssential: boolean;
-}
+// 네번째 영역 관련(태그)
 
 // 삭제예정
 interface IRecipeTemp {
@@ -296,7 +296,6 @@ export type {
   IRecipeDataProps,
   IRadioBtnProps,
   ICategory,
-  IImgRadioProps,
   ICategoryProps,
   IIconProps,
   ITagWithBtnProps,

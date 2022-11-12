@@ -47,11 +47,9 @@ const AddPost = () => {
   const navigate = useNavigate();
 
   // 등록페이지 관련
-  // const [data, setData] = useState<IRecipeTemp>({ body: "", title: "" });
   const [thumbNail, setThumbNail] = useState<TypeOfFileList>();
   const [stepImgFiles, setStepImgFiles] = useState<TypeOfFileList[]>([]);
   const [directDatas, setDirectDatas] = useState<IStepValues[]>([]);
-  const [checkedCateg, setCheckedCateg] = useState("");
   const [ingredientsDatas, setIngredientsDatas] = useState<TypeOfIngredients[]>(
     []
   );
@@ -189,10 +187,7 @@ const AddPost = () => {
               요리 카테고리
               <RequireMark />
             </SLable>
-            <ImgRadio
-              setCheckedCateg={setCheckedCateg}
-              checkedCateg={checkedCateg}
-            ></ImgRadio>
+            <ImgRadio />
           </SFieldset>
         </SSection>
         <SSection color={"var(--green-bean)"}>
