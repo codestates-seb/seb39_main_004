@@ -1,16 +1,20 @@
-import { IAddIngredientsProps } from "../../types/interface";
 import { IngredientsSet, PlusBtn } from "./indexNewRecipe";
 import styled from "styled-components";
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "../../redux/store/store";
+import { recipeActions } from "../../redux/slices/recipeSlice";
 
 const SIngredientsGroups = styled.div`
   display: flex;
   flex-direction: column;
 `;
 
-const AddIngredients = ({
-  ingredientsDatas,
-  setIngredientsDatas,
-}: IAddIngredientsProps) => {
+const AddIngredients = () => {
+  const ingredientsDatas = useSelector(
+    (state: RootState) => state.recipe.inputTexts.ingredients
+  );
+  const dispatch = useDispatch();
+
   const addIngredientInputsHandler = () => {
     const basicForm = {
       index: 1,
@@ -23,7 +27,7 @@ const AddIngredients = ({
       const lastInputsIndex = ingredientsDatas.slice(-1)[0].index;
       basicForm.index = lastInputsIndex + 1;
     }
-    setIngredientsDatas([...ingredientsDatas, basicForm]);
+    dispatch(recipeActions.addIngredientInputSection(basicForm));
   };
 
   return (
@@ -37,7 +41,6 @@ const AddIngredients = ({
                 idx={ingredient.index}
                 ingredient={ingredient}
                 ingredientsDatas={ingredientsDatas}
-                setIngredientsDatas={setIngredientsDatas}
               ></IngredientsSet>
             );
           })}

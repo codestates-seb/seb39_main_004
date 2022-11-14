@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Dispatch, SetStateAction } from "react";
-import { TypeOfFileList, TypeOfFormData, TypeOfIngredients } from "./type";
-import { UseFormRegister } from "react-hook-form";
+import { TypeOfFileList } from "./type";
 
 interface IThumbNailProps {
   isMypage?: boolean;
@@ -10,7 +9,7 @@ interface IThumbNailProps {
 }
 
 interface IImgUploaderProps {
-  steps?: IStepValues[];
+  steps?: IInputStepSection[];
   imgName: string;
   currentIndex?: number;
   imgUrl: string;
@@ -22,8 +21,8 @@ interface IImgUploaderProps {
 interface IStepMakerProps {
   // setEditResponse?: Dispatch<SetStateAction<IEditResponseData | undefined>>;
   // editResponse?: IEditResponseData | undefined;
-  directDatas: IStepValues[];
-  setDirectDatas: Dispatch<SetStateAction<IStepValues[]>>;
+  directDatas: IInputStepSection[];
+  setDirectDatas: Dispatch<SetStateAction<IInputStepSection[]>>;
   stepImgFiles: TypeOfFileList[];
   setStepImgFiles: Dispatch<SetStateAction<TypeOfFileList[]>>;
   // clickEvent?: (orderValue: string) => Promise<void> | void;
@@ -33,11 +32,11 @@ interface IStepSetProps {
   idx: number;
   text: string;
   imgUrl: string;
-  steps: IStepValues[];
+  steps: IInputStepSection[];
   stepImgFiles: TypeOfFileList[];
   setStepImgFiles: Dispatch<SetStateAction<TypeOfFileList[]>>;
-  directDatas: IStepValues[];
-  setDirectDatas: Dispatch<SetStateAction<IStepValues[]>>;
+  directDatas: IInputStepSection[];
+  setDirectDatas: Dispatch<SetStateAction<IInputStepSection[]>>;
 }
 
 interface IResponseImgProps {
@@ -70,19 +69,6 @@ interface IRecipeDataProps {
 interface ITagProps {
   id?: number;
   name: string;
-}
-
-interface IAddIngredientsProps {
-  register?: UseFormRegister<TypeOfFormData>;
-  ingredientsDatas: TypeOfIngredients[];
-  setIngredientsDatas: Dispatch<SetStateAction<TypeOfIngredients[]>>;
-}
-
-interface IIngredientSetProps {
-  idx: number;
-  ingredient: TypeOfIngredients;
-  ingredientsDatas: TypeOfIngredients[];
-  setIngredientsDatas: Dispatch<SetStateAction<TypeOfIngredients[]>>;
 }
 
 interface ITagsData {
@@ -140,7 +126,7 @@ interface IPostResponceProps {
   tags: ITagProps[];
   owner: IPostUserProps;
   directions: IPostDirectionsProps[];
-  ingredients: IPostInGredientProps[];
+  ingredients: IInputIngredientSection[];
 }
 
 interface IPostUserProps {
@@ -244,8 +230,8 @@ interface IEditResponseData {
   body: string;
   imgThumbNailUrl: string;
   category: string;
-  ingredients: IPostInGredientProps[];
-  directions: IStepValues[];
+  ingredients: IInputIngredientSection[];
+  directions: IInputStepSection[];
   tags: ITagProps[];
 }
 
@@ -258,15 +244,22 @@ interface IRadioBtnProps {
 }
 
 // 두번째 영역 관련(재료)
-interface IPostInGredientProps {
+interface IInputIngredientSection {
   index: number;
   name: string;
   amount: string;
   isEssential: boolean;
 }
 
+interface IIngredientSetProps {
+  idx: number;
+  ingredient: IInputIngredientSection;
+  ingredientsDatas: IInputIngredientSection[];
+  // setIngredientsDatas: Dispatch<SetStateAction<IInputIngredientSection[]>>;
+}
+
 // 세번째 영역 관련(순서)
-interface IStepValues {
+interface IInputStepSection {
   imgDirectionUrl: string;
   body: string;
   index: number;
@@ -286,7 +279,6 @@ export type {
   IImgUploaderProps,
   IStepMakerProps,
   IResponseImgProps,
-  IAddIngredientsProps,
   IIngredientSetProps,
   IStepSetProps,
   ITagsData,
@@ -300,9 +292,9 @@ export type {
   IIconProps,
   ITagWithBtnProps,
   IRemoveBtnProps,
-  IStepValues,
+  IInputStepSection,
   IPostResponceProps,
-  IPostInGredientProps,
+  IInputIngredientSection,
   IPostDirectionsProps,
   IPostUserProps,
   IPostCategoryProps,

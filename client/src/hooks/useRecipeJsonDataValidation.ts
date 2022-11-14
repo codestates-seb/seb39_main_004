@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import {
-  IStepValues,
+  IInputStepSection,
   ITagProps,
-  IPostInGredientProps,
+  IInputIngredientSection,
   IEditResponseData,
 } from "../types/interface";
 
@@ -18,13 +18,13 @@ const useRecipeJsonDataValidation = (
       setIsEmpty(true);
     }
 
-    inputDatas.ingredients.forEach((ingredient: IPostInGredientProps) => {
+    inputDatas.ingredients.forEach((ingredient: IInputIngredientSection) => {
       if (!ingredient.amount || !ingredient.name) {
         setIsEmpty(true);
       }
     });
 
-    inputDatas.directions.forEach((directInfo: IStepValues) => {
+    inputDatas.directions.forEach((directInfo: IInputStepSection) => {
       if (!directInfo.body) {
         setIsEmpty(true);
       }

@@ -13,9 +13,10 @@ import {
   ImgRadio,
   RequireMark,
 } from "../../components/NewRecipe/indexNewRecipe";
-import { TypeOfFileList, TypeOfIngredients } from "../../types/type";
+import { TypeOfFileList } from "../../types/type";
 import {
-  IStepValues,
+  IInputStepSection,
+  IInputIngredientSection,
   ITagsData,
   ITagProps,
   IRecipeTemp,
@@ -124,11 +125,11 @@ const EditPost = () => {
   const [thumbNailUrl, setThumbNailUrl] = useState<string>();
   const [thumbNail, setThumbNail] = useState<TypeOfFileList>();
   const [stepImgFiles, setStepImgFiles] = useState<TypeOfFileList[]>([]);
-  const [directDatas, setDirectDatas] = useState<IStepValues[]>([]);
+  const [directDatas, setDirectDatas] = useState<IInputStepSection[]>([]);
   const [checkedCateg, setCheckedCateg] = useState("");
-  const [ingredientsDatas, setIngredientsDatas] = useState<TypeOfIngredients[]>(
-    []
-  );
+  const [ingredientsDatas, setIngredientsDatas] = useState<
+    IInputIngredientSection[]
+  >([]);
   const [tagsDatas, setTagsDatas] = useState<ITagsData[]>([]);
 
   // // 빈 값 체크
@@ -179,13 +180,13 @@ const EditPost = () => {
   //   });
 
   //   // 재료순서 변경 인덱스 정렬
-  //   const filteredIngredients: TypeOfIngredients[] = [];
+  //   const filteredIngredients: IInputIngredientSection[] = [];
   //   ingredientsDatas.forEach((oneline, idx) => {
   //     filteredIngredients.push({ ...oneline, index: idx + 1 });
   //   });
 
   //   // 조리순서 변경 인덱스 정렬
-  //   const filteredDirects: IStepValues[] = [];
+  //   const filteredDirects: IInputStepSection[] = [];
   //   directDatas.forEach((oneline, idx) => {
   //     filteredDirects.push({ ...oneline, index: idx + 1 });
   //   });

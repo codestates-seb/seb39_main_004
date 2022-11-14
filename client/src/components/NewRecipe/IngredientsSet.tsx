@@ -3,6 +3,8 @@ import { ChangeEvent, useEffect, useState } from "react";
 import { IIngredientSetProps } from "../../types/interface";
 import { RemoveBtn } from "./indexNewRecipe";
 import { SInput } from "./RecipeFormStyled";
+import { useDispatch } from "react-redux";
+import { recipeActions } from "../../redux/slices/recipeSlice";
 
 const SIngredientContainer = styled.li`
   display: grid;
@@ -41,8 +43,8 @@ const IngredientsSet = ({
   idx,
   ingredient,
   ingredientsDatas,
-  setIngredientsDatas,
 }: IIngredientSetProps) => {
+  const dispatch = useDispatch();
   const currentIndex = ingredientsDatas.findIndex((el) => el.index === idx);
   const [inputs, setInputs] = useState({
     index: ingredient.index,
@@ -52,7 +54,12 @@ const IngredientsSet = ({
   });
 
   const removeHandler = () => {
-    setIngredientsDatas(ingredientsDatas.filter((el) => el.index !== idx));
+    dispatch(
+      recipeActions.removeInputSection({
+        keyValue: "ingredients",
+        indexValue: idx,
+      })
+    );
   };
 
   const inputHandler = (e: ChangeEvent<HTMLInputElement>) => {
@@ -65,11 +72,11 @@ const IngredientsSet = ({
     });
   };
 
-  useEffect(() => {
-    const originData = ingredientsDatas.slice();
-    originData[currentIndex] = inputs;
-    setIngredientsDatas(originData);
-  }, [inputs]);
+  // useEffect(() => {
+  //   const originData = ingredientsDatas.slice();
+  //   originData[currentIndex] = inputs;
+  //   setIngredientsDatas(originData);
+  // }, [inputs]);
 
   return (
     <SIngredientContainer>

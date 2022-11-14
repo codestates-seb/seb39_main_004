@@ -13,9 +13,9 @@ import {
   ImgRadio,
   RequireMark,
 } from "../../components/NewRecipe/indexNewRecipe";
-import { TypeOfFileList, TypeOfIngredients } from "../../types/type";
+import { TypeOfFileList } from "../../types/type";
 import {
-  IStepValues,
+  IInputStepSection,
   ITagsData,
   IRecipeData,
   IRecipeTemp,
@@ -49,10 +49,10 @@ const AddPost = () => {
   // 등록페이지 관련
   const [thumbNail, setThumbNail] = useState<TypeOfFileList>();
   const [stepImgFiles, setStepImgFiles] = useState<TypeOfFileList[]>([]);
-  const [directDatas, setDirectDatas] = useState<IStepValues[]>([]);
-  const [ingredientsDatas, setIngredientsDatas] = useState<TypeOfIngredients[]>(
-    []
-  );
+  const [directDatas, setDirectDatas] = useState<IInputStepSection[]>([]);
+  // const [ingredientsDatas, setIngredientsDatas] = useState<IInputIngredientSection[]>(
+  //   []
+  // );
   const [tagsDatas, setTagsDatas] = useState<ITagsData[]>([]);
 
   // 빈 값 체크
@@ -107,13 +107,13 @@ const AddPost = () => {
     //   });
 
     //   // 재료순서 변경 인덱스 정렬
-    //   const filteredIngredients: TypeOfIngredients[] = [];
+    //   const filteredIngredients: IInputIngredientSection[] = [];
     //   ingredientsDatas.forEach((oneline, idx) => {
     //     filteredIngredients.push({ ...oneline, index: idx + 1 });
     //   });
 
     //   // 조리순서 변경 인덱스 정렬
-    //   const filteredDirects: IStepValues[] = [];
+    //   const filteredDirects: IInputStepSection[] = [];
     //   directDatas.forEach((oneline, idx) => {
     //     filteredDirects.push({ ...oneline, index: idx + 1 });
     //   });
@@ -151,7 +151,6 @@ const AddPost = () => {
   return (
     <SFormContainer>
       <SLogoRecipe src={recipeLogo} alt="recipeLogo"></SLogoRecipe>
-      {/* <form action="" method="post"> */}
       <form action="" method="post" onSubmit={submitHandler}>
         <SSection>
           <SRecipeInfo>
@@ -196,10 +195,7 @@ const AddPost = () => {
             <RequireMark />
             <Guide text="필수 재료는 체크표시를 해주세요." />
           </SLable>
-          <AddingIngredients
-            setIngredientsDatas={setIngredientsDatas}
-            ingredientsDatas={ingredientsDatas}
-          />
+          <AddingIngredients />
         </SSection>
         <SSection color={"var(--yellow)"}>
           <SLable>
