@@ -26,8 +26,7 @@ import { useNavigate } from "react-router-dom";
 import recipeLogo from "../../assets/images/Recipe/recipeLogo.svg";
 import useMessage from "../../hooks/useMessage";
 import useRecipeJsonDataValidation from "../../hooks/useRecipeJsonDataValidation";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../redux/store/store";
+import { useAppDispatch, useAppSelector } from "../../hooks/dispatchHook";
 import { recipeActions } from "../../redux/slices/recipeSlice";
 import {
   SFormBtn,
@@ -40,8 +39,8 @@ import {
 } from "./style";
 
 const AddPost = () => {
-  const recipeData = useSelector((state: RootState) => state.recipe);
-  const dispatch = useDispatch();
+  const recipeData = useAppSelector((state) => state.recipe);
+  const dispatch = useAppDispatch();
   console.log("recipeData", recipeData);
   const message = useMessage(3000);
   const navigate = useNavigate();

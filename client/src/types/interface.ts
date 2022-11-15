@@ -254,8 +254,6 @@ interface IInputIngredientSection {
 interface IIngredientSetProps {
   idx: number;
   ingredient: IInputIngredientSection;
-  ingredientsDatas: IInputIngredientSection[];
-  // setIngredientsDatas: Dispatch<SetStateAction<IInputIngredientSection[]>>;
 }
 
 // 세번째 영역 관련(순서)

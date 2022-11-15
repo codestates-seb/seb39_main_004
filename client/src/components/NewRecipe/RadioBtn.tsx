@@ -1,7 +1,7 @@
 import { IRadioBtnProps } from "../../types/interface";
 import styled from "styled-components";
 import { recipeActions } from "../../redux/slices/recipeSlice";
-import { useDispatch } from "react-redux";
+import { useAppDispatch } from "../../hooks/dispatchHook";
 
 const SLabel = styled.label`
   &:hover {
@@ -28,7 +28,7 @@ const SLabel = styled.label`
 `;
 
 const RadioBtn = ({ name, data, icon, checked }: IRadioBtnProps) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   return (
     <SLabel htmlFor={name}>
       <input

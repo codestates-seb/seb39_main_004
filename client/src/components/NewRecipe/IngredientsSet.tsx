@@ -3,7 +3,7 @@ import { ChangeEvent, useEffect, useState } from "react";
 import { IIngredientSetProps } from "../../types/interface";
 import { RemoveBtn } from "./indexNewRecipe";
 import { SInput } from "./RecipeFormStyled";
-import { useDispatch } from "react-redux";
+import { useAppDispatch, useAppSelector } from "../../hooks/dispatchHook";
 import { recipeActions } from "../../redux/slices/recipeSlice";
 
 const SIngredientContainer = styled.li`
@@ -39,30 +39,24 @@ const SIngredientAmout = styled.div`
   position: relative;
 `;
 
-const IngredientsSet = ({
-  idx,
-  ingredient,
-  ingredientsDatas,
-}: IIngredientSetProps) => {
-  const dispatch = useDispatch();
-  const currentIndex = ingredientsDatas.findIndex((el) => el.index === idx);
+const IngredientsSet = ({ idx, ingredient }: IIngredientSetProps) => {
+  const dispatch = useAppDispatch();
   const [inputs, setInputs] = useState({
     index: ingredient.index,
     name: ingredient.name,
     isEssential: ingredient.isEssential,
     amount: ingredient.amount,
   });
-
-  const removeHandler = () => {
-    dispatch(
-      recipeActions.removeInputSection({
-        keyValue: "ingredients",
-        indexValue: idx,
-      })
-    );
+  const payload = {
+    keyValue: "ingredients",
+    indexValue: idx,
   };
 
-  const inputHandler = (e: ChangeEvent<HTMLInputElement>) => {
+  const removeIngredientInputsHandler = () => {
+    dispatch(recipeActions.removeInputSection(payload));
+  };
+
+  const changeInputValueHandler = (e: ChangeEvent<HTMLInputElement>) => {
     setInputs((prevState) => {
       return {
         ...prevState,
@@ -72,11 +66,14 @@ const IngredientsSet = ({
     });
   };
 
-  // useEffect(() => {
-  //   const originData = ingredientsDatas.slice();
-  //   originData[currentIndex] = inputs;
-  //   setIngredientsDatas(originData);
-  // }, [inputs]);
+  useEffect(() => {
+    dispatch(
+      recipeActions.changeInputsSectionValues({
+        ...payload,
+        newInputsValues: inputs,
+      })
+    );
+  }, [inputs]);
 
   return (
     <SIngredientContainer>
@@ -86,9 +83,9 @@ const IngredientsSet = ({
           name="name"
           required
           value={inputs.name}
-          onChange={inputHandler}
+          onChange={changeInputValueHandler}
         />
-        <RemoveBtn removeHandler={removeHandler} idx={idx} />
+        <RemoveBtn removeHandler={removeIngredientInputsHandler} idx={idx} />
       </SIngredientName>
       <SIngredientAmout>
         <SInput
@@ -96,13 +93,13 @@ const IngredientsSet = ({
           name="amount"
           required
           value={inputs.amount}
-          onChange={inputHandler}
+          onChange={changeInputValueHandler}
         />
         <SCheckInput
           type="checkbox"
           name="isEssential"
           checked={inputs.isEssential}
-          onChange={inputHandler}
+          onChange={changeInputValueHandler}
         />
       </SIngredientAmout>
     </SIngredientContainer>

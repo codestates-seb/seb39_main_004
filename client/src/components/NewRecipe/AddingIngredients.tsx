@@ -1,7 +1,6 @@
 import { IngredientsSet, PlusBtn } from "./indexNewRecipe";
 import styled from "styled-components";
-import { useSelector, useDispatch } from "react-redux";
-import { RootState } from "../../redux/store/store";
+import { useAppSelector, useAppDispatch } from "../../hooks/dispatchHook";
 import { recipeActions } from "../../redux/slices/recipeSlice";
 
 const SIngredientsGroups = styled.div`
@@ -10,10 +9,10 @@ const SIngredientsGroups = styled.div`
 `;
 
 const AddIngredients = () => {
-  const ingredientsDatas = useSelector(
-    (state: RootState) => state.recipe.inputTexts.ingredients
+  const ingredientsDatas = useAppSelector(
+    (state) => state.recipe.inputTexts.ingredients
   );
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const addIngredientInputsHandler = () => {
     const basicForm = {
@@ -40,7 +39,6 @@ const AddIngredients = () => {
                 key={ingredient.index}
                 idx={ingredient.index}
                 ingredient={ingredient}
-                ingredientsDatas={ingredientsDatas}
               ></IngredientsSet>
             );
           })}

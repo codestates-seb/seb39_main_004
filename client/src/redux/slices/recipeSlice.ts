@@ -16,13 +16,6 @@ const initialForm: IRecipeData = {
   stepImgFiles: [],
 };
 
-const filterByIndex = (state: any, action: any) => {
-  const { keyValue, indexValue } = action.payload;
-  state.inputTexts[keyValue] = state.inputTexts[keyValue].filter(
-    (el: TypeOfInputSectionsWithRemoveButton) => el.index !== indexValue
-  );
-};
-
 const recipeSlice = createSlice({
   name: "recipe",
   initialState: initialForm,
@@ -36,7 +29,19 @@ const recipeSlice = createSlice({
     addIngredientInputSection: (state, action) => {
       state.inputTexts.ingredients.push(action.payload);
     },
-    removeInputSection: filterByIndex,
+    removeInputSection: (state: any, action: any) => {
+      const { keyValue, indexValue } = action.payload;
+      state.inputTexts[keyValue] = state.inputTexts[keyValue].filter(
+        (el: TypeOfInputSectionsWithRemoveButton) => el.index !== indexValue
+      );
+    },
+    changeInputsSectionValues: (state: any, action: any) => {
+      const { keyValue, indexValue, newInputsValues } = action.payload;
+      const currentIndex = state.inputTexts[keyValue].findIndex(
+        (el: TypeOfInputSectionsWithRemoveButton) => el.index === indexValue
+      );
+      state.inputTexts[keyValue][currentIndex] = newInputsValues;
+    },
   },
 });
 
