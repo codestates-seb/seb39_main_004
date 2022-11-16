@@ -1,4 +1,4 @@
-import React from "react";
+import { useState, KeyboardEvent } from "react";
 import { TagWithBtn } from "./indexNewRecipe";
 import styled from "styled-components";
 import { useAppSelector, useAppDispatch } from "../../hooks/dispatchHook";
@@ -36,25 +36,28 @@ const SNonOutlineInput = styled.input`
 const TagsMaker = () => {
   const dispatch = useAppDispatch();
   const tagsDatas = useAppSelector((state) => state.recipe.inputTexts.tags);
+  const [inputValue, setInputValue] = useState("");
 
-  const changeInputValueHandler = (
-    event: React.KeyboardEvent<HTMLInputElement>
-  ) => {
+  const changeInputValueHandler = (event: KeyboardEvent<HTMLInputElement>) => {
     const target = event.target as HTMLInputElement;
     if (event.key === "Enter") {
       dispatch(recipeActions.addTag({ name: target.value }));
-      target.value = "";
+      setInputValue("");
     }
   };
 
   return (
     <STagsContainer>
-      {tagsDatas.map((taginfo, idx) => {
-        return <TagWithBtn key={idx} tagValue={taginfo.name} id={idx} />;
+      {tagsDatas.map((tagData, idx) => {
+        return <TagWithBtn key={idx} tagValue={tagData.name} id={idx} />;
       })}
       <SNonOutlineInput
         name="name"
-        onKeyUp={changeInputValueHandler}
+        value={inputValue}
+        onChange={(event) => {
+          setInputValue(event.target.value);
+        }}
+        onKeyPress={changeInputValueHandler}
         placeholder="태그를 추가해주세요."
       />
     </STagsContainer>
