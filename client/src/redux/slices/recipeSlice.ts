@@ -42,6 +42,13 @@ const recipeSlice = createSlice({
       );
       state.inputTexts[keyValue][currentIndex] = newInputsValues;
     },
+    addTag: (state, action) => {
+      state.inputTexts.tags.push(action.payload);
+    },
+    removeTag: (state, action) => {
+      const targetIdx = action.payload;
+      state.inputTexts.tags.splice(targetIdx, 1);
+    },
   },
 });
 

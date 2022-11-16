@@ -1,7 +1,8 @@
 import React from "react";
-import { ITagsMakerProps } from "../../types/interface";
 import { TagWithBtn } from "./indexNewRecipe";
 import styled from "styled-components";
+import { useAppSelector, useAppDispatch } from "../../hooks/dispatchHook";
+import { recipeActions } from "../../redux/slices/recipeSlice";
 
 const STagsContainer = styled.ul`
   background-color: white;
@@ -18,7 +19,7 @@ const STagsContainer = styled.ul`
   }
 `;
 
-const SNoLineInput = styled.input`
+const SNonOutlineInput = styled.input`
   width: 300px;
   font-size: 1.1rem;
   margin-left: 2rem;
@@ -32,42 +33,28 @@ const SNoLineInput = styled.input`
   }
 `;
 
-const TagsMaker = ({ setTagsDatas, tagsDatas }: ITagsMakerProps) => {
-  const inputValueChange = (
-    event: React.KeyboardEvent<HTMLInputElement>
-  ): void => {
-    if (tagsDatas) {
-      const target = event.target as HTMLInputElement;
-      if (event.key === "Enter") {
-        const newTag = { name: target.value };
-        setTagsDatas([...tagsDatas, newTag]);
-        target.value = "";
-      }
-    }
-  };
+const TagsMaker = () => {
+  const dispatch = useAppDispatch();
+  const tagsDatas = useAppSelector((state) => state.recipe.inputTexts.tags);
 
-  const tagRemover = (id: number) => {
-    const newTags = tagsDatas.slice();
-    newTags.splice(id, 1);
-    setTagsDatas(newTags);
+  const changeInputValueHandler = (
+    event: React.KeyboardEvent<HTMLInputElement>
+  ) => {
+    const target = event.target as HTMLInputElement;
+    if (event.key === "Enter") {
+      dispatch(recipeActions.addTag({ name: target.value }));
+      target.value = "";
+    }
   };
 
   return (
     <STagsContainer>
-      {tagsDatas &&
-        tagsDatas.map((taginfo, idx) => {
-          return (
-            <TagWithBtn
-              key={idx}
-              tag={taginfo.name}
-              id={idx}
-              tagRemover={tagRemover}
-            ></TagWithBtn>
-          );
-        })}
-      <SNoLineInput
+      {tagsDatas.map((taginfo, idx) => {
+        return <TagWithBtn key={idx} tagValue={taginfo.name} id={idx} />;
+      })}
+      <SNonOutlineInput
         name="name"
-        onKeyUp={inputValueChange}
+        onKeyUp={changeInputValueHandler}
         placeholder="태그를 추가해주세요."
       />
     </STagsContainer>

@@ -66,21 +66,6 @@ interface IRecipeDataProps {
   setSearchSortBy?: React.Dispatch<React.SetStateAction<string>>;
 }
 
-interface ITagProps {
-  id?: number;
-  name: string;
-}
-
-interface ITagsData {
-  id?: number;
-  name: string;
-}
-
-interface ITagsMakerProps {
-  tagsDatas: ITagsData[];
-  setTagsDatas: Dispatch<SetStateAction<ITagsData[]>>;
-}
-
 interface ICategory {
   rice?: string;
   noddle?: string;
@@ -99,12 +84,6 @@ interface IIconProps {
   text: string;
   link: string;
   clickEvent: (categoryValue: string) => void;
-}
-
-interface ITagWithBtnProps {
-  tag: string;
-  id: number;
-  tagRemover: (idx: number) => void;
 }
 
 interface IRemoveBtnProps {
@@ -265,6 +244,15 @@ interface IInputStepSection {
 }
 
 // 네번째 영역 관련(태그)
+interface ITagProps {
+  id?: number;
+  name: string;
+}
+
+interface ITagWithBtnProps {
+  id: number;
+  tagValue: string;
+}
 
 // 삭제예정
 interface IRecipeTemp {
@@ -279,8 +267,6 @@ export type {
   IResponseImgProps,
   IIngredientSetProps,
   IStepSetProps,
-  ITagsData,
-  ITagsMakerProps,
   IItemProps,
   ITagProps,
   IRecipeDataProps,

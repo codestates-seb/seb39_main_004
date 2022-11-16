@@ -16,7 +16,6 @@ import {
 import { TypeOfFileList } from "../../types/type";
 import {
   IInputStepSection,
-  ITagsData,
   IRecipeData,
   IRecipeTemp,
 } from "../../types/interface";
@@ -41,7 +40,7 @@ import {
 const AddPost = () => {
   const recipeData = useAppSelector((state) => state.recipe);
   const dispatch = useAppDispatch();
-  console.log("recipeData", recipeData);
+  // console.log("recipeData.inputTexts", recipeData.inputTexts.ingredients);
   const message = useMessage(3000);
   const navigate = useNavigate();
 
@@ -52,7 +51,7 @@ const AddPost = () => {
   // const [ingredientsDatas, setIngredientsDatas] = useState<IInputIngredientSection[]>(
   //   []
   // );
-  const [tagsDatas, setTagsDatas] = useState<ITagsData[]>([]);
+  // const [tagsDatas, setTagsDatas] = useState<ITagsData[]>([]);
 
   // 빈 값 체크
   const isJsonDataEmpty = useRecipeJsonDataValidation(recipeData.inputTexts);
@@ -211,7 +210,7 @@ const AddPost = () => {
         </SSection>
         <SSection color={"var(--sky-blue)"}>
           <SLable>태그</SLable>
-          <TagsMaker setTagsDatas={setTagsDatas} tagsDatas={tagsDatas} />
+          <TagsMaker />
         </SSection>
         <SSectionBtn>
           <SFormBtn color={"var(--deep-green)"} type="reset">

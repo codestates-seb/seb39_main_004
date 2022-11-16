@@ -17,7 +17,6 @@ import { TypeOfFileList } from "../../types/type";
 import {
   IInputStepSection,
   IInputIngredientSection,
-  ITagsData,
   ITagProps,
   IRecipeTemp,
 } from "../../types/interface";
@@ -130,7 +129,7 @@ const EditPost = () => {
   const [ingredientsDatas, setIngredientsDatas] = useState<
     IInputIngredientSection[]
   >([]);
-  const [tagsDatas, setTagsDatas] = useState<ITagsData[]>([]);
+  // const [tagsDatas, setTagsDatas] = useState<ITagsData[]>([]);
 
   // // 빈 값 체크
   // const isJsonDataEmpty = useRecipeJsonDataValidation(
@@ -225,27 +224,26 @@ const EditPost = () => {
   // };
 
   useEffect(() => {
-    axios
-      .get(`/api/v1/recipe/${recipeId}/edit/`)
-      .then((res) => {
-        const resData = res.data.data;
-        setData({ body: resData.body, title: resData.title });
-        setCheckedCateg(resData.category);
-        setDirectDatas(resData.directions);
-        setThumbNailUrl(resData.imgThumbNailUrl);
-        setIngredientsDatas(resData.ingredients);
-        const tagList: { name: string }[] = [];
-        resData.tags.forEach((el: ITagProps) => {
-          tagList.push({ name: el.name });
-        });
-        setTagsDatas([...tagList]);
-      })
-      .catch(() => {
-        message.fire({
-          icon: "error",
-          title: "서버 에러가 발생했습니다. \n 다시 시도해주세요.",
-        });
-      });
+    axios.get(`/api/v1/recipe/${recipeId}/edit/`).then((res) => {
+      const resData = res.data.data;
+
+      //       setData({ body: resData.body, title: resData.title });
+      //       setCheckedCateg(resData.category);
+      //       setDirectDatas(resData.directions);
+      //       setThumbNailUrl(resData.imgThumbNailUrl);
+      //       setIngredientsDatas(resData.ingredients);
+      //       const tagList: { name: string }[] = [];
+      //       resData.tags.forEach((el: ITagProps) => {
+      //         tagList.push({ name: el.name });
+      //       });
+      //       // setTagsDatas([...tagList]);
+      //     })
+      //     .catch(() => {
+      //       message.fire({
+      //         icon: "error",
+      //         title: "서버 에러가 발생했습니다. \n 다시 시도해주세요.",
+      // });
+    });
   }, []);
 
   return (

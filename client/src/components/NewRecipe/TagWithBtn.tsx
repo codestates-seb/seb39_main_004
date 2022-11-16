@@ -1,6 +1,8 @@
 import { ITagWithBtnProps } from "../../types/interface";
 import { STag } from "../CommonUI/Tag";
 import styled from "styled-components";
+import { useAppDispatch } from "../../hooks/dispatchHook";
+import { recipeActions } from "../../redux/slices/recipeSlice";
 
 const SFormTag = styled(STag)`
   font-size: 1.1rem;
@@ -9,16 +11,18 @@ const SFormTag = styled(STag)`
   }
 `;
 
-const TagWithBtn = ({ tag, tagRemover, id }: ITagWithBtnProps) => {
+const TagWithBtn = ({ tagValue, id }: ITagWithBtnProps) => {
+  const dispatch = useAppDispatch();
+
   return (
     <li>
       <SFormTag
         role="presentation"
-        onClick={(): void => {
-          tagRemover(id);
+        onClick={() => {
+          dispatch(recipeActions.removeTag(id));
         }}
       >
-        {tag}
+        {tagValue}
       </SFormTag>
     </li>
   );
