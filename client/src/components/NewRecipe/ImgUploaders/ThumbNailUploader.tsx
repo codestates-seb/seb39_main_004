@@ -14,6 +14,7 @@ import { useAppDispatch } from "../../../hooks/dispatchHook";
 
 const ThumbNailUploader = ({
   isMypage,
+  setProfileImageFile,
   resThumbNailImgUrl,
 }: IThumbNailProps) => {
   const dispatch = useAppDispatch();
@@ -36,8 +37,11 @@ const ThumbNailUploader = ({
 
   const changeImageHandler = (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
-      dispatch(recipeActions.setThumbNailFile(event.target.files[0]));
-      makeImagePreView(event.target.files[0]);
+      const fileObject = event.target.files[0];
+      isMypage && setProfileImageFile
+        ? setProfileImageFile(fileObject)
+        : dispatch(recipeActions.setThumbNailFile(fileObject));
+      makeImagePreView(fileObject);
     }
   };
 

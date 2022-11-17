@@ -207,18 +207,18 @@ interface IEditResponseData {
   tags: ITagProps[];
 }
 
-interface IThumbNailProps {
-  isMypage?: boolean;
-  resThumbNailImgUrl?: string;
-  setThumbNail?: Dispatch<SetStateAction<TypeOfFileList>>;
-}
-
 // 첫번째 영역 관련
 interface IRadioBtnProps {
   name: string;
   data: string;
   icon: string;
   checked: boolean;
+}
+
+interface IThumbNailProps {
+  isMypage?: boolean;
+  setProfileImageFile?: Dispatch<SetStateAction<TypeOfFileList>>;
+  resThumbNailImgUrl?: string;
 }
 
 // 두번째 영역 관련(재료)

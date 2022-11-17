@@ -62,16 +62,16 @@ const SButton = styled.div`
 
 const MyPageUser = () => {
   const [userData, setUserData] = useState<IUserData | undefined>();
-  const [profileFile, setProfileFile] = useState<TypeOfFileList>();
+  const [profileImageFile, setProfileImageFile] = useState<TypeOfFileList>();
   const message = useMessage(2000);
   const dispatch = useAppDispatch();
   const { sessionStatus, userInfo } = useAppSelector((state) => state.user);
 
-  const updateProfile = async () => {
+  const updateProfileImage = async () => {
     const formdata = new FormData();
 
-    if (profileFile) {
-      formdata.append("imgProfile", profileFile);
+    if (profileImageFile) {
+      formdata.append("imgProfile", profileImageFile);
     } else {
       message.fire({
         icon: "question",
@@ -113,7 +113,7 @@ const MyPageUser = () => {
         <ThumbNailUploader
           isMypage={true}
           resThumbNailImgUrl={userData.user.imgProfileUrl}
-          setThumbNail={setProfileFile}
+          setProfileImageFile={setProfileImageFile}
         ></ThumbNailUploader>
       )}
       <STextInfo>
@@ -121,7 +121,7 @@ const MyPageUser = () => {
         <p>{userData && userData.user.bio}</p>
         <span>팔로우 {userData && userData.followerCount}</span>
         <span>팔로잉 {userData && userData.followingCount}</span>
-        <SButton onClick={updateProfile}>프로필 수정</SButton>
+        <SButton onClick={updateProfileImage}>프로필 수정</SButton>
       </STextInfo>
     </SContainer>
   );
