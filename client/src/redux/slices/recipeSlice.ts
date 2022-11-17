@@ -6,7 +6,6 @@ const initialForm: IRecipeData = {
   inputTexts: {
     title: "",
     body: "",
-    imgThumbNailUrl: "",
     category: "",
     ingredients: [],
     directions: [],
@@ -48,6 +47,9 @@ const recipeSlice = createSlice({
     removeTag: (state, action) => {
       const targetIdx = action.payload;
       state.inputTexts.tags.splice(targetIdx, 1);
+    },
+    setThumbNailFile: (state, action) => {
+      state.thumbNail = action.payload;
     },
   },
 });

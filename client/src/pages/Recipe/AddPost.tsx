@@ -40,12 +40,12 @@ import {
 const AddPost = () => {
   const recipeData = useAppSelector((state) => state.recipe);
   const dispatch = useAppDispatch();
-  // console.log("recipeData.inputTexts", recipeData.inputTexts.ingredients);
+  console.log("recipeData", recipeData);
   const message = useMessage(3000);
   const navigate = useNavigate();
 
   // 등록페이지 관련
-  const [thumbNail, setThumbNail] = useState<TypeOfFileList>();
+  // const [thumbNail, setThumbNail] = useState<TypeOfFileList>();
   const [stepImgFiles, setStepImgFiles] = useState<TypeOfFileList[]>([]);
   const [directDatas, setDirectDatas] = useState<IInputStepSection[]>([]);
   // const [ingredientsDatas, setIngredientsDatas] = useState<IInputIngredientSection[]>(
@@ -177,7 +177,7 @@ const AddPost = () => {
                 placeholder="레시피를 소개해주세요."
               ></STextarea>
             </SRecipeTexts>
-            <ThumbNailUploader setThumbNail={setThumbNail} />
+            <ThumbNailUploader />
           </SRecipeInfo>
           <SFieldset>
             <SLable htmlFor="category">

@@ -2,12 +2,6 @@
 import { Dispatch, SetStateAction } from "react";
 import { TypeOfFileList } from "./type";
 
-interface IThumbNailProps {
-  isMypage?: boolean;
-  resThumbNailImgUrl?: string;
-  setThumbNail: Dispatch<SetStateAction<TypeOfFileList>>;
-}
-
 interface IImgUploaderProps {
   steps?: IInputStepSection[];
   imgName: string;
@@ -207,11 +201,16 @@ interface IRecipeData {
 interface IEditResponseData {
   title: string;
   body: string;
-  imgThumbNailUrl: string;
   category: string;
   ingredients: IInputIngredientSection[];
   directions: IInputStepSection[];
   tags: ITagProps[];
+}
+
+interface IThumbNailProps {
+  isMypage?: boolean;
+  resThumbNailImgUrl?: string;
+  setThumbNail?: Dispatch<SetStateAction<TypeOfFileList>>;
 }
 
 // 첫번째 영역 관련
