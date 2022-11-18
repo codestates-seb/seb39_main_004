@@ -3,7 +3,7 @@ import { ChangeEvent, useEffect, useState } from "react";
 import { IIngredientSetProps } from "../../types/interface";
 import { RemoveBtn } from "./indexNewRecipe";
 import { SInput } from "./RecipeFormStyled";
-import { useAppDispatch, useAppSelector } from "../../hooks/dispatchHook";
+import { useAppDispatch } from "../../hooks/dispatchHook";
 import { recipeActions } from "../../redux/slices/recipeSlice";
 
 const SIngredientContainer = styled.li`
@@ -41,7 +41,7 @@ const SIngredientAmout = styled.div`
 
 const IngredientsSet = ({ idx, ingredient }: IIngredientSetProps) => {
   const dispatch = useAppDispatch();
-  const [inputs, setInputs] = useState({
+  const [inputsForm, setInputsForm] = useState({
     index: ingredient.index,
     name: ingredient.name,
     isEssential: ingredient.isEssential,
@@ -57,7 +57,7 @@ const IngredientsSet = ({ idx, ingredient }: IIngredientSetProps) => {
   };
 
   const changeInputValueHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    setInputs((prevState) => {
+    setInputsForm((prevState) => {
       return {
         ...prevState,
         [e.target.name]:
@@ -70,10 +70,10 @@ const IngredientsSet = ({ idx, ingredient }: IIngredientSetProps) => {
     dispatch(
       recipeActions.changeInputsSectionValues({
         ...payload,
-        newInputsValues: inputs,
+        newInputsValues: inputsForm,
       })
     );
-  }, [inputs]);
+  }, [inputsForm]);
 
   return (
     <SIngredientContainer>
@@ -82,7 +82,7 @@ const IngredientsSet = ({ idx, ingredient }: IIngredientSetProps) => {
           placeholder="재료를 입력해주세요."
           name="name"
           required
-          value={inputs.name}
+          value={inputsForm.name}
           onChange={changeInputValueHandler}
         />
         <RemoveBtn removeHandler={removeIngredientInputsHandler} idx={idx} />
@@ -92,13 +92,13 @@ const IngredientsSet = ({ idx, ingredient }: IIngredientSetProps) => {
           placeholder="양을 입력해주세요"
           name="amount"
           required
-          value={inputs.amount}
+          value={inputsForm.amount}
           onChange={changeInputValueHandler}
         />
         <SCheckInput
           type="checkbox"
           name="isEssential"
-          checked={inputs.isEssential}
+          checked={inputsForm.isEssential}
           onChange={changeInputValueHandler}
         />
       </SIngredientAmout>

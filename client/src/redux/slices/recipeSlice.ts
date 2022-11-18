@@ -22,19 +22,23 @@ const recipeSlice = createSlice({
     setTitleOrBody: (state, action) => {
       state.inputTexts = { ...state.inputTexts, ...action.payload };
     },
+    setThumbNailFile: (state, action) => {
+      state.thumbNail = action.payload;
+    },
     setCategory: (state, action) => {
       state.inputTexts.category = action.payload;
     },
-    addIngredientInputSection: (state, action) => {
-      state.inputTexts.ingredients.push(action.payload);
+    addNewInputSection: (state: any, action) => {
+      const { keyValue, newValue } = action.payload;
+      state.inputTexts[keyValue].push(newValue);
     },
-    removeInputSection: (state: any, action: any) => {
+    removeInputSection: (state: any, action) => {
       const { keyValue, indexValue } = action.payload;
       state.inputTexts[keyValue] = state.inputTexts[keyValue].filter(
         (el: TypeOfInputSectionsWithRemoveButton) => el.index !== indexValue
       );
     },
-    changeInputsSectionValues: (state: any, action: any) => {
+    changeInputsSectionValues: (state: any, action) => {
       const { keyValue, indexValue, newInputsValues } = action.payload;
       const currentIndex = state.inputTexts[keyValue].findIndex(
         (el: TypeOfInputSectionsWithRemoveButton) => el.index === indexValue
@@ -47,9 +51,6 @@ const recipeSlice = createSlice({
     removeTag: (state, action) => {
       const targetIdx = action.payload;
       state.inputTexts.tags.splice(targetIdx, 1);
-    },
-    setThumbNailFile: (state, action) => {
-      state.thumbNail = action.payload;
     },
   },
 });

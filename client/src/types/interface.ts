@@ -2,47 +2,6 @@
 import { Dispatch, SetStateAction } from "react";
 import { TypeOfFileList } from "./type";
 
-interface IImgUploaderProps {
-  steps?: IInputStepSection[];
-  imgName: string;
-  currentIndex?: number;
-  imgUrl: string;
-  stepImgFiles?: TypeOfFileList[];
-  setStepImgFiles?: Dispatch<SetStateAction<TypeOfFileList[]>>;
-  setImgName?: Dispatch<SetStateAction<string>>;
-}
-
-interface IStepMakerProps {
-  // setEditResponse?: Dispatch<SetStateAction<IEditResponseData | undefined>>;
-  // editResponse?: IEditResponseData | undefined;
-  directDatas: IInputStepSection[];
-  setDirectDatas: Dispatch<SetStateAction<IInputStepSection[]>>;
-  stepImgFiles: TypeOfFileList[];
-  setStepImgFiles: Dispatch<SetStateAction<TypeOfFileList[]>>;
-  // clickEvent?: (orderValue: string) => Promise<void> | void;
-}
-
-interface IStepSetProps {
-  idx: number;
-  text: string;
-  imgUrl: string;
-  steps: IInputStepSection[];
-  stepImgFiles: TypeOfFileList[];
-  setStepImgFiles: Dispatch<SetStateAction<TypeOfFileList[]>>;
-  directDatas: IInputStepSection[];
-  setDirectDatas: Dispatch<SetStateAction<IInputStepSection[]>>;
-}
-
-interface IResponseImgProps {
-  contentType?: string;
-  createData?: string;
-  fileName: string;
-  fileSize?: number;
-  id: number;
-  modDate?: string;
-  originFileName?: string;
-}
-
 interface IItemProps {
   id: number;
   title: string;
@@ -57,19 +16,19 @@ interface IItemProps {
 interface IRecipeDataProps {
   mainData?: IItemProps[];
   searchData?: IItemProps[];
-  setSearchSortBy?: React.Dispatch<React.SetStateAction<string>>;
+  setSearchSortBy?: Dispatch<SetStateAction<string>>;
 }
 
-interface ICategory {
-  rice?: string;
-  noddle?: string;
-  dessert?: string;
-  beverage?: string;
-  etc?: string;
-}
+// interface ICategory {
+//   rice?: string;
+//   noddle?: string;
+//   dessert?: string;
+//   beverage?: string;
+//   etc?: string;
+// }
 
 interface ICategoryProps {
-  setCategory: React.Dispatch<React.SetStateAction<string>>;
+  setCategory: Dispatch<SetStateAction<string>>;
 }
 
 interface IIconProps {
@@ -78,11 +37,6 @@ interface IIconProps {
   text: string;
   link: string;
   clickEvent: (categoryValue: string) => void;
-}
-
-interface IRemoveBtnProps {
-  removeHandler: (idx: number) => void;
-  idx: number;
 }
 
 interface IPostResponceProps {
@@ -207,6 +161,11 @@ interface IEditResponseData {
   tags: ITagProps[];
 }
 
+interface IRemoveBtnProps {
+  removeHandler: (idx: number) => void;
+  idx: number;
+}
+
 // 첫번째 영역 관련
 interface IRadioBtnProps {
   name: string;
@@ -242,6 +201,30 @@ interface IInputStepSection {
   isUploaded: boolean;
 }
 
+interface IImgUploaderProps {
+  steps?: IInputStepSection[];
+  imgName: string;
+  currentIndex?: number;
+  imgUrl: string;
+  stepImgFiles?: TypeOfFileList[];
+  setStepImgFiles?: Dispatch<SetStateAction<TypeOfFileList[]>>;
+  setImgName?: Dispatch<SetStateAction<string>>;
+}
+
+interface IStepMakerProps {
+  // setEditResponse?: Dispatch<SetStateAction<IEditResponseData | undefined>>;
+  // editResponse?: IEditResponseData | undefined;
+  stepImgFiles: TypeOfFileList[];
+  setStepImgFiles: Dispatch<SetStateAction<TypeOfFileList[]>>;
+}
+
+interface IStepSetProps {
+  idx: number;
+  step: IInputStepSection;
+  stepImgFiles: TypeOfFileList[];
+  setStepImgFiles: Dispatch<SetStateAction<TypeOfFileList[]>>;
+}
+
 // 네번째 영역 관련(태그)
 interface ITagProps {
   id?: number;
@@ -263,14 +246,13 @@ export type {
   IThumbNailProps,
   IImgUploaderProps,
   IStepMakerProps,
-  IResponseImgProps,
   IIngredientSetProps,
   IStepSetProps,
   IItemProps,
   ITagProps,
   IRecipeDataProps,
   IRadioBtnProps,
-  ICategory,
+  // ICategory,
   ICategoryProps,
   IIconProps,
   ITagWithBtnProps,

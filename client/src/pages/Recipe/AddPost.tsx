@@ -40,14 +40,14 @@ import {
 const AddPost = () => {
   const recipeData = useAppSelector((state) => state.recipe);
   const dispatch = useAppDispatch();
-  console.log("recipeData", recipeData);
+  console.log("recipeData", recipeData.inputTexts.directions);
   const message = useMessage(3000);
   const navigate = useNavigate();
 
   // 등록페이지 관련
   // const [thumbNail, setThumbNail] = useState<TypeOfFileList>();
   const [stepImgFiles, setStepImgFiles] = useState<TypeOfFileList[]>([]);
-  const [directDatas, setDirectDatas] = useState<IInputStepSection[]>([]);
+  // const [directDatas, setDirectDatas] = useState<IInputStepSection[]>([]);
   // const [ingredientsDatas, setIngredientsDatas] = useState<IInputIngredientSection[]>(
   //   []
   // );
@@ -202,8 +202,6 @@ const AddPost = () => {
             <Guide text="중요한 부분은 빠짐없이 적어주세요." />
           </SLable>
           <StepsMaker
-            directDatas={directDatas}
-            setDirectDatas={setDirectDatas}
             stepImgFiles={stepImgFiles}
             setStepImgFiles={setStepImgFiles}
           />

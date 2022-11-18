@@ -1,32 +1,9 @@
 import { useState, useRef, useEffect } from "react";
-// import { SLable } from "./RecipeFormStyled";
-import { IImgUploaderProps } from "../../types/interface";
-import styled from "styled-components";
-// import { RequireMark } from "./indexNewRecipe";
-import defaultImg from "../../assets/images/Recipe/defaultIMG.svg";
+import { IImgUploaderProps } from "../../../types/interface";
+import defaultImg from "../../../assets/images/Recipe/defaultIMG.svg";
+import { SImgInputContainer, SImg, SImgInput } from "./style";
 
-const SImgInputContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
-const SImg = styled.img`
-  width: 430px;
-  height: ${(props) => props.height ?? "257px"};
-  object-fit: cover; // 비율 조정
-  border: 2.5px solid var(--gray);
-  @media ${({ theme }) => theme.device.tablet} {
-    width: 100%;
-    height: 257px;
-    margin-top: 10px;
-  }
-`;
-
-const SImgInput = styled.input`
-  display: none;
-`;
-
-const ImgUploader = ({
+const StepImgUploader = ({
   currentIndex,
   imgUrl,
   setStepImgFiles,
@@ -85,4 +62,4 @@ const ImgUploader = ({
   );
 };
 
-export default ImgUploader;
+export default StepImgUploader;

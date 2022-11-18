@@ -2,6 +2,7 @@ import { IngredientsSet, PlusBtn } from "./indexNewRecipe";
 import styled from "styled-components";
 import { useAppSelector, useAppDispatch } from "../../hooks/dispatchHook";
 import { recipeActions } from "../../redux/slices/recipeSlice";
+import { findLastIndex } from "./StepsMaker";
 
 const SIngredientsGroups = styled.div`
   display: flex;
@@ -16,17 +17,18 @@ const AddIngredients = () => {
 
   const addIngredientInputsHandler = () => {
     const basicForm = {
-      index: 1,
+      index: findLastIndex(ingredientsDatas),
       name: "",
       amount: "",
       isEssential: false,
     };
 
-    if (ingredientsDatas.length > 0) {
-      const lastInputsIndex = ingredientsDatas.slice(-1)[0].index;
-      basicForm.index = lastInputsIndex + 1;
-    }
-    dispatch(recipeActions.addIngredientInputSection(basicForm));
+    dispatch(
+      recipeActions.addNewInputSection({
+        keyValue: "ingredients",
+        newValue: basicForm,
+      })
+    );
   };
 
   return (

@@ -1,4 +1,5 @@
-export { default as ImgUploader } from "./ImgUploader";
+export { default as StepImgUploader } from "./ImgUploaders/StepImgUploader";
+export { default as ThumbNailUploader } from "./ImgUploaders/ThumbNailUploader";
 export { default as TagsMaker } from "./TagsMaker";
 export { default as Guide } from "./Guide";
 export { default as AddingIngredients } from "./AddingIngredients";
@@ -8,7 +9,6 @@ export { default as StepSet } from "./StepSet";
 export { default as ImgRadio } from "./ImgRadio";
 export { default as RadioBtn } from "./RadioBtn";
 export { default as TagWithBtn } from "./TagWithBtn";
-export { default as RemoveBtn } from "./buttons/RemoveBtn";
-export { default as PlusBtn } from "./buttons/PlusBtn";
+export { default as RemoveBtn } from "./Buttons/RemoveBtn";
+export { default as PlusBtn } from "./Buttons/PlusBtn";
 export { default as RequireMark } from "./RequireMark";
-export { default as ThumbNailUploader } from "./ThumbNailUploader";

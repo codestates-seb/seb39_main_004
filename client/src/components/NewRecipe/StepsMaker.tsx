@@ -1,26 +1,39 @@
-import { IStepMakerProps } from "../../types/interface";
+import {
+  IInputIngredientSection,
+  IInputStepSection,
+  IStepMakerProps,
+} from "../../types/interface";
 import { StepSet, PlusBtn } from "./indexNewRecipe";
+import { useAppSelector, useAppDispatch } from "../../hooks/dispatchHook";
+import { recipeActions } from "../../redux/slices/recipeSlice";
 
-const StepsMaker = ({
-  directDatas,
-  setDirectDatas,
-  stepImgFiles,
-  setStepImgFiles,
-}: IStepMakerProps) => {
-  const addDirectionStepHandler = () => {
+export const findLastIndex = (
+  array: IInputStepSection[] | IInputIngredientSection[]
+) => {
+  const lastIndex = array.at(-1)?.index;
+  return lastIndex ? lastIndex + 1 : 1;
+};
+
+const StepsMaker = ({ stepImgFiles, setStepImgFiles }: IStepMakerProps) => {
+  const dispatch = useAppDispatch();
+  const directDatas = useAppSelector(
+    (state) => state.recipe.inputTexts.directions
+  );
+
+  const addDirectionInputsHandler = () => {
     const basicForm = {
-      index: 1,
+      index: findLastIndex(directDatas),
       imgDirectionUrl: "",
       body: "",
       isUploaded: false,
     };
 
-    if (directDatas.length > 0) {
-      const lastStepIndex = directDatas.slice(-1)[0].index;
-      basicForm.index = lastStepIndex + 1;
-    }
-
-    setDirectDatas([...directDatas, basicForm]);
+    dispatch(
+      recipeActions.addNewInputSection({
+        keyValue: "directions",
+        newValue: basicForm,
+      })
+    );
   };
 
   return (
@@ -32,18 +45,14 @@ const StepsMaker = ({
               <StepSet
                 key={step.index}
                 idx={step.index}
-                text={step.body}
-                imgUrl={step.imgDirectionUrl}
-                steps={directDatas}
+                step={step}
                 stepImgFiles={stepImgFiles}
                 setStepImgFiles={setStepImgFiles}
-                directDatas={directDatas}
-                setDirectDatas={setDirectDatas}
               />
             );
           })}
       </div>
-      <PlusBtn addHandler={addDirectionStepHandler} />
+      <PlusBtn addHandler={addDirectionInputsHandler} />
     </>
   );
 };

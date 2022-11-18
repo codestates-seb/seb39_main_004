@@ -1,8 +1,10 @@
-import { ImgUploader, RemoveBtn } from "./indexNewRecipe";
+import { StepImgUploader, RemoveBtn } from "./indexNewRecipe";
 import { STextarea } from "./RecipeFormStyled";
 import { IStepSetProps } from "../../types/interface";
-import { useEffect, useState } from "react";
+import { useEffect, useState, ChangeEvent } from "react";
 import styled from "styled-components";
+import { useAppSelector, useAppDispatch } from "../../hooks/dispatchHook";
+import { recipeActions } from "../../redux/slices/recipeSlice";
 
 const SStepsContainer = styled.div`
   display: flex;
@@ -20,49 +22,68 @@ const SStepBox = styled.div`
 
 const StepSet = ({
   idx,
+  step,
   stepImgFiles,
   setStepImgFiles,
-  text,
-  imgUrl,
-  directDatas,
-  setDirectDatas,
 }: IStepSetProps) => {
-  const [imgName, setImgName] = useState<string>("");
+  const dispatch = useAppDispatch();
+  const directDatas = useAppSelector(
+    (state) => state.recipe.inputTexts.directions
+  );
+
+  const [imgName, setImgName] = useState<string>(""); // 삭제 예정. imgDirectionUrl로 대체
+  const [inputsForm, setInputsForm] = useState({
+    imgDirectionUrl: step.imgDirectionUrl,
+    body: step.body,
+    index: step.index,
+    isUploaded: step.isUploaded,
+  });
+  const payload = {
+    keyValue: "directions",
+    indexValue: idx,
+  };
   const currentIndex = directDatas.findIndex((step) => {
     return step.index === idx;
   });
 
-  const textHandler = (
-    event: React.ChangeEvent<HTMLTextAreaElement>,
-    currentIndex: number
-  ) => {
-    const newStepsValue = directDatas.slice();
-    newStepsValue[currentIndex].body = event.target.value;
-    setDirectDatas(newStepsValue);
+  const changeTextHandler = (event: ChangeEvent<HTMLTextAreaElement>) => {
+    setInputsForm((prevState) => {
+      return {
+        ...prevState,
+        [event.target.name]: event.target.value,
+      };
+    });
   };
 
-  const removeHandler = (currentIndex: number) => {
-    setDirectDatas(directDatas.filter((el, idx) => idx !== currentIndex));
+  const removeHandler = () => {
+    dispatch(recipeActions.removeInputSection(payload));
     // 이미지파일 제거
-    const newStepImgFiles = stepImgFiles.slice();
-    newStepImgFiles.splice(currentIndex, 1);
-    setStepImgFiles(newStepImgFiles);
+    // const newStepImgFiles = stepImgFiles.slice();
+    // newStepImgFiles.splice(currentIndex, 1);
+    // setStepImgFiles(newStepImgFiles);
   };
+  console.log("inputsForm", inputsForm);
 
   useEffect(() => {
-    const originData = directDatas.slice();
-    if (originData[currentIndex].imgDirectionUrl !== undefined) {
-      originData[currentIndex].imgDirectionUrl = imgName;
-      originData[currentIndex].isUploaded = true;
-      setDirectDatas(originData);
-    }
-    // 수정 없을 때
-    if (!originData[currentIndex].imgDirectionUrl) {
-      originData[currentIndex].imgDirectionUrl = imgUrl;
-      originData[currentIndex].isUploaded = false;
-      setDirectDatas(originData);
-    }
-  }, [imgName]);
+    dispatch(
+      recipeActions.changeInputsSectionValues({
+        ...payload,
+        newInputsValues: inputsForm,
+      })
+    );
+    // const originData = directDatas.slice();
+    // if (originData[currentIndex].imgDirectionUrl !== undefined) {
+    //   originData[currentIndex].imgDirectionUrl = imgName;
+    //   originData[currentIndex].isUploaded = true;
+    //   // setDirectDatas(originData);
+    // }
+    // // 수정 없을 때
+    // if (!originData[currentIndex].imgDirectionUrl) {
+    //   originData[currentIndex].imgDirectionUrl = imgUrl;
+    //   originData[currentIndex].isUploaded = false;
+    //   // setDirectDatas(originData);
+    // }
+  }, [inputsForm, imgName]);
 
   return (
     <SStepsContainer>
@@ -70,25 +91,20 @@ const StepSet = ({
         <STextarea
           name="body"
           rows={11}
-          value={text}
+          value={inputsForm.body}
           placeholder="요리 과정을 입력해주세요."
-          onChange={(e) => {
-            textHandler(e, currentIndex);
-          }}
+          onChange={changeTextHandler}
         ></STextarea>
-        <RemoveBtn
-          removeHandler={() => removeHandler(currentIndex)}
-          idx={idx}
-        />
+        <RemoveBtn removeHandler={removeHandler} idx={idx} />
       </SStepBox>
-      <ImgUploader
+      <StepImgUploader
         imgName={imgName}
         currentIndex={currentIndex}
-        imgUrl={imgUrl}
+        imgUrl={inputsForm.imgDirectionUrl}
         stepImgFiles={stepImgFiles}
         setStepImgFiles={setStepImgFiles}
         setImgName={setImgName}
-      ></ImgUploader>
+      ></StepImgUploader>
     </SStepsContainer>
   );
 };
