@@ -1,7 +1,6 @@
 import {
   IInputIngredientSection,
   IInputStepSection,
-  IStepMakerProps,
 } from "../../types/interface";
 import { StepSet, PlusBtn } from "./indexNewRecipe";
 import { useAppSelector, useAppDispatch } from "../../hooks/dispatchHook";
@@ -14,7 +13,7 @@ export const findLastIndex = (
   return lastIndex ? lastIndex + 1 : 1;
 };
 
-const StepsMaker = ({ stepImgFiles, setStepImgFiles }: IStepMakerProps) => {
+const StepsMaker = () => {
   const dispatch = useAppDispatch();
   const directDatas = useAppSelector(
     (state) => state.recipe.inputTexts.directions
@@ -27,7 +26,6 @@ const StepsMaker = ({ stepImgFiles, setStepImgFiles }: IStepMakerProps) => {
       body: "",
       isUploaded: false,
     };
-
     dispatch(
       recipeActions.addNewInputSection({
         keyValue: "directions",
@@ -40,16 +38,8 @@ const StepsMaker = ({ stepImgFiles, setStepImgFiles }: IStepMakerProps) => {
     <>
       <div>
         {directDatas &&
-          directDatas.map((step) => {
-            return (
-              <StepSet
-                key={step.index}
-                idx={step.index}
-                step={step}
-                stepImgFiles={stepImgFiles}
-                setStepImgFiles={setStepImgFiles}
-              />
-            );
+          directDatas.map((stepData) => {
+            return <StepSet key={stepData.index} stepData={stepData} />;
           })}
       </div>
       <PlusBtn addHandler={addDirectionInputsHandler} />

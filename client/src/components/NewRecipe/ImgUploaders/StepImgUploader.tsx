@@ -1,53 +1,41 @@
-import { useState, useRef, useEffect } from "react";
-import { IImgUploaderProps } from "../../../types/interface";
+import { useState, useRef, ChangeEvent } from "react";
+import { IStepImgUploaderProps } from "../../../types/interface";
 import defaultImg from "../../../assets/images/Recipe/defaultIMG.svg";
 import { SImgInputContainer, SImg, SImgInput } from "./style";
+import { makeImageURL } from "./ThumbNailUploader";
+import { useAppDispatch } from "../../../hooks/dispatchHook";
+import { recipeActions } from "../../../redux/slices/recipeSlice";
 
-const StepImgUploader = ({
-  currentIndex,
-  imgUrl,
-  setStepImgFiles,
-  stepImgFiles,
-  setImgName,
-}: IImgUploaderProps) => {
-  const [fileURL, setFileURL] = useState<string>("");
+const StepImgUploader = ({ currentIndex, imgUrl }: IStepImgUploaderProps) => {
+  const dispatch = useAppDispatch();
+  const [fileURL, setFileURL] = useState<string>(
+    `${process.env.PUBLIC_URL}/assets/${imgUrl}`
+  );
   const imgUploadInput = useRef<HTMLInputElement | null>(null);
 
-  const onImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const changeImageHandler = (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
-      if (
-        currentIndex !== undefined &&
-        stepImgFiles &&
-        setStepImgFiles &&
-        setImgName
-      ) {
-        const newImgFile = stepImgFiles.slice();
-        newImgFile[currentIndex] = event.target.files[0];
-        setStepImgFiles(newImgFile);
-        setImgName(event.target.files[0].name);
-      }
-      const newFileURL = URL.createObjectURL(event.target.files[0]);
-      setFileURL(newFileURL);
+      const payload = {
+        currentIndex,
+        file: event.target.files[0],
+      };
+      dispatch(recipeActions.changeStepImageFile(payload));
+      setFileURL(makeImageURL(event.target.files[0]));
     }
   };
-
-  useEffect(() => {
-    if (imgUrl) {
-      const newFileURL = `${process.env.PUBLIC_URL}/assets/${imgUrl}`;
-      setFileURL(newFileURL);
-    }
-  }, []);
 
   return (
     <SImgInputContainer>
       <SImg
         height={currentIndex === undefined ? "277px" : undefined}
-        src={fileURL ? fileURL : defaultImg}
-        alt={fileURL ? fileURL.slice(8) : "undefined"}
+        src={
+          fileURL !== `${process.env.PUBLIC_URL}/assets/${""}`
+            ? fileURL
+            : defaultImg
+        }
+        alt={fileURL?.slice(8)}
         onClick={() => {
-          if (imgUploadInput.current) {
-            imgUploadInput.current.click();
-          }
+          imgUploadInput.current?.click();
         }}
       ></SImg>
       <SImgInput
@@ -56,7 +44,7 @@ const StepImgUploader = ({
         accept="image/*"
         required
         ref={imgUploadInput}
-        onChange={onImageChange}
+        onChange={changeImageHandler}
       ></SImgInput>
     </SImgInputContainer>
   );

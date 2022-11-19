@@ -12,6 +12,11 @@ import {
 import { recipeActions } from "../../../redux/slices/recipeSlice";
 import { useAppDispatch } from "../../../hooks/dispatchHook";
 
+export const makeImageURL = (file: FileList[0]) => {
+  const newFileURL = URL.createObjectURL(file);
+  return newFileURL;
+};
+
 const ThumbNailUploader = ({
   isMypage,
   setProfileImageFile,
@@ -19,7 +24,7 @@ const ThumbNailUploader = ({
 }: IThumbNailProps) => {
   const dispatch = useAppDispatch();
 
-  const [fileURL, setFileURL] = useState<string | undefined>(
+  const [fileURL, setFileURL] = useState<string>(
     `${process.env.PUBLIC_URL}/assets/${resThumbNailImgUrl}`
   );
   const imgUploadInput = useRef<HTMLInputElement | null>(null);
@@ -30,18 +35,13 @@ const ThumbNailUploader = ({
     }
   };
 
-  const makeImagePreView = (file: FileList[0]) => {
-    const newFileURL = URL.createObjectURL(file);
-    setFileURL(newFileURL);
-  };
-
   const changeImageHandler = (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
       const fileObject = event.target.files[0];
       isMypage && setProfileImageFile
         ? setProfileImageFile(fileObject)
         : dispatch(recipeActions.setThumbNailFile(fileObject));
-      makeImagePreView(fileObject);
+      setFileURL(makeImageURL(fileObject));
     }
   };
 
@@ -68,7 +68,7 @@ const ThumbNailUploader = ({
                 ? fileURL
                 : defaultImg
             }
-            alt={fileURL ? fileURL.slice(8) : "undefined"}
+            alt={fileURL?.slice(8)}
             onClick={changeToInputElement}
           ></SThumbNailImg>
         </>

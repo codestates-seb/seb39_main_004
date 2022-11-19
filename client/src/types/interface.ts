@@ -137,19 +137,19 @@ interface IFollowData {
 
 interface IFollowingProps {
   followingData: IFollowData[];
-  setFollowingData: React.Dispatch<React.SetStateAction<any[]>>;
+  setFollowingData: Dispatch<React.SetStateAction<any[]>>;
 }
 
 interface IStarProps {
   starClicked?: boolean[];
-  setStarClicked?: React.Dispatch<React.SetStateAction<boolean[]>>;
+  setStarClicked?: Dispatch<React.SetStateAction<boolean[]>>;
 }
 
 /** ----------------- Recipe 등록 / 수정 페이지 관련 interface ----------------- */
 interface IRecipeData {
   inputTexts: IEditResponseData;
   thumbNail: TypeOfFileList;
-  stepImgFiles: TypeOfFileList | [];
+  stepImgFiles: TypeOfFileList[];
 }
 
 interface IEditResponseData {
@@ -201,28 +201,13 @@ interface IInputStepSection {
   isUploaded: boolean;
 }
 
-interface IImgUploaderProps {
-  steps?: IInputStepSection[];
-  imgName: string;
-  currentIndex?: number;
-  imgUrl: string;
-  stepImgFiles?: TypeOfFileList[];
-  setStepImgFiles?: Dispatch<SetStateAction<TypeOfFileList[]>>;
-  setImgName?: Dispatch<SetStateAction<string>>;
-}
-
-interface IStepMakerProps {
-  // setEditResponse?: Dispatch<SetStateAction<IEditResponseData | undefined>>;
-  // editResponse?: IEditResponseData | undefined;
-  stepImgFiles: TypeOfFileList[];
-  setStepImgFiles: Dispatch<SetStateAction<TypeOfFileList[]>>;
-}
-
 interface IStepSetProps {
-  idx: number;
-  step: IInputStepSection;
-  stepImgFiles: TypeOfFileList[];
-  setStepImgFiles: Dispatch<SetStateAction<TypeOfFileList[]>>;
+  stepData: IInputStepSection;
+}
+
+interface IStepImgUploaderProps {
+  currentIndex: number;
+  imgUrl: string;
 }
 
 // 네번째 영역 관련(태그)
@@ -244,8 +229,7 @@ interface IRecipeTemp {
 
 export type {
   IThumbNailProps,
-  IImgUploaderProps,
-  IStepMakerProps,
+  IStepImgUploaderProps,
   IIngredientSetProps,
   IStepSetProps,
   IItemProps,

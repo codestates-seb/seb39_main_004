@@ -40,13 +40,13 @@ import {
 const AddPost = () => {
   const recipeData = useAppSelector((state) => state.recipe);
   const dispatch = useAppDispatch();
-  console.log("recipeData", recipeData.inputTexts.directions);
+  console.log("recipeData", recipeData);
   const message = useMessage(3000);
   const navigate = useNavigate();
 
   // 등록페이지 관련
   // const [thumbNail, setThumbNail] = useState<TypeOfFileList>();
-  const [stepImgFiles, setStepImgFiles] = useState<TypeOfFileList[]>([]);
+  // const [stepImgFiles, setStepImgFiles] = useState<TypeOfFileList[]>([]);
   // const [directDatas, setDirectDatas] = useState<IInputStepSection[]>([]);
   // const [ingredientsDatas, setIngredientsDatas] = useState<IInputIngredientSection[]>(
   //   []
@@ -201,10 +201,7 @@ const AddPost = () => {
             <RequireMark />
             <Guide text="중요한 부분은 빠짐없이 적어주세요." />
           </SLable>
-          <StepsMaker
-            stepImgFiles={stepImgFiles}
-            setStepImgFiles={setStepImgFiles}
-          />
+          <StepsMaker />
         </SSection>
         <SSection color={"var(--sky-blue)"}>
           <SLable>태그</SLable>

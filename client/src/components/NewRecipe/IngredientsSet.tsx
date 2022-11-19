@@ -1,9 +1,12 @@
 import styled from "styled-components";
 import { ChangeEvent, useEffect, useState } from "react";
-import { IIngredientSetProps } from "../../types/interface";
+import {
+  IIngredientSetProps,
+  IInputIngredientSection,
+} from "../../types/interface";
 import { RemoveBtn } from "./indexNewRecipe";
 import { SInput } from "./RecipeFormStyled";
-import { useAppDispatch } from "../../hooks/dispatchHook";
+import { useAppDispatch, useAppSelector } from "../../hooks/dispatchHook";
 import { recipeActions } from "../../redux/slices/recipeSlice";
 
 const SIngredientContainer = styled.li`
@@ -41,15 +44,21 @@ const SIngredientAmout = styled.div`
 
 const IngredientsSet = ({ idx, ingredient }: IIngredientSetProps) => {
   const dispatch = useAppDispatch();
+  const ingredientsDatas = useAppSelector(
+    (state) => state.recipe.inputTexts.ingredients
+  );
   const [inputsForm, setInputsForm] = useState({
     index: ingredient.index,
     name: ingredient.name,
     isEssential: ingredient.isEssential,
     amount: ingredient.amount,
   });
+  const currentIndex = ingredientsDatas.findIndex(
+    (el: IInputIngredientSection) => el.index === idx
+  );
   const payload = {
     keyValue: "ingredients",
-    indexValue: idx,
+    currentIndex,
   };
 
   const removeIngredientInputsHandler = () => {
