@@ -68,6 +68,17 @@ const recipeSlice = createSlice({
       const targetIdx = action.payload;
       state.inputTexts.tags.splice(targetIdx, 1);
     },
+    alignIndexNumber: (state: any) => {
+      const keys = ["ingredients", "directions"];
+      keys.forEach((key) => {
+        state.inputTexts[key] = state.inputTexts[key].map(
+          (el: TypeOfInputSectionsWithRemoveButton, idx: number) => ({
+            ...el,
+            index: idx + 1,
+          })
+        );
+      });
+    },
   },
 });
 

@@ -13,13 +13,7 @@ import {
   ImgRadio,
   RequireMark,
 } from "../../components/NewRecipe/indexNewRecipe";
-import { TypeOfFileList } from "../../types/type";
-import {
-  IInputStepSection,
-  IRecipeData,
-  IRecipeTemp,
-} from "../../types/interface";
-import { FormEvent, useState } from "react";
+import { FormEvent } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import recipeLogo from "../../assets/images/Recipe/recipeLogo.svg";
@@ -40,19 +34,10 @@ import {
 const AddPost = () => {
   const recipeData = useAppSelector((state) => state.recipe);
   const dispatch = useAppDispatch();
-  console.log("recipeData", recipeData);
   const message = useMessage(3000);
   const navigate = useNavigate();
 
-  // 등록페이지 관련
-  // const [thumbNail, setThumbNail] = useState<TypeOfFileList>();
-  // const [stepImgFiles, setStepImgFiles] = useState<TypeOfFileList[]>([]);
-  // const [directDatas, setDirectDatas] = useState<IInputStepSection[]>([]);
-  // const [ingredientsDatas, setIngredientsDatas] = useState<IInputIngredientSection[]>(
-  //   []
-  // );
-  // const [tagsDatas, setTagsDatas] = useState<ITagsData[]>([]);
-
+  // console.log("recipeData", recipeData.inputTexts);
   // 빈 값 체크
   const isJsonDataEmpty = useRecipeJsonDataValidation(recipeData.inputTexts);
 
@@ -65,7 +50,6 @@ const AddPost = () => {
 
   const submitHandler = async (event: FormEvent) => {
     event.preventDefault();
-    console.log("submit 이벤트");
 
     /** 텍스트 누락 체크 */
     if (isJsonDataEmpty === true) {
@@ -77,73 +61,55 @@ const AddPost = () => {
       return;
     }
 
-    //   /** 이미지 누락 체크 */
-    //   const emptyImageIndex = stepImgFiles.findIndex((el) => el === undefined);
-    //   if (emptyImageIndex >= 0) {
-    //     message.fire({
-    //       icon: "error",
-    //       title: `요리 순서의 ${emptyImageIndex + 1}번째 이미지를 \n추가해주세요`,
-    //     });
-    //     return;
-    //   }
-    //   if (!thumbNail || stepImgFiles.length === 0) {
-    //     message.fire({
-    //       icon: "error",
-    //       title: `등록하려면 \n이미지를 추가해주세요.`,
-    //     });
-    //     return;
-    //   }
+    /** 이미지 누락 체크 */
+    const emptyImageIndex = recipeData.stepImgFiles.findIndex(
+      (el) => el === undefined
+    );
+    if (emptyImageIndex >= 0) {
+      message.fire({
+        icon: "error",
+        title: `요리 순서의 ${emptyImageIndex + 1}번째 이미지를 \n추가해주세요`,
+      });
+      return;
+    }
+    if (!recipeData.thumbNail || recipeData.stepImgFiles.length === 0) {
+      message.fire({
+        icon: "error",
+        title: `등록하려면 \n이미지를 추가해주세요.`,
+      });
+      return;
+    }
 
-    //   /** 서버 요청 데이터 구축 */
-    //   const formData = new FormData();
-    //   formData.append("imgThumbNail", thumbNail);
+    /** 서버 요청 데이터 구축 */
+    dispatch(recipeActions.alignIndexNumber());
+    const formData = new FormData();
+    formData.append("imgThumbNail", recipeData.thumbNail);
+    recipeData.stepImgFiles.forEach((file) => {
+      if (file) {
+        formData.append("imgDirection", file);
+      }
+    });
+    formData.append(
+      "recipe",
+      new Blob([JSON.stringify(recipeData.inputTexts)], {
+        type: "application/json",
+      })
+    );
 
-    //   stepImgFiles.forEach((file) => {
-    //     if (file) {
-    //       formData.append("imgDirection", file);
-    //     }
-    //   });
-
-    //   // 재료순서 변경 인덱스 정렬
-    //   const filteredIngredients: IInputIngredientSection[] = [];
-    //   ingredientsDatas.forEach((oneline, idx) => {
-    //     filteredIngredients.push({ ...oneline, index: idx + 1 });
-    //   });
-
-    //   // 조리순서 변경 인덱스 정렬
-    //   const filteredDirects: IInputStepSection[] = [];
-    //   directDatas.forEach((oneline, idx) => {
-    //     filteredDirects.push({ ...oneline, index: idx + 1 });
-    //   });
-
-    //   const recipeDatas = {
-    //     ...data,
-    //     category: checkedCateg,
-    //     ingredients: filteredIngredients,
-    //     directions: filteredDirects,
-    //     tags: tagsDatas,
-    //   };
-
-    //   formData.append(
-    //     "recipe",
-    //     new Blob([JSON.stringify(recipeDatas)], { type: "application/json" })
-    //   );
-
-    //   /** 서버 요청 */
-    //   const response = await axios.post("/api/v1/recipe/add", formData, {
-    //     headers: { "content-type": "multipart/form-data" },
-    //   });
-
-    //   try {
-    //     const newId = response.data.data.id;
-    //     navigate(`/post/${newId}/`);
-    //   } catch (error) {
-    //     message.fire({
-    //       icon: "error",
-    //       title:
-    //         "레시피 등록에 실패했습니다.\n 누락된 정보가 있는지 \n확인해주세요.",
-    //     });
-    //   }
+    /** 서버 요청 */
+    try {
+      const response = await axios.post("/api/v1/recipe/add", formData, {
+        headers: { "content-type": "multipart/form-data" },
+      });
+      const newId = response.data.data.id;
+      navigate(`/post/${newId}/`);
+    } catch (error) {
+      message.fire({
+        icon: "error",
+        title:
+          "레시피 등록에 실패했습니다.\n 누락된 정보가 있는지 \n확인해주세요.",
+      });
+    }
   };
 
   return (
