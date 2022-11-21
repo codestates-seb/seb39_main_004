@@ -101,6 +101,7 @@ const AddPost = () => {
       const response = await axios.post("/api/v1/recipe/add", formData, {
         headers: { "content-type": "multipart/form-data" },
       });
+      dispatch(recipeActions.resetInputsValue());
       const newId = response.data.data.id;
       navigate(`/post/${newId}/`);
     } catch (error) {

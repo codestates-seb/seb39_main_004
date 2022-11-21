@@ -19,6 +19,9 @@ const recipeSlice = createSlice({
   name: "recipe",
   initialState: initialForm,
   reducers: {
+    resetInputsValue: () => {
+      return initialForm;
+    },
     setTitleOrBody: (state, action) => {
       state.inputTexts = { ...state.inputTexts, ...action.payload };
     },
