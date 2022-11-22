@@ -10,7 +10,7 @@ import {
   SThumbNailImg,
 } from "./style";
 import { recipeActions } from "../../../redux/slices/recipeSlice";
-import { useAppDispatch } from "../../../hooks/dispatchHook";
+import { useAppDispatch, useAppSelector } from "../../../hooks/dispatchHook";
 
 export const makeImageURL = (file: FileList[0]) => {
   const newFileURL = URL.createObjectURL(file);
@@ -23,16 +23,18 @@ const ThumbNailUploader = ({
   resThumbNailImgUrl,
 }: IThumbNailProps) => {
   const dispatch = useAppDispatch();
-
+  if (!isMypage) {
+    resThumbNailImgUrl = useAppSelector(
+      (state) => state.recipe.imgThumbNailUrl
+    );
+  }
   const [fileURL, setFileURL] = useState<string>(
     `${process.env.PUBLIC_URL}/assets/${resThumbNailImgUrl}`
   );
   const imgUploadInput = useRef<HTMLInputElement | null>(null);
 
   const changeToInputElement = () => {
-    if (imgUploadInput.current) {
-      imgUploadInput.current.click();
-    }
+    imgUploadInput.current?.click();
   };
 
   const changeImageHandler = (event: ChangeEvent<HTMLInputElement>) => {
@@ -50,7 +52,7 @@ const ThumbNailUploader = ({
       {isMypage ? (
         <SUserImg
           src={
-            fileURL !== `${process.env.PUBLIC_URL}/assets/${undefined}`
+            fileURL !== `${process.env.PUBLIC_URL}/assets/${""}`
               ? fileURL
               : `${process.env.PUBLIC_URL}/assets/${resThumbNailImgUrl}`
           }

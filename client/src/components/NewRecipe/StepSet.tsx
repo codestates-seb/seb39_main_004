@@ -26,7 +26,7 @@ const StepSet = ({ stepData }: IStepSetProps) => {
     (state) => state.recipe.inputTexts.directions
   );
 
-  const [inputText, setInputText] = useState("");
+  const [inputText, setInputText] = useState(stepData.body);
   const currentIndex = directionsData.findIndex(
     (direction) => direction.index === stepData.index
   );
