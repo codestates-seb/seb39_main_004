@@ -1,6 +1,7 @@
-import { createSlice } from "@reduxjs/toolkit";
+import axios from "axios";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { TypeOfInputSectionsWithRemoveButton } from "../../types/type";
-import { IRecipeData } from "../../types/interface";
+import { IRecipeData, ITagProps } from "../../types/interface";
 
 const initialForm: IRecipeData = {
   inputTexts: {
@@ -11,9 +12,18 @@ const initialForm: IRecipeData = {
     directions: [],
     tags: [],
   },
+  imgThumbNailUrl: "",
   thumbNail: null,
   stepImgFiles: [],
 };
+
+export const fetchRecipeEditData = createAsyncThunk(
+  "recipeSlice/fetchEditDataById",
+  async (id: string) => {
+    const response = await axios.get(`/api/v1/recipe/${id}/edit/`);
+    return response.data.data;
+  }
+);
 
 const recipeSlice = createSlice({
   name: "recipe",
@@ -82,6 +92,37 @@ const recipeSlice = createSlice({
         );
       });
     },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(fetchRecipeEditData.fulfilled, (state, action) => {
+      // console.log("엑스트라리듀서", action.payload);
+      const {
+        title,
+        body,
+        category,
+        ingredients,
+        directions,
+        tags,
+        imgThumbNailUrl,
+      } = action.payload;
+      const tagsWithNameKey = tags.map((el: ITagProps) => ({
+        name: el.name,
+      }));
+      // console.log("엑스트라리듀서", tagsWithNameKey);
+      state.inputTexts = {
+        ...state,
+        title,
+        body,
+        category,
+        ingredients,
+        directions,
+        tags: tagsWithNameKey,
+      };
+      state.imgThumbNailUrl = imgThumbNailUrl;
+    });
+    // builder.addCase(fetchRecipeEditData.rejected, (state) => {
+    //   console.log("수정데이터를 가져오는데 문제가 생겼습니다.");
+    // });
   },
 });
 

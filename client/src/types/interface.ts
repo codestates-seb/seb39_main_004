@@ -148,6 +148,7 @@ interface IStarProps {
 /** ----------------- Recipe 등록 / 수정 페이지 관련 interface ----------------- */
 interface IRecipeData {
   inputTexts: IEditResponseData;
+  imgThumbNailUrl: string;
   thumbNail: TypeOfFileList;
   stepImgFiles: TypeOfFileList[];
 }
@@ -221,12 +222,6 @@ interface ITagWithBtnProps {
   tagValue: string;
 }
 
-// 삭제예정
-interface IRecipeTemp {
-  body: string;
-  title: string;
-}
-
 export type {
   IThumbNailProps,
   IStepImgUploaderProps,
@@ -256,5 +251,4 @@ export type {
   IFollowingProps,
   IStarProps,
   IRecipeData,
-  IRecipeTemp, // 삭제예정
 };
