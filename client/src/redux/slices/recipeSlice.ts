@@ -8,13 +8,32 @@ const initialForm: IRecipeData = {
     title: "",
     body: "",
     category: "",
-    ingredients: [],
-    directions: [],
+    ingredients: [
+      {
+        index: 1,
+        name: "",
+        amount: "",
+        isEssential: false,
+      },
+    ],
+    directions: [
+      {
+        index: 1,
+        imgDirectionUrl: "",
+        body: "",
+        isUploaded: false,
+      },
+    ],
     tags: [],
   },
   imgThumbNailUrl: "",
   thumbNail: null,
   stepImgFiles: [],
+};
+
+export const makeImageURL = (file: FileList[0]) => {
+  const newFileURL = URL.createObjectURL(file);
+  return newFileURL;
 };
 
 export const fetchRecipeEditData = createAsyncThunk(
@@ -37,6 +56,7 @@ const recipeSlice = createSlice({
     },
     setThumbNailFile: (state, action) => {
       state.thumbNail = action.payload;
+      // state.imgThumbNailUrl = makeImageURL(action.payload);
     },
     setCategory: (state, action) => {
       state.inputTexts.category = action.payload;
@@ -108,7 +128,6 @@ const recipeSlice = createSlice({
       const tagsWithNameKey = tags.map((el: ITagProps) => ({
         name: el.name,
       }));
-      // console.log("엑스트라리듀서", tagsWithNameKey);
       state.inputTexts = {
         ...state,
         title,
