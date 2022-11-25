@@ -11,7 +11,7 @@ const SNSInfo = lazy(() => import("./pages/Auth/SNSInfo"));
 const Layout = lazy(() => import("./components/Layout"));
 const PostDetail = lazy(() => import("./pages/Recipe/PostDetail"));
 const AddPost = lazy(() => import("./pages/Recipe/AddPost"));
-const EditPost = lazy(() => import("./pages/Recipe/EditPost"));
+// const EditPost = lazy(() => import("./pages/Recipe/EditPost"));
 const MyPage = lazy(() => import("./pages/Mypage/MyPage"));
 const Redirect = lazy(() => import("./components/CommonUI/Redirect"));
 
@@ -23,18 +23,18 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route index element={<Main />}></Route>
-            <Route path="/login" element={<Login />}></Route>
-            <Route path="/recipe" element={<AddPost />}></Route>
-            <Route path="/edit/:recipeId" element={<AddPost />}></Route>
-            <Route path="/signup" element={<SignUp />}></Route>
-            <Route path="/snsinfo" element={<SNSInfo />}></Route>
-            <Route path="/mypage" element={<MyPage />}></Route>
-            <Route path="/search" element={<Search />}></Route>
-            <Route path="/rank" element={<Main />}></Route>
-            <Route path="/redirect" element={<Redirect />} />
-            <Route path="/api/v1/auth/login-success" element={<Main />} />
+            <Route path="login" element={<Login />}></Route>
+            <Route path="recipe" element={<AddPost />}></Route>
+            <Route path="edit/:recipeId" element={<AddPost />}></Route>
+            <Route path="signup" element={<SignUp />}></Route>
+            <Route path="snsinfo" element={<SNSInfo />}></Route>
+            <Route path="mypage" element={<MyPage />}></Route>
+            <Route path="search" element={<Search />}></Route>
+            <Route path="rank" element={<Main />}></Route>
+            <Route path="redirect" element={<Redirect />} />
+            <Route path="api/v1/auth/login-success" element={<Main />} />
             {/** 랭킹페이지 완성 후 컴포넌트 변경해주세요 */}
-            <Route path="/post/:id" element={<PostDetail />}></Route>
+            <Route path="post/:id" element={<PostDetail />}></Route>
           </Route>
         </Routes>
       </Suspense>
