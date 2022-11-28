@@ -47,12 +47,17 @@ const IngredientsSet = ({ idx, ingredient }: IIngredientSetProps) => {
   const ingredientsDatas = useAppSelector(
     (state) => state.recipe.inputTexts.ingredients
   );
-  const [inputsForm, setInputsForm] = useState({
+  const initialState = {
     index: ingredient.index,
     name: ingredient.name,
     isEssential: ingredient.isEssential,
     amount: ingredient.amount,
-  });
+  };
+  const [inputsForm, setInputsForm] = useState(initialState);
+  useEffect(() => {
+    setInputsForm(initialState);
+  }, [ingredient]);
+
   const currentIndex = ingredientsDatas.findIndex(
     (el: IInputIngredientSection) => el.index === idx
   );
@@ -66,23 +71,23 @@ const IngredientsSet = ({ idx, ingredient }: IIngredientSetProps) => {
   };
 
   const changeInputValueHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    const changedValue = {
+      [e.target.name]:
+        e.target.type === "checkbox" ? e.target.checked : e.target.value,
+    };
     setInputsForm((prevState) => {
       return {
         ...prevState,
-        [e.target.name]:
-          e.target.type === "checkbox" ? e.target.checked : e.target.value,
+        ...changedValue,
       };
     });
-  };
-
-  useEffect(() => {
     dispatch(
       recipeActions.changeInputsSectionValues({
         ...payload,
-        newInputsValues: inputsForm,
+        changedValue,
       })
     );
-  }, [inputsForm]);
+  };
 
   return (
     <SIngredientContainer>

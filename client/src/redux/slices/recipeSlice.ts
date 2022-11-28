@@ -80,8 +80,10 @@ const recipeSlice = createSlice({
       }
     },
     changeInputsSectionValues: (state: any, action) => {
-      const { keyValue, currentIndex, newInputsValues } = action.payload;
-      state.inputTexts[keyValue][currentIndex] = newInputsValues;
+      const { keyValue, currentIndex, changedValue } = action.payload;
+      const keyOfChangeValue = Object.keys(changedValue)[0];
+      state.inputTexts[keyValue][currentIndex][keyOfChangeValue] =
+        changedValue[keyOfChangeValue];
     },
     changeStepTextInputValue: (state, action) => {
       const { inputText, currentIndex } = action.payload;
