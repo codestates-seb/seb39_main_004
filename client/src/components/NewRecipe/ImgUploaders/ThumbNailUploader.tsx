@@ -1,4 +1,4 @@
-import { useState, useRef, ChangeEvent } from "react";
+import { useState, useRef, ChangeEvent, useEffect } from "react";
 import { IThumbNailProps } from "../../../types/interface";
 import defaultImg from "../../../assets/images/Recipe/defaultIMG.svg";
 import { RequireMark } from "../indexNewRecipe";
@@ -9,13 +9,8 @@ import {
   SUserImg,
   SThumbNailImg,
 } from "./style";
-import { recipeActions } from "../../../redux/slices/recipeSlice";
+import { recipeActions, makeImageURL } from "../../../redux/slices/recipeSlice";
 import { useAppDispatch, useAppSelector } from "../../../hooks/dispatchHook";
-
-export const makeImageURL = (file: FileList[0]) => {
-  const newFileURL = URL.createObjectURL(file);
-  return newFileURL;
-};
 
 const ThumbNailUploader = ({
   isMypage,
@@ -28,16 +23,22 @@ const ThumbNailUploader = ({
       (state) => state.recipe.imgThumbNailUrl
     );
   }
+  const imgUploadInput = useRef<HTMLInputElement | null>(null);
   const [fileURL, setFileURL] = useState<string>(
     `${process.env.PUBLIC_URL}/assets/${resThumbNailImgUrl}`
   );
-  const imgUploadInput = useRef<HTMLInputElement | null>(null);
+
+  useEffect(() => {
+    setFileURL(`${process.env.PUBLIC_URL}/assets/${resThumbNailImgUrl}`);
+  }, [resThumbNailImgUrl]);
 
   const changeToInputElement = () => {
     imgUploadInput.current?.click();
   };
 
   const changeImageHandler = (event: ChangeEvent<HTMLInputElement>) => {
+    // URL.revokeObjectURL(fileURL);
+
     if (event.target.files) {
       const fileObject = event.target.files[0];
       isMypage && setProfileImageFile
@@ -52,10 +53,11 @@ const ThumbNailUploader = ({
       {isMypage ? (
         <SUserImg
           src={
-            fileURL !== `${process.env.PUBLIC_URL}/assets/${""}`
+            fileURL !== `${process.env.PUBLIC_URL}/assets/`
               ? fileURL
               : `${process.env.PUBLIC_URL}/assets/${resThumbNailImgUrl}`
           }
+          // alt={fileURL?.slice(8)} // user 정보 반영으로 수정 필요
           onClick={changeToInputElement}
         ></SUserImg>
       ) : (
@@ -66,7 +68,7 @@ const ThumbNailUploader = ({
           </SLable>
           <SThumbNailImg
             src={
-              fileURL !== `${process.env.PUBLIC_URL}/assets/${undefined}`
+              fileURL !== `${process.env.PUBLIC_URL}/assets/`
                 ? fileURL
                 : defaultImg
             }
