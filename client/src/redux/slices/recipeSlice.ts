@@ -27,7 +27,7 @@ const initialForm: IRecipeData = {
     tags: [],
   },
   imgThumbNailUrl: "",
-  thumbNail: null,
+  thumbNailFile: null,
   stepImgFiles: [],
 };
 
@@ -55,7 +55,7 @@ const recipeSlice = createSlice({
       state.inputTexts = { ...state.inputTexts, ...action.payload };
     },
     setThumbNailFile: (state, action) => {
-      state.thumbNail = action.payload;
+      state.thumbNailFile = action.payload;
       // state.imgThumbNailUrl = makeImageURL(action.payload);
     },
     setCategory: (state, action) => {

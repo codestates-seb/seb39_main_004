@@ -45,7 +45,9 @@ const AddPost = () => {
     ? `/api/v1/recipe/${recipeId}/edit`
     : "/api/v1/recipe/add";
 
-  console.log("recipeData", recipeData.inputTexts);
+  // console.log("1");
+  // console.log("recipeData", recipeData);
+
   // 빈 값 체크
   const isJsonDataEmpty = useRecipeJsonDataValidation(recipeData.inputTexts);
 
@@ -82,32 +84,24 @@ const AddPost = () => {
       });
       return;
     }
-    // if (
-    //   !recipeId &&
-    //   (!recipeData.thumbNail || recipeData.stepImgFiles.length === 0)
-    // ) {
-    //   message.fire({
-    //     icon: "error",
-    //     title: `등록하려면 \n이미지를 추가해주세요.`,
-    //   });
-    //   return;
-    // }
+    if (!recipeId && !recipeData.thumbNailFile) {
+      message.fire({
+        icon: "error",
+        title: `등록하려면 \n썸네일이미지를 추가해주세요.`,
+      });
+      return;
+    }
 
     /** 서버 요청 Form 데이터 구축 */
     dispatch(recipeActions.alignIndexNumber());
     const formData = new FormData();
-
     // 썸네일 수정 없을 때 임의의 파일 전송
-    let sendingThumbNailFile;
-    // if()
-    // const sendingThumbNailFile =
-    //   recipeId && !recipeData.thumbNail
-    //     ? new File(["foo"], "foo.txt", {
-    //         type: "text/plain",
-    //       })
-    //     : recipeData.thumbNail;
-    // formData.append("imgThumbNail", sendingThumbNailFile);
-
+    const sendingThumbNailFile = !recipeData.thumbNailFile
+      ? new File(["foo"], "foo.txt", {
+          type: "text/plain",
+        })
+      : recipeData.thumbNailFile;
+    formData.append("imgThumbNail", sendingThumbNailFile);
     recipeData.stepImgFiles.forEach((file) => {
       if (file) {
         formData.append("imgDirection", file);
@@ -121,25 +115,29 @@ const AddPost = () => {
     );
 
     /** 서버 요청 */
-    // try {
-    //   const response = await axios.post(requestUrl, formData, {
-    //     headers: { "content-type": "multipart/form-data" },
-    //   });
-    //   dispatch(recipeActions.resetInputsValue());
-    //   const newId = response.data.data.id;
-    //   navigate(`/post/${newId}/`);
-    // } catch (error) {
-    //   message.fire({
-    //     icon: "error",
-    //     title:
-    //       "레시피 등록에 실패했습니다.\n 누락된 정보가 있는지 \n확인해주세요.",
-    //   });
-    // }
+    try {
+      const response = await axios.post(requestUrl, formData, {
+        headers: { "content-type": "multipart/form-data" },
+      });
+      dispatch(recipeActions.resetInputsValue());
+      const newId = response.data.data.id;
+      navigate(`/post/${newId}/`);
+    } catch (error) {
+      message.fire({
+        icon: "error",
+        title:
+          "레시피 등록에 실패했습니다.\n 누락된 정보가 있는지 \n확인해주세요.",
+      });
+    }
   };
 
   useEffect(() => {
+    // console.log("2");
+
     if (recipeId) {
       dispatch(fetchRecipeEditData(recipeId));
+    } else {
+      dispatch(recipeActions.resetInputsValue());
     }
     // recipeId &&
     //   axios

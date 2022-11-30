@@ -149,7 +149,7 @@ interface IStarProps {
 interface IRecipeData {
   inputTexts: IEditResponseData;
   imgThumbNailUrl: string;
-  thumbNail: TypeOfFileList;
+  thumbNailFile: TypeOfFileList;
   stepImgFiles: TypeOfFileList[];
 }
 
