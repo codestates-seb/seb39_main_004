@@ -40,7 +40,8 @@ const TagsMaker = () => {
 
   const changeInputValueHandler = (event: KeyboardEvent<HTMLInputElement>) => {
     const target = event.target as HTMLInputElement;
-    if (event.key === "Enter") {
+
+    if (event.key === "Enter" && event.nativeEvent.isComposing === false) {
       dispatch(recipeActions.addTag({ name: target.value }));
       setInputValue("");
     }
@@ -57,7 +58,7 @@ const TagsMaker = () => {
         onChange={(event) => {
           setInputValue(event.target.value);
         }}
-        onKeyPress={changeInputValueHandler}
+        onKeyDown={changeInputValueHandler}
         placeholder="태그를 추가해주세요."
       />
     </STagsContainer>
