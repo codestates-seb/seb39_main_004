@@ -1,7 +1,7 @@
 import { StepImgUploader, RemoveBtn } from "./indexNewRecipe";
 import { STextarea } from "./RecipeFormStyled";
 import { IStepSetProps } from "../../types/interface";
-import { useState, ChangeEvent } from "react";
+import { useState, ChangeEvent, useEffect } from "react";
 import styled from "styled-components";
 import { useAppSelector, useAppDispatch } from "../../hooks/dispatchHook";
 import { recipeActions } from "../../redux/slices/recipeSlice";
@@ -25,24 +25,30 @@ const StepSet = ({ stepData }: IStepSetProps) => {
   const directionsData = useAppSelector(
     (state) => state.recipe.inputTexts.directions
   );
-
-  const [inputText, setInputText] = useState(stepData.body);
   const currentIndex = directionsData.findIndex(
     (direction) => direction.index === stepData.index
   );
-  const payload = {
-    keyValue: "directions",
-    currentIndex,
-  };
+  const [inputText, setInputText] = useState(stepData.body);
+
+  useEffect(() => {
+    setInputText(stepData.body);
+  }, [stepData]);
 
   const changeTextHandler = (event: ChangeEvent<HTMLTextAreaElement>) => {
     setInputText(event.target.value);
+  };
+
+  const blurTextareaHandler = () => {
     dispatch(
       recipeActions.changeStepTextInputValue({ inputText, currentIndex })
     );
   };
 
   const removeHandler = () => {
+    const payload = {
+      keyValue: "directions",
+      currentIndex,
+    };
     dispatch(recipeActions.removeInputSection(payload));
   };
 
@@ -55,6 +61,7 @@ const StepSet = ({ stepData }: IStepSetProps) => {
           value={inputText}
           placeholder="요리 과정을 입력해주세요."
           onChange={changeTextHandler}
+          onBlur={blurTextareaHandler}
         ></STextarea>
         <RemoveBtn removeHandler={removeHandler} idx={stepData.index} />
       </SStepBox>
