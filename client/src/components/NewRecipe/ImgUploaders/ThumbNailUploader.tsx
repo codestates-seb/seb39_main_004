@@ -24,13 +24,7 @@ const ThumbNailUploader = ({
     );
   }
   const imgUploadInput = useRef<HTMLInputElement | null>(null);
-  const [fileURL, setFileURL] = useState<string>(
-    `${process.env.PUBLIC_URL}/assets/${resThumbNailImgUrl}`
-  );
-
-  useEffect(() => {
-    setFileURL(`${process.env.PUBLIC_URL}/assets/${resThumbNailImgUrl}`);
-  }, [resThumbNailImgUrl]);
+  const [fileURL, setFileURL] = useState<string>("");
 
   const changeToInputElement = () => {
     imgUploadInput.current?.click();
@@ -47,6 +41,10 @@ const ThumbNailUploader = ({
       setFileURL(makeImageURL(fileObject));
     }
   };
+
+  useEffect(() => {
+    setFileURL(`${process.env.PUBLIC_URL}/assets/${resThumbNailImgUrl}`);
+  }, [resThumbNailImgUrl]);
 
   return (
     <SImgInputContainer>

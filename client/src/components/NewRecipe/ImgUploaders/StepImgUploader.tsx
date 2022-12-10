@@ -1,19 +1,18 @@
-import { useState, useRef, ChangeEvent } from "react";
+import { useState, useRef, ChangeEvent, useEffect } from "react";
 import { IStepImgUploaderProps } from "../../../types/interface";
 import defaultImg from "../../../assets/images/Recipe/defaultIMG.svg";
 import { SImgInputContainer, SImg, SImgInput } from "./style";
-import { makeImageURL } from "./ThumbNailUploader";
 import { useAppDispatch } from "../../../hooks/dispatchHook";
-import { recipeActions } from "../../../redux/slices/recipeSlice";
+import { recipeActions, makeImageURL } from "../../../redux/slices/recipeSlice";
 
 const StepImgUploader = ({ currentIndex, imgUrl }: IStepImgUploaderProps) => {
   const dispatch = useAppDispatch();
-  const [fileURL, setFileURL] = useState<string>(
-    `${process.env.PUBLIC_URL}/assets/${imgUrl}`
-  );
+  const [fileURL, setFileURL] = useState<string>("");
   const imgUploadInput = useRef<HTMLInputElement | null>(null);
 
   const changeImageHandler = (event: ChangeEvent<HTMLInputElement>) => {
+    // URL.revokeObjectURL(fileURL);
+
     if (event.target.files) {
       const payload = {
         currentIndex,
@@ -24,14 +23,18 @@ const StepImgUploader = ({ currentIndex, imgUrl }: IStepImgUploaderProps) => {
     }
   };
 
+  useEffect(() => {
+    if (!fileURL.includes(`blob:`)) {
+      setFileURL(`${process.env.PUBLIC_URL}/assets/${imgUrl}`);
+    }
+  }, [imgUrl]);
+
   return (
     <SImgInputContainer>
       <SImg
         height={currentIndex === undefined ? "277px" : undefined}
         src={
-          fileURL !== `${process.env.PUBLIC_URL}/assets/${""}`
-            ? fileURL
-            : defaultImg
+          fileURL !== `${process.env.PUBLIC_URL}/assets/` ? fileURL : defaultImg
         }
         alt={fileURL?.slice(8)}
         onClick={() => {
