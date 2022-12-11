@@ -1,17 +1,14 @@
 import {
   SLable,
   SLogoRecipe,
-  SInput,
-  STextarea,
 } from "../../components/NewRecipe/RecipeFormStyled";
 import {
-  ThumbNailUploader,
   TagsMaker,
   Guide,
   AddingIngredients,
   StepsMaker,
-  ImgRadio,
   RequireMark,
+  RecipeSubject,
 } from "../../components/NewRecipe/indexNewRecipe";
 import { FormEvent, useEffect } from "react";
 import axios from "axios";
@@ -24,15 +21,7 @@ import {
   recipeActions,
   fetchRecipeEditData,
 } from "../../redux/slices/recipeSlice";
-import {
-  SFormBtn,
-  SFormContainer,
-  SSection,
-  SSectionBtn,
-  SFieldset,
-  SRecipeInfo,
-  SRecipeTexts,
-} from "./style";
+import { SFormBtn, SFormContainer, SSection, SSectionBtn } from "./style";
 
 const AddPost = () => {
   const recipeData = useAppSelector((state) => state.recipe);
@@ -49,13 +38,6 @@ const AddPost = () => {
 
   // 빈 값 체크
   const isJsonDataEmpty = useRecipeJsonDataValidation(recipeData.inputTexts);
-
-  const inputHandler = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const target = e.target;
-    dispatch(recipeActions.setTitleOrBody({ [target.name]: target.value }));
-  };
 
   const submitHandler = async (event: FormEvent) => {
     event.preventDefault();
@@ -142,43 +124,7 @@ const AddPost = () => {
     <SFormContainer>
       <SLogoRecipe src={recipeLogo} alt="recipeLogo"></SLogoRecipe>
       <form action="" method="post" onSubmit={submitHandler}>
-        <SSection>
-          <SRecipeInfo>
-            <SRecipeTexts>
-              <SLable htmlFor="title">
-                레시피 제목
-                <RequireMark />
-              </SLable>
-              <SInput
-                name="title"
-                value={recipeData.inputTexts.title}
-                onChange={inputHandler}
-                id="title"
-                placeholder="레시피 제목을 적어주세요."
-              />
-              <SLable htmlFor="body">
-                요리 소개
-                <RequireMark />
-              </SLable>
-              <STextarea
-                name="body"
-                id="body"
-                value={recipeData.inputTexts.body}
-                onChange={inputHandler}
-                rows={5}
-                placeholder="레시피를 소개해주세요."
-              ></STextarea>
-            </SRecipeTexts>
-            <ThumbNailUploader />
-          </SRecipeInfo>
-          <SFieldset>
-            <SLable htmlFor="category">
-              요리 카테고리
-              <RequireMark />
-            </SLable>
-            <ImgRadio />
-          </SFieldset>
-        </SSection>
+        <RecipeSubject />
         <SSection color={"var(--green-bean)"}>
           <SLable htmlFor="ingredients">
             요리 재료

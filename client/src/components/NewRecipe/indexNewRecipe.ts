@@ -12,3 +12,4 @@ export { default as TagWithBtn } from "./TagWithBtn";
 export { default as RemoveBtn } from "./Buttons/RemoveBtn";
 export { default as PlusBtn } from "./Buttons/PlusBtn";
 export { default as RequireMark } from "./RequireMark";
+export { default as RecipeSubject } from "./Subject/RecipeSubject";
