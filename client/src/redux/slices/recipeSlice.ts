@@ -2,6 +2,7 @@ import axios from "axios";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { TypeOfInputSectionsWithRemoveButton } from "../../types/type";
 import { IRecipeData, ITagProps } from "../../types/interface";
+import useMessage from "../../hooks/useMessage";
 
 const initialForm: IRecipeData = {
   inputTexts: {
@@ -79,11 +80,9 @@ const recipeSlice = createSlice({
         );
       }
     },
-    changeInputsSectionValues: (state: any, action) => {
-      const { keyValue, currentIndex, changedValue } = action.payload;
-      const keyOfChangeValue = Object.keys(changedValue)[0];
-      state.inputTexts[keyValue][currentIndex][keyOfChangeValue] =
-        changedValue[keyOfChangeValue];
+    changeIngredientSectionValues: (state, action) => {
+      const { currentIndex, changedSectionValues } = action.payload;
+      state.inputTexts.ingredients[currentIndex] = changedSectionValues;
     },
     changeStepTextInputValue: (state, action) => {
       const { inputText, currentIndex } = action.payload;
@@ -127,9 +126,11 @@ const recipeSlice = createSlice({
         tags,
         imgThumbNailUrl,
       } = action.payload;
+
       const tagsWithNameKey = tags.map((el: ITagProps) => ({
         name: el.name,
       }));
+
       state.inputTexts = {
         ...state,
         title,
@@ -141,8 +142,15 @@ const recipeSlice = createSlice({
       };
       state.imgThumbNailUrl = imgThumbNailUrl;
     });
-    // builder.addCase(fetchRecipeEditData.rejected, (state) => {
-    //   console.log("수정데이터를 가져오는데 문제가 생겼습니다.");
+    // .addCase(fetchRecipeEditData.rejected, (state, action) => {
+    //   const message = useMessage(3000);
+    //   // const errorType = ["요청문제", "서버 문제"]; 텍스트 고르기. 400,500,300 문제 나누기
+    //   // console.log(action.error.message); // Request failed with status code 404
+    //   message.fire({
+    //     icon: "error",
+    //     title: "수정 데이터를 가져오는데\n 문제가 생겼습니다.",
+    //     // title: "서버 에러가 발생했습니다. \n 다시 시도해주세요.",
+    //   });
     // });
   },
 });

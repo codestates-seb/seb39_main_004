@@ -45,7 +45,6 @@ const AddPost = () => {
     ? `/api/v1/recipe/${recipeId}/edit`
     : "/api/v1/recipe/add";
 
-  // console.log("1");
   // console.log("recipeData", recipeData);
 
   // 빈 값 체크
@@ -73,7 +72,7 @@ const AddPost = () => {
 
     /** 이미지 누락 체크 */
     // 이미지 배열의 길이와 이미지 파일의 길이 체크 필요
-    // 이미지 용량제한 필요
+    // 이미지 용량제한, 파일형식 필요 : svg 허용x
     const emptyImageIndex = recipeData.stepImgFiles.findIndex(
       (el) => el === undefined
     );
@@ -132,28 +131,11 @@ const AddPost = () => {
   };
 
   useEffect(() => {
-    // console.log("2");
-
     if (recipeId) {
       dispatch(fetchRecipeEditData(recipeId));
     } else {
       dispatch(recipeActions.resetInputsValue());
     }
-    // recipeId &&
-    //   axios
-    //     .get(`/api/v1/recipe/${recipeId}/edit/`)
-    //     .then((res) => {
-    //       const resData = res.data.data;
-    //       console.log("초기수정값", resData);
-    //       // dispatch(recipeActions.setEditPageDatas(resData));
-    //     })
-    //     .catch((error) => {
-    //       console.log(error);
-    //       // message.fire({
-    //       //   icon: "error",
-    //       //   title: "서버 에러가 발생했습니다. \n 다시 시도해주세요.",
-    //       // });
-    //     });
   }, []);
 
   return (

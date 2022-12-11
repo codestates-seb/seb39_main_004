@@ -47,26 +47,22 @@ const IngredientsSet = ({ idx, ingredient }: IIngredientSetProps) => {
   const ingredientsDatas = useAppSelector(
     (state) => state.recipe.inputTexts.ingredients
   );
-  const initialState = {
-    index: ingredient.index,
-    name: ingredient.name,
-    isEssential: ingredient.isEssential,
-    amount: ingredient.amount,
-  };
-  const [inputsForm, setInputsForm] = useState(initialState);
-  useEffect(() => {
-    setInputsForm(initialState);
-  }, [ingredient]);
+  const [inputsForm, setInputsForm] = useState({
+    index: 1,
+    name: "",
+    amount: "",
+    isEssential: false,
+  });
 
   const currentIndex = ingredientsDatas.findIndex(
     (el: IInputIngredientSection) => el.index === idx
   );
-  const payload = {
-    keyValue: "ingredients",
-    currentIndex,
-  };
 
   const removeIngredientInputsHandler = () => {
+    const payload = {
+      keyValue: "ingredients",
+      currentIndex,
+    };
     dispatch(recipeActions.removeInputSection(payload));
   };
 
@@ -81,13 +77,25 @@ const IngredientsSet = ({ idx, ingredient }: IIngredientSetProps) => {
         ...changedValue,
       };
     });
+  };
+
+  const blurInputValueHanler = () => {
     dispatch(
-      recipeActions.changeInputsSectionValues({
-        ...payload,
-        changedValue,
+      recipeActions.changeIngredientSectionValues({
+        currentIndex,
+        changedSectionValues: inputsForm,
       })
     );
   };
+
+  useEffect(() => {
+    setInputsForm({
+      index: ingredient.index,
+      name: ingredient.name,
+      amount: ingredient.amount,
+      isEssential: ingredient.isEssential,
+    });
+  }, [ingredient]);
 
   return (
     <SIngredientContainer>
@@ -98,6 +106,7 @@ const IngredientsSet = ({ idx, ingredient }: IIngredientSetProps) => {
           required
           value={inputsForm.name}
           onChange={changeInputValueHandler}
+          onBlur={blurInputValueHanler}
         />
         <RemoveBtn removeHandler={removeIngredientInputsHandler} idx={idx} />
       </SIngredientName>
@@ -108,12 +117,14 @@ const IngredientsSet = ({ idx, ingredient }: IIngredientSetProps) => {
           required
           value={inputsForm.amount}
           onChange={changeInputValueHandler}
+          onBlur={blurInputValueHanler}
         />
         <SCheckInput
           type="checkbox"
           name="isEssential"
           checked={inputsForm.isEssential}
           onChange={changeInputValueHandler}
+          onBlur={blurInputValueHanler}
         />
       </SIngredientAmout>
     </SIngredientContainer>
