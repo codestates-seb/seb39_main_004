@@ -8,17 +8,32 @@ import { SLable, SInput, STextarea } from "../RecipeFormStyled";
 import { ThumbNailUploader, ImgRadio, RequireMark } from "../indexNewRecipe";
 import { useAppSelector, useAppDispatch } from "../../../hooks/dispatchHook";
 import { recipeActions } from "../../../redux/slices/recipeSlice";
+import { useEffect, useState } from "react";
 
 const SubjectFillSection = () => {
   const dispatch = useAppDispatch();
-  const recipeData = useAppSelector((state) => state.recipe.inputTexts);
+  const { title, body } = useAppSelector((state) => state.recipe.inputTexts);
+  const [inputText, setInputText] = useState({
+    title: "",
+    body: "",
+  });
 
   const inputHandler = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const target = e.target;
-    dispatch(recipeActions.setTitleOrBody({ [target.name]: target.value }));
+    setInputText((preState) => {
+      return { ...preState, [target.name]: target.value };
+    });
   };
+
+  const blurInputHandler = () => {
+    dispatch(recipeActions.setTitleOrBody(inputText));
+  };
+
+  useEffect(() => {
+    setInputText({ title, body });
+  }, [title, body]);
 
   return (
     <SSection>
@@ -30,8 +45,9 @@ const SubjectFillSection = () => {
           </SLable>
           <SInput
             name="title"
-            value={recipeData.title}
+            value={inputText.title}
             onChange={inputHandler}
+            onBlur={blurInputHandler}
             id="title"
             placeholder="레시피 제목을 적어주세요."
           />
@@ -42,8 +58,9 @@ const SubjectFillSection = () => {
           <STextarea
             name="body"
             id="body"
-            value={recipeData.body}
+            value={inputText.body}
             onChange={inputHandler}
+            onBlur={blurInputHandler}
             rows={5}
             placeholder="레시피를 소개해주세요."
           ></STextarea>
