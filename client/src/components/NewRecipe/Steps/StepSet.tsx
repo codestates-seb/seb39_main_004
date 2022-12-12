@@ -1,10 +1,10 @@
-import { StepImgUploader, RemoveBtn } from "./indexNewRecipe";
-import { STextarea } from "./RecipeFormStyled";
-import { IStepSetProps } from "../../types/interface";
+import { StepImgUploader, RemoveBtn } from "../indexNewRecipe";
+import { STextarea } from "../RecipeFormStyled";
+import { IStepSetProps } from "../../../types/interface";
 import { useState, ChangeEvent, useEffect } from "react";
 import styled from "styled-components";
-import { useAppSelector, useAppDispatch } from "../../hooks/dispatchHook";
-import { recipeActions } from "../../redux/slices/recipeSlice";
+import { useAppSelector, useAppDispatch } from "../../../hooks/dispatchHook";
+import { recipeActions } from "../../../redux/slices/recipeSlice";
 
 const SStepsContainer = styled.div`
   display: flex;

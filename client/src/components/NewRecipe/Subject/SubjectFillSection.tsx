@@ -9,7 +9,7 @@ import { ThumbNailUploader, ImgRadio, RequireMark } from "../indexNewRecipe";
 import { useAppSelector, useAppDispatch } from "../../../hooks/dispatchHook";
 import { recipeActions } from "../../../redux/slices/recipeSlice";
 
-const RecipeSubject = () => {
+const SubjectFillSection = () => {
   const dispatch = useAppDispatch();
   const recipeData = useAppSelector((state) => state.recipe.inputTexts);
 
@@ -60,4 +60,4 @@ const RecipeSubject = () => {
     </SSection>
   );
 };
-export default RecipeSubject;
+export default SubjectFillSection;

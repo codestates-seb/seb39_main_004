@@ -1,5 +1,13 @@
 import styled from "styled-components";
 
+export const SLogoRecipe = styled.img`
+  width: 280px;
+  margin: 4rem auto;
+  @media ${({ theme }) => theme.device.mobile} {
+    width: 160px;
+    margin: 2rem auto;
+  }
+`;
 export const SFormContainer = styled.main`
   max-width: 1280px;
   display: flex;
@@ -53,7 +61,7 @@ export const SRecipeTexts = styled.div`
     }
   }
 `;
-export const SSectionBtn = styled.section`
+export const SButtonSection = styled.section`
   display: flex;
   justify-content: center;
   gap: 3rem;

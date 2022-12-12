@@ -3,11 +3,11 @@ import { ChangeEvent, useEffect, useState } from "react";
 import {
   IIngredientSetProps,
   IInputIngredientSection,
-} from "../../types/interface";
-import { RemoveBtn } from "./indexNewRecipe";
-import { SInput } from "./RecipeFormStyled";
-import { useAppDispatch, useAppSelector } from "../../hooks/dispatchHook";
-import { recipeActions } from "../../redux/slices/recipeSlice";
+} from "../../../types/interface";
+import { RemoveBtn } from "../indexNewRecipe";
+import { SInput } from "../RecipeFormStyled";
+import { useAppDispatch, useAppSelector } from "../../../hooks/dispatchHook";
+import { recipeActions } from "../../../redux/slices/recipeSlice";
 
 const SIngredientContainer = styled.li`
   display: grid;

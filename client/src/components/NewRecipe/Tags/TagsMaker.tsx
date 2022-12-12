@@ -1,8 +1,8 @@
 import { useState, KeyboardEvent } from "react";
-import { TagWithBtn } from "./indexNewRecipe";
+import { TagWithBtn } from "../indexNewRecipe";
 import styled from "styled-components";
-import { useAppSelector, useAppDispatch } from "../../hooks/dispatchHook";
-import { recipeActions } from "../../redux/slices/recipeSlice";
+import { useAppSelector, useAppDispatch } from "../../../hooks/dispatchHook";
+import { recipeActions } from "../../../redux/slices/recipeSlice";
 
 const STagsContainer = styled.ul`
   background-color: white;

@@ -1,7 +1,7 @@
-import { IRadioBtnProps } from "../../types/interface";
+import { IRadioBtnProps } from "../../../types/interface";
 import styled from "styled-components";
-import { recipeActions } from "../../redux/slices/recipeSlice";
-import { useAppDispatch } from "../../hooks/dispatchHook";
+import { recipeActions } from "../../../redux/slices/recipeSlice";
+import { useAppDispatch } from "../../../hooks/dispatchHook";
 
 const SLabel = styled.label`
   &:hover {

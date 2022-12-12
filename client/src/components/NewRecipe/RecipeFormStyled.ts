@@ -1,14 +1,5 @@
 import styled from "styled-components";
 
-const SLogoRecipe = styled.img`
-  width: 280px;
-  margin: 4rem auto;
-  @media ${({ theme }) => theme.device.mobile} {
-    width: 160px;
-    margin: 2rem auto;
-  }
-`;
-
 const SLable = styled.label`
   color: var(--deep-green);
   font-size: 1.3rem;
@@ -59,4 +50,4 @@ const STextarea = styled.textarea`
   }
 `;
 
-export { SLable, SLogoRecipe, SInput, STextarea };
+export { SLable, SInput, STextarea };

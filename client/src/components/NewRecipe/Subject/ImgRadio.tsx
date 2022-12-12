@@ -1,18 +1,18 @@
 import styled from "styled-components";
-import { RadioBtn } from "./indexNewRecipe";
-import ectYellow from "../../assets/images/Recipe/ectYellow.svg";
-import riceYellow from "../../assets/images/Recipe/riceYellow.svg";
-import dessertYellow from "../../assets/images/Recipe/dessertYellow.svg";
-import beverageYellow from "../../assets/images/Recipe/beverageYellow.svg";
-import noddleYellow from "../../assets/images/Recipe/noddleYellow.svg";
+import { RadioBtn } from "../indexNewRecipe";
+import ectYellow from "../../../assets/images/Recipe/ectYellow.svg";
+import riceYellow from "../../../assets/images/Recipe/riceYellow.svg";
+import dessertYellow from "../../../assets/images/Recipe/dessertYellow.svg";
+import beverageYellow from "../../../assets/images/Recipe/beverageYellow.svg";
+import noddleYellow from "../../../assets/images/Recipe/noddleYellow.svg";
 import { useSelector } from "react-redux";
-import { RootState } from "../../redux/store/store";
+import { RootState } from "../../../redux/store/store";
 
-// import ectWhite from "../../assets/images/Recipe/ectWhite.svg";
-// import riceWhite from "../../assets/images/Recipe/riceWhite.svg";
-// import dessertWhite from "../../assets/images/Recipe/dessertWhite.svg";
-// import beverageWhite from "../../assets/images/Recipe/beverageWhite.svg";
-// import noddleWhite from "../../assets/images/Recipe/noddleWhite.svg";
+// import ectWhite from "../../../assets/images/Recipe/ectWhite.svg";
+// import riceWhite from "../../../assets/images/Recipe/riceWhite.svg";
+// import dessertWhite from "../../../assets/images/Recipe/dessertWhite.svg";
+// import beverageWhite from "../../../assets/images/Recipe/beverageWhite.svg";
+// import noddleWhite from "../../../assets/images/Recipe/noddleWhite.svg";
 // const categoryImgsLink = [
 //   {
 //     name: "rice",

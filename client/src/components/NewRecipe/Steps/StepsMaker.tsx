@@ -1,10 +1,10 @@
 import {
   IInputIngredientSection,
   IInputStepSection,
-} from "../../types/interface";
-import { StepSet, PlusBtn } from "./indexNewRecipe";
-import { useAppSelector, useAppDispatch } from "../../hooks/dispatchHook";
-import { recipeActions } from "../../redux/slices/recipeSlice";
+} from "../../../types/interface";
+import { StepSet, PlusBtn } from "../indexNewRecipe";
+import { useAppSelector, useAppDispatch } from "../../../hooks/dispatchHook";
+import { recipeActions } from "../../../redux/slices/recipeSlice";
 
 export const findLastIndex = (
   array: IInputStepSection[] | IInputIngredientSection[]

@@ -1,8 +1,8 @@
-import { ITagWithBtnProps } from "../../types/interface";
-import { STag } from "../CommonUI/Tag";
+import { ITagWithBtnProps } from "../../../types/interface";
+import { STag } from "../../CommonUI/Tag";
 import styled from "styled-components";
-import { useAppDispatch } from "../../hooks/dispatchHook";
-import { recipeActions } from "../../redux/slices/recipeSlice";
+import { useAppDispatch } from "../../../hooks/dispatchHook";
+import { recipeActions } from "../../../redux/slices/recipeSlice";
 
 const SFormTag = styled(STag)`
   font-size: 1.1rem;

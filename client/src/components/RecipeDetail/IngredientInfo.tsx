@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { IPostInGredientProps } from "../../types/interface";
+import { IInputIngredientSection } from "../../types/interface";
 
 const SIngredientItem = styled.div`
   width: 50%;
@@ -70,14 +70,14 @@ const IngredientItem = ({
   name,
   amount,
   isEssential,
-}: IPostInGredientProps) => {
+}: IInputIngredientSection) => {
   return (
     <>
       <SIngredientItem>
         <dl>
           <dt>
             <p>
-              <input type="checkbox" defaultChecked={isEssential} />
+              <input type="checkbox" />
               {name}
             </p>
             {isEssential === true && <EssentialTitle>필수</EssentialTitle>}

@@ -1,19 +1,15 @@
 import {
-  SLable,
-  SLogoRecipe,
-} from "../../components/NewRecipe/RecipeFormStyled";
-import {
-  TagsMaker,
-  Guide,
-  AddingIngredients,
-  StepsMaker,
-  RequireMark,
-  RecipeSubject,
+  SubjectFillSection,
+  IngredientsFillSection,
+  StepFillSection,
+  TagFillSection,
 } from "../../components/NewRecipe/indexNewRecipe";
-import { FormEvent, useEffect } from "react";
-import axios from "axios";
-import { useParams, useNavigate } from "react-router-dom";
+import { SFormBtn, SFormContainer, SButtonSection, SLogoRecipe } from "./style";
 import recipeLogo from "../../assets/images/Recipe/recipeLogo.svg";
+
+import { FormEvent, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import axios from "axios";
 import useMessage from "../../hooks/useMessage";
 import useRecipeJsonDataValidation from "../../hooks/useRecipeJsonDataValidation";
 import { useAppDispatch, useAppSelector } from "../../hooks/dispatchHook";
@@ -21,7 +17,6 @@ import {
   recipeActions,
   fetchRecipeEditData,
 } from "../../redux/slices/recipeSlice";
-import { SFormBtn, SFormContainer, SSection, SSectionBtn } from "./style";
 
 const AddPost = () => {
   const recipeData = useAppSelector((state) => state.recipe);
@@ -124,28 +119,11 @@ const AddPost = () => {
     <SFormContainer>
       <SLogoRecipe src={recipeLogo} alt="recipeLogo"></SLogoRecipe>
       <form action="" method="post" onSubmit={submitHandler}>
-        <RecipeSubject />
-        <SSection color={"var(--green-bean)"}>
-          <SLable htmlFor="ingredients">
-            요리 재료
-            <RequireMark />
-            <Guide text="필수 재료는 체크표시를 해주세요." />
-          </SLable>
-          <AddingIngredients />
-        </SSection>
-        <SSection color={"var(--yellow)"}>
-          <SLable>
-            요리 순서
-            <RequireMark />
-            <Guide text="중요한 부분은 빠짐없이 적어주세요." />
-          </SLable>
-          <StepsMaker />
-        </SSection>
-        <SSection color={"var(--sky-blue)"}>
-          <SLable>태그</SLable>
-          <TagsMaker />
-        </SSection>
-        <SSectionBtn>
+        <SubjectFillSection />
+        <IngredientsFillSection />
+        <StepFillSection />
+        <TagFillSection />
+        <SButtonSection>
           <SFormBtn color={"var(--deep-green)"} type="reset">
             취소
           </SFormBtn>
@@ -153,7 +131,7 @@ const AddPost = () => {
             등록
           </SFormBtn>
           {/* <button >임시저장</button> */}
-        </SSectionBtn>
+        </SButtonSection>
       </form>
     </SFormContainer>
   );
