@@ -48,8 +48,8 @@ const AddPost = () => {
     }
 
     /** 이미지 누락 체크 */
-    // 이미지 배열의 길이와 이미지 파일의 길이 체크 필요
-    // 이미지 용량제한, 파일형식 필요 : svg 허용x
+    // TODO: 이미지 배열의 길이와 이미지 파일의 길이 체크 필요
+    // TODO: 이미지 용량제한, 파일형식 필요 : svg 허용x
     const emptyImageIndex = recipeData.stepImgFiles.findIndex(
       (el) => el === undefined
     );
@@ -125,12 +125,13 @@ const AddPost = () => {
         <TagFillSection />
         <SButtonSection>
           <SFormBtn color={"var(--deep-green)"} type="reset">
+            {/* TODO: 초기화 버튼 동작관련 알럿창, slice 초기화*/}
             취소
           </SFormBtn>
           <SFormBtn type="button" onClick={submitHandler}>
             등록
           </SFormBtn>
-          {/* <button >임시저장</button> */}
+          {/* TODO: <button >임시저장</button> */}
         </SButtonSection>
       </form>
     </SFormContainer>

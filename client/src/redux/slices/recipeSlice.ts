@@ -115,43 +115,45 @@ const recipeSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(fetchRecipeEditData.fulfilled, (state, action) => {
-      // console.log("엑스트라리듀서", action.payload);
-      const {
-        title,
-        body,
-        category,
-        ingredients,
-        directions,
-        tags,
-        imgThumbNailUrl,
-      } = action.payload;
+    builder
+      .addCase(fetchRecipeEditData.fulfilled, (state, action) => {
+        const {
+          title,
+          body,
+          category,
+          ingredients,
+          directions,
+          tags,
+          imgThumbNailUrl,
+        } = action.payload;
 
-      const tagsWithNameKey = tags.map((el: ITagProps) => ({
-        name: el.name,
-      }));
+        const tagsWithNameKey = tags.map((el: ITagProps) => ({
+          name: el.name,
+        }));
 
-      state.inputTexts = {
-        ...state,
-        title,
-        body,
-        category,
-        ingredients,
-        directions,
-        tags: tagsWithNameKey,
-      };
-      state.imgThumbNailUrl = imgThumbNailUrl;
-    });
-    // .addCase(fetchRecipeEditData.rejected, (state, action) => {
-    //   const message = useMessage(3000);
-    //   // const errorType = ["요청문제", "서버 문제"]; 텍스트 고르기. 400,500,300 문제 나누기
-    //   // console.log(action.error.message); // Request failed with status code 404
-    //   message.fire({
-    //     icon: "error",
-    //     title: "수정 데이터를 가져오는데\n 문제가 생겼습니다.",
-    //     // title: "서버 에러가 발생했습니다. \n 다시 시도해주세요.",
-    //   });
-    // });
+        state.inputTexts = {
+          ...state,
+          title,
+          body,
+          category,
+          ingredients,
+          directions,
+          tags: tagsWithNameKey,
+        };
+        state.imgThumbNailUrl = imgThumbNailUrl;
+      })
+      .addCase(fetchRecipeEditData.rejected, (state, action) => {
+        // TODO: useMessage 일반 함수 이름 변경
+        const errorType: { [key: string]: string } = { 4: "요청", 5: "서버" };
+        const FirstErrorNumber = action.error.message?.at(-3); // Request failed with status code 404
+        const cause = FirstErrorNumber ? errorType[FirstErrorNumber] : "";
+
+        const message = useMessage(3000);
+        message.fire({
+          icon: "error",
+          title: `데이터를 가져오는데\n ${cause} 문제가 생겼습니다.`,
+        });
+      });
   },
 });
 
