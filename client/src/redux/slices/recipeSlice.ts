@@ -146,7 +146,10 @@ const recipeSlice = createSlice({
         // TODO: useMessage 일반 함수 이름 변경
         const errorType: { [key: string]: string } = { 4: "요청", 5: "서버" };
         const FirstErrorNumber = action.error.message?.at(-3); // Request failed with status code 404
-        const cause = FirstErrorNumber ? errorType[FirstErrorNumber] : "";
+        const cause =
+          FirstErrorNumber === "4" || FirstErrorNumber === "5"
+            ? errorType[FirstErrorNumber]
+            : "";
 
         const message = useMessage(3000);
         message.fire({
