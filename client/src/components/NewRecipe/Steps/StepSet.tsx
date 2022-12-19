@@ -28,11 +28,7 @@ const StepSet = ({ stepData }: IStepSetProps) => {
   const currentIndex = directionsData.findIndex(
     (direction) => direction.index === stepData.index
   );
-  const [inputText, setInputText] = useState(stepData.body);
-
-  useEffect(() => {
-    setInputText(stepData.body);
-  }, [stepData]);
+  const [inputText, setInputText] = useState("");
 
   const changeTextHandler = (event: ChangeEvent<HTMLTextAreaElement>) => {
     setInputText(event.target.value);
@@ -51,6 +47,10 @@ const StepSet = ({ stepData }: IStepSetProps) => {
     };
     dispatch(recipeActions.removeInputSection(payload));
   };
+
+  useEffect(() => {
+    setInputText(stepData.body);
+  }, [stepData.body]);
 
   return (
     <SStepsContainer>
