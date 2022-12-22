@@ -8,15 +8,13 @@ import { SFormBtn, SFormContainer, SButtonSection, SLogoRecipe } from "./style";
 import recipeLogo from "../../assets/images/Recipe/recipeLogo.svg";
 
 import { FormEvent, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import useMessage from "../../hooks/useMessage";
+import checkEmptyStepImage from "../../hooks/checkEmptyStepImage";
 import useRecipeJsonDataValidation from "../../hooks/useRecipeJsonDataValidation";
 import { useAppDispatch, useAppSelector } from "../../hooks/dispatchHook";
-import {
-  recipeActions,
-  fetchRecipeEditData,
-} from "../../redux/slices/recipeSlice";
+import { recipeActions } from "../../redux/slices/recipeSlice";
 
 const AddPost = () => {
   const recipeData = useAppSelector((state) => state.recipe);
@@ -24,53 +22,46 @@ const AddPost = () => {
   const message = useMessage(3000);
   const navigate = useNavigate();
 
-  const { recipeId } = useParams();
-  const requestUrl = recipeId
-    ? `/api/v1/recipe/${recipeId}/edit`
-    : "/api/v1/recipe/add";
-
-  // console.log("recipeData", recipeData);
-
-  // 빈 값 체크
   const isJsonDataEmpty = useRecipeJsonDataValidation(recipeData.inputTexts);
+  console.log("recipeData", recipeData);
 
   const submitHandler = async (event: FormEvent) => {
     event.preventDefault();
 
-    /** 텍스트 누락 체크 */
-    if (isJsonDataEmpty === true) {
-      message.fire({
-        icon: "error",
-        title:
-          "레시피 등록에 실패했습니다.\n 누락된 정보가 있는지 \n확인해주세요.",
-      });
-      return;
-    }
-
     /** 이미지 누락 체크 */
-    // TODO: 이미지 배열의 길이와 이미지 파일의 길이 체크 필요
     // TODO: 이미지 용량제한, 파일형식 필요 : svg 허용x
-    const emptyImageIndex = recipeData.stepImgFiles.findIndex(
-      (el) => el === undefined
-    );
-    if (emptyImageIndex >= 0) {
-      message.fire({
-        icon: "error",
-        title: `요리 순서의 ${emptyImageIndex + 1}번째 이미지를 \n추가해주세요`,
-      });
-      return;
-    }
-    if (!recipeId && !recipeData.thumbNailFile) {
+    if (!recipeData.thumbNailFile) {
       message.fire({
         icon: "error",
         title: `등록하려면 \n썸네일이미지를 추가해주세요.`,
       });
       return;
     }
+    const { emptyStepImageSpot, isStepImageEmpty } =
+      checkEmptyStepImage(recipeData);
+    if (isStepImageEmpty) {
+      message.fire({
+        icon: "error",
+        title: `요리 순서의 ${emptyStepImageSpot}번째 이미지를 \n추가해주세요`,
+      });
+      return;
+    }
+
+    /** 텍스트 누락 체크 */
+    if (isJsonDataEmpty === true) {
+      message.fire({
+        icon: "error",
+        title: "누락된 정보가 있는지 \n확인해주세요.",
+      });
+      return;
+    }
 
     /** 서버 요청 Form 데이터 구축 */
-    dispatch(recipeActions.alignIndexNumber());
     const formData = new FormData();
+
+    // 인덱스 재정렬
+    dispatch(recipeActions.alignIndexNumber());
+
     // 썸네일 수정 없을 때 임의의 파일 전송
     const sendingThumbNailFile = !recipeData.thumbNailFile
       ? new File(["foo"], "foo.txt", {
@@ -78,11 +69,13 @@ const AddPost = () => {
         })
       : recipeData.thumbNailFile;
     formData.append("imgThumbNail", sendingThumbNailFile);
+
     recipeData.stepImgFiles.forEach((file) => {
       if (file) {
         formData.append("imgDirection", file);
       }
     });
+
     formData.append(
       "recipe",
       new Blob([JSON.stringify(recipeData.inputTexts)], {
@@ -92,27 +85,22 @@ const AddPost = () => {
 
     /** 서버 요청 */
     try {
-      const response = await axios.post(requestUrl, formData, {
+      dispatch(recipeActions.resetInputsValue());
+      const response = await axios.post("/api/v1/recipe/add", formData, {
         headers: { "content-type": "multipart/form-data" },
       });
-      dispatch(recipeActions.resetInputsValue());
       const newId = response.data.data.id;
       navigate(`/post/${newId}/`);
     } catch (error) {
       message.fire({
         icon: "error",
-        title:
-          "레시피 등록에 실패했습니다.\n 누락된 정보가 있는지 \n확인해주세요.",
+        title: "레시피 등록에 실패했습니다.",
       });
     }
   };
 
   useEffect(() => {
-    if (recipeId) {
-      dispatch(fetchRecipeEditData(recipeId));
-    } else {
-      dispatch(recipeActions.resetInputsValue());
-    }
+    dispatch(recipeActions.resetInputsValue());
   }, []);
 
   return (
