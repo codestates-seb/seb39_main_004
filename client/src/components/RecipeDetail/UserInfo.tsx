@@ -208,7 +208,7 @@ const PostUserInfo = ({
                 (name === userInfo.name ? (
                   <>
                     <span>
-                      <Link to={`/edit/${id}`}>Edit</Link>
+                      <Link to={`/recipe/${id}`}>Edit</Link>
                     </span>
                     <span role="presentation" onClick={DeleteHandler}>
                       Delete
