@@ -12,7 +12,8 @@ import { useEffect, useState } from "react";
 
 const SubjectFillSection = () => {
   const dispatch = useAppDispatch();
-  const { title, body } = useAppSelector((state) => state.recipe.inputTexts);
+  const title = useAppSelector((state) => state.recipe.inputTexts.title);
+  const body = useAppSelector((state) => state.recipe.inputTexts.body);
   const [inputText, setInputText] = useState({
     title: "",
     body: "",

@@ -23,7 +23,7 @@ const AddPost = () => {
   const navigate = useNavigate();
 
   const isJsonDataEmpty = useRecipeJsonDataValidation(recipeData.inputTexts);
-  console.log("recipeData", recipeData);
+  // console.log("recipeData", recipeData);
 
   const submitHandler = async (event: FormEvent) => {
     event.preventDefault();

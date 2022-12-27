@@ -102,7 +102,8 @@ const PostUserInfo = ({
   const message = useMessage(2000);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const { sessionStatus, userInfo } = useAppSelector((state) => state.user);
+  const sessionStatus = useAppSelector((state) => state.user.sessionStatus);
+  const userInfo = useAppSelector((state) => state.user.userInfo);
   const [follow, setFollow] = useState(followed);
   const { id } = useParams();
 

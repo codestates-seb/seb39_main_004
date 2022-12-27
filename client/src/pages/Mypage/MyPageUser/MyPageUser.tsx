@@ -65,7 +65,8 @@ const MyPageUser = () => {
   const [profileImageFile, setProfileImageFile] = useState<TypeOfFileList>();
   const message = useMessage(2000);
   const dispatch = useAppDispatch();
-  const { sessionStatus, userInfo } = useAppSelector((state) => state.user);
+  const sessionStatus = useAppSelector((state) => state.user.sessionStatus);
+  const userInfo = useAppSelector((state) => state.user.userInfo);
 
   const updateProfileImage = async () => {
     const formdata = new FormData();
