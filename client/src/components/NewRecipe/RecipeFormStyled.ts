@@ -45,6 +45,9 @@ const STextarea = styled.textarea`
   &:focus {
     outline: none;
   }
+  &::placeholder {
+    font-size: 1.1rem;
+  }
   @media ${({ theme }) => theme.device.mobile} {
     font-size: 0.9rem;
   }

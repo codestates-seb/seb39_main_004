@@ -53,12 +53,7 @@ export const SRecipeTexts = styled.div`
   flex-direction: column;
   flex: 1;
   & > :nth-child(3) {
-    margin-top: 2rem;
-  }
-  @media ${({ theme }) => theme.device.desktop} {
-    & > :nth-child(3) {
-      margin-top: 1rem;
-    }
+    margin-top: 1rem;
   }
 `;
 export const SButtonSection = styled.section`
