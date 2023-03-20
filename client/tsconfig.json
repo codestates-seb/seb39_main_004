@@ -19,5 +19,6 @@
     //  "noUnusedLocals": true, // 사용되지 않은 로컬이 있을 경우, 오류로 보고
     //  "noUnusedParameters": true, // 사용되지 않은 매개변수가 있을 경우, 오류로 보고
   },
-  "include": ["src"] // 컴파일 포함
+  "include": ["src"], // 컴파일 포함
+  "exclude": ["node_modules", "build"]
 }
