@@ -1,6 +1,7 @@
-import { IRadioBtnProps } from "../../types/interface";
-// import { useState } from "react";
+import { IRadioBtnProps } from "../../../types/interface";
 import styled from "styled-components";
+import { recipeActions } from "../../../redux/slices/recipeSlice";
+import { useAppDispatch } from "../../../hooks/dispatchHook";
 
 const SLabel = styled.label`
   &:hover {
@@ -26,13 +27,8 @@ const SLabel = styled.label`
   }
 `;
 
-const RadioBtn = ({
-  name,
-  data,
-  icon,
-  checked,
-  setCheckedCateg,
-}: IRadioBtnProps) => {
+const RadioBtn = ({ name, data, icon, checked }: IRadioBtnProps) => {
+  const dispatch = useAppDispatch();
   return (
     <SLabel htmlFor={name}>
       <input
@@ -41,7 +37,7 @@ const RadioBtn = ({
         id={name}
         value={data}
         onChange={() => {
-          setCheckedCateg(data);
+          dispatch(recipeActions.setCategory(data));
         }}
         checked={checked}
       />

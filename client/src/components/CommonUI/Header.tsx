@@ -148,7 +148,7 @@ const Header = () => {
         </SSection>
         <SSection>
           {sessionStatus && (
-            <SNavLink to="/recipe">
+            <SNavLink to="/recipe/new">
               <MdOutlineNoteAlt size={32} />
             </SNavLink>
           )}

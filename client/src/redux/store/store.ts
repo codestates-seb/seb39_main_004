@@ -4,11 +4,13 @@ import {
   getDefaultMiddleware,
 } from "@reduxjs/toolkit";
 import userReducer from "../slices/userSlice";
+import recipeReducer from "../slices/recipeSlice";
 import storage from "redux-persist/lib/storage";
 import { persistReducer } from "redux-persist";
 
 const reducers = combineReducers({
   user: userReducer,
+  recipe: recipeReducer,
 });
 
 const persistConfig = {

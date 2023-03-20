@@ -1,48 +1,48 @@
 import { useState, useEffect } from "react";
 import {
-  IStepValues,
+  IInputStepSection,
   ITagProps,
-  IPostInGredientProps,
+  IInputIngredientSection,
+  IEditResponseData,
 } from "../types/interface";
-import { TypeOfIngredients, TypeOfTags } from "../types/type";
 
 const useRecipeJsonDataValidation = (
-  data: { body: string; title: string },
-  ingredientsDatas: TypeOfIngredients[],
-  directDatas: IStepValues[],
-  tagsDatas: TypeOfTags[]
+  inputDatas: IEditResponseData
 ): boolean => {
   const [isEmpty, setIsEmpty] = useState<boolean>(false);
 
   useEffect(() => {
     setIsEmpty(false);
 
-    if (!data.body || !data.title) {
+    if (!inputDatas.body || !inputDatas.title) {
       setIsEmpty(true);
     }
 
-    ingredientsDatas.forEach((ingredient: IPostInGredientProps) => {
+    inputDatas.ingredients.forEach((ingredient: IInputIngredientSection) => {
       if (!ingredient.amount || !ingredient.name) {
         setIsEmpty(true);
       }
     });
 
-    directDatas.forEach((directInfo: IStepValues) => {
+    inputDatas.directions.forEach((directInfo: IInputStepSection) => {
       if (!directInfo.body) {
         setIsEmpty(true);
       }
     });
 
-    tagsDatas.forEach((tag: ITagProps) => {
+    inputDatas.tags.forEach((tag: ITagProps) => {
       if (!tag.name) {
         setIsEmpty(true);
       }
     });
 
-    if (ingredientsDatas.length === 0 || directDatas.length === 0) {
+    if (
+      inputDatas.ingredients.length === 0 ||
+      inputDatas.directions.length === 0
+    ) {
       setIsEmpty(true);
     }
-  }, [data, ingredientsDatas, directDatas, tagsDatas]);
+  }, [inputDatas]);
 
   return isEmpty;
 };

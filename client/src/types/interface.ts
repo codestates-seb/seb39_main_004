@@ -1,61 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Dispatch, SetStateAction } from "react";
-import { TypeOfFileList, TypeOfFormData, TypeOfIngredients } from "./type";
-import { UseFormRegister } from "react-hook-form";
-
-interface IThumbNailProps {
-  isMypage?: boolean;
-  resThumbNailImgUrl?: string;
-  setThumbNail: Dispatch<SetStateAction<TypeOfFileList>>;
-}
-
-interface IImgUploaderProps {
-  steps?: IStepValues[];
-  imgName: string;
-  currentIndex?: number;
-  imgUrl: string;
-  stepImgFiles?: TypeOfFileList[];
-  setStepImgFiles?: Dispatch<SetStateAction<TypeOfFileList[]>>;
-  setImgName?: Dispatch<SetStateAction<string>>;
-}
-
-interface IStepMakerProps {
-  // setEditResponse?: Dispatch<SetStateAction<IEditResponseData | undefined>>;
-  // editResponse?: IEditResponseData | undefined;
-  directDatas: IStepValues[];
-  setDirectDatas: Dispatch<SetStateAction<IStepValues[]>>;
-  stepImgFiles: TypeOfFileList[];
-  setStepImgFiles: Dispatch<SetStateAction<TypeOfFileList[]>>;
-  // clickEvent?: (orderValue: string) => Promise<void> | void;
-}
-
-interface IStepValues {
-  imgDirectionUrl: string;
-  body: string;
-  index: number;
-  isUploaded: boolean;
-}
-
-interface IStepSetProps {
-  idx: number;
-  text: string;
-  imgUrl: string;
-  steps: IStepValues[];
-  stepImgFiles: TypeOfFileList[];
-  setStepImgFiles: Dispatch<SetStateAction<TypeOfFileList[]>>;
-  directDatas: IStepValues[];
-  setDirectDatas: Dispatch<SetStateAction<IStepValues[]>>;
-}
-
-interface IResponseImgProps {
-  contentType?: string;
-  createData?: string;
-  fileName: string;
-  fileSize?: number;
-  id: number;
-  modDate?: string;
-  originFileName?: string;
-}
+import { TypeOfFileList } from "./type";
 
 interface IItemProps {
   id: number;
@@ -71,59 +16,19 @@ interface IItemProps {
 interface IRecipeDataProps {
   mainData?: IItemProps[];
   searchData?: IItemProps[];
-  setSearchSortBy?: React.Dispatch<React.SetStateAction<string>>;
+  setSearchSortBy?: Dispatch<SetStateAction<string>>;
 }
 
-interface ITagProps {
-  id?: number;
-  name: string;
-}
-
-interface IAddIngredientsProps {
-  register?: UseFormRegister<TypeOfFormData>;
-  ingredientsDatas: TypeOfIngredients[];
-  setIngredientsDatas: Dispatch<SetStateAction<TypeOfIngredients[]>>;
-}
-
-interface IIngredientSetProps {
-  idx: number;
-  ingredient: TypeOfIngredients;
-  ingredientsDatas: TypeOfIngredients[];
-  setIngredientsDatas: Dispatch<SetStateAction<TypeOfIngredients[]>>;
-}
-
-interface ITagsData {
-  id?: number;
-  name: string;
-}
-
-interface ITagsMakerProps {
-  tagsDatas: ITagsData[];
-  setTagsDatas: Dispatch<SetStateAction<ITagsData[]>>;
-}
-
-interface IImgRadioProps {
-  checkedCateg: string;
-  setCheckedCateg: Dispatch<SetStateAction<string>>;
-}
-
-interface IRadioBtnProps extends Omit<IImgRadioProps, "checkedCateg"> {
-  name: string;
-  data: string;
-  icon: string;
-  checked: boolean;
-}
-
-interface ICategory {
-  rice?: string;
-  noddle?: string;
-  dessert?: string;
-  beverage?: string;
-  etc?: string;
-}
+// interface ICategory {
+//   rice?: string;
+//   noddle?: string;
+//   dessert?: string;
+//   beverage?: string;
+//   etc?: string;
+// }
 
 interface ICategoryProps {
-  setCategory: React.Dispatch<React.SetStateAction<string>>;
+  setCategory: Dispatch<SetStateAction<string>>;
 }
 
 interface IIconProps {
@@ -132,17 +37,6 @@ interface IIconProps {
   text: string;
   link: string;
   clickEvent: (categoryValue: string) => void;
-}
-
-interface ITagWithBtnProps {
-  tag: string;
-  id: number;
-  tagRemover: (idx: number) => void;
-}
-
-interface IRemoveBtnProps {
-  removeHandler: (idx: number) => void;
-  idx: number;
 }
 
 interface IPostResponceProps {
@@ -159,7 +53,7 @@ interface IPostResponceProps {
   tags: ITagProps[];
   owner: IPostUserProps;
   directions: IPostDirectionsProps[];
-  ingredients: IPostInGredientProps[];
+  ingredients: IInputIngredientSection[];
 }
 
 interface IPostUserProps {
@@ -178,27 +72,10 @@ interface IPostCategoryProps {
   tags: ITagProps[];
 }
 
-interface IPostInGredientProps {
-  index: number;
-  name: string;
-  amount: string;
-  isEssential: boolean;
-}
-
 interface IPostDirectionsProps {
   index?: number;
   imgDirectionUrl?: string;
   body: string;
-}
-
-interface IEditResponseData {
-  title: string;
-  body: string;
-  category: string;
-  directions: IStepValues[];
-  imgThumbNailUrl: string;
-  ingredients: IStepValues[];
-  tags: ITagProps[];
 }
 
 interface IUser {
@@ -260,43 +137,108 @@ interface IFollowData {
 
 interface IFollowingProps {
   followingData: IFollowData[];
-  setFollowingData: React.Dispatch<React.SetStateAction<any[]>>;
+  setFollowingData: Dispatch<React.SetStateAction<any[]>>;
 }
 
 interface IStarProps {
   starClicked?: boolean[];
-  setStarClicked?: React.Dispatch<React.SetStateAction<boolean[]>>;
+  setStarClicked?: Dispatch<React.SetStateAction<boolean[]>>;
 }
 
-// 리펙토링 전 임시 사용
-interface IRecipeTemp {
-  body: string;
+/** ----------------- Recipe 등록 / 수정 페이지 관련 interface ----------------- */
+interface IRecipeData {
+  inputTexts: IEditResponseData;
+  imgThumbNailUrl: string;
+  thumbNailFile: TypeOfFileList;
+  stepImgFiles: TypeOfFileList[];
+}
+
+interface IEditResponseData {
   title: string;
+  body: string;
+  category: string;
+  ingredients: IInputIngredientSection[];
+  directions: IInputStepSection[];
+  tags: ITagProps[];
+}
+
+interface IRemoveBtnProps {
+  removeHandler: (idx: number) => void;
+  idx: number;
+}
+
+// 첫번째 영역 관련
+interface IRadioBtnProps {
+  name: string;
+  data: string;
+  icon: string;
+  checked: boolean;
+}
+
+interface IThumbNailProps {
+  isMypage?: boolean;
+  setProfileImageFile?: Dispatch<SetStateAction<TypeOfFileList>>;
+  resThumbNailImgUrl?: string;
+}
+
+// 두번째 영역 관련(재료)
+interface IInputIngredientSection {
+  index: number;
+  name: string;
+  amount: string;
+  isEssential: boolean;
+}
+
+interface IIngredientSetProps {
+  idx: number;
+  ingredient: IInputIngredientSection;
+}
+
+// 세번째 영역 관련(순서)
+interface IInputStepSection {
+  imgDirectionUrl: string;
+  body: string;
+  index: number;
+  isUploaded: boolean;
+}
+
+interface IStepSetProps {
+  stepData: IInputStepSection;
+}
+
+interface IStepImgUploaderProps {
+  currentIndex: number;
+  imgUrl: string;
+}
+
+// 네번째 영역 관련(태그)
+interface ITagProps {
+  id?: number;
+  name: string;
+}
+
+interface ITagWithBtnProps {
+  id: number;
+  tagValue: string;
 }
 
 export type {
   IThumbNailProps,
-  IImgUploaderProps,
-  IStepMakerProps,
-  IResponseImgProps,
-  IAddIngredientsProps,
+  IStepImgUploaderProps,
   IIngredientSetProps,
   IStepSetProps,
-  ITagsData,
-  ITagsMakerProps,
   IItemProps,
   ITagProps,
   IRecipeDataProps,
   IRadioBtnProps,
-  ICategory,
-  IImgRadioProps,
+  // ICategory,
   ICategoryProps,
   IIconProps,
   ITagWithBtnProps,
   IRemoveBtnProps,
-  IStepValues,
+  IInputStepSection,
   IPostResponceProps,
-  IPostInGredientProps,
+  IInputIngredientSection,
   IPostDirectionsProps,
   IPostUserProps,
   IPostCategoryProps,
@@ -308,5 +250,5 @@ export type {
   IFollowProps,
   IFollowingProps,
   IStarProps,
-  IRecipeTemp,
+  IRecipeData,
 };

@@ -23,18 +23,20 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route index element={<Main />}></Route>
-            <Route path="/login" element={<Login />}></Route>
-            <Route path="/recipe" element={<AddPost />}></Route>
-            <Route path="/edit/:recipeId" element={<EditPost />}></Route>
-            <Route path="/signup" element={<SignUp />}></Route>
-            <Route path="/snsinfo" element={<SNSInfo />}></Route>
-            <Route path="/mypage" element={<MyPage />}></Route>
-            <Route path="/search" element={<Search />}></Route>
-            <Route path="/rank" element={<Main />}></Route>
-            <Route path="/redirect" element={<Redirect />} />
-            <Route path="/api/v1/auth/login-success" element={<Main />} />
+            <Route path="login" element={<Login />}></Route>
+            <Route path="recipe">
+              <Route path="new" element={<AddPost />}></Route>
+              <Route path=":recipeId" element={<EditPost />}></Route>
+            </Route>
+            <Route path="signup" element={<SignUp />}></Route>
+            <Route path="snsinfo" element={<SNSInfo />}></Route>
+            <Route path="mypage" element={<MyPage />}></Route>
+            <Route path="search" element={<Search />}></Route>
+            <Route path="rank" element={<Main />}></Route>
+            <Route path="redirect" element={<Redirect />} />
+            <Route path="api/v1/auth/login-success" element={<Main />} />
             {/** 랭킹페이지 완성 후 컴포넌트 변경해주세요 */}
-            <Route path="/post/:id" element={<PostDetail />}></Route>
+            <Route path="post/:id" element={<PostDetail />}></Route>
           </Route>
         </Routes>
       </Suspense>

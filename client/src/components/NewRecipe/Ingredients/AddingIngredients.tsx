@@ -1,29 +1,34 @@
-import { IAddIngredientsProps } from "../../types/interface";
-import { IngredientsSet, PlusBtn } from "./indexNewRecipe";
+import { IngredientsSet, PlusBtn } from "../indexNewRecipe";
 import styled from "styled-components";
+import { useAppSelector, useAppDispatch } from "../../../hooks/dispatchHook";
+import { recipeActions } from "../../../redux/slices/recipeSlice";
+import { findLastIndex } from "../Steps/StepsMaker";
 
 const SIngredientsGroups = styled.div`
   display: flex;
   flex-direction: column;
 `;
 
-const AddIngredients = ({
-  ingredientsDatas,
-  setIngredientsDatas,
-}: IAddIngredientsProps) => {
+const AddIngredients = () => {
+  const ingredientsDatas = useAppSelector(
+    (state) => state.recipe.inputTexts.ingredients
+  );
+  const dispatch = useAppDispatch();
+
   const addIngredientInputsHandler = () => {
     const basicForm = {
-      index: 1,
+      index: findLastIndex(ingredientsDatas),
       name: "",
       amount: "",
       isEssential: false,
     };
 
-    if (ingredientsDatas.length > 0) {
-      const lastInputsIndex = ingredientsDatas.slice(-1)[0].index;
-      basicForm.index = lastInputsIndex + 1;
-    }
-    setIngredientsDatas([...ingredientsDatas, basicForm]);
+    dispatch(
+      recipeActions.addNewInputSection({
+        keyValue: "ingredients",
+        newValue: basicForm,
+      })
+    );
   };
 
   return (
@@ -36,8 +41,6 @@ const AddIngredients = ({
                 key={ingredient.index}
                 idx={ingredient.index}
                 ingredient={ingredient}
-                ingredientsDatas={ingredientsDatas}
-                setIngredientsDatas={setIngredientsDatas}
               ></IngredientsSet>
             );
           })}
